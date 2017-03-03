@@ -1,5 +1,8 @@
 --[[ Main ]]--
 system.module = "grounds"
+system.isRoom = tfm.get.room.name:byte(2) ~= 3
+system.roomAdmins = {}
+system.roomAttributes = system.isRoom and tfm.get.room.name:match("%*?#"..system.module.."%d+(.*)") or ""
 
 --[[ Main functions ]]--
 system.isPlayer = function(n)
@@ -133,7 +136,7 @@ table.random=function(t)
 	return (type(t)=="table" and t[math.random(#t)] or math.random())
 end
 --[[ Map System ]]--
-system.maps = {6226386,5993927,5198518,6133469,4396371,5425815,4140491,5168440,3324180,6564380,6600268,6987992,6987993,6988672,6230212,6340023,7057010,7047955,3326675,4184558,6392883,3324284,5043429}
+system.maps = {6226386,5993927,5198518,6133469,4396371,5425815,4140491,5168440,3324180,6564380,6600268,6987992,6987993,6988672,6230212,6340023,7057010,7047955,3326675,4184558,6392883,3324284,5043429,3326655,7069304,7069314,7069343,7069816,7069835,6558179,6726599,5921744,5921754}
 system.newMap = coroutine.wrap(function()
 	local currentMap = 0
 	while true do
@@ -334,7 +337,6 @@ system.translation.br = {
 		close = "Fechar",
 	},
 	max = "15a2df3e699",
-	topic = "843831",
 }
 system.translation.nl = {
     welcome = "Welkom bij #%s! Ben jij de snelste muis door grond effecten te gebruiken? Probeer het!",
@@ -413,7 +415,6 @@ system.translation.nl = {
 		close = "Sluit",
 	},
 	max = "15a2df47d2e",
-	topic = "843849",
 }
 system.translation.es = {
 	welcome = "Bienvenido a #%s! Podrás ser el más rápido usando los efectos de los suelos? Inténtalo!\n<PS>Presiona H para más información!",
@@ -492,7 +493,6 @@ system.translation.es = {
 		close = "Cerrar",
 	},
 	max = "15a2df3e699",
-	topic = "843849",
 }
 system.translation.pl = {
     welcome = "Witaj w #%s! Możesz zostać najszybszą myszką, używając moce gruntów? Spróbuj!\n<PS>Wciśnij H, aby otrzymać więcej informacji!",
@@ -571,7 +571,6 @@ system.translation.pl = {
 		close = "Zamknij",
 	},
 	max = "15a2df4de75",
-	topic = "843849",
 }
 system.translation.hu = {
 	welcome = "Üdvözöllek a #%s! Sikerül neked a leggyorsabb egérré válni a talajhatások használatával? Próbáld ki!\n<PS>Nyomd meg a H betűt több információért!",
@@ -650,7 +649,6 @@ system.translation.hu = {
 		close = "Bezárás",
 	},
 	max = "15a2df47d2e",
-	topic = "843849",
 }
 system.translation.ar = {
 	welcome = "مرحبا إلى #%s! هل يمكنك أن تكون أسرع فأر يستعمل قوى الأرض؟ قم بتجربتها!\n<PS>اضغط على الزر H لمعرفة المزيد!",
@@ -729,7 +727,6 @@ system.translation.ar = {
 		close = "اغلاق",
 	},
 	max = "15a2df47d2e",
-	topic = "843849",
 }
 system.translation.de = {
 	welcome = "Willkommen zu #%s! Kannst du die schnellste Maus mit den Bodeneffekten sein? Versuch es!\n<PS>Drück H für mehr informationen!",
@@ -808,7 +805,6 @@ system.translation.de = {
 		close = "Schliessen",
 	},
 	max = "15a2df47d2e",
-	topic = "843849",
 }
 system.translation.fr = {
 	welcome = "Bienvenue à #%s! Pouvez vous être la souris la plus rapide grâce aux effets des sols? Essayez!\n<PS>Appuyez sur H pour plus d'informations!",
@@ -887,7 +883,6 @@ system.translation.fr = {
 		close = "Fermer",
 	},
 	max = "15a2df47d2e",
-	topic = "843849",
 }
 system.translation.pt = system.translation.br
 
@@ -1090,7 +1085,7 @@ ui.menu = function(n)
 			end)
 			displayText[2] = displayText[2]:format(cmds.profile,cmds.shop,cmds.langue,cmds.help,cmds.leaderboard,cmds.info,cmds.pw)
 		elseif info[n].menu.page == 4 then
-			displayText[2] = displayText[2]:format(#system.maps.."<N>","<BV><a href='event:print.atelier801@com/topic?f=6&t="..system.getTranslation("topic",n).."'>#"..system.module:upper().." MAP SUBMISSIONS</a></BV>")
+			displayText[2] = displayText[2]:format(#system.maps.."<N>","<BV><a href='event:print.atelier801@com/topic?f=6&t=845005'>#"..system.module:upper().." MAP SUBMISSIONS</a></BV>")
 		elseif info[n].menu.page == 5 then
 			local concat = {}
 			for i,j in next,{{"translators","<CEP>"},{"mapEvaluators","<BV>"}} do
@@ -1591,8 +1586,10 @@ eventNewPlayer = function(n)
 	loadData(n)
 	]]--
 	info[n].isOnline = true
-	if system.isRoom and system.roomAttributes:find(n) then
-		system.roomAdmins[n] = true
+	if system.isRoom then
+		if tostring(system.roomAttributes):find(n) then
+			system.roomAdmins[n] = true
+		end
 	end
 end
 
@@ -1957,10 +1954,7 @@ eventPlayerDataLoaded = function(n,d)
 end
 
 --[[ Settings ]]--
-system.isRoom = tfm.get.room.name:byte(2) ~= 3
 tfm.exec.setRoomMaxPlayers(15)
-system.roomAdmins = {}
-system.roomAttributes = tfm.get.room.name:match("%*?#"..system.module.."%d+(.*)")
 table.foreach(tfm.get.room.playerList,eventNewPlayer)
 eventPlayerWon = function(n)
 	if system.availableRoom and info[n].groundsDataLoaded then
