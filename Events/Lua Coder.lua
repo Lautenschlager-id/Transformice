@@ -3,6 +3,89 @@ title = {
 	[1] = "titre_lua_coder",
 }
 
+--[[ Translations ]]--
+system.translation = {
+	en = {
+		cancelWord = "Word selected",
+		cancelLine = "Line selected",
+		cancel = "Cancel",
+		submit = "Submit",
+		close = "Close",
+		allFrag = "You found all the fragments!",
+		putInOrder = "Put all the fragments you found in order by clicking in the word [cell] or line [row]. Are you able to program for the first time?",
+		dataTry = "Wait! Your data is loading...",
+		dataFail = "Impossible to load your data :( Try again in the next map.",
+		dataSuccess = "Data loaded!",
+		fragments = "Fragments",
+		found = "You found something here!",
+		notDecoration = "Someone already found something here before. Try somewhere else.",
+		wordSameError = "You can't select the same word!",
+		wordDifRowError = "You can't select a word from a different line!",
+		wordNotWordError = "You can't select this word!",
+		lineSameError = "You can't select the same line!",
+		submitSuccess = "Your code compiled! You programmed for the first time!",
+		submitFail = "Your code didn't compile :( Something is still wrong!"
+		thanks = "Event developed by %s and translated by %s",
+	},
+	br = {
+		cancelWord = "Palavra selecionada",
+		cancelLine = "Linha selecionada",
+		cancel = "Cancelar",
+		submit = "Enviar",
+		close = "Fechar",
+		allFrag = "Você encontrou todos os fragmentos!",
+		putInOrder = "Ponha todos os fragmentos que você encontrou em ordem clicando na palavra [coluna] ou linha [linha]. Você é capaz de programar pela primeira vez?",
+		dataTry = "Aguarde! Seus dados estão carregando...",
+		dataFail = "Impossível carregar seus dados :( Tente novamente no próximo mapa.",
+		dataSuccess = "Dados carregados!",
+		fragments = "Fragmentos",
+		found = "Você encontrou algo aqui!",
+		notDecoration = "Alguém já encontrou algo aqui antes. Tente em outro lugar.",
+		wordSameError = "Você não pode selecionar a mesma palavra!",
+		wordDifRowError = "Você não pode selecionar uma palavra de uma linha diferente!",
+		wordNotWordError = "Você não pode selecionar esta palavra!",
+		lineSameError = "Você não pode selecionar a mesma linha!",
+		submitSuccess = "Seu código compilou! Você programou pela primeira vez!",
+		submitFail = "Seu código não compilou :( Algo ainda está errado!"
+		thanks = "Evento desenvolvido por %s e traduzido por %s.",
+	},
+	es = {},
+	fr = {},
+	ar = {
+		cancelWord = "الكلمة المحددة",
+		cancelLine = "السطر المحدد",
+		cancel = "إلغاء",
+		submit = "تفعيل",
+		close = "أغلق",
+		allFrag = "لقد عثرة على جميع القطع!",
+		putInOrder = "قم بترتيب جميع القطع التي وجدتها عن طريق الضغط على الكلمة او السطر. هل لديك القدرة على البرمجة لأول مرة؟",
+		dataTry = "إنتظر! جاري تحميل بياناتك...",
+		dataFail = "من المستحيل تحميل بياناتك :( من فضلك حاول مجددا لاحقا.",
+		dataSuccess = "تم تجميل البيانات!",
+		fragments = "القطع",
+		found = "لقد وجدت شيئ هنا!",
+		notDecoration = "لقد وجد أحدهم قطعة هنا. حاول في مكان أخر.",
+		wordSameError = "لا يمكنك إستعمال الكلمة نفسها!",
+		wordDifRowError = "لا يمكنك إختيار كلمة من سطر أخر",
+		wordNotWordError = "لا يمكنك إختيار هذه الكلمة!",
+		lineSameError = "لا يمكنك إختيار السطر نفسه!",
+		submitSuccess = "الرمز صحيح! لقد قمت بالبرمجة لأول مرة!",
+		submitFail = "الرمز لم يعمل :( لا يزال هناك خطأ في الرمز!"
+		thanks = "مبرمج الحدث %s ومترجمة من قبل %s",
+	},
+	pl = {},
+	tr = {},
+	ru = {},
+	hu = {}
+}
+system.translation.pt = system.translation.br
+
+system.community = tfm.get.room.community
+if not system.translation[system.community] then
+	system.community = "en"
+end
+system.community = system.translation[system.community]
+
 --[[ Main Vars ]]--
 currentTime,timeLeft = 0,0
 
@@ -351,8 +434,8 @@ system.showCancelCallback = function(n)
 	if #info[n].compiler.cancel > 0 then
 		local href = "<R><font size='15'><a href='event:compiler.cancel.%s'>■</a></font>"
 		local formats = {
-			[1] = "Word selectioned\n\t<N> - %s <N>-",
-			[2] = "Line selectioned <N>[%s<N>]"
+			[1] = system.community.cancelWord .."\n\t<N> - %s <N>-",
+			[2] = system.community.cancelLine .." <N>[%s<N>]"
 		}
 
 		local text = table.concat(info[n].compiler.cancel,"\n",function(k,v)
@@ -362,7 +445,7 @@ system.showCancelCallback = function(n)
 			return string.format(href .. " " .. formats[id],callback,(#v[2] > 12 and v[2]:sub(1,12).."<BV>...</BV>" or v[2]))
 		end)
 		
-		ui.addTextArea(7,"<R><font size='13'>Cancel\n<font size='11'>\n" .. text,n,10,50,154,130,0x272834,1,1,true)
+		ui.addTextArea(7,"<R><font size='13'>"..system.community.cancel.."\n<font size='11'>\n" .. text,n,10,50,154,130,0x272834,1,1,true)
 	end
 end
 system.triggerCompiler = function(n,done)
@@ -375,7 +458,7 @@ system.triggerCompiler = function(n,done)
 	ui.addTextArea(2,"",n,214,349,400,15,0x5F8093,0x5F8093,1,true)
 	ui.addTextArea(3,"",n,215,351,400,15,0x000000,0x000000,1,true)
 	ui.addTextArea(4,"",n,215,350,400,15,0x3C5064,0x3C5064,1,true)
-	ui.addTextArea(5,"<p align='center'>" .. (done and "<a href='event:compiler.close'>Close" or "<a href='event:compiler.submit'>Launch!"),n,374,350,100,20,0x324650,1,0,true)
+	ui.addTextArea(5,"<p align='center'>" .. (done and "<a href='event:compiler.close'>" .. system.community.close or "<a href='event:compiler.submit'>" .. system.community.submit),n,374,350,100,20,0x324650,1,0,true)
 	ui.addTextArea(6,info[n].compiler.code[1],n,215,55,400,280,-1,0x425b68,1,true)
 end
 system.updateCompilerCode = function(n)
@@ -395,7 +478,8 @@ system.verifyTrigger = function(n)
 		if not info[n].db.luaCoderTriggerCompiler then
 			info[n].db.luaCoderTriggerCompiler = true
 			system.savePlayerData(n,serialization(info[n].db))
-			tfm.exec.chatMessage("<CE>[•] You found all the fragments!",n)
+			tfm.exec.chatMessage("<CE>[•] " .. system.community.allFrag,n)
+			tfm.exec.chatMessage("<CE>[•] " .. system.community.putInOrder,n)
 		end
 	end
 	
@@ -423,13 +507,13 @@ eventPlayerDataLoading = function(n,tentative)
 	if tentative < 4 then
 		local loadingData = system.loadPlayerData(n)
 		if loadingData then
-			tfm.exec.chatMessage("<G>Wait! Your data is loading...",n)
+			tfm.exec.chatMessage("<G>" .. system.community.dataTry,n)
 		else
 			eventPlayerDataLoading(n,tentative + 1)
 		end
 	else
 		tfm.exec.killPlayer(n)
-		tfm.exec.chatMessage("<G>Impossible to load your data :( Try again in the next event.",n)
+		tfm.exec.chatMessage("<G>" .. system.community.dataFail,n)
 	end
 end
 eventPlayerDataLoaded = function(n,data)
@@ -439,12 +523,15 @@ eventPlayerDataLoaded = function(n,data)
 		system.savePlayerData(n,serialization(info[n].db))
 	end
 	
+	tfm.exec.chatMessage("<G>" .. system.community.dataSuccess,n)
+	
 	local descompiled = system.descompileFragments(n)
 	system.missedFragments(n,descompiled)
 	
 	local done = system.verifyTrigger(n)
 	if not done then
-		tfm.exec.chatMessage("<CE>[•] Fragments : " .. (#descompiled - #info[n].missedFragments) .. "/" .. #descompiled,n)
+		info[n].pieces = {(#descompiled - #info[n].missedFragments),#descompiled}
+		tfm.exec.chatMessage("<CE>[•] ".. system.community.fragments .." : " .. info[n].pieces[1] .. "/" .. info[n].pieces[2],n)
 		system.bindKeyboard(n,3,true,true)
 	end
 	
@@ -483,6 +570,7 @@ eventNewGame = function()
 				timer = 0,
 			},
 			missedFragments = {},
+			pieces = {},
 			db = {
 				luaCoderFragment = math.random(#system.fragments),
 				luaCoderCurrentFragments = {},
@@ -536,7 +624,10 @@ eventKeyboard = function(n,k,d,x,y)
 											local missedFragments = #info[n].missedFragments
 
 											info[n].db.luaCoderCurrentFragments[#info[n].db.luaCoderCurrentFragments + 1] = newFragment
-											tfm.exec.chatMessage("<CE>[•] You found something here!",n)
+											tfm.exec.chatMessage("<CE>[•] " .. system.community.found,n)
+
+											info[n].pieces[1] = info[n].pieces[1] + 1
+											tfm.exec.chatMessage("<CE>[•] ".. system.community.fragments .." : " .. info[n].pieces[1] .. "/" .. info[n].pieces[2],n)
 
 											system.verifyTrigger(n)
 											v.available = false
@@ -544,7 +635,7 @@ eventKeyboard = function(n,k,d,x,y)
 											system.savePlayerData(n,serialization(info[n].db))
 										end
 									else
-										tfm.exec.chatMessage("<R>[•] Someone has found something here. Try somewhere else.",n)
+										tfm.exec.chatMessage("<R>[•] " .. system.community.notDecoration,n)
 									end
 								end
 								break
@@ -586,14 +677,14 @@ eventTextAreaCallback = function(i,n,c)
 								
 								system.savePlayerData(n,serialization(info[n].db))
 							else
-								tfm.exec.chatMessage("<R>[•] You can't select the same word!",n)
+								tfm.exec.chatMessage("<R>[•] " .. system.community.wordSameError,n)
 							end
 						else
-							tfm.exec.chatMessage("<R>[•] You can't select a word from a different line!",n)
+							tfm.exec.chatMessage("<R>[•] " .. system.community.wordDifRowError,n)
 						end
 					end
 				else
-					tfm.exec.chatMessage("<R>[•] You can't select this word!",n)
+					tfm.exec.chatMessage("<R>[•] " .. system.community.wordNotWordError,n)
 				end
 			else -- First selection
 				if info[n].db.luaCoderCurrentFragments[p[3]] and info[n].db.luaCoderCurrentFragments[p[3]][p[4]] then
@@ -602,7 +693,7 @@ eventTextAreaCallback = function(i,n,c)
 					info[n].compiler.cancel[#info[n].compiler.cancel + 1] = {1,info[n].db.luaCoderCurrentFragments[p[3]][p[4]]}
 					system.showCancelCallback(n)
 				else
-					tfm.exec.chatMessage("<R>[•] You can't select this word!",n)
+					tfm.exec.chatMessage("<R>[•] " .. system.community.wordNotWordError,n)
 				end
 			end
 		elseif p[2] == "line" then
@@ -627,7 +718,7 @@ eventTextAreaCallback = function(i,n,c)
 					
 					system.savePlayerData(n,serialization(info[n].db))
 				else
-					tfm.exec.chatMessage("<R>[•] You can't select the same line!",n)
+					tfm.exec.chatMessage("<R>[•] " .. system.community.lineSameError,n)
 				end
 			end
 		elseif p[2] == "cancel" then
@@ -672,8 +763,8 @@ eventTextAreaCallback = function(i,n,c)
 			if not Error then
 				system.fragmentFunction[info[n].db.luaCoderFragment](n)
 				
-				tfm.exec.chatMessage("<CE>[•] Your code compiles! Your mouse programmed for the first time!",n)
-				tfm.exec.chatMessage("<G>[^_^] <PT>Event developed by Bolodefchoco",n)
+				tfm.exec.chatMessage("<CE>[•] " .. system.community.submitSuccess,n)
+				tfm.exec.chatMessage("<G>[^_^] <PT>" .. system.community.thanks:format("<CE>Bolodefchoco</CE>","<BV>Error_404, Pikashu</BV>"),n)
 				
 				if not info[n].db.luaCoder then
 					info[n].db.luaCoder = true
@@ -684,6 +775,8 @@ eventTextAreaCallback = function(i,n,c)
 				
 				system.displayRunningCode(n)
 				system.resetPlayer(n)
+			else
+				tfm.exec.chatMessage("<R>[•] " .. system.community.submitFail,n)
 			end
 		end
 	end
@@ -692,6 +785,14 @@ end
 --[[ Time ]]--
 eventLoop = function(currentTime,timeLeft)
 	_G.currentTime,_G.timeLeft = os.normalizedTime(currentTime/1000),os.normalizedTime(timeLeft/1000)
+	if _G.timeLeft <= 5 then
+		for k,v in next,tfm.get.room.playerList do
+			system.savePlayerData(k,serialization(info[k].db))
+		end
+	end
+	if _G.timeLeft <= 1 then
+		system.exit()
+	end
 end
 
 --[[ Execute ]]--
@@ -699,7 +800,7 @@ eventPlayerLeft = function(n)
 	system.savePlayerData(n,serialization(info[n].db))
 end
 
-for i,f in next,{"AutoShaman","AutoNewGame","AfkDeath","MortCommand","AutoTimeLeft","PhysicalConsumables","DebugCommand"} do
+for i,f in next,{"AutoShaman","AfkDeath","MortCommand","AutoTimeLeft","PhysicalConsumables","DebugCommand"} do
 	tfm.exec["disable"..f]()
 end
 
