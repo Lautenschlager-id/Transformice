@@ -24,7 +24,7 @@ system.translation = {
 		wordNotWordError = "You can't select this word!",
 		lineSameError = "You can't select the same line!",
 		submitSuccess = "Your code compiled! You programmed for the first time!",
-		submitFail = "Your code didn't compile :( Something is still wrong!"
+		submitFail = "Your code didn't compile :( Something is still wrong!",
 		thanks = "Event developed by %s and translated by %s",
 	},
 	br = {
@@ -46,10 +46,31 @@ system.translation = {
 		wordNotWordError = "Você não pode selecionar esta palavra!",
 		lineSameError = "Você não pode selecionar a mesma linha!",
 		submitSuccess = "Seu código compilou! Você programou pela primeira vez!",
-		submitFail = "Seu código não compilou :( Algo ainda está errado!"
+		submitFail = "Seu código não compilou :( Algo ainda está errado!",
 		thanks = "Evento desenvolvido por %s e traduzido por %s.",
 	},
-	es = {},
+	es = {
+		cancelWord = "Palabra seleccionada",
+		cancelLine = "Línea seleccionada",
+		cancel = "Cancelar",
+		submit = "Enviar",
+		close = "Cerrar",
+		allFrag = "Encontraste todos los fragmentos!",
+		putInOrder = "Pon todos los fragmentos en órden clickeando en la palabra [celda] o línea [fila]. ¿Estás listo para programar por primera vez?",
+		dataTry = "¡Espera! Tus datos se están cargando...",
+		dataFail = "No se pudieron cargar tus datos :( Prueba de nuevo en el siguiente mapa.",
+		dataSuccess = "¡Datos cargados!",
+		fragments = "Fragmentos",
+		found = "¡Encontraste algo aquí!",
+		notDecoration = "Alguien ya encontró algo por aquí antes. Intenta en otro lugar.",
+		wordSameError = "¡No puedes seleccionar la misma palabra!",
+		wordDifRowError = "¡No puedes seleccionar una palabra de otra línea!",
+		wordNotWordError = "¡No puedes seleccionar esta palabra!",
+		lineSameError = "¡No puedes seleccionar la misma línea!",
+		submitSuccess = "¡Tu código ha sido compilado! ¡Has programado por primera vez!",
+		submitFail = "Tu código no se ha compilado :( ¡Algo sigue mal!",
+		thanks = "Evento hecho por %s y traducido por %s",
+	},
 	fr = {},
 	ar = {
 		cancelWord = "الكلمة المحددة",
@@ -70,11 +91,54 @@ system.translation = {
 		wordNotWordError = "لا يمكنك إختيار هذه الكلمة!",
 		lineSameError = "لا يمكنك إختيار السطر نفسه!",
 		submitSuccess = "الرمز صحيح! لقد قمت بالبرمجة لأول مرة!",
-		submitFail = "الرمز لم يعمل :( لا يزال هناك خطأ في الرمز!"
+		submitFail = "الرمز لم يعمل :( لا يزال هناك خطأ في الرمز!",
 		thanks = "مبرمج الحدث %s ومترجمة من قبل %s",
 	},
-	pl = {},
+	pl = {
+		cancelWord = "Wybrano słowo",
+		cancelLine = "Wybrano wiersz",
+		cancel = "Anuluj",
+		submit = "Wyślij",
+		close = "Zamknij",
+		allFrag = "Odnalazłeś/-aś wszystkie fragmenty!",
+		putInOrder = "Połóż wszystkie fragmenty, które odnajdziesz, w odpowiedniej kolejności, klikając na słowo [komórka] albo wiersz [rząd]. Jak myślisz, zaprogramujesz coś pierwszy raz?",
+		dataTry = "Poczekaj! Twoje dane się ładują...",
+		dataFail = "Niemożliwe, żeby załadować twoje dane :( Spróbuj ponownie na następnej mapie.",
+		dataSuccess = "Dane załadowane!",
+		fragments = "Fragmenty",
+		found = "Znalazłeś/-aś coś tutaj!",
+		notDecoration = "Ktoś wcześniej odnalazł coś tutaj. Spróbuj szukać gdzieś indziej.",
+		wordSameError = "Nie możesz wybrać tego samego słowa!",
+		wordDifRowError = "Nie możesz wybrać słowa z innego wiersza!",
+		wordNotWordError = "Nie możesz wybrać tego słowa!",
+		lineSameError = "Nie możesz wybrać tego samego wiersza!",
+		submitSuccess = "Twój kod działa! Zaprogramowałeś/-aś coś pierwszy raz!",
+		submitFail = "Twój kod nadal nie działa :( Coś ciągle jest źle!",
+		thanks = "Event stworzony przez %s i przetłumaczony przez %s",
+	}
 	tr = {},
+	ro = {
+		cancelWord = "Cuvânt selectat",
+		cancelLine = "Rând selectat",
+		cancel = "Anulare",
+		submit = "Înscrie",
+		close = "Închide",
+		allFrag = "Ai găsit toate fragmentele!",
+		putInOrder = "Pune toate fragmentele pe care le-ai găsit în ordine dând click pe cuvânt [celulă] sau linie [rând]. Poți programa pentru prima oară?",
+		dataTry = "Așteaptă! Datele tale se încarcă...",
+		dataFail = "Datele tale nu pot fi încărcate :( Încearcă din nou în urmatoarea mapă.",
+		dataSuccess = "Date încărcate!",
+		fragments = "Fragmente",
+		found = "Ai găsit ceva aici!",
+		notDecoration = "Cineva a găsit ceva aici înaintea ta. Încearcă în altă parte.",
+		wordSameError = "Nu poți selecta același cuvânt!",
+		wordDifRowError = "Nu poți selecta un cuvânt de pe alt rând!",
+		wordNotWordError = "Nu poți selecta acest cuvânt!",
+		lineSameError = "Nu poți selecta același rând!",
+		submitSuccess = "Codul tău a fost alcătuit! Ai programat pentru prima oară!",
+		submitFail = "Codul tău nu a fost alcătuit :( Ceva este încă greșit!",
+		thanks = "Eveniment creat de %s și tradus de %s",
+	},
 	ru = {},
 	hu = {}
 }
@@ -88,6 +152,13 @@ system.community = system.translation[system.community]
 
 --[[ Main Vars ]]--
 currentTime,timeLeft = 0,0
+system.staff = {
+	dev = {"Bolodefchoco"},
+	translators = {"Error_404","Sebafrancuz","Tocutoeltuco","Alessyaxd"}
+}
+for k,v in next,system.staff do
+	table.sort(v,function(t1,t2) return t2 > t1 end)
+end
 
 --[[ Main Tables ]]--
 system.decorations = {
@@ -764,7 +835,7 @@ eventTextAreaCallback = function(i,n,c)
 				system.fragmentFunction[info[n].db.luaCoderFragment](n)
 				
 				tfm.exec.chatMessage("<CE>[•] " .. system.community.submitSuccess,n)
-				tfm.exec.chatMessage("<G>[^_^] <PT>" .. system.community.thanks:format("<CE>Bolodefchoco</CE>","<BV>Error_404, Pikashu</BV>"),n)
+				tfm.exec.chatMessage("<G>[^_^] <PT>" .. system.community.thanks:format("<CE>" .. table.concat(system.staff.dev,"<PT>, <CE>") .. "<PT>","<BV>" .. table.concat(system.staff.translators,"<PT>, <BV>") .. "<PT>"),n)
 				
 				if not info[n].db.luaCoder then
 					info[n].db.luaCoder = true
