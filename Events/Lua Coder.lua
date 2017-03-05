@@ -12,12 +12,14 @@ system.translation = {
 		submit = "Submit",
 		close = "Close",
 		allFrag = "You found all the fragments!",
-		putInOrder = "Put all the fragments you found in order by clicking in the word [cell] or line [row]. Are you able to program for the first time?",
+		putInOrder = "Organize all the fragments you found by clicking in the word [cell] or line [row]. Are you able to program for the first time?",
 		dataTry = "Wait! Your data is loading...",
 		dataFail = "Impossible to load your data :( Try again in the next map.",
 		dataSuccess = "Data loaded!",
+		findFragments = "Some Lua code fragments were stolen! The thief hid the fragments <B>behind</B> some objects. Find these fragments and organize them in your compile to win a prize!",
 		fragments = "Fragments",
 		found = "You found something here!",
+		notFound = "Nothing was found here! Try another place and come back later.",
 		notDecoration = "Someone already found something here before. Try somewhere else.",
 		wordSameError = "You can't select the same word!",
 		wordDifRowError = "You can't select a word from a different line!",
@@ -34,12 +36,14 @@ system.translation = {
 		submit = "Enviar",
 		close = "Fechar",
 		allFrag = "Você encontrou todos os fragmentos!",
-		putInOrder = "Ponha todos os fragmentos que você encontrou em ordem clicando na palavra [coluna] ou linha [linha]. Você é capaz de programar pela primeira vez?",
+		putInOrder = "Organize todos os fragmentos que você encontrou clicando na palavra [coluna] ou linha [linha]. Você é capaz de programar pela primeira vez?",
 		dataTry = "Aguarde! Seus dados estão carregando...",
 		dataFail = "Impossível carregar seus dados :( Tente novamente no próximo mapa.",
 		dataSuccess = "Dados carregados!",
+		findFragments = "Alguns fragmentos de código Lua foram roubados! O ladrão escondeu os fragmentos <B>atrás</B> de alguns objetos! Encontre esses fragmentos e organize-os em seu compilador para ganhar um prêmio!",
 		fragments = "Fragmentos",
 		found = "Você encontrou algo aqui!",
+		notFound = "Nada foi encontrado aqui! Tente em outro lugar e volte mais tarde.",
 		notDecoration = "Alguém já encontrou algo aqui antes. Tente em outro lugar.",
 		wordSameError = "Você não pode selecionar a mesma palavra!",
 		wordDifRowError = "Você não pode selecionar uma palavra de uma linha diferente!",
@@ -60,8 +64,10 @@ system.translation = {
 		dataTry = "¡Espera! Tus datos se están cargando...",
 		dataFail = "No se pudieron cargar tus datos :( Prueba de nuevo en el siguiente mapa.",
 		dataSuccess = "¡Datos cargados!",
+		findFragments = "¡Algunos fragmentos del código lua fueron robados! El ladrón escondió los fragmentos <B>detras</B> algunos objetos. ¡Encuentra estos fragmentos y organizalos en tu compilador para ganar un premio!",
 		fragments = "Fragmentos",
 		found = "¡Encontraste algo aquí!",
+		notFound = "¡No encontraste nada aquí! Intenta en otro lugar y vuelve mas tarde.",
 		notDecoration = "Alguien ya encontró algo por aquí antes. Intenta en otro lugar.",
 		wordSameError = "¡No puedes seleccionar la misma palabra!",
 		wordDifRowError = "¡No puedes seleccionar una palabra de otra línea!",
@@ -71,7 +77,30 @@ system.translation = {
 		submitFail = "Tu código no se ha compilado :( ¡Algo sigue mal!",
 		thanks = "Evento hecho por %s y traducido por %s",
 	},
-	fr = {},
+	fr = {
+		cancelWord = "Mot sélectionné",
+		cancelLine = "Ligne sélectionnée",
+		cancel = "Annuler",
+		submit = "Soumettre",
+		close = "Fermer",
+		allFrag = "Tu as trouvé tous les fragments!",
+		putInOrder = "Organise tous les fragments que tu as trouvé en cliquant sur le mot [cellule] et la ligne [colonne]. Es-tu capable de programmer pour la première fois ?",
+		dataTry = "Attends ! Tes données sont en train de charger...",
+		dataFail = "Impossible de charger vos données :( Essayez encore lors de la prochaine map.",
+		dataSuccess = "Données chargées !",
+		findFragments = "Des fragments du code Lua ont été volées ! Le voleur a caché les fragments <B>derrière</B> certains objets. Trouve ces fragments et organise les dans ton compilateur pour gagner un prix !",
+		fragments = "Fragments",
+		found = "Tu as trouvé quelque chose ici",
+		notFound = "Il n'y a rien ici! Essaye ailleurs et reviens plus tard.",
+		notDecoration = "Quelqu'un a déjà trouvé quelque chose ici. Essaye ailleurs.",
+		wordSameError = "Tu ne peux pas sélectionner le même mot!",
+		wordDifRowError = "Tu ne peux pas sélectionner un mot d'une ligne différente!",
+		wordNotWordError = "Tu ne peux pas sélectionner ce mot!",
+		lineSameError = "Tu ne peux pas sélectionner la même ligne!",
+		submitSuccess = "Tu as compilé ton code! Tu as programmé pour la première fois!",
+		submitFail = "Ton code n'a pas été compilé :( Il reste des erreurs!",
+		thanks = "Événement développé par %s et traduit par %s",
+    },
 	ar = {
 		cancelWord = "الكلمة المحددة",
 		cancelLine = "السطر المحدد",
@@ -83,8 +112,10 @@ system.translation = {
 		dataTry = "إنتظر! جاري تحميل بياناتك...",
 		dataFail = "من المستحيل تحميل بياناتك :( من فضلك حاول مجددا لاحقا.",
 		dataSuccess = "تم تجميل البيانات!",
+		findFragments = "Some Lua code fragments were stolen! The thief hid the fragments <B>behind</B> some objects. Find these fragments and organize them in your compile to win a prize!",
 		fragments = "القطع",
 		found = "لقد وجدت شيئ هنا!",
+		notFound = "Nothing was found here! Try another place and come back later.",
 		notDecoration = "لقد وجد أحدهم قطعة هنا. حاول في مكان أخر.",
 		wordSameError = "لا يمكنك إستعمال الكلمة نفسها!",
 		wordDifRowError = "لا يمكنك إختيار كلمة من سطر أخر",
@@ -105,8 +136,10 @@ system.translation = {
 		dataTry = "Poczekaj! Twoje dane się ładują...",
 		dataFail = "Niemożliwe, żeby załadować twoje dane :( Spróbuj ponownie na następnej mapie.",
 		dataSuccess = "Dane załadowane!",
+		findFragments = "Some Lua code fragments were stolen! The thief hid the fragments <B>behind</B> some objects. Find these fragments and organize them in your compile to win a prize!",
 		fragments = "Fragmenty",
 		found = "Znalazłeś/-aś coś tutaj!",
+		notFound = "Nothing was found here! Try another place and come back later.",
 		notDecoration = "Ktoś wcześniej odnalazł coś tutaj. Spróbuj szukać gdzieś indziej.",
 		wordSameError = "Nie możesz wybrać tego samego słowa!",
 		wordDifRowError = "Nie możesz wybrać słowa z innego wiersza!",
@@ -128,8 +161,10 @@ system.translation = {
 		dataTry = "Așteaptă! Datele tale se încarcă...",
 		dataFail = "Datele tale nu pot fi încărcate :( Încearcă din nou în urmatoarea mapă.",
 		dataSuccess = "Date încărcate!",
+		findFragments = "Some Lua code fragments were stolen! The thief hid the fragments <B>behind</B> some objects. Find these fragments and organize them in your compile to win a prize!",
 		fragments = "Fragmente",
 		found = "Ai găsit ceva aici!",
+		notFound = "Nothing was found here! Try another place and come back later.",
 		notDecoration = "Cineva a găsit ceva aici înaintea ta. Încearcă în altă parte.",
 		wordSameError = "Nu poți selecta același cuvânt!",
 		wordDifRowError = "Nu poți selecta un cuvânt de pe alt rând!",
@@ -139,6 +174,30 @@ system.translation = {
 		submitFail = "Codul tău nu a fost alcătuit :( Ceva este încă greșit!",
 		thanks = "Eveniment creat de %s și tradus de %s",
 	},
+	de = {
+		cancelWord = "Wort ausgewählt",
+		cancelLine = "Linie ausgewählt",
+		cancel = "Abbrechen",
+		submit = "Einreichen",
+		close = "Schließen",
+		allFrag = "Du hast alle Fragmente gefunden!",
+		putInOrder = "Organisiere alle von dir gefundenen Fragmente, indem du in das Wort [Zelle] oder die Linie [Reihe] klickst. Kannst du das erste Mal programmieren?",
+		dataTry = "Warte! Deine Daten laden...",
+		dataFail = "Es ist unmöglich, deine Daten zu laden :( Bitte versuch es auf der nächsten Map erneut.",
+		dataSuccess = "Daten geladen!",
+		findFragments = "Einige Lua Code Fragmente wurden gestolen! Der Dieb hat die Fragmente <B>hinter</B> manchen Objekten versteckt.. Finde diese Fragmente und organisiere sie in deinem Compiler, um einen Preis zu gewinnen!",
+		fragments = "Fragmente",
+		found = "Du hast hier etwas gefunden!",
+		notFound = "Hier wurde nichts gefunden! Versuch eine andere Stelle und komm später wieder zurück.",
+		notDecoration = "Jemand hat hier vorher schon was gefunden. Versuch es woanders.",
+		wordSameError = "Du kannst nicht dasselbe Wort wählen!",
+		wordDifRowError = "Du kannst kein Wort einer anderen Zeile auswählen!",
+		wordNotWordError = "Du kannst dieses Wort nicht auswählen!",
+		lineSameError = "Du kannst nicht die gleiche Zeile auswählen!",
+		submitSuccess = "Dein Code ist kompiliert! Du hast das erste Mal programmiert!",
+		submitFail = "Dein Code konnte nicht kompiliert werden :( Es ist noch immer etwas falsch!",
+		thanks = "Event erstellt von %s und übersetzt von %s",
+    },
 	ru = {},
 	hu = {}
 }
@@ -154,7 +213,7 @@ system.community = system.translation[system.community]
 currentTime,timeLeft = 0,0
 system.staff = {
 	dev = {"Bolodefchoco"},
-	translators = {"Error_404","Sebafrancuz","Tocutoeltuco","Alessyaxd"}
+	translators = {"Error_404","Sebafrancuz","Tocutoeltuco","Alessyaxd","Sweetphoenix","Miwakiko"}
 }
 for k,v in next,system.staff do
 	table.sort(v,function(t1,t2) return t2 > t1 end)
@@ -601,6 +660,7 @@ eventPlayerDataLoaded = function(n,data)
 	
 	local done = system.verifyTrigger(n)
 	if not done then
+		tfm.exec.chatMessage("<CE>[•] ".. system.community.findFragments,n)
 		info[n].pieces = {(#descompiled - #info[n].missedFragments),#descompiled}
 		tfm.exec.chatMessage("<CE>[•] ".. system.community.fragments .." : " .. info[n].pieces[1] .. "/" .. info[n].pieces[2],n)
 		system.bindKeyboard(n,3,true,true)
@@ -688,7 +748,7 @@ eventKeyboard = function(n,k,d,x,y)
 									}
 									
 									if v.available then
-										if math.random(15) % 5 == 0 then
+										if math.random(15) < 8 then
 											local fragmentIndex = math.random(#info[n].missedFragments)
 											local newFragment = info[n].missedFragments[fragmentIndex]
 											table.remove(info[n].missedFragments,fragmentIndex)
@@ -704,6 +764,8 @@ eventKeyboard = function(n,k,d,x,y)
 											v.available = false
 											
 											system.savePlayerData(n,serialization(info[n].db))
+										else
+											tfm.exec.chatMessage("<BV>[•] " .. system.community.notFound,n)
 										end
 									else
 										tfm.exec.chatMessage("<R>[•] " .. system.community.notDecoration,n)
@@ -856,12 +918,10 @@ end
 --[[ Time ]]--
 eventLoop = function(currentTime,timeLeft)
 	_G.currentTime,_G.timeLeft = os.normalizedTime(currentTime/1000),os.normalizedTime(timeLeft/1000)
-	if _G.timeLeft <= 5 then
+	if _G.timeLeft <= 1 then
 		for k,v in next,tfm.get.room.playerList do
 			system.savePlayerData(k,serialization(info[k].db))
 		end
-	end
-	if _G.timeLeft <= 1 then
 		system.exit()
 	end
 end
