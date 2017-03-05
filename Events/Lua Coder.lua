@@ -115,7 +115,7 @@ system.translation = {
 		submitSuccess = "Twój kod działa! Zaprogramowałeś/-aś coś pierwszy raz!",
 		submitFail = "Twój kod nadal nie działa :( Coś ciągle jest źle!",
 		thanks = "Event stworzony przez %s i przetłumaczony przez %s",
-	}
+	},
 	tr = {},
 	ro = {
 		cancelWord = "Cuvânt selectat",
