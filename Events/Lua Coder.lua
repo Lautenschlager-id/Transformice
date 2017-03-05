@@ -167,14 +167,15 @@ system.fragments = {
 	[3] = {
 		[1] = {"<VI>local","<N>event_title","<N2>=","<CE>\"Lua Coder\""},
 		[2] = {"<VI>function","<N>eventPlayerVampire","<N2>(<N>playerName<N2>)"},
-		[3] = {"<N>tfm.exec.respawnPlayer","<N2>(<CE>\"%s\"<N2>)"},
-		[4] = "<VI>end",
-		[5] = {"<VI>if","<VI>not","<N>tfm.get.room.playerList[<CE>\"%s\"<N>].isVampire","<VI>then"},
-		[6] = {"<N>tfm.exec.setVampirePlayer","<N2>(<CE>\"%s\"<N2>)"},
-		[7] = "<VI>end",
-		[8] = {"<VI>function","<N>eventPlayerRespawn","<N2>(<N>playerName<N2>)"},
-		[9] = {"<N>system.giveEventGift","<N2>(<N>playerName<N2>,<N>event_title<N2>)"},
-		[10] = "<VI>end"
+		[3] = {"<N>tfm.exec.killPlayer","<N2>(<CE>\"%s\"<N2>)"},
+		[4] = {"<N>tfm.exec.respawnPlayer","<N2>(<CE>\"%s\"<N2>)"},
+		[5] = "<VI>end",
+		[6] = {"<VI>if","<VI>not","<N>tfm.get.room.playerList[<CE>\"%s\"<N>].isVampire","<VI>then"},
+		[7] = {"<N>tfm.exec.setVampirePlayer","<N2>(<CE>\"%s\"<N2>)"},
+		[8] = "<VI>end",
+		[9] = {"<VI>function","<N>eventPlayerRespawn","<N2>(<N>playerName<N2>)"},
+		[10] = {"<N>system.giveEventGift","<N2>(<N>playerName<N2>,<N>event_title<N2>)"},
+		[11] = "<VI>end"
 	},
 }
 system.fragmentLaunched = {
@@ -190,8 +191,8 @@ system.fragmentLaunched = {
 	},
 	[3] = {
 		[1] = {{"<VI>local","<N>event_title","<N2>=","<CE>\"Lua Coder\""}},
-		[2] = {{"<VI>function","<N>eventPlayerVampire","<N2>(<N>playerName<N2>)"},{"<N>tfm.exec.respawnPlayer","<N2>(<CE>\"%s\"<N2>)"},"<VI>end"},
-		[3] = {{"<VI>if","<VI>not","<N>tfm.get.room.playerList[<CE>\"%s\"<N>].isVampire","<VI>then"},{"<N>tfm.exec.setVampirePlayer","<N2>(<CE>\"%s\"<N2>)"},"<VI>end"},
+		[2] = {{"<VI>function","<N>eventPlayerVampire","<N2>(<N>playerName<N2>)"},{"<N>tfm.exec.killPlayer","<N2>(<CE>\"%s\"<N2>)"},{"<N>tfm.exec.respawnPlayer","<N2>(<CE>\"%s\"<N2>)"},"<VI>end"},
+		[3] = {{"<VI>if","<VI>not","<N>tfm.get.room.playerList[<CE>\"%s\"<N>].isVampire","<VI>then"},{"<N>tfm.exec.setVampirePlayer","<N2>(<CE>\"%s\"<N2>)"},"<VI>end",},
 		[4] = {{"<VI>function","<N>eventPlayerRespawn","<N2>(<N>playerName<N2>)"},{"<N>system.giveEventGift","<N2>(<N>playerName<N2>,<N>event_title<N2>)"},"<VI>end"},
 	},
 }
@@ -282,16 +283,13 @@ system.descompileFragments = function(n)
 end
 system.displayRunningCode = function(n)
 	local subFragmentedCode = system.fragmentPerRow(n)
-	for k,v in next,subFragmentedCode do
-		v = v:gsub("<%s>","")
-	end
-	info[n].compiler.code = {table.concat(subFragmentedCode,"\n"),false}
+	info[n].compiler.code = {table.concat(subFragmentedCode,"\n"):gsub("<.->",""):gsub("%%s",n),false}
 	
 	local list = "<BL>"
 	for line = 1,#subFragmentedCode do
 		list = list .. line .. "\n"
 	end
-	info[n].compiler.codeLines = line
+	info[n].compiler.codeLines = list
 	
 	system.triggerCompiler(n,true)
 end
@@ -306,15 +304,16 @@ system.messFragments = function(n)
 	local mess = function(t)
 		local messedTable = {}
 		for i = 1,#t do
-			table.insert(t,math.random(#t),t[i])
+			table.insert(messedTable,math.random(#messedTable),t[i])
 		end
+		return messedTable
 	end
 	info[n].db.luaCoderCurrentFragments = {}
 	info[n].db.luaCoderCurrentFragments = mess(system.fragments[info[n].db.luaCoderFragment])
 
 	for k,v in next,info[n].db.luaCoderCurrentFragments do
 		if type(v) == "table" then
-			v = mess(v)
+			info[n].db.luaCoderCurrentFragments[k] = mess(v)
 		end
 	end
 	
@@ -350,15 +349,16 @@ system.resetPlayer = function(n)
 end
 system.showCancelCallback = function(n)
 	if #info[n].compiler.cancel > 0 then
-		local href = "<font size='15'><a href='event:compiler.cancel.%s'>■</a></font>"
+		local href = "<R><font size='15'><a href='event:compiler.cancel.%s'>■</a></font>"
 		local formats = {
-			[1] = "Word selectioned\n\t<N> - %s -</N>",
-			[2] = "Line selectioned <N>[%s]</N>"
+			[1] = "Word selectioned\n\t<N> - %s <N>-",
+			[2] = "Line selectioned <N>[%s<N>]"
 		}
 
 		local text = table.concat(info[n].compiler.cancel,"\n",function(k,v)
 			local id = v[1]
 			local callback = (id == 1 and "word" or "line")
+			v[2] = tostring(v[2])
 			return string.format(href .. " " .. formats[id],callback,(#v[2] > 12 and v[2]:sub(1,12).."<BV>...</BV>" or v[2]))
 		end)
 		
@@ -369,7 +369,7 @@ system.triggerCompiler = function(n,done)
 	if info[n].compiler.code[2] then
 		system.updateCompilerCode(n)
 	end
-	
+
 	ui.addTextArea(0,"",n,180,50,440,322,0x272834,1,1,true)
 	ui.addTextArea(1,info[n].compiler.codeLines,n,184,55,25,280,1,1,0,true)
 	ui.addTextArea(2,"",n,214,349,400,15,0x5F8093,0x5F8093,1,true)
@@ -395,6 +395,7 @@ system.verifyTrigger = function(n)
 		if not info[n].db.luaCoderTriggerCompiler then
 			info[n].db.luaCoderTriggerCompiler = true
 			system.savePlayerData(n,serialization(info[n].db))
+			tfm.exec.chatMessage("<CE>[•] You found all the fragments!",n)
 		end
 	end
 	
@@ -402,7 +403,7 @@ system.verifyTrigger = function(n)
 		system.messFragments(n)
 		
 		local list = "<BL>"
-		for line = 1,#info[n].db.luaCoderCurrentFragments + 12 do
+		for line = 1,#info[n].db.luaCoderCurrentFragments + 10 do
 			if line > #info[n].db.luaCoderCurrentFragments then
 				list = list .. line .. "\n"
 			else
@@ -498,7 +499,7 @@ eventNewGame = function()
 			dataLoaded = false,
 			notThisRound = false,
 		}
-		eventPlayerDataLoading(n,1)
+		eventPlayerDataLoading(k,1)
 	end
 
 	system.xml = ""
@@ -516,18 +517,18 @@ eventKeyboard = function(n,k,d,x,y)
 					end
 					
 					for k,v in next,system.mapDecorations do
-						if x > (v.X - v.range - 10) and x < (v.X + range + 10) then
+						if x > (v.X - v.range - 10) and x < (v.X + v.range + 10) then
 							if y < (v.Y + 10) and y > (v.Y - v.range - 10) then
-								if v.available then
-									info[n].piece.timer = os.time() + 700
-									info[n].piece.duck = info[n].piece.duck - 1
+								info[n].piece.timer = os.time() + 700
+								info[n].piece.duck = info[n].piece.duck - 1
+
+								if info[n].piece.duck <= 0 then
+									info[n].piece = {
+										duck = table.random({9,8,7,1,7,7,9,8,9,7,5}) * 2,
+										timer = 0
+									}
 									
-									if info[n].piece.duck == 0 then
-										info[n].piece = {
-											duck = table.random({9,8,7,1,7,7,9,8,9,7,5}) * 2,
-											timer = 0
-										}
-										
+									if v.available then
 										if math.random(15) % 5 == 0 then
 											local fragmentIndex = math.random(#info[n].missedFragments)
 											local newFragment = info[n].missedFragments[fragmentIndex]
@@ -542,9 +543,9 @@ eventKeyboard = function(n,k,d,x,y)
 											
 											system.savePlayerData(n,serialization(info[n].db))
 										end
+									else
+										tfm.exec.chatMessage("<R>[•] Someone has found something here. Try somewhere else.",n)
 									end
-								else
-									tfm.exec.chatMessage("<R>[•] Someone has found something here. Try somewhere else.",n)
 								end
 								break
 							end
@@ -564,42 +565,48 @@ eventTextAreaCallback = function(i,n,c)
 	end
 	if p[1] == "compiler" then
 		if p[2] == "fragment" then
+			eventTextAreaCallback(i,n,"compiler.cancel.line")
 			p[3] = tonumber(p[3])
 			p[4] = tonumber(p[4])
-			local row = info[n].db.luaCoderCurrentFragments[p[3]]
-			local cel = row[p[4]] or row
 			
 			if #info[n].compiler.selected > 0 then -- Second selection
-				local lastRow = info[n].db.luaCoderCurrentFragments[info[n].compiler.selected[1]]
-				local lastCel = lastRow[info[n].compiler.selected[2]] or lastRow
-			
-				if cel and lastCel then
-					if info[n].compiler.selected[1] == p[3] then
-						if info[n].compiler.selected[2] ~= p[4] then
-							cel,lastCel = lastCel,cel
+				if info[n].db.luaCoderCurrentFragments[p[3]] and info[n].db.luaCoderCurrentFragments[p[3]][p[4]] then
+					if info[n].db.luaCoderCurrentFragments[info[n].compiler.selected[1]][info[n].compiler.selected[2]] then
+						if info[n].compiler.selected[1] == p[3] then
+							if info[n].compiler.selected[2] ~= p[4] then
+								info[n].db.luaCoderCurrentFragments[p[3]][p[4]],info[n].db.luaCoderCurrentFragments[info[n].compiler.selected[1]][info[n].compiler.selected[2]] = info[n].db.luaCoderCurrentFragments[info[n].compiler.selected[1]][info[n].compiler.selected[2]],info[n].db.luaCoderCurrentFragments[p[3]][p[4]]
 
-							info[n].compiler.selected = {}
+								info[n].compiler.selected = {}
 
-							info[n].compiler.code[2] = true
-							system.triggerCompiler(n)
+								info[n].compiler.code[2] = true
+								system.triggerCompiler(n)
 
-							ui.removeTextArea(7,n)
-							
-							system.savePlayerData(n,serialization(info[n].db))
+								ui.removeTextArea(7,n)
+								info[n].compiler.cancel = {}
+								
+								system.savePlayerData(n,serialization(info[n].db))
+							else
+								tfm.exec.chatMessage("<R>[•] You can't select the same word!",n)
+							end
 						else
-							tfm.exec.chatMessage("<R>[•] You can't select the same word!",n)
+							tfm.exec.chatMessage("<R>[•] You can't select a word from a different line!",n)
 						end
-					else
-						tfm.exec.chatMessage("<R>[•] You can't select a word from a different line!",n)
 					end
+				else
+					tfm.exec.chatMessage("<R>[•] You can't select this word!",n)
 				end
 			else -- First selection
-				info[n].compiler.selected = {p[3],p[4]}
-				
-				info[n].compiler.cancel[#info[n].compiler.cancel + 1] = {1,cel}
-				system.showCancelCallback(n)
+				if info[n].db.luaCoderCurrentFragments[p[3]] and info[n].db.luaCoderCurrentFragments[p[3]][p[4]] then
+					info[n].compiler.selected = {p[3],p[4]}
+
+					info[n].compiler.cancel[#info[n].compiler.cancel + 1] = {1,info[n].db.luaCoderCurrentFragments[p[3]][p[4]]}
+					system.showCancelCallback(n)
+				else
+					tfm.exec.chatMessage("<R>[•] You can't select this word!",n)
+				end
 			end
 		elseif p[2] == "line" then
+			eventTextAreaCallback(i,n,"compiler.cancel.word")
 			p[3] = tonumber(p[3])
 			
 			if info[n].compiler.newLine == 0 then -- First selection
@@ -616,6 +623,7 @@ eventTextAreaCallback = function(i,n,c)
 					system.triggerCompiler(n)
 
 					ui.removeTextArea(7,n)
+					info[n].compiler.cancel = {}
 					
 					system.savePlayerData(n,serialization(info[n].db))
 				else
@@ -630,6 +638,7 @@ eventTextAreaCallback = function(i,n,c)
 				info[n].compiler.newLine = 0
 				ui.removeTextArea(7,n)
 			end
+			info[n].compiler.cancel = {}
 		elseif p[2] == "close" then
 			for i = 0,7 do
 				ui.removeTextArea(i,n)
@@ -661,7 +670,7 @@ eventTextAreaCallback = function(i,n,c)
 			end
 			
 			if not Error then
-				system.fragmentFunction[info[n].db.luaCoderFragment]()
+				system.fragmentFunction[info[n].db.luaCoderFragment](n)
 				
 				tfm.exec.chatMessage("<CE>[•] Your code compiles! Your mouse programmed for the first time!",n)
 				tfm.exec.chatMessage("<G>[^_^] <PT>Event developed by Bolodefchoco",n)
@@ -690,9 +699,12 @@ eventPlayerLeft = function(n)
 	system.savePlayerData(n,serialization(info[n].db))
 end
 
-for i,f in next,{"AutoShaman","AfkDeath","MortCommand","AutoTimeLeft","PhysicalConsumables","DebugCommand"} do
+for i,f in next,{"AutoShaman","AutoNewGame","AfkDeath","MortCommand","AutoTimeLeft","PhysicalConsumables","DebugCommand"} do
 	tfm.exec["disable"..f]()
 end
 
-system.xml = '<C><P L="2500" DS="m;55,985,175,985,295,985,415,985,535,985" H="1000" /><Z><S><S P="0,0,0.3,0.2,0,0,0,0" L="710" o="6a7596" X="355" c="4" Y="800" T="12" H="400" /><S P="0,0,0.3,0.2,0,0,0,0" L="20" o="1d1d1d" H="400" Y="800" T="12" X="10" /><S P="0,0,0.3,0.2,0,0,0,0" L="700" o="1d1d1d" X="350" Y="610" T="12" H="20" /><S L="700" o="1d1d1d" X="360" H="20" Y="990" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S P="0,0,0.3,0.2,0,0,0,0" L="20" o="1d1d1d" X="700" Y="750" T="12" H="300" /></S><D><P C="8a311b" Y="985" T="19" P="1,0" X="55" /><DS Y="945" X="55" /><P C="8a311b" Y="985" T="19" X="175" P="1,0" /><P C="8a311b" Y="985" T="19" P="1,0" X="295" /><P C="8a311b" Y="985" T="19" X="415" P="1,0" /><P C="8a311b" Y="985" T="19" P="1,0" X="535" /></D><O /></Z></C>'
+system.maps = {
+	[1] = '<C><P DS="m;55,985,175,985,295,985,415,985,535,985" F="2" L="2500" H="1000" /><Z><S><S H="400" L="710" o="6a7596" X="355" c="4" Y="800" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="20" o="1d1d1d" H="400" X="10" Y="800" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="700" o="1d1d1d" X="350" H="20" Y="610" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S P="0,0,0.3,0.2,0,0,0,0" L="700" o="1d1d1d" H="20" Y="990" T="12" X="360" /><S L="20" o="1d1d1d" X="700" H="300" Y="750" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="1800" H="20" X="1600" Y="990" T="6" P="0,0,0.3,0.2,0,0,0,0" /><S L="1000" X="1210" H="20" Y="890" T="6" P="0,0,0.3,0.2,0,0,0,0" /></S><D><P C="8a311b" Y="985" T="19" X="55" P="1,0" /><DS Y="945" X="55" /><P C="8a311b" Y="985" T="19" P="1,0" X="175" /><P C="8a311b" Y="985" T="19" X="295" P="1,0" /><P C="8a311b" Y="985" T="19" P="1,0" X="415" /><P C="8a311b" Y="985" T="19" X="535" P="1,0" /><P P="0,0" Y="980" T="0" X="928" /><P P="1,0" Y="981" T="5" X="1218" /><P P="1,0" Y="982" T="4" X="785" /><P P="1,0" Y="983" T="13" X="967" /><P P="0,1" Y="983" T="106" X="1504" /><P P="1,0" Y="980" T="115" X="1531" /><P P="0,0" C="784939,15a335" Y="976" T="127" X="1753" /><P P="0,1" Y="880" T="1" X="1526" /><P P="1,1" Y="881" T="1" X="1289" /><P P="1,1" Y="880" T="1" X="1412" /><P P="0,0" Y="879" T="1" X="1351" /><P P="0,0" Y="881" T="1" X="1476" /><P P="0,0" C="57703e,e14698" Y="897" T="18" X="1119" /><P P="0,1" C="57703e,e14698" Y="897" T="18" X="1136" /><P C="57703e,e14698" Y="883" T="18" X="1127" P="1,0" /><P P="1,0" Y="880" T="12" X="929" /><P P="1,1" Y="879" T="12" X="985" /><P P="1,0" Y="879" T="12" X="1043" /><P P="1,1" Y="882" T="69" X="801" /><P P="1,0" C="e75082" Y="881" T="91" X="752" /><P P="1,0" Y="883" T="118" X="1444" /><P P="1,0" Y="980" T="116" X="2189" /><P P="0,0" Y="908" T="43" X="2089" /><P P="0,0" Y="980" T="47" X="2317" /><P P="0,0" Y="981" T="42" X="2356" /><P P="1,0" Y="1030" T="40" X="2368" /><P P="1,0" Y="980" T="42" X="2421" /></D><O /></Z></C>',
+}
+system.xml = table.random(system.maps)
 tfm.exec.newGame(system.xml)
