@@ -1,28 +1,3 @@
---Creator: Bolodefchoco
---Made in: 06/02/2017
---Last update: 06/03/2017
---[[ Notes:
-	Does:
-		Cada piso tem um efeito diferente sobre seu rato
-	Commands:
-		!o --> Abre a loja
-		!p --> Abre o perfil
-			name --> Nome do jogador
-		!h --> Abre o menu de ajuda
-		!langue --> Muda o idioma
-			Id --> Id do idioma
-		!k --> Abre o ranking
-		!? --> Mostra a informação do piso que você está pisando
-		!pw --> Põe senha na sala
-			password --> Senha
-	Key commands:
-		Space --> Realiza as funções dos pisos (quando existente)
-		P --> Abre seu perfil
-		O --> Abre a loja
-		H --> Abre o menu de ajuda
-		K --> Abre o ranking
-]]--
-
 --[[ Main ]]--
 system.module = "grounds"
 system.isRoom = tfm.get.room.name:byte(2) ~= 3
