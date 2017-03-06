@@ -1,3 +1,28 @@
+--Creator: Bolodefchoco
+--Made in: 06/02/2017
+--Last update: 06/03/2017
+--[[ Notes:
+	Does:
+		Cada piso tem um efeito diferente sobre seu rato
+	Commands:
+		!o --> Abre a loja
+		!p --> Abre o perfil
+			name --> Nome do jogador
+		!h --> Abre o menu de ajuda
+		!langue --> Muda o idioma
+			Id --> Id do idioma
+		!k --> Abre o ranking
+		!? --> Mostra a informação do piso que você está pisando
+		!pw --> Põe senha na sala
+			password --> Senha
+	Key commands:
+		Space --> Realiza as funções dos pisos (quando existente)
+		P --> Abre seu perfil
+		O --> Abre a loja
+		H --> Abre o menu de ajuda
+		K --> Abre o ranking
+]]--
+
 --[[ Main ]]--
 system.module = "grounds"
 system.isRoom = tfm.get.room.name:byte(2) ~= 3
@@ -136,7 +161,9 @@ table.random=function(t)
 	return (type(t)=="table" and t[math.random(#t)] or math.random())
 end
 --[[ Map System ]]--
-system.maps = {6226386,5993927,5198518,6133469,4396371,5425815,4140491,5168440,3324180,6564380,6600268,6987992,6987993,6988672,6230212,6340023,7057010,7047955,3326675,4184558,6392883,3324284,5043429,3326655,7069304,7069314,7069343,7069816,7069835,6558179,6726599,5921744,5921754,5632126,7071400,3099763,2283901,2887357,5507021,6945850,6568120,2874090}
+system.maps = {6226386,5993927,5198518,6133469,4396371,5425815,4140491,5168440,3324180,6564380,6600268,6987992,6987993,6988672,6230212,6340023,7057010,7047955,3326675,4184558,6392883,3324284,5043429,3326655,7069304,7069314,7069343,7069816,7069835,6558179,6726599,5921744,5921754,5632126,7071400,3099763,2283901,2887357,5507021,6945850,6568120,2874090,6961916,6576282,6578479, 6994066,4055924,4361619,4361785,4612510,4633670
+
+}
 system.newMap = coroutine.wrap(function()
 	local currentMap = 0
 	while true do
@@ -1532,7 +1559,7 @@ eventNewPlayer = function(n)
 			isWalking = false,
 			drown = 0,
 			ranking = -1,
-			canRev = true,
+			canRev = false,
 			shop = {
 				accessing = false,
 				page = 0,
@@ -1551,7 +1578,7 @@ eventNewPlayer = function(n)
 			leaderboardTimer = 0,
 			isOnline = true,
 			stats = {
-				groundsCoins = 1e3,
+				groundsCoins = 1666,
 				rounds = 0,
 				podiums = 0,
 				deaths = 0,
@@ -1603,10 +1630,12 @@ eventNewGame = function()
 	podium = 0
 	system.availableRoom = system.totalPlayers > 4 and system.isRoom
 	if not system.availableRoom then
-		if not system.isRoom then
-			tfm.exec.chatMessage(string.format("<PT>[•] <BV>%s",system.getTranslation("countstats.tribe")))
-		else
-			tfm.exec.chatMessage(string.format("<PT>[•] <BV>%s",system.getTranslation("countstats.mice")))
+		if math.random(30) < 16 then
+			if not system.isRoom then
+				tfm.exec.chatMessage(string.format("<PT>[•] <BV>%s",system.getTranslation("countstats.tribe")))
+			else
+				tfm.exec.chatMessage(string.format("<PT>[•] <BV>%s",system.getTranslation("countstats.mice")))
+			end
 		end
 	end
 	for k,v in next,tfm.get.room.playerList do
@@ -1730,7 +1759,7 @@ eventLoop = function(currentTime,leftTime)
 	_G.leftTime = normalizedTime(leftTime/1e3)
 	system.alivePlayers,system.totalPlayers = system.players()
 	system.groundEffects()
-	if _G.currentTime == 3 then
+	if _G.currentTime == 3 and math.random(50) < 21 then
 		tfm.exec.chatMessage(string.format("<PT>[•] <BV>%s",system.getTranslation("powersenabled")))
 	end
 	if _G.currentTime%2 == 0 then
@@ -1844,102 +1873,109 @@ eventKeyboard = function(n,k,d,x,y)
 end
 
 --[[ chat commands ]]--
+disableChatCommand = function(command)
+	system.disableChatCommandDisplay(command,true)
+	system.disableChatCommandDisplay(command:lower(),true)
+	system.disableChatCommandDisplay(command:upper(),true)
+end	
 eventChatCommand = function(n,c)
-	c = deactivateAccents(c)
-	system.disableChatCommandDisplay(c,true)
-	local p = string.split(c,"[^%s]+")
-	p[1] = p[1]:lower()
-	if p[1] == cmds.shop or p[1] == "o" then
-		if info[n].shop.accessing then
-			eventTextAreaCallback(nil,n,"shop.close")
-		else
-			if os.time() > info[n].shop.timer then
-				info[n].shop.timer = os.time() + 1200
-				ui.shop(n)
-			end
-		end
-	elseif p[1] == cmds.profile or p[1] == "p" then
-		if p[2] then
-			p[2] = string.nick(p[2])
-			if info[p[2]] then
-				ui.profile(n,p[2])
-			end
-		else
-			ui.profile(n,n)
-		end
-		info[n].profileAccessing = true
-	elseif p[1] == cmds.help or p[1] == "h" then
-		if info[n].menu.accessing then
-			eventTextAreaCallback(nil,n,"menu.close")
-		else
-			if os.time() > info[n].menu.timer then
-				info[n].menu.timer = os.time() + 1e3
-				ui.menu(n)
-			end
-		end
-	elseif p[1] == cmds.langue then
-		p[2] = p[2] and p[2]:lower() or nil
-		if p[2] and (p[2] == "default" or system.translation[p[2]]) then
-			if p[2] == "default" then
-				info[n].langue = (system.translation[tfm.get.room.playerList[n].community] and tfm.get.room.playerList[n].community or system.roomCommunity)
+	if system.isPlayer(n) then
+		c = deactivateAccents(c)
+		system.disableChatCommandDisplay(c,true)
+		local p = string.split(c,"[^%s]+")
+		disableChatCommand(p[1])
+		p[1] = p[1]:lower()
+		if p[1] == cmds.shop or p[1] == "o" then
+			if info[n].shop.accessing then
+				eventTextAreaCallback(nil,n,"shop.close")
 			else
-				p[2] = p[2]:lower()
-				info[n].langue = p[2]
+				if os.time() > info[n].shop.timer then
+					info[n].shop.timer = os.time() + 1200
+					ui.shop(n)
+				end
 			end
-			tfm.exec.chatMessage(string.format("<PT>[•] <BV>%s",system.getTranslation("language",n):format(info[n].langue:upper())),n)
-		else
-			local langues = {}
-			for k,v in next,system.translation do
-				langues[#langues+1] = k:upper()
+		elseif p[1] == cmds.profile or p[1] == "p" then
+			if p[2] then
+				p[2] = string.nick(p[2])
+				if info[p[2]] then
+					ui.profile(n,p[2])
+				end
+			else
+				ui.profile(n,n)
 			end
-			table.sort(langues)
-			
-			tfm.exec.chatMessage(string.format("<PT>[•] <J>!%s <PS>%s",p[1],table.concat(langues," <G>-</G> ")),n)
-		end
-	elseif p[1] == cmds.leaderboard or p[1] == "k" then
-		if info[n].leaderboardAccessing then
-			eventTextAreaCallback(nil,n,"ranking.close")
-		else
-			if os.time() > info[n].leaderboardTimer then
-				info[n].leaderboardTimer = os.time() + 1e3
-				ui.leaderboard(n)
+			info[n].profileAccessing = true
+		elseif p[1] == cmds.help or p[1] == "h" then
+			if info[n].menu.accessing then
+				eventTextAreaCallback(nil,n,"menu.close")
+			else
+				if os.time() > info[n].menu.timer then
+					info[n].menu.timer = os.time() + 1e3
+					ui.menu(n)
+				end
 			end
-		end
-	elseif p[1] == cmds.info or p[1] == "?" then
-		local grounds = system.getTranslation("grounds",n)
-		local ground = grounds[info[n].powersOP.GTYPE]
-		if ground then
-			ui.displayInfo(n,{"info","grounds",ground[1]:gsub("'","#"),ground[2]})
-		end
-	else
-		if system.roomAdmins[n] then
-			if p[1] == cmds.pw or p[1] == "pw" then
-				local newPassword = p[2] or ""
-				local pwMsg = system.getTranslation("password")
-				if newPassword == "" then
-					tfm.exec.chatMessage(string.format("<R>[•] %s",pwMsg.off))
+		elseif p[1] == cmds.langue then
+			p[2] = p[2] and p[2]:lower() or nil
+			if p[2] and (p[2] == "default" or system.translation[p[2]]) then
+				if p[2] == "default" then
+					info[n].langue = (system.translation[tfm.get.room.playerList[n].community] and tfm.get.room.playerList[n].community or system.roomCommunity)
 				else
-					local xxx = ("*"):rep(#newPassword)
-					for k,v in next,tfm.get.room.playerList do
-						if system.roomAdmins[k] then
-							tfm.exec.chatMessage(string.format("<R>[•] %s",pwMsg.on:format(newPassword)),k)
-						else
-							tfm.exec.chatMessage(string.format("<R>[•] %s",pwMsg.on:format(xxx)),k)
+					p[2] = p[2]:lower()
+					info[n].langue = p[2]
+				end
+				tfm.exec.chatMessage(string.format("<PT>[•] <BV>%s",system.getTranslation("language",n):format(info[n].langue:upper())),n)
+			else
+				local langues = {}
+				for k,v in next,system.translation do
+					langues[#langues+1] = k:upper()
+				end
+				table.sort(langues)
+				
+				tfm.exec.chatMessage(string.format("<PT>[•] <J>!%s <PS>%s",p[1],table.concat(langues," <G>-</G> ")),n)
+			end
+		elseif p[1] == cmds.leaderboard or p[1] == "k" then
+			if info[n].leaderboardAccessing then
+				eventTextAreaCallback(nil,n,"ranking.close")
+			else
+				if os.time() > info[n].leaderboardTimer then
+					info[n].leaderboardTimer = os.time() + 1e3
+					ui.leaderboard(n)
+				end
+			end
+		elseif p[1] == cmds.info or p[1] == "?" then
+			local grounds = system.getTranslation("grounds",n)
+			local ground = grounds[info[n].powersOP.GTYPE]
+			if ground then
+				ui.displayInfo(n,{"info","grounds",ground[1]:gsub("'","#"),ground[2]})
+			end
+		else
+			if system.roomAdmins[n] then
+				if p[1] == cmds.pw or p[1] == "pw" then
+					local newPassword = p[2] or ""
+					local pwMsg = system.getTranslation("password")
+					if newPassword == "" then
+						tfm.exec.chatMessage(string.format("<R>[•] %s",pwMsg.off))
+					else
+						local xxx = ("*"):rep(#newPassword)
+						for k,v in next,tfm.get.room.playerList do
+							if system.roomAdmins[k] and system.isPlayer(k) then
+								tfm.exec.chatMessage(string.format("<R>[•] %s",pwMsg.on:format(newPassword)),k)
+							else
+								tfm.exec.chatMessage(string.format("<R>[•] %s",pwMsg.on:format(xxx)),k)
+							end
 						end
 					end
+					tfm.exec.setRoomPassword(newPassword)
 				end
-				tfm.exec.setRoomPassword(newPassword)
-			end
-		else
-			if table.find(cmds,p[1]) then
-				tfm.exec.chatMessage("<ROSE>[•] /room #"..system.module..math.random(0,999)..n,n)
+			else
+				if table.find(cmds,p[1]) then
+					tfm.exec.chatMessage("<ROSE>[•] /room #"..system.module..math.random(0,999)..n,n)
+				end
 			end
 		end
 	end
 end
 for k,v in next,cmds do
-	system.disableChatCommandDisplay(v,true)
-	system.disableChatCommandDisplay(v:upper(),true)
+	disableChatCommand(v)
 end
 
 --[[ Data ]]--
