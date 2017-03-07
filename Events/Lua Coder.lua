@@ -144,10 +144,10 @@ system.translation = {
 		dataTry = "Poczekaj! Twoje dane się ładują...",
 		dataFail = "Niemożliwe, żeby załadować twoje dane :( Spróbuj ponownie na następnej mapie.",
 		dataSuccess = "Dane załadowane!",
-		findFragments = "Some Lua code fragments were stolen! The thief hid the fragments <B>behind</B> some objects. Find these fragments and organize them in your compile to win a prize!",
+		findFragments = "Części kodu Lua zostały skradzione! Złodziej schował fragmenty <B>za</B> różnymi objektami. Znajdź te fragmenty i uporządkuj je w swoim opracowaniu by wygrać nagrodę!",
 		fragments = "Fragmenty",
 		found = "Znalazłeś/-aś coś tutaj!",
-		notFound = "Nothing was found here! Try another place and come back later.",
+		notFound = "Tu nic nie ma! Spróbuj w innym miejscu i wróć tu później.",
 		notDecoration = "Ktoś wcześniej odnalazł coś tutaj. Spróbuj szukać gdzieś indziej.",
 		wordSameError = "Nie możesz wybrać tego samego słowa!",
 		wordDifRowError = "Nie możesz wybrać słowa z innego wiersza!",
@@ -156,8 +156,35 @@ system.translation = {
 		submitSuccess = "Twój kod działa! Zaprogramowałeś/-aś coś pierwszy raz!",
 		submitFail = "Twój kod nadal nie działa :( Coś ciągle jest źle!",
 		thanks = "Event stworzony przez %s i przetłumaczony przez %s",
+		roomBarDecoration = "Dekoracje",
+		mapInfo = "%s <G>- <PS>XML zrobione przez %s",
 	},
-	tr = {},
+	tr = {
+		cancelWord = "Sözcük seçildi",
+		cancelLine = "Satır seçildi",
+		cancel = "Vazgeç",
+		submit = "Gönder",
+		close = "Kapat",
+		allFrag = "Tüm parçaları buldun!",
+		putInOrder = "Bulduğunuz tüm parçaları kelimelere ve satırlara tıklayarak düzenleyin. İlk kez programlamak için hazır mısınız?", 
+		dataTry = "Bekleyin! Bilgileriniz yükleniyor...",
+		dataFail = "Bilgileriniz yüklenemedi :( Lütfen bir sonraki haritada tekrar deneyin.",
+		dataSuccess = "Bilgiler yüklendi!",
+		findFragments = "Bazı Lua parçaları çalındı! Hırsız parçaları bazı nesnelerin <B>arkasına</B> saklamış. Hediye kazanmak için parçaları bulun ve derleyicinizde hazırlayın!",
+		fragments = "Parçalar",
+		found = "Burada bir şey buldunuz!",
+		notFound = "Burada bir şey bulunamadı! Başka bir yerde deneyin ve sonra geri gelin.",
+		notDecoration = "Birisi zaten burada bir şeyler bulmuş. Başka bir yeri deneyin.",
+		wordSameError = "Aynı sözcüğü seçemezsiniz!",
+		wordDifRowError = "Farklı bir satırdan sözcük seçemezsiniz!",
+		wordNotWordError = "Bu sözcüğü seçemezsiniz!",
+		lineSameError = "Aynı satırı seçemezsiniz!",
+		submitSuccess = "Kodunuz derlendi! İlk kez programlamış oldunuz!",
+		submitFail = "Kodunuz derlenmedi :( Bir şeyler hala yanlış!",
+		thanks = "Bu etkinlik %s tarafından geliştirilmiştir ve %s tarafından çevrilmiştir.",
+		roomBarDecoration = "Dekorasyonlar",
+		mapInfo = "%s <G>- <PS>XML %s tarafından yapılmıştır.",
+	},
 	ro = {
 		cancelWord = "Cuvânt selectat",
 		cancelLine = "Rând selectat",
@@ -181,6 +208,8 @@ system.translation = {
 		submitSuccess = "Codul tău a fost alcătuit! Ai programat pentru prima oară!",
 		submitFail = "Codul tău nu a fost alcătuit :( Ceva este încă greșit!",
 		thanks = "Eveniment creat de %s și tradus de %s",
+		roomBarDecoration = "Decorations",
+		mapInfo = "%s <G>- <PS>XML made by %s",
 	},
 	de = {
 		cancelWord = "Wort ausgewählt",
@@ -208,7 +237,30 @@ system.translation = {
 		roomBarDecoration = "Dekorationen",
 		mapInfo = "%s <G>- <PS>XML erstellt von %s",
     },
-	ru = {},
+	ru = {
+		cancelWord = "Слово выбрано",
+		cancelLine = "Строка выбрана",
+		cancel = "Отменить",
+		submit = "Отправить",
+		close = "Закрыть",
+		allFrag = "Вы нашли все фрагменты!",
+		putInOrder = "Organize all the fragments you found by clicking in the word [cell] or line [row]. Are you able to program for the first time?",
+		dataTry = "Подождите! Ваши данные загружаются...",
+		dataFail = "Невозможно загрузить ваши данные :( Попробуйте на следующей карте",
+		dataSuccess = "Данные загружены!",
+		findFragments = "Некоторые Луа-коды были украдены! Вор спрятал фрагменты <B>за</B> определенными предметами. Найдите все фрагменты и расставьте их в правильном порядке!",
+		fragments = "Фрагменты",
+		found = "Вы что-то нашли!",
+		notFound = "Ничего не найдено! Попробуйте поискать в другом месте и возвращайтесь позже.",
+		notDecoration = "Кому-то уже удалось найти здесь что-то до вас, попробуйте поискать где-нибудь еще.",
+		wordSameError = "Вы не можете выбрать одно и то же слово!",
+		wordDifRowError = "Вы не можете выбрать слово из другой строки!",
+		submitSuccess = "Код составлен! У вас получилось программировать в первый раз!",
+		submitFail = "Вам не удалось составить код :( Что-то всё ещё не верно!",
+		thanks = "Ивент разработан %s и переведен %s", 
+		roomBarDecoration = "Декорации",
+		mapInfo = "%s <G>- <PS>XML сделан %s",
+	},
 	hu = {}
 }
 system.translation.pt = system.translation.br
@@ -223,7 +275,7 @@ system.community = system.translation[system.community]
 currentTime,timeLeft = 0,0
 system.staff = {
 	dev = {"Bolodefchoco"},
-	translators = {"Error_404","Sebafrancuz","Tocutoeltuco","Alessyaxd","Sweetphoenix","Miwakiko"}
+	translators = {"Error_404","Sebafrancuz","Tocutoeltuco","Alessyaxd","Sweetphoenix","Miwakiko","Hikariblabla","Miyakogotoku"}
 }
 for k,v in next,system.staff do
 	table.sort(v,function(t1,t2) return t2 > t1 end)
@@ -658,6 +710,50 @@ updateDecorationsRoomBar = function()
 	end)())
 end
 
+	--[[ Remake for dev functions ]]--
+system.isTesting = tfm.get.room.name:byte(2) == 3
+if system.isTesting then
+	BOLODEFCHOCO_DATA = {
+		PLAYER_DATA = {
+			Bolodefchoco = ":luaCoderTriggerCompiler_!false;:luaCoderCurrentFragments_%+&:1_@<VI>end?:2_@<N>tfm.exec.killPlayer?:3_@<VI>local?:4_@<N2>(<CE>\"%s\"<N2>)?:5_@<VI>end?:6_@<N2>(<N>playerName<N2>)?:7_@<N2>(<N>playerName<N2>,<N>event_title<N2>)?:8_@<N2>=?:9_@<N>eventPlayerRespawn?:10_@<N>system.giveEventGift?:11_@<VI>if?:12_@<CE>\"Lua Coder\"?:13_@<VI>not?:14_@<N>tfm.get.room.playerList[<CE>\"%s\"<N>].isVampire?:15_@<VI>function?:16_@<N>eventPlayerVampire?:17_@<VI>function?:18_@<N>tfm.exec.respawnPlayer?:19_@<N>tfm.exec.setVampirePlayer?&-;:luaCoderFragment_#3;:luaCoder_!false;",
+		}
+	}
+	system.savePlayerData = function(n,d)
+		BOLODEFCHOCO_DATA.PLAYER_DATA[n] = tostring(d)
+		return true
+	end
+	system.loadPlayerData = function(n)
+		if _G["eventPlayerDataLoaded"] then
+			eventPlayerDataLoaded(n,BOLODEFCHOCO_DATA.PLAYER_DATA[n] or "")
+			return true
+		else
+			return false
+		end
+	end
+
+	tfm.exec.chatMessage = function(t,n)
+		if n then
+			print(string.format("> [%s] %s",n,t))
+		else
+			print(t)
+		end
+	end
+end
+system.finalize = function()
+	if system.isTesting then
+		local done = 0
+		for k,v in next,BOLODEFCHOCO_DATA.PLAYER_DATA do
+			print(k .. " = " .. tostring(v:gsub("<","&lt;"):gsub('"','\\"')))
+			done = done + 1
+			if done == #BOLODEFCHOCO_DATA.PLAYER_DATA then
+				system.exit()
+			end
+		end
+	else
+		system.exit()
+	end
+end
+
 --[[ Collect decorations + playerData ]]--
 eventPlayerDataLoading = function(n,tentative)
 	if tentative < 4 then
@@ -952,7 +1048,7 @@ eventLoop = function(currentTime,timeLeft)
 		for k,v in next,tfm.get.room.playerList do
 			system.savePlayerData(k,serialization(info[k].db))
 		end
-		system.exit()
+		system.finalize()
 	end
 end
 
