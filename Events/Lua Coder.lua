@@ -16,7 +16,7 @@ system.translation = {
 		dataTry = "Wait! Your data is loading...",
 		dataFail = "Impossible to load your data :( Try again in the next map.",
 		dataSuccess = "Data loaded!",
-		findFragments = "Some Lua code fragments were stolen! The thief hid the fragments <B>behind</B> some objects. Find these fragments and organize them in your compile to win a prize!",
+		findFragments = "Some Lua code fragments were stolen! The thief hid the fragments <B>behind</B> some objects. Find these fragments and organize them in your compiler to win a prize!",
 		fragments = "Fragments",
 		found = "You found something here!",
 		notFound = "Nothing was found here! Try another place and come back later.",
@@ -28,6 +28,8 @@ system.translation = {
 		submitSuccess = "Your code compiled! You programmed for the first time!",
 		submitFail = "Your code didn't compile :( Something is still wrong!",
 		thanks = "Event developed by %s and translated by %s",
+		roomBarDecoration = "Decorations",
+		mapInfo = "%s <G>- <PS>XML made by %s",
 	},
 	br = {
 		cancelWord = "Palavra selecionada",
@@ -52,6 +54,7 @@ system.translation = {
 		submitSuccess = "Seu código compilou! Você programou pela primeira vez!",
 		submitFail = "Seu código não compilou :( Algo ainda está errado!",
 		thanks = "Evento desenvolvido por %s e traduzido por %s.",
+		mapInfo = "%s <G>- <PS>XML feito por %s",
 	},
 	es = {
 		cancelWord = "Palabra seleccionada",
@@ -76,6 +79,7 @@ system.translation = {
 		submitSuccess = "¡Tu código ha sido compilado! ¡Has programado por primera vez!",
 		submitFail = "Tu código no se ha compilado :( ¡Algo sigue mal!",
 		thanks = "Evento hecho por %s y traducido por %s",
+		mapInfo = "%s <G>- <PS>XML hecho por %s",
 	},
 	fr = {
 		cancelWord = "Mot sélectionné",
@@ -88,7 +92,7 @@ system.translation = {
 		dataTry = "Attends ! Tes données sont en train de charger...",
 		dataFail = "Impossible de charger vos données :( Essayez encore lors de la prochaine map.",
 		dataSuccess = "Données chargées !",
-		findFragments = "Des fragments du code Lua ont été volées ! Le voleur a caché les fragments <B>derrière</B> certains objets. Trouve ces fragments et organise les dans ton compilateur pour gagner un prix !",
+		findFragments = "Des fragments du code LUA ont été volés ! Le voleur a caché les fragments <B>derrière</B> certains objets. Trouve ces fragments et organise les dans ton compilateur pour gagner un prix !",
 		fragments = "Fragments",
 		found = "Tu as trouvé quelque chose ici",
 		notFound = "Il n'y a rien ici! Essaye ailleurs et reviens plus tard.",
@@ -100,6 +104,8 @@ system.translation = {
 		submitSuccess = "Tu as compilé ton code! Tu as programmé pour la première fois!",
 		submitFail = "Ton code n'a pas été compilé :( Il reste des erreurs!",
 		thanks = "Événement développé par %s et traduit par %s",
+		roomBarDecoration = "Décorations",
+		mapInfo = "%s <G>- <PS>XML fait par %s",
     },
 	ar = {
 		cancelWord = "الكلمة المحددة",
@@ -112,10 +118,10 @@ system.translation = {
 		dataTry = "إنتظر! جاري تحميل بياناتك...",
 		dataFail = "من المستحيل تحميل بياناتك :( من فضلك حاول مجددا لاحقا.",
 		dataSuccess = "تم تجميل البيانات!",
-		findFragments = "Some Lua code fragments were stolen! The thief hid the fragments <B>behind</B> some objects. Find these fragments and organize them in your compile to win a prize!",
+		findFragments = "لقد تم سرقة بعض الرموز البرمجية للغة البرمجة لوا! وقام السارق بإخفاء الرموز خلف بعض الأشياء. اعثر على الرموز المسروقة و رتبها في جعبتك لتربح الجائزة",
 		fragments = "القطع",
 		found = "لقد وجدت شيئ هنا!",
-		notFound = "Nothing was found here! Try another place and come back later.",
+		notFound = "لا شيء هنا! حاول في مكان آخر",
 		notDecoration = "لقد وجد أحدهم قطعة هنا. حاول في مكان أخر.",
 		wordSameError = "لا يمكنك إستعمال الكلمة نفسها!",
 		wordDifRowError = "لا يمكنك إختيار كلمة من سطر أخر",
@@ -124,6 +130,8 @@ system.translation = {
 		submitSuccess = "الرمز صحيح! لقد قمت بالبرمجة لأول مرة!",
 		submitFail = "الرمز لم يعمل :( لا يزال هناك خطأ في الرمز!",
 		thanks = "مبرمج الحدث %s ومترجمة من قبل %s",
+		roomBarDecoration = "زخرفات",
+		mapInfo = "%s - XML بواسطة %s",
 	},
 	pl = {
 		cancelWord = "Wybrano słowo",
@@ -197,6 +205,8 @@ system.translation = {
 		submitSuccess = "Dein Code ist kompiliert! Du hast das erste Mal programmiert!",
 		submitFail = "Dein Code konnte nicht kompiliert werden :( Es ist noch immer etwas falsch!",
 		thanks = "Event erstellt von %s und übersetzt von %s",
+		roomBarDecoration = "Dekorationen",
+		mapInfo = "%s <G>- <PS>XML erstellt von %s",
     },
 	ru = {},
 	hu = {}
@@ -632,6 +642,22 @@ system.verifyTrigger = function(n)
 	return info[n].db.luaCoderTriggerCompiler
 end
 
+	--[[ Misc ]]--
+updateDecorationsRoomBar = function()
+	ui.setShamanName("<a:active>Thief   <G>|   <N>Decorations : <V>" .. (function()
+		local decorations = 0
+		for k,v in next,system.mapDecorations do
+			if v.available then
+				decorations = decorations + 1
+			end
+		end
+		if decorations < 1 and timeLeft > 20 then
+			tfm.exec.setGameTime(20)
+		end
+		return decorations
+	end)())
+end
+
 --[[ Collect decorations + playerData ]]--
 eventPlayerDataLoading = function(n,tentative)
 	if tentative < 4 then
@@ -693,7 +719,8 @@ eventNewGame = function()
 			end
 		end)
 	end
-	
+
+	tfm.exec.chatMessage("<CE>[•] <PS>" .. system.community.mapInfo:format("@<BV>" .. system.xml[2] .. "</BV>","<PT>" .. system.xml[1]),n)
 	for k,v in next,tfm.get.room.playerList do
 		info[k] = {
 			piece = {
@@ -721,12 +748,14 @@ eventNewGame = function()
 		eventPlayerDataLoading(k,1)
 	end
 
-	system.xml = ""
+	ui.setMapName("<J>#" .. table.random({"Bolodefchoco","Lua event","Lua"}).." <G>- @"..table.random({666,404,801,os.date("%Y"),0,1}))
+	updateDecorationsRoomBar()
+	system.xml[3] = ""
 end
 
 --[[ Keyboard ]]--
 eventKeyboard = function(n,k,d,x,y)
-	if system.xml == "" then
+	if system.xml[3] == "" then
 		if info[n].dataLoaded and currentTime > 3 and timeLeft > 5 then
 			if k == 3 then
 				if not info[n].db.luaCoderTriggerCompiler and not info[n].notThisRound then
@@ -764,6 +793,7 @@ eventKeyboard = function(n,k,d,x,y)
 											v.available = false
 											
 											system.savePlayerData(n,serialization(info[n].db))
+											updateDecorationsRoomBar()
 										else
 											tfm.exec.chatMessage("<BV>[•] " .. system.community.notFound,n)
 										end
@@ -892,7 +922,7 @@ eventTextAreaCallback = function(i,n,c)
 					end
 				end
 			end
-			
+
 			if not Error then
 				system.fragmentFunction[info[n].db.luaCoderFragment](n)
 				
@@ -936,7 +966,7 @@ for i,f in next,{"AutoShaman","AfkDeath","MortCommand","AutoTimeLeft","PhysicalC
 end
 
 system.maps = {
-	[1] = '<C><P DS="m;55,985,175,985,295,985,415,985,535,985" F="2" L="2500" H="1000" /><Z><S><S H="400" L="710" o="6a7596" X="355" c="4" Y="800" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="20" o="1d1d1d" H="400" X="10" Y="800" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="700" o="1d1d1d" X="350" H="20" Y="610" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S P="0,0,0.3,0.2,0,0,0,0" L="700" o="1d1d1d" H="20" Y="990" T="12" X="360" /><S L="20" o="1d1d1d" X="700" H="300" Y="750" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="1800" H="20" X="1600" Y="990" T="6" P="0,0,0.3,0.2,0,0,0,0" /><S L="1000" X="1210" H="20" Y="890" T="6" P="0,0,0.3,0.2,0,0,0,0" /></S><D><P C="8a311b" Y="985" T="19" X="55" P="1,0" /><DS Y="945" X="55" /><P C="8a311b" Y="985" T="19" P="1,0" X="175" /><P C="8a311b" Y="985" T="19" X="295" P="1,0" /><P C="8a311b" Y="985" T="19" P="1,0" X="415" /><P C="8a311b" Y="985" T="19" X="535" P="1,0" /><P P="0,0" Y="980" T="0" X="928" /><P P="1,0" Y="981" T="5" X="1218" /><P P="1,0" Y="982" T="4" X="785" /><P P="1,0" Y="983" T="13" X="967" /><P P="0,1" Y="983" T="106" X="1504" /><P P="1,0" Y="980" T="115" X="1531" /><P P="0,0" C="784939,15a335" Y="976" T="127" X="1753" /><P P="0,1" Y="880" T="1" X="1526" /><P P="1,1" Y="881" T="1" X="1289" /><P P="1,1" Y="880" T="1" X="1412" /><P P="0,0" Y="879" T="1" X="1351" /><P P="0,0" Y="881" T="1" X="1476" /><P P="0,0" C="57703e,e14698" Y="897" T="18" X="1119" /><P P="0,1" C="57703e,e14698" Y="897" T="18" X="1136" /><P C="57703e,e14698" Y="883" T="18" X="1127" P="1,0" /><P P="1,0" Y="880" T="12" X="929" /><P P="1,1" Y="879" T="12" X="985" /><P P="1,0" Y="879" T="12" X="1043" /><P P="1,1" Y="882" T="69" X="801" /><P P="1,0" C="e75082" Y="881" T="91" X="752" /><P P="1,0" Y="883" T="118" X="1444" /><P P="1,0" Y="980" T="116" X="2189" /><P P="0,0" Y="908" T="43" X="2089" /><P P="0,0" Y="980" T="47" X="2317" /><P P="0,0" Y="981" T="42" X="2356" /><P P="1,0" Y="1030" T="40" X="2368" /><P P="1,0" Y="980" T="42" X="2421" /></D><O /></Z></C>',
+	[1] = {"Bolodefchoco","The Nothing",'<C><P DS="m;55,985,175,985,295,985,415,985,535,985" F="2" L="2500" H="1000" /><Z><S><S H="400" L="710" o="6a7596" X="355" c="4" Y="800" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="20" o="1d1d1d" H="400" X="10" Y="800" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="700" o="1d1d1d" X="350" H="20" Y="610" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S P="0,0,0.3,0.2,0,0,0,0" L="700" o="1d1d1d" H="20" Y="990" T="12" X="360" /><S L="20" o="1d1d1d" X="700" H="300" Y="750" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="1800" H="20" X="1600" Y="990" T="6" P="0,0,0.3,0.2,0,0,0,0" /><S L="1000" X="1210" H="20" Y="890" T="6" P="0,0,0.3,0.2,0,0,0,0" /></S><D><P C="8a311b" Y="985" T="19" X="55" P="1,0" /><DS Y="945" X="55" /><P C="8a311b" Y="985" T="19" P="1,0" X="175" /><P C="8a311b" Y="985" T="19" X="295" P="1,0" /><P C="8a311b" Y="985" T="19" P="1,0" X="415" /><P C="8a311b" Y="985" T="19" X="535" P="1,0" /><P P="0,0" Y="980" T="0" X="928" /><P P="1,0" Y="981" T="5" X="1218" /><P P="1,0" Y="982" T="4" X="785" /><P P="1,0" Y="983" T="13" X="967" /><P P="0,1" Y="983" T="106" X="1504" /><P P="1,0" Y="980" T="115" X="1531" /><P P="0,0" C="784939,15a335" Y="976" T="127" X="1753" /><P P="0,1" Y="880" T="1" X="1526" /><P P="1,1" Y="881" T="1" X="1289" /><P P="1,1" Y="880" T="1" X="1412" /><P P="0,0" Y="879" T="1" X="1351" /><P P="0,0" Y="881" T="1" X="1476" /><P P="0,0" C="57703e,e14698" Y="897" T="18" X="1119" /><P P="0,1" C="57703e,e14698" Y="897" T="18" X="1136" /><P C="57703e,e14698" Y="883" T="18" X="1127" P="1,0" /><P P="1,0" Y="880" T="12" X="929" /><P P="1,1" Y="879" T="12" X="985" /><P P="1,0" Y="879" T="12" X="1043" /><P P="1,1" Y="882" T="69" X="801" /><P P="1,0" C="e75082" Y="881" T="91" X="752" /><P P="1,0" Y="883" T="118" X="1444" /><P P="1,0" Y="980" T="116" X="2189" /><P P="0,0" Y="908" T="43" X="2089" /><P P="0,0" Y="980" T="47" X="2317" /><P P="0,0" Y="981" T="42" X="2356" /><P P="1,0" Y="1030" T="40" X="2368" /><P P="1,0" Y="980" T="42" X="2421" /></D><O /></Z></C>'},
 }
 system.xml = table.random(system.maps)
-tfm.exec.newGame(system.xml)
+tfm.exec.newGame(system.xml[3])
