@@ -6,15 +6,6 @@
 	system.standardTime = 60
 -------------------
 
-table.concat = function(list,sep,f)
-	local txt = ""
-	sep = sep or ""
-	for k,v in next,list do
-		txt = txt .. (f and f(k,v) or v) .. sep
-	end
-	return txt:sub(1,-1-#sep)
-end
-
 system.roomSettings = {
 	["@"] = function(value)
 		system.roomAdmins[string.nick(value)] = true
@@ -31,9 +22,10 @@ system.roomAttributes = system.isRoom and tfm.get.room.name:match("%*?#".. syste
 
 system.setRoom = function()
 	if system.isRoom and system.roomAttributes then
-		local chars = table.concat(system.roomSettings,"",function(k,v)
-			return k
-		end)
+		local chars = ""
+		for k in next,system.roomSettings do
+			chars = chars .. k
+		end
 		
 		for char,value in system.roomAttributes:gmatch("(["..chars.."])([^"..chars.."]+)") do
 			for k,v in next,system.roomSettings do
