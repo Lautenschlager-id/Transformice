@@ -74,7 +74,7 @@ data={
 		c14 = "quality",
 		c15 = "rank",
 		c16 = "map",
-		l = "http://www.transformice.com/forum",
+		l = "http://atelier801.com/topic?f=6&t=832659",
 	},
 	-- Name
 	game = "Powers",
@@ -86,7 +86,7 @@ data={
 	-- Room admins
 admins = {}
 	-- Tables
-maps = {6576101,6562101,6516460,6464093,6703747,6703751,6402787,6422045,3969874,4021639,3952121,6720637,6720600,6721110,6422055,6375156,6370960,6729762,6379260,6730018,6730023,6302281,6302178,6730125,6730148,6731380,6733122,6733411,6755053,6772381,5971883,6773401,6792905}
+maps = {6576101,6562101,6516460,6703747,6703751,6402787,6422045,3969874,4021639,3952121,6720637,6720600,6721110,6422055,6375156,6370960,6729762,6379260,6302281,6302178,6730125,6730148,6731380,6733122,6733411,6755053,5971883,6773401,6792905,6833553,6835357,6835351,6798088,6834984,6849838,6045163,4015685,6174131,6394667,6397861,5234134}
 colors = {"2ECF73","B500FF","A0A0A0","5E5C9E","EED656","D95ED1","FF7100","CB546B","FEFFD7","D7FFE4","D7ECFF","FFFFFF","009D9D"}
 podiumColors = {"00FFFF","00EBEB","00D8D8"}
 mice={}
@@ -132,7 +132,7 @@ deathhug = {false,0}
 skip = false
 newtimer = false
 adminRoom = {false,false}
-isRoom = tfm.get.room.name:find("#")~=nil
+isRoom = tfm.get.room.name:byte(2) ~= 3
 	-- Other
 advice = 0
 newp = 0
@@ -217,7 +217,7 @@ T.en = {
 		[3] = {"Stats","<N>• <J>Level <G>- The highest level you can reach is %s.\n<N>• <J>Title <G>- The title of the current level (%s titles)\n<N>• <J>Experience <G>- Calculates how many points you already have and how many points you need to level up\n<N>• <J>Rounds <G>- Calculates how many rounds you have played\n<N>• <J>Wins <G>- Calculates how many victories you have <R>(+%s per victory or each 35 minutes)\n<N>• <J>Kills <G>- Calculates how many mice you have killed\n<N>• <J>Profile Ratio <G>- The ratio between <I>Rounds, Wins</I> and <I>Kills"},
 		[4] = {"Maps","<CEP>Send your maps in here: %s\n\n<CS>The complete list of maps below: (%s)\n%s"},
 		[5] = {"Admins","<PT>To create a room with admins, make sure to add the nickname after some numbers <VP>(/room %s)\n<R>Stats will not count if you change the round time or put the maximum players in the room in less than 8 players.\n\n<BV>!%s <CH>Number/String <G>- Changes the limit of players in the room (2-18)\n<BV>!%s <CH>Id <G>- Renames the bot\n<BV>!%s <CH>Time <G>- Changes the time of the rounds\n<BV>!%s <CH>Name <G>- Gives/Removes admin from someone"},
-		[6] = {"Special Thanks","<R>Bolodefchoco <N>- CEO + EN Translation + Tradução BR\n<BV>Tocuto<J>eltuco <N>- Traducción ES + Little Code\n<BV>Error<CE>_404 <N>- الترجمة AR + Map evaluation\n<J>Squalleze <N>- Little Code\n<PT>Lukamoii <N>- Ideas\n<CE>Ujkos, Yukariie and Kimsterjay <N>- Map Evaluation\n<BV>Chamelinct <N>- Traducción ES\n<BV>Distances en Kalkoen <N>- NL Translation\n<BV>Aanguson <N>- Tłumacz PL\n<BV>Animjarcanin <N>- Traduction FR\n<BV>Bublamorce <N>- CZ Překlad"},
+		[6] = {"Special Thanks","<R>Bolodefchoco <N>- CEO + EN Translation + Tradução BR\n<BV>Tocuto<J>eltuco <N>- Traducción ES + Little Code\n<BV>Error<CE>_404 <N>- الترجمة AR + Map evaluation\n<J>Squalleze <N>- Little Code\n<PT>Lukamoii <N>- Ideas\n<CE>Error_404, Ujkos, Kimsterjay, Pratton and Mabste <N>- Map Evaluation\n<BV>Chamelinct <N>- Traducción ES\n<BV>Distances en Kalkoen <N>- NL Translation\n<BV>Aanguson <N>- Tłumacz PL\n<BV>Animjarcanin <N>- Traduction FR\n<BV>Bublamorce <N>- CZ Překlad"},
 	},
 	hints = {
 		[1] = "Do NOT forget to ENABLE the particle effects (In options, next to the Café, the 7th option).",
@@ -318,7 +318,7 @@ T.br = {
 		[3] = {"Estatísticas","<N>• <J>Nível <G>- O maior que nível que você pode alcançar é %s.\n<N>• <J>Título <G>- O título do nível atual (%s títulos)\n<N>• <J>Experiência <G>- Calcula quantos pontos você já tem e quantos você precisa para subir de nível\n<N>• <J>Partidas <G>- Calcula quantas partidas você já jogou\n<N>• <J>Vitórias <G>- Calcula quantas vitórias você tem <R>(+%s por vitória ou a cada 35 minutos)\n<N>• <J>Mortos <G>- Calcula quantos ratos você matou\n<N>• <J>Proporção do Perfil <G>- A proporção entre <I>Partidas, Vitórias</I> e <I>Mortos"},
 		[4] = {"Mapas","<CEP>Envie seus mapas aqui: %s\n\n<CS>A lista completa de mapas abaixo: (%s)\n%s"},
 		[5] = {"Admins","<PT>Para criar uma sala com admins, certifique-se de adicionar o nickname depois de alguns números <VP>(/sala %s)\n<R>Estatísticas não vão contar se você alterar o tempo de jogo ou colocar o número máximo de jogadores em menos de 8 jogadores.\n\n<BV>!%s <CH>Número/Texto <G>- Altera o limite de jogadores na sala (2-18)\n<BV>!%s <CH>Id <G>- Renomeia o bot\n<BV>!%s <CH>Tempo <G>- Altera o tempo padrão das partidas\n<BV>!%s <CH>Nome <G>- Dá/Remove admin para alguém"},
-		[6] = {"Agradecimentos Especiais","<R>Bolodefchoco <N>- CEO + EN Translation + Tradução BR\n<BV>Tocuto<J>eltuco <N>- Traducción ES + Little Code\n<BV>Error<CE>_404 <N>- الترجمة AR + Map evaluation\n<J>Squalleze <N>- Little Code\n<PT>Lukamoii <N>- Ideas\n<CE>Ujkos, Yukariie and Kimsterjay <N>- Map Evaluation\n<BV>Chamelinct <N>- Traducción ES\n<BV>Distances en Kalkoen <N>- NL Translation\n<BV>Aanguson <N>- Tłumacz PL\n<BV>Animjarcanin <N>- Traduction FR\n<BV>Bublamorce <N>- CZ Překl"},
+		[6] = {"Agradecimentos Especiais","<R>Bolodefchoco <N>- CEO + EN Translation + Tradução BR\n<BV>Tocuto<J>eltuco <N>- Traducción ES + Little Code\n<BV>Error<CE>_404 <N>- الترجمة AR + Map evaluation\n<J>Squalleze <N>- Little Code\n<PT>Lukamoii <N>- Ideas\n<CE>Error_404, Ujkos, Kimsterjay, Pratton and Mabste <N>- Map Evaluation\n<BV>Chamelinct <N>- Traducción ES\n<BV>Distances en Kalkoen <N>- NL Translation\n<BV>Aanguson <N>- Tłumacz PL\n<BV>Animjarcanin <N>- Traduction FR\n<BV>Bublamorce <N>- CZ Překl"},
 	},
 	hints = {
 		[1] = "NÃO se esqueça de ATIVAR os efeitos especiais (Nas opções, ao lado do Café, a 7ª opção)!",
@@ -419,7 +419,7 @@ T.es = {
 		[3] = {"Estadísticas","<N>• <J>Nivel <G>- El nivel más alto al que puedes llegar es %s.\n<N>• <J>Título <G>- El título del nivel actual (%s títulos)\n<N>• <J>Experiencia <G>- Calcula cuántos puntos ya tienes y cuántos puntos necesitas para subir de nivel\n<N>• <J>Rondas <G>- Calcula cuántas rondas has jugado\n<N>• <J>Victorias <G>- Calcula cuántas victorias tienes <R>(+%s por victoria o cada 35 minutos)\n<N>• <J>Matanzas <G>- Calcula cuántos ratones has matado\n<N>• <J>Porcentaje del perfil <G>- El porcentaje entre <I>Rondas, Victorias</I> y <I>Matanzas"},
 		[4] = {"Mapas","<CEP>Envía tus mapas aquí: %s\n\n<CS>La lista completa de mapas abajo: (%s)\n%s"},
 		[5] = {"Admins","<PT>Para crear una sala con administradores, asegúrate de añadir el nombre de usuario luego de algunos números <VP>(/room %s)\n<R>Las estadísticas no contarán si cambias el tiempo de la ronda o poner el máximo de jugadores en menos de 8 jugadores.\n\n<BV>!%s <CH>Número/Texto <G>- Cambia el límite de jugadores en la sala (2-18)\n<BV>!%s <CH>Id <G>- Cambia el nombre del bot\n<BV>!%s <CH>Tiempo <G>- Cambia el tiempo de las rondas\n<BV>!%s <CH>Nombre <G>- Da/Remueve el poder de administrar de alguien"},
-		[6] = {"Agradecimientos Especiales","<R>Bolodefchoco <N>- CEO + EN Translation + Tradução BR\n<BV>Tocuto<J>eltuco <N>- Traducción ES + Little Code\n<BV>Error<CE>_404 <N>- الترجمة AR + Map evaluation\n<J>Squalleze <N>- Little Code\n<PT>Lukamoii <N>- Ideas\n<CE>Ujkos, Yukariie and Kimsterjay <N>- Map Evaluation\n<BV>Chamelinct <N>- Traducción ES\n<BV>Distances en Kalkoen <N>- NL Translation\n<BV>Aanguson <N>- Tłumacz PL\n<BV>Animjarcanin <N>- Traduction FR\n<BV>Bublamorce <N>- CZ Překl"},
+		[6] = {"Agradecimientos Especiales","<R>Bolodefchoco <N>- CEO + EN Translation + Tradução BR\n<BV>Tocuto<J>eltuco <N>- Traducción ES + Little Code\n<BV>Error<CE>_404 <N>- الترجمة AR + Map evaluation\n<J>Squalleze <N>- Little Code\n<PT>Lukamoii <N>- Ideas\n<CE>Error_404, Ujkos, Kimsterjay, Pratton and Mabste <N>- Map Evaluation\n<BV>Chamelinct <N>- Traducción ES\n<BV>Distances en Kalkoen <N>- NL Translation\n<BV>Aanguson <N>- Tłumacz PL\n<BV>Animjarcanin <N>- Traduction FR\n<BV>Bublamorce <N>- CZ Překl"},
 	},
 	hints = {
 		[1] = "¡No te olvides de ACTIVAR los efectos de partículas! (En opciones, después del Café, la séptima opción).",
@@ -520,7 +520,7 @@ T.ar = {
 		[3] = {"الاحصائيات","<N>• <J>المستوى <G>- اعلى مستوى تستطيع الحصول عليه هو %s.\n<N>• <J>اللقب <G>- اللقب في هذا المستوى (%s الألقاب)\n<N>• <J>المهارة <G>- تقوم بحساب كم نقاط لديك وكم نقاط تلزمك للانتقال الى المستوى التالي\n<N>• <J>الجولات <G>- حساب عدد الجولات التي تم لعبها\n<N>• <J>الفوز <G>- حساب كم فوز قمة بالحصول عليه <R>(+%s لكل فوز او كل 35 دقائق)\n<N>• <J>القتل <G>- حساب عدد الفئران التي قمت بقتلها\n<N>• <J>النسبة للملف الشخصي <G>- النسبة بين <I>الجولات, الفوز</I> و <I>القتل"},
 		[4] = {"الخرائط","<CEP>ارسل الخرائط هنا: %s\n\n<CS>جميع الخرائط في هذه اللعبة الصغيرة:\n%s\n%s"},
 		[5] = {"المدراء","<PT>>لصناعة غرفة مع مدراء, تأكد من وضع اسمك بعد عدة ارقام <VP>(/room %s)\n<R>الاحصائيات لن تحسب اذا قمت بتغيير توقيت الجولة او وضعت الحد الأقصى لللاعبين في الغرفة  8 لاعبين.\n\n<BV>!%s <CH>رقم/السلسلة <G>- تغيير عدد اللاعبين في الغرفة (3-20)\n<BV>!%s <CH>الاسم الجديد <G>- تغيير اسم الروبوت\n<BV>!%s <CH>الوقت <G>- تغيير توقيقت الجولات\n<BV>!%s <CH>الاسم <G>- اعطاء/ازالة القوى من شخص"},
-		[6] = {"شكر خاص لـ","<R>Bolodefchoco <N>- CEO + EN Translation + Tradução BR\n<BV>Tocuto<J>eltuco <N>- Traducción ES + Little Code\n<BV>Error<CE>_404 <N>- الترجمة AR + Map evaluation\n<J>Squalleze <N>- Little Code\n<PT>Lukamoii <N>- Ideas\n<CE>Ujkos, Yukariie and Kimsterjay <N>- Map Evaluation\n<BV>Chamelinct <N>- Traducción ES\n<BV>Distances en Kalkoen <N>- NL Translation\n<BV>Aanguson <N>- Tłumacz PL\n<BV>Animjarcanin <N>- Traduction FR\n<BV>Bublamorce <N>- CZ Překl"},
+		[6] = {"شكر خاص لـ","<R>Bolodefchoco <N>- CEO + EN Translation + Tradução BR\n<BV>Tocuto<J>eltuco <N>- Traducción ES + Little Code\n<BV>Error<CE>_404 <N>- الترجمة AR + Map evaluation\n<J>Squalleze <N>- Little Code\n<PT>Lukamoii <N>- Ideas\n<CE>Error_404, Ujkos, Kimsterjay, Pratton and Mabste <N>- Map Evaluation\n<BV>Chamelinct <N>- Traducción ES\n<BV>Distances en Kalkoen <N>- NL Translation\n<BV>Aanguson <N>- Tłumacz PL\n<BV>Animjarcanin <N>- Traduction FR\n<BV>Bublamorce <N>- CZ Překl"},
 	},
 	hints = {
 		[1] = "لا تنسى تفعيل عرض المؤثرات الخاصة (في الاعدادات, بالقرب من الكافي, الاختيار السابع في الاعدادات) لتجاهل الاعلانات,اكتب",
@@ -621,7 +621,7 @@ T.nl = {
 		[3] = {"Stats","<N>• <J>Level <G>- De hoogste level die je kunt behalen is %s.\n<N>• <J>Titel <G>- De titel van je huidige level (%s titels)\n<N>• <J>Ervaring <G>- Rekent uit hoeveel punten je hebt en hoeveel punten je nodig hebt om level up te komen\n<N>• <J>Rondes <G>- Rekent uit hoeveel rondes je hebt gespeeld\n<N>• <J>Overwinningen <G>- Rekent uit hoevaak je hebt gewonnen <R>(+%s per win of elke 35 minuten)\n<N>• <J>Gedood <G>- Rekent uit hoeveel muizen je hebt gedood\n<N>• <J>Profiel Ratio <G>- De ratio tussen <I>Rondes, Wins</I> en <I>Gedood"},
 		[4] = {"Maps","<CEP>Stuurt je map hierin: %s\n\n<CS>De complete maplijst hieronder: (%s)\n%s"},
 		[5] = {"Admins","<PT>Om een kamer te maken met een admin, zorg ervoor om de gebruikersnaam toe te voegen achter wat nummers <VP>(/room %s)\n<R>Stats tellen niet mee, als je de tijd van een ronde aanpast als je de maximale spelersaantal veranderd naar minder dan 8 in de kamer.\n\n<BV>!%s <CH>Nummer/String <G>- Verandert het limiet aan muizen in de kamer (2-18)\n<BV>!%s <CH>Id <G>- Verandert de naam van de bot\n<BV>!%s <CH>Tijd <G>- Verandert de tijd van de ronde\n<BV>!%s <CH>Naam <G>- Maak/verwijder iemand als admin"},
-		[6] = {"Speciale Dank","<R>Bolodefchoco <N>- CEO + EN Translation + Tradução BR\n<BV>Tocuto<J>eltuco <N>- Traducción ES + Little Code\n<BV>Error<CE>_404 <N>- الترجمة AR + Map evaluation\n<J>Squalleze <N>- Little Code\n<PT>Lukamoii <N>- Ideas\n<CE>Ujkos, Yukariie and Kimsterjay <N>- Map Evaluation\n<BV>Chamelinct <N>- Traducción ES\n<BV>Distances en Kalkoen <N>- NL Translation\n<BV>Aanguson <N>- Tłumacz PL\n<BV>Animjarcanin <N>- Traduction FR\n<BV>Bublamorce <N>- CZ Překl"},
+		[6] = {"Speciale Dank","<R>Bolodefchoco <N>- CEO + EN Translation + Tradução BR\n<BV>Tocuto<J>eltuco <N>- Traducción ES + Little Code\n<BV>Error<CE>_404 <N>- الترجمة AR + Map evaluation\n<J>Squalleze <N>- Little Code\n<PT>Lukamoii <N>- Ideas\n<CE>Error_404, Ujkos, Kimsterjay, Pratton and Mabste <N>- Map Evaluation\n<BV>Chamelinct <N>- Traducción ES\n<BV>Distances en Kalkoen <N>- NL Translation\n<BV>Aanguson <N>- Tłumacz PL\n<BV>Animjarcanin <N>- Traduction FR\n<BV>Bublamorce <N>- CZ Překl"},
 	},
 	hints = {
 		[1] = "Vergeet NIET om de special Effects in te schakelen (In opties, naast het Café, de 7e optie).",
@@ -722,7 +722,7 @@ T.pl = {
 		[3] = {"Statystyki","<N>• <J>Poziom <G>- Najwyższy poziom jaki możesz osiągnąć to %s\n<N>• <J>Tytuł <G>- Tytuł danego poziomu (%s tytułów)\n<N>• <J>Doświadczenie <G>- Pokazuje ile punktów posiadasz, a także ile ci brakuje do następnego poziomu\n<N>• <J>Rundy <G>- Pokazuje ile rund rozegrałeś\n<N>• <J>Wygrane <G>- Pokazuje ile zwycięstw masz na swoim koncie<R>(+%s za zwycięstwo lub co 10 minut)\n<N>• <J>Zabójstwa <G>- Pokazuje ile myszy zabiłeś\n<N>• <J>Współczynnik profilu <G>- Stosunek między <I>Rundami, Wygranymi,</I> a <I>Zabójstwami"},
 		[4] = {"Mapy","<CEP>Wysślij swoje mapy tu: %s\n\n<CS>Kompletna lista map poniżej: (%s)\n%s"},
 		[5] = {"Administratorzy","<PT>Aby stworzyć pokój z administratorami, dodaj swoją nazwę użytkownika po dowolnej liczbie <VP>(/room %s)\n<R> Statystyki nie będą naliczane jeśli zmienisz czas rundy lub ustawisz maksymalną liczbę graczy na 8 lub mniej\n\n<BV>!%s <CH>Liczba <G>- Zmienia limit graczy w pokoju (2-18)\n<BV>!%s <CH>Nazwa <G>- Zmienia nazwę bota\n<BV>!%s <CH>Czas <G>- Zmienia czas trwania rund\n<BV>!%s <CH>Nazwa <G>- Daje/Usuwa uprawnienia administratora z wybranej osoby."},
-		[6] = {"Specjalne podziękowania","<R>Bolodefchoco <N>- CEO + EN Translation + Tradução BR\n<BV>Tocuto<J>eltuco <N>- Traducción ES + Little Code\n<BV>Error<CE>_404 <N>- الترجمة AR + Map evaluation\n<J>Squalleze <N>- Little Code\n<PT>Lukamoii <N>- Ideas\n<CE>Ujkos, Yukariie and Kimsterjay <N>- Map Evaluation\n<BV>Chamelinct <N>- Traducción ES\n<BV>Distances en Kalkoen <N>- NL Translation\n<BV>Aanguson <N>- Tłumacz PL\n<BV>Animjarcanin <N>- Traduction FR\n<BV>Bublamorce <N>- CZ Překl"},
+		[6] = {"Specjalne podziękowania","<R>Bolodefchoco <N>- CEO + EN Translation + Tradução BR\n<BV>Tocuto<J>eltuco <N>- Traducción ES + Little Code\n<BV>Error<CE>_404 <N>- الترجمة AR + Map evaluation\n<J>Squalleze <N>- Little Code\n<PT>Lukamoii <N>- Ideas\n<CE>Error_404, Ujkos, Kimsterjay, Pratton and Mabste <N>- Map Evaluation\n<BV>Chamelinct <N>- Traducción ES\n<BV>Distances en Kalkoen <N>- NL Translation\n<BV>Aanguson <N>- Tłumacz PL\n<BV>Animjarcanin <N>- Traduction FR\n<BV>Bublamorce <N>- CZ Překl"},
 	},
 	hints = {
 		[1] = "Nie zapomnij WŁĄCZYĆ efektów cząsteczkowych (W opcjach obok Café, 7 opcja).",
@@ -823,7 +823,7 @@ T.fr = {
 		[3] = {"Statistiques","<N>• <J>Niveau <G>- Le plus haut niveau que vous pouvez atteindre est %s\n<N>• <J>Titre <G>- Le titre correspondant au niveau actuel (%s titles)\n<N>• <J>Éxperience <G>- Nombre de points d'expérience que vous avez et combien il vous en manque pour monter de niveau\n<N>• <J>Parties <G>- Nombre de parties jouées\n<N>• <J>Victoires <G>- Nombre de victoires <R>(+%s par victoire ou toutes les 35 minutes)\n<N>• <J>Souris tués <G>- Nombre de souris tués par vos soins\n<N>• <J>Ratio <G>- Le ratio entre nombre de <I>parties, victoires</I> et <I>morts"},
 		[4] = {"Cartes","<CEP>Envoyez vos cartes ici : %s\n\n<CS>Liste complète des cartes ci-dessous : (%s)\n%s"},
 		[5] = {"Admins","<PT>Pour créer un salon avec des administrateurs, assurez vous d'ajouter dans le nom du salon votre pseudo après une suite de chiffres <VP>(/room %s)\n<R>Les statistiques ne comptent pas si vous changez le temps de jeu ou si le maximum de joueurs dans le salon est fixé en-dessous de 8.\n\n<BV>!%s <CH>Nombre/Mot <G>- Change la limite de joueurs dans le salon (2-18)\n<BV>!%s <CH>Id <G>- Renomme le bot\n<BV>!%s <CH>Temps <G>- Change la durée d'une partie\n<BV>!%s <CH>Nom <G>- Donne ou retire les droits d'administrer le salon au joueur mentionné."},
-		[6] = {"Remerciements Spéciaux","<R>Bolodefchoco <N>- CEO + EN Translation + Tradução BR\n<BV>Tocuto<J>eltuco <N>- Traducción ES + Little Code\n<BV>Error<CE>_404 <N>- الترجمة AR + Map evaluation\n<J>Squalleze <N>- Little Code\n<PT>Lukamoii <N>- Ideas\n<CE>Ujkos, Yukariie and Kimsterjay <N>- Map Evaluation\n<BV>Chamelinct <N>- Traducción ES\n<BV>Distances en Kalkoen <N>- NL Translation\n<BV>Aanguson <N>- Tłumacz PL\n<BV>Animjarcanin <N>- Traduction FR\n<BV>Bublamorce <N>- CZ Překl"},
+		[6] = {"Remerciements Spéciaux","<R>Bolodefchoco <N>- CEO + EN Translation + Tradução BR\n<BV>Tocuto<J>eltuco <N>- Traducción ES + Little Code\n<BV>Error<CE>_404 <N>- الترجمة AR + Map evaluation\n<J>Squalleze <N>- Little Code\n<PT>Lukamoii <N>- Ideas\n<CE>Error_404, Ujkos, Kimsterjay, Pratton and Mabste <N>- Map Evaluation\n<BV>Chamelinct <N>- Traducción ES\n<BV>Distances en Kalkoen <N>- NL Translation\n<BV>Aanguson <N>- Tłumacz PL\n<BV>Animjarcanin <N>- Traduction FR\n<BV>Bublamorce <N>- CZ Překl"},
 	},
 	hints = {
 		[1] = "N'OUBLIE pas d'activer les particules (dans le menu option, à droite du Café, 7ème icône).",
@@ -924,7 +924,7 @@ T.cz = {
 		[3] = {"Statistiky","<N>• <J>Level <G>- Nejvyšší level,kterého můžeš dosáhnout je %s.\n<N>• <J>Titul <G>- Název kola, které je právě hrané (%s titles)\n<N>• <J>Zkušenost <G>- Spočítá kolik bodů právě máš a kolik potřebuješ pro další level\n<N>• <J>Kola <G>- Spočítá,kolik kol jsi hrál\n<N>• <J>Výhry <G>- Spočítá,kolikrát jsi vyhrál <R>(+%s za výhru nebo každých 35 minut)\n<N>• <J>Zabití <G>- Spočítá,kolik myší jsi zabil\n<N>• <J>Profilová hodnota <G>- Hodnota mezi <I>Koly, Vítězstvími</I> and <I>Zabitími"},
 		[4] = {"Mapy","<CEP>Pošli své mapy zde: %s\n\n<CS>Kompletní list map: (%s)\n%s"},
 		[5] = {"Admini","<PT>Pro vytvoření místnosti, přidej do názvu přezdívku a nějaká čísla <VP>(/room %s)\n<R>Statistiky se nebudou počítat pokud změníš čas kola a nebo nastavíš maximum hráčů v místnosti větší než 8.\n\n<BV>!%s <CH>Number/String <G>- Změní limit hráčů v místnosti (2-18)\n<BV>!%s <CH>Id <G>- Přejmenuje bota\n<BV>!%s <CH>Time <G>- Změní čas kola\n<BV>!%s <CH>Name <G>- Dá/Oddělá někomu adminská práva"},
-		[6] = {"Speciální poděkování","<R>Bolodefchoco <N>- CEO + EN Translation + Tradução BR\n<BV>Tocuto<J>eltuco <N>- Traducción ES + Little Code\n<BV>Error<CE>_404 <N>- الترجمة AR + Map evaluation\n<J>Squalleze <N>- Little Code\n<PT>Lukamoii <N>- Ideas\n<CE>Ujkos, Yukariie and Kimsterjay <N>- Map Evaluation\n<BV>Chamelinct <N>- Traducción ES\n<BV>Distances en Kalkoen <N>- NL Translation\n<BV>Aanguson <N>- Tłumacz PL\n<BV>Animjarcanin <N>- Traduction FR\n<BV>Bublamorce <N>- CZ Překl"},
+		[6] = {"Speciální poděkování","<R>Bolodefchoco <N>- CEO + EN Translation + Tradução BR\n<BV>Tocuto<J>eltuco <N>- Traducción ES + Little Code\n<BV>Error<CE>_404 <N>- الترجمة AR + Map evaluation\n<J>Squalleze <N>- Little Code\n<PT>Lukamoii <N>- Ideas\n<CE>Error_404, Ujkos, Kimsterjay, Pratton and Mabste <N>- Map Evaluation\n<BV>Chamelinct <N>- Traducción ES\n<BV>Distances en Kalkoen <N>- NL Translation\n<BV>Aanguson <N>- Tłumacz PL\n<BV>Animjarcanin <N>- Traduction FR\n<BV>Bublamorce <N>- CZ Překl"},
 	},
 	hints = {
 		[1] = "Nezapomeň ZAPNOUT malé efekty (V nastavení, vedle Café, sedmý řádek).",
@@ -1107,7 +1107,7 @@ end
 system.admins=function()
 	if not adminRoom[1] then
 		if isRoom then
-			local name = tfm.get.room.name:match("%**#"..data.game:lower().."%d+(%d-.*)")
+			local name = tfm.get.room.name:match("%*?#"..data.game:lower().."%d+(.*)")
 			local name = string.nick(tostring(name))
 			if tfm.get.room.playerList[name] and not table.find(admins,name) then
 				adminRoom[1] = true
@@ -1512,7 +1512,7 @@ eventNewPlayer=function(n)
 			isAfk = {true,0},
 			graphics = true,
 			-- Data
-			level = {65,"",""}, -- Level, Title, #Color
+			level = {99,"",""}, -- Level, Title, #Color
 			time = 0, -- Time played
 			lbto = 0,
 			healthbarp = 1,
