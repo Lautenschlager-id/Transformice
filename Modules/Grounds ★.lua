@@ -4,7 +4,7 @@ system.isRoom = tfm.get.room.name:byte(2) ~= 3
 system.roomAdmins = {}
 system.roomAttributes = system.isRoom and tfm.get.room.name:match("%*?#"..system.module.."%d+(.*)") or ""
 system.roomSettings = {
-	["@"] = function(value)
+	["@"] = function(n)
 		system.roomAdmins[string.nick(n)] = true
 	end
 }
