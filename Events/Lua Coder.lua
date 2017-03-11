@@ -20,7 +20,7 @@ system.translation = {
 		fragments = "Fragments",
 		found = "You found something here!",
 		notFound = "Nothing was found here! Try another place and come back later.",
-		notDecoration = "Someone already found something here before. Try somewhere else.",
+		notDecoration = "Someone has already found something here before. Try somewhere else.",
 		wordSameError = "You can't select the same word!",
 		wordDifRowError = "You can't select a word from a different line!",
 		wordNotWordError = "You can't select this word!",
@@ -196,7 +196,7 @@ system.translation = {
 		dataTry = "Așteaptă! Datele tale se încarcă...",
 		dataFail = "Datele tale nu pot fi încărcate :( Încearcă din nou în urmatoarea mapă.",
 		dataSuccess = "Date încărcate!",
-		findFragments = "Some Lua code fragments were stolen! The thief hid the fragments <B>behind</B> some objects. Find these fragments and organize them in your compile to win a prize!",
+		findFragments = "Some Lua codul fragmente au fost furate! Hoţ ascuns fragmente <B>din spatele</B> unor obiecte. Găsi aceste fragmente şi să le organizaţi în compila dumneavoastră pentru a câştiga un premiu!",
 		fragments = "Fragmente",
 		found = "Ai găsit ceva aici!",
 		notFound = "Nothing was found here! Try another place and come back later.",
@@ -244,7 +244,7 @@ system.translation = {
 		submit = "Отправить",
 		close = "Закрыть",
 		allFrag = "Вы нашли все фрагменты!",
-		putInOrder = "Organize all the fragments you found by clicking in the word [cell] or line [row]. Are you able to program for the first time?",
+		putInOrder = "упорядочить все найденные фрагменты нажав на слово [ячейка] или строку [ряд]. Можете ли вы начать программу в первый раз?",
 		dataTry = "Подождите! Ваши данные загружаются...",
 		dataFail = "Невозможно загрузить ваши данные :( Попробуйте на следующей карте",
 		dataSuccess = "Данные загружены!",
@@ -261,7 +261,6 @@ system.translation = {
 		roomBarDecoration = "Декорации",
 		mapInfo = "%s <G>- <PS>XML сделан %s",
 	},
-	hu = {}
 }
 system.translation.pt = system.translation.br
 
@@ -273,6 +272,8 @@ system.community = system.translation[system.community]
 
 --[[ Main Vars ]]--
 currentTime,timeLeft = 0,0
+system.mapName = ""
+system.mapHeight = 400
 system.staff = {
 	dev = {"Bolodefchoco"},
 	translators = {"Error_404","Sebafrancuz","Tocutoeltuco","Alessyaxd","Sweetphoenix","Miwakiko","Hikariblabla","Miyakogotoku"}
@@ -637,7 +638,7 @@ system.showCancelCallback = function(n)
 			return string.format(href .. " " .. formats[id],callback,(#v[2] > 12 and v[2]:sub(1,12).."<BV>...</BV>" or v[2]))
 		end)
 		
-		ui.addTextArea(7,"<R><font size='13'>"..system.community.cancel.."\n<font size='11'>\n" .. text,n,10,50,154,130,0x272834,1,1,true)
+		ui.addTextArea(7,"<R><font size='13'>"..system.community.cancel.."\n<font size='11'>\n" .. text,n,10,50,140,130,0x272834,1,1,true)
 	end
 end
 system.triggerCompiler = function(n,done)
@@ -645,13 +646,14 @@ system.triggerCompiler = function(n,done)
 		system.updateCompilerCode(n)
 	end
 
-	ui.addTextArea(0,"",n,180,50,440,322,0x272834,1,1,true)
-	ui.addTextArea(1,info[n].compiler.codeLines,n,184,55,25,280,1,1,0,true)
-	ui.addTextArea(2,"",n,214,349,400,15,0x5F8093,0x5F8093,1,true)
-	ui.addTextArea(3,"",n,215,351,400,15,0x000000,0x000000,1,true)
-	ui.addTextArea(4,"",n,215,350,400,15,0x3C5064,0x3C5064,1,true)
-	ui.addTextArea(5,"<p align='center'>" .. (done and "<a href='event:compiler.close'>" .. system.community.close or "<a href='event:compiler.submit'>" .. system.community.submit),n,374,350,100,20,0x324650,1,0,true)
-	ui.addTextArea(6,info[n].compiler.code[1],n,215,55,400,280,-1,0x425b68,1,true)
+	local range = system.mapHeight - 400
+	ui.addTextArea(0,"",n,180,range + 50,440,322,0x272834,1,1,false)
+	ui.addTextArea(1,info[n].compiler.codeLines,n,184,range + 55,25,280,1,1,0,false)
+	ui.addTextArea(2,"",n,214,range + 349,400,15,0x5F8093,0x5F8093,1,false)
+	ui.addTextArea(3,"",n,215,range + 351,400,15,1,1,1,false)
+	ui.addTextArea(4,"",n,215,range + 350,400,15,0x3C5064,0x3C5064,1,false)
+	ui.addTextArea(5,"<p align='center'>" .. (done and "<a href='event:compiler.close'>" .. system.community.close or "<a href='event:compiler.submit'>" .. system.community.submit),n,374,range + 350,100,20,0x324650,1,0,false)
+	ui.addTextArea(6,info[n].compiler.code[1],n,215,range + 55,400,280,-1,0x425b68,1,false)
 end
 system.updateCompilerCode = function(n)
 	info[n].compiler.code[2] = false
@@ -696,7 +698,7 @@ end
 
 	--[[ Misc ]]--
 updateDecorationsRoomBar = function()
-	ui.setShamanName("<a:active>Thief   <G>|   <N>Decorations : <V>" .. (function()
+	ui.setMapName(system.mapName .. "   <G>|   <N>Decorations : <V>" .. (function()
 		local decorations = 0
 		for k,v in next,system.mapDecorations do
 			if v.available then
@@ -715,7 +717,7 @@ system.isTesting = tfm.get.room.name:byte(2) == 3
 if system.isTesting then
 	BOLODEFCHOCO_DATA = {
 		PLAYER_DATA = {
-			Bolodefchoco = ":luaCoderTriggerCompiler_!false;:luaCoderCurrentFragments_%+&:1_@<VI>end?:2_@<N>tfm.exec.killPlayer?:3_@<VI>local?:4_@<N2>(<CE>\"%s\"<N2>)?:5_@<VI>end?:6_@<N2>(<N>playerName<N2>)?:7_@<N2>(<N>playerName<N2>,<N>event_title<N2>)?:8_@<N2>=?:9_@<N>eventPlayerRespawn?:10_@<N>system.giveEventGift?:11_@<VI>if?:12_@<CE>\"Lua Coder\"?:13_@<VI>not?:14_@<N>tfm.get.room.playerList[<CE>\"%s\"<N>].isVampire?:15_@<VI>function?:16_@<N>eventPlayerVampire?:17_@<VI>function?:18_@<N>tfm.exec.respawnPlayer?:19_@<N>tfm.exec.setVampirePlayer?&-;:luaCoderFragment_#3;:luaCoder_!false;",
+			Bolodefchoco = ":luaCoderTriggerCompiler_!true;:luaCoderCurrentFragments_%+&:1_@<VI>end?:2_%+&:1_@<N2>(<CE>\"%s\"<N2>)?:2_@<N>tfm.exec.killPlayer?&-?:3_%+&:1_@<VI>not?:2_@<N>tfm.get.room.playerList[<CE>\"%s\"<N>].isVampire?:3_@<VI>then?:4_@<VI>if?&-?:4_@<VI>end?:5_%+&:1_@<N2>(<CE>\"%s\"<N2>)?:2_@<N>tfm.exec.setVampirePlayer?&-?:6_%+&:1_@<N2>(<N>playerName<N2>,<N>event_title<N2>)?:2_@<N>system.giveEventGift?&-?:7_%+&:1_@<N>eventPlayerRespawn?:2_@<N2>(<N>playerName<N2>)?:3_@<VI>function?&-?:8_%+&:1_@<N2>(<CE>\"%s\"<N2>)?:2_@<N>tfm.exec.respawnPlayer?&-?:9_@<VI>end?:10_%+&:1_@<N>eventPlayerVampire?:2_@<N2>(<N>playerName<N2>)?:3_@<VI>function?&-?:11_%+&:1_@<N2>=?:2_@<N>event_title?:3_@<CE>\"Lua Coder\"?:4_@<VI>local?&-?&-;:luaCoderFragment_#3;:luaCoder_!false;",
 		}
 	}
 	system.savePlayerData = function(n,d)
@@ -794,6 +796,13 @@ end
 info = {}
 system.mapDecorations = {}
 eventNewGame = function()
+	tfm.get.room.xmlMapInfo.xml:gsub("<P (.-)/>",function(attributes)
+		local height = attributes:match("H=\"(%d+)\"")
+		system.mapHeight = height and tonumber(height) or 400
+	end,1)
+
+	tfm.exec.setGameTime(3.5 * 60)
+
 	system.mapDecorations = {}
 	local xml = tfm.get.room.xmlMapInfo.xml:match("<D>(.*)</D>")
 	if xml then
@@ -844,7 +853,7 @@ eventNewGame = function()
 		eventPlayerDataLoading(k,1)
 	end
 
-	ui.setMapName("<J>#" .. table.random({"Bolodefchoco","Lua event","Lua"}).." <G>- @"..table.random({666,404,801,os.date("%Y"),0,1}))
+	system.mapName = "<J>#" .. table.random({"Bolodefchoco","Lua event",system.xml[2]}).." <G>- @"..table.random({666,404,801,os.date("%Y"),0,1})
 	updateDecorationsRoomBar()
 	system.xml[3] = ""
 end
@@ -915,7 +924,6 @@ eventTextAreaCallback = function(i,n,c)
 	end
 	if p[1] == "compiler" then
 		if p[2] == "fragment" then
-			eventTextAreaCallback(i,n,"compiler.cancel.line")
 			p[3] = tonumber(p[3])
 			p[4] = tonumber(p[4])
 			
@@ -1062,7 +1070,9 @@ for i,f in next,{"AutoShaman","AfkDeath","MortCommand","AutoTimeLeft","PhysicalC
 end
 
 system.maps = {
-	[1] = {"Bolodefchoco","The Nothing",'<C><P DS="m;55,985,175,985,295,985,415,985,535,985" F="2" L="2500" H="1000" /><Z><S><S H="400" L="710" o="6a7596" X="355" c="4" Y="800" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="20" o="1d1d1d" H="400" X="10" Y="800" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="700" o="1d1d1d" X="350" H="20" Y="610" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S P="0,0,0.3,0.2,0,0,0,0" L="700" o="1d1d1d" H="20" Y="990" T="12" X="360" /><S L="20" o="1d1d1d" X="700" H="300" Y="750" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="1800" H="20" X="1600" Y="990" T="6" P="0,0,0.3,0.2,0,0,0,0" /><S L="1000" X="1210" H="20" Y="890" T="6" P="0,0,0.3,0.2,0,0,0,0" /></S><D><P C="8a311b" Y="985" T="19" X="55" P="1,0" /><DS Y="945" X="55" /><P C="8a311b" Y="985" T="19" P="1,0" X="175" /><P C="8a311b" Y="985" T="19" X="295" P="1,0" /><P C="8a311b" Y="985" T="19" P="1,0" X="415" /><P C="8a311b" Y="985" T="19" X="535" P="1,0" /><P P="0,0" Y="980" T="0" X="928" /><P P="1,0" Y="981" T="5" X="1218" /><P P="1,0" Y="982" T="4" X="785" /><P P="1,0" Y="983" T="13" X="967" /><P P="0,1" Y="983" T="106" X="1504" /><P P="1,0" Y="980" T="115" X="1531" /><P P="0,0" C="784939,15a335" Y="976" T="127" X="1753" /><P P="0,1" Y="880" T="1" X="1526" /><P P="1,1" Y="881" T="1" X="1289" /><P P="1,1" Y="880" T="1" X="1412" /><P P="0,0" Y="879" T="1" X="1351" /><P P="0,0" Y="881" T="1" X="1476" /><P P="0,0" C="57703e,e14698" Y="897" T="18" X="1119" /><P P="0,1" C="57703e,e14698" Y="897" T="18" X="1136" /><P C="57703e,e14698" Y="883" T="18" X="1127" P="1,0" /><P P="1,0" Y="880" T="12" X="929" /><P P="1,1" Y="879" T="12" X="985" /><P P="1,0" Y="879" T="12" X="1043" /><P P="1,1" Y="882" T="69" X="801" /><P P="1,0" C="e75082" Y="881" T="91" X="752" /><P P="1,0" Y="883" T="118" X="1444" /><P P="1,0" Y="980" T="116" X="2189" /><P P="0,0" Y="908" T="43" X="2089" /><P P="0,0" Y="980" T="47" X="2317" /><P P="0,0" Y="981" T="42" X="2356" /><P P="1,0" Y="1030" T="40" X="2368" /><P P="1,0" Y="980" T="42" X="2421" /></D><O /></Z></C>'},
+	[1] = {"Bolodefchoco","Death's Mansion",'<C><P F="4" DS="m;55,545,175,545,295,545,415,545,535,545" defilante="0,0,0,1" L="2000" H="600" /><Z><S><S P="0,0,0.3,0.2,-20,0,0,0" L="320" o="272B29" H="130" c="4" Y="92" T="12" X="1883" /><S P="0,0,0.3,0.2,-35,0,0,0" L="240" o="272B29" H="150" c="4" Y="70" T="12" X="1870" /><S P="0,0,0.3,0.2,-70,0,0,0" L="150" o="272B29" H="180" c="4" Y="57" T="12" X="1980" /><S P="0,0,0.3,0.2,-90,0,0,0" L="150" o="272B29" H="180" c="4" Y="121" T="12" X="1966" /><S P="0,0,0.3,0.2,-40,0,0,0" L="100" o="272B29" H="80" c="4" Y="148" T="12" X="1699" /><S P="0,0,0.3,0.2,0,0,0,0" L="380" o="272B29" H="90" c="4" Y="146" T="12" X="1871" /><S P="0,0,0.3,0.2,0,0,0,0" L="130" o="272B29" H="50" c="4" Y="180" T="12" X="1701" /><S P="0,0,0.3,0.2,0,0,0,0" L="80" o="151515" X="1603" c="4" N="" Y="139" T="12" H="15" /><S P="0,0,0.3,0.2,-80,0,0,0" L="80" o="151515" X="1633" c="4" N="" Y="173" T="12" H="15" /><S P="0,0,0.3,0.2,-20,0,0,0" L="80" o="151515" X="1803" c="4" N="" Y="405" T="12" H="15" /><S L="20" o="1d1d1d" X="10" H="400" Y="400" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="700" o="1d1d1d" H="20" X="350" Y="210" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="400" o="1d1d1d" H="15" X="1570" Y="418" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="100" o="1d1d1d" H="150" X="796" Y="413" T="12" P="0,0,0.3,0.2,-40,0,0,0" /><S L="2025" o="1d1d1d" H="20" X="1022" Y="591" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="100" o="1d1d1d" H="280" X="740" Y="340" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="300" o="1d1d1d" H="350" X="1000" Y="627" T="12" P="0,0,0.3,0.2,60,0,0,0" /><S L="300" o="1d1d1d" H="300" X="1226" Y="560" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="113" H="63" X="1826" Y="545" T="12" P="0,0,.3,.8,0,0,0,0" /><S L="120" o="1d1d1d" H="15" X="1884" Y="354" T="12" P="0,0,0.3,0.2,-40,0,0,0" /><S L="75" o="1d1d1d" H="15" X="1963" Y="317" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="400" o="1d1d1d" H="20" X="1105" Y="294" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="250" o="1d1d1d" H="20" X="1417" Y="252" T="12" P="0,0,0.3,0.2,-20,0,0,0" /><S L="530" o="1d1d1d" H="20" X="1796" N="" Y="200" T="12" P="0,0,0.3,0.2,-2,0,0,0" /><S L="94" H="73" X="1154" Y="247" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="350" o="1d1d1d" H="20" X="1782" N="" Y="40" T="12" P="0,0,2,0.2,-35,0,0,0" /><S L="30" o="1d1d1d" H="29" X="1733" Y="62" T="12" P="0,0,0.3,0.2,6,0,0,0" /><S L="84" H="22" X="1966" Y="169" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="43" H="10" X="1791" Y="159" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="200" o="1d1d1d" H="20" X="2007" Y="-17" T="12" P="0,0,0.3,0.2,25,0,0,0" /><S L="30" o="1d1d1d" H="25" X="1279" N="" Y="78" T="12" P="0,0,0.3,0.2,-30,0,0,0" /><S L="180" o="1d1d1d" H="20" X="2070" Y="100" T="12" P="0,0,0.3,0.2,-78,0,0,0" /><S L="30" o="1d1d1d" H="29" X="1299" N="" Y="76" T="12" P="0,0,0.3,0.2,6,0,0,0" /><S L="530" o="1d1d1d" H="20" X="1307" Y="93" T="12" P="0,0,0.3,0.2,10,0,0,0" /><S L="30" o="1d1d1d" H="29" X="1311" N="" Y="84" T="12" P="0,0,0.3,0.2,-34,0,0,0" /><S L="77" H="20" X="1373" Y="181" T="12" P="0,0,1,0.2,10,0,0,0" /><S L="80" o="1d1d1d" H="20" X="528" Y="171" T="12" P="0,0,0.3,0.2,-78,0,0,0" /><S L="530" o="1d1d1d" H="20" X="790" Y="93" T="12" P="0,0,0.3,0.2,-10,0,0,0" /><S L="140" o="1d1d1d" H="20" X="2023" Y="258" T="12" P="0,0,0.3,0.2,-65,0,0,0" /><S L="140" o="1d1d1d" H="20" X="2019" Y="381" T="12" P="0,0,0.3,0.2,75,0,0,0" /><S L="140" o="1d1d1d" H="20" X="2031" Y="514" T="12" P="0,0,0.3,0.2,95,0,0,0" /><S L="530" o="1d1d1d" H="30" X="1307" N="" Y="97" T="12" P="0,0,2,0.2,10,0,0,0" /><S L="530" o="1d1d1d" H="40" X="792" Y="103" T="12" P="0,0,0.3,0.2,-10,0,0,0" /><S L="280" o="1d1d1d" H="30" X="1063" Y="80" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="500" o="1d1d1d" H="20" X="1072" Y="94" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="530" o="1d1d1d" H="20" X="1072" Y="111" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="77" H="20" X="1760" Y="291" T="12" P="0,0,1,0.2,10,0,0,0" /><S P="0,0,0.3,0.2,-65,0,0,0" L="150" o="6A7495" H="100" c="4" Y="263" T="12" X="2086" /><S P="0,0,0.3,0.2,75,0,0,0" L="150" o="6A7495" H="100" c="4" Y="369" T="12" X="2076" /><S P="0,0,0.3,0.2,0,0,0,0" L="800" o="6A7495" H="500" c="4" Y="851" T="12" X="1103" /><S P="0,0,0.3,0.2,0,0,0,0" L="800" o="6A7495" H="500" c="4" Y="402" T="12" X="-400" /><S P="0,0,0.3,0.2,95,0,0,0" L="150" o="6A7495" H="100" c="4" Y="585" T="12" X="2085" /></S><D><P C="1c1e29,1c1e29" Y="133" T="117" X="863" P="0,0" /><P C="1c1e29,1c1e29" Y="133" T="117" X="526" P="0,0" /><P C="1c1e29,1c1e29" Y="114" T="117" X="651" P="0,0" /><P C="1c1e29,1c1e29" Y="201" T="117" X="-16" P="0,0" /><P C="1c1e29,1c1e29" Y="201" T="117" X="780" P="0,0" /><P C="1c1e29,1c1e29" Y="201" T="117" X="1241" P="0,0" /><P C="413653" Y="585" T="19" P="0,0" X="55" /><P C="413653" Y="585" T="19" X="175" P="0,0" /><P C="413653" Y="585" T="19" P="0,0" X="295" /><P C="413653" Y="585" T="19" X="415" P="0,0" /><P C="413653" Y="585" T="19" P="0,0" X="535" /><P C="cdc5bc,623b2a" Y="582" T="105" X="1434" P="0,0" /><P C="623b2a" Y="589" T="104" X="1507" P="0,0" /><P C="18585,c26900,10a61d,a3468e" Y="548" T="93" X="1517" P="1,1" /><P C="623b2a,a3468e" Y="585" T="94" X="1955" P="1,0" /><P C="593423" Y="584" T="95" X="1828" P="0,0" /><P C="850148" Y="512" T="100" X="1862" P="1,0" /><P C="2f2c2b,151414" Y="310" T="103" X="1962" P="1,0" /><P C="4d2e0f" Y="412" T="99" X="1458" P="1,0" /><P X="1555" Y="291" T="112" P="0,0" /><P C="1f1d1d" Y="287" T="15" X="1011" P="0,0" /><P C="222120" Y="288" T="96" X="1150" P="0,0" /><P C="443f39" Y="212" T="130" X="1124" P="1,0" /><P X="1747" Y="50" T="106" P="1,1" /><P C="1d152b" Y="191" T="120" X="1967" P="1,0" /><P X="1791" Y="154" T="121" P="1,0" /><P C="e8e9eb,31a7cf" Y="184" T="119" X="1885" P="1,0" /><P C="48230c" Y="89" T="20" X="1295" P="1,0" /><P C="dc7c3e,6a1925,2e3031,431d72" Y="102" T="102" X="1373" P="1,0" /><P X="532" Y="155" T="107" P="1,0" /><P X="637" Y="167" T="43" P="0,0" /><P X="694" Y="188" T="43" P="1,0" /><P X="750" Y="174" T="43" P="0,0" /><P X="18" Y="200" T="46" P="0,0" /><P X="58" Y="200" T="46" P="1,0" /><P X="98" Y="200" T="46" P="0,0" /><P X="138" Y="200" T="46" P="1,0" /><P X="178" Y="200" T="46" P="0,0" /><P X="218" Y="200" T="46" P="1,0" /><P X="258" Y="200" T="46" P="0,0" /><P X="298" Y="200" T="46" P="1,0" /><P X="87" Y="212" T="47" P="0,0" /><P X="225" Y="216" T="47" P="0,0" /><P X="410" Y="206" T="42" P="0,0" /><P X="440" Y="201" T="48" P="1,0" /><P X="497" Y="203" T="40" P="1,0" /><P C="6f4b8e" Y="79" T="85" X="872" P="1,0" /><P X="606" Y="248" T="108" P="0,0" /><P C="dc7c3e,6a1925,2e3031,431d72" Y="210" T="102" X="1760" P="1,0" /><P C="5b5651,-1" Y="358" T="98" X="804" P="1,1" /></D><O /></Z></C>'},
+	[2] = {"Bolodefchoco","Nowhere",'<C><P F="2" L="2000" DS="m;55,315,175,315,295,315,415,315,535,315" /><Z><S><S L="150" X="872" H="15" Y="345" T="2" P="0,0,0,1.2,-40,0,0,0" /><S L="800" X="420" H="20" Y="390" T="6" P="0,0,0.3,0.2,0,0,0,0" /><S L="400" H="20" X="10" Y="200" T="6" P="0,0,0.3,0.2,90,0,0,0" /><S L="700" X="350" H="20" Y="10" T="6" P="0,0,0.3,0.2,0,0,0,0" /><S L="300" X="700" H="20" Y="150" T="6" P="0,0,0.3,0.2,-90,0,0,0" /><S L="800" H="50" X="1321" N="" Y="294" T="6" P="0,0,0.3,0.2,0,0,0,0" /><S L="800" X="1600" H="50" Y="145" T="6" P="0,0,0.3,0.2,0,0,0,0" /><S L="200" H="50" X="810" Y="171" T="6" P="0,0,0.3,0.2,0,0,0,0" /><S L="800" H="20" X="1381" Y="390" T="6" P="0,0,0.3,0.2,0,0,0,0" /></S><D><P C="bfb51e" Y="385" T="19" X="55" P="0,0" /><P C="bfb51e" Y="385" T="19" P="0,0" X="175" /><P C="bfb51e" Y="385" T="19" X="295" P="0,0" /><P C="bfb51e" Y="385" T="19" P="0,0" X="415" /><P C="bfb51e" Y="385" T="19" X="535" P="0,0" /><P X="1027" Y="277" T="1" P="0,0" /><P X="1230" Y="269" T="0" P="1,0" /><P X="774" Y="380" T="4" P="0,0" /><P X="1216" Y="121" T="5" P="0,0" /><P X="904" Y="145" T="3" P="0,0" /><P X="825" Y="148" T="7" P="1,0" /><P C="48230c" Y="278" T="20" X="1239" P="0,0" /><P X="1380" Y="122" T="12" P="0,0" /><P X="1436" Y="121" T="12" P="1,1" /><P X="1685" Y="121" T="13" P="1,0" /><P P="0,0" Y="121" T="13" X="1725" /><P X="1765" Y="121" T="13" P="0,0" /><P P="1,0" Y="121" T="13" X="1805" /><P X="1845" Y="121" T="13" P="0,0" /><P P="0,0" Y="121" T="13" X="1885" /><P X="1478" Y="120" T="2" P="0,0" /><P X="1623" Y="118" T="6" P="1,1" /><P X="1132" Y="43" T="43" P="0,0" /><P X="708" Y="274" T="110" P="1,0" /><P P="1,1" Y="122" T="106" X="1251" /><P P="1,0" C="3c5669,32525c" Y="270" T="103" X="1518" /><P P="1,1" Y="290" T="59" X="1153" /><P P="1,0" Y="290" T="59" X="1392" /><P P="1,1" Y="290" T="59" X="1645" /><P P="1,1" Y="146" T="115" X="731" /></D><O /></Z></C>'},
+	[3] = {"Bolodefchoco","Romantic Land",'<C><P F="6" L="4800" defilante="0,0,0,1" DS="m;55,315,175,315,295,315,415,315,535,315" /><Z><S><S L="20" o="1d1d1d" H="400" X="10" Y="200" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="700" o="1d1d1d" X="350" H="20" Y="10" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S P="0,0,0.3,0.2,0,0,0,0" L="1400" o="1d1d1d" H="20" Y="390" T="12" X="700" /><S L="20" o="1d1d1d" X="700" H="300" Y="150" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="800" H="20" X="1800" Y="390" T="9" P="0,0,,,,0,0,0" /><S L="80" H="40" X="1800" Y="337" T="10" P="0,0,0.8,0,0,0,0,0" /><S L="803" H="10" X="1797" Y="405" T="7" P="0,0,0.1,0.2,0,0,0,0" /><S H="50" L="120" X="2235" c="4" Y="380" T="10" P="0,0,0.3,0,-40,0,0,0" /><S X="2329" L="120" H="50" c="4" N="" Y="314" T="10" P="0,0,0.3,0,-30,0,0,0" /><S H="50" L="120" X="2434" c="4" Y="265" T="10" P="0,0,0.3,0,-20,0,0,0" /><S X="2544" L="120" H="50" c="4" N="" Y="236" T="10" P="0,0,0.3,0,-10,0,0,0" /><S H="50" L="120" X="2658" c="4" Y="226" T="10" P="0,0,0.3,0,0,0,0,0" /><S X="2772" L="120" H="50" c="4" N="" Y="236" T="10" P="0,0,0.3,0,10,0,0,0" /><S H="50" L="120" X="2884" c="4" Y="266" T="10" P="0,0,0.3,0,20,0,0,0" /><S X="2988" L="120" H="50" c="4" N="" Y="315" T="10" P="0,0,0.3,0,30,0,0,0" /><S H="50" L="120" X="3081" c="4" Y="381" T="10" P="0,0,0.3,0,40,0,0,0" /><S P="0,0,0.3,0,-40,0,0,0" L="120" H="50" c="3" Y="405" T="14" X="2237" /><S X="2330" L="120" H="50" c="3" Y="340" T="14" P="0,0,0.3,0,-30,0,0,0" /><S P="0,0,0.3,0,-20,0,0,0" L="120" X="2434" c="3" Y="291" T="14" H="50" /><S H="50" L="120" X="2544" c="3" Y="261" T="14" P="0,0,0.3,0,-10,0,0,0" /><S P="0,0,0.3,0,0,0,0,0" L="120" H="50" c="3" Y="251" T="14" X="2658" /><S X="2773" L="120" H="50" c="3" Y="262" T="14" P="0,0,0.3,0,10,0,0,0" /><S P="0,0,0.3,0,20,0,0,0" L="120" X="2883" c="3" Y="292" T="14" H="50" /><S H="50" L="120" X="2988" c="3" Y="341" T="14" P="0,0,0.3,0,30,0,0,0" /><S P="0,0,0.3,0,40,0,0,0" L="120" H="50" c="3" Y="407" T="14" X="3083" /><S L="840" X="3510" H="34" Y="393" T="11" P="0,0,0.05,0.1,0,0,0,0" /><S L="870" o="ddce97" H="25" X="4365" Y="389" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S P="0,0,0.3,0,10,0,0,0" L="120" H="10" c="3" Y="350" T="14" X="4596" /><S X="4636" L="120" H="10" c="3" Y="350" T="14" P="0,0,0.3,0,-10,0,0,0" /><S X="4155" L="80" H="10" c="3" Y="291" T="14" P="0,0,1,0,90,0,0,0" /><S P="0,0,0.3,0.2,0,0,0,0" L="230" o="ddce97" X="4315" Y="244" T="12" H="15" /></S><D><P C="ddce97" Y="385" T="19" P="0,0" X="55" /><P C="ddce97" Y="385" T="19" X="175" P="0,0" /><P C="ddce97" Y="385" T="19" P="0,0" X="295" /><P C="ddce97" Y="385" T="19" X="415" P="0,0" /><P C="ddce97" Y="385" T="19" P="0,0" X="535" /><P P="0,0" Y="385" T="106" X="1328" /><P X="1368" Y="385" T="106" P="0,1" /><P P="0,0" Y="384" T="106" X="1348" /><P P="0,1" Y="369" T="106" X="1339" /><P X="1360" Y="372" T="106" P="0,0" /><P P="1,0" Y="357" T="106" X="1350" /><P X="935" Y="384" T="84" P="0,0" /><P P="0,0" Y="379" T="83" X="985" /><P P="1,0" Y="383" T="84" X="1113" /><P C="858339" Y="379" T="86" P="1,0" X="1023" /><P P="1,1" Y="318" T="4" X="1801" /><P P="1,0" Y="409" T="80" X="1618" /><P C="8e824b" Y="400" T="85" P="1,0" X="1980" /><P C="a36b54,23130c" Y="225" T="103" P="1,1" X="2647" /><P P="1,0" Y="377" T="13" X="3083" /><P P="1,0" Y="274" T="115" X="2430" /><P P="1,0" Y="378" T="75" X="3327" /><P P="0,0" Y="377" T="68" X="3627" /><P P="0,0" Y="377" T="67" X="3598" /><P X="3657" Y="377" T="67" P="0,1" /><P P="1,0" Y="374" T="66" X="3627" /><P P="1,0" Y="376" T="69" X="3808" /><P P="1,0" Y="377" T="1" X="4154" /><P P="1,0" Y="376" T="6" X="4704" /><P P="1,1" Y="376" T="6" X="4528" /><P P="0,0" Y="361" T="108" X="4607" /><P P="0,0" Y="363" T="108" X="4609" /><P P="0,0" Y="363" T="108" X="4618" /><P P="0,0" Y="363" T="108" X="4629" /><P C="954791,23130c" Y="236" T="103" X="4408" P="1,0" /><P X="4373" Y="236" T="22" P="0,0" /><P X="4321" Y="238" T="33" P="1,0" /><P X="4400" Y="346" T="113" P="0,0" /><P X="4299" Y="352" T="78" P="0,0" /><P P="0,0" Y="375" T="79" X="4322" /><P C="7c5c4f" Y="387" T="104" X="4340" P="0,0" /><P X="4769" Y="378" T="12" P="1,0" /></D><O /></Z></C>'},
 }
 system.xml = table.random(system.maps)
 tfm.exec.newGame(system.xml[3])
