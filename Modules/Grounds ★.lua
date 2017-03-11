@@ -3,14 +3,24 @@ system.module = "grounds"
 system.isRoom = tfm.get.room.name:byte(2) ~= 3
 system.roomAdmins = {}
 system.roomAttributes = system.isRoom and tfm.get.room.name:match("%*?#"..system.module.."%d+(.*)") or ""
+system.roomSettings = {
+	["@"] = function(value)
+		system.roomAdmins[string.nick(n)] = true
+	end
+}
 
 --[[ Main functions ]]--
+	--[[ System ]]--
 system.isPlayer = function(n)
 	if tfm.get.room.playerList[n] then
 		if n:sub(1,1) == "*" then
 			return false
 		end
-		if os.time() - (tfm.get.room.playerList[n].registrationDate or 0) < 432e6 then -- 5 days in tfm
+		if tfm.get.room.playerList[n].registrationDate then
+			if os.time() - (tfm.get.room.playerList[n].registrationDate or 0) < 432e6 then -- 5 days in tfm
+				return false
+			end
+		else
 			return false
 		end
 		return true
@@ -18,13 +28,66 @@ system.isPlayer = function(n)
 		return false
 	end
 end
+system.loadTable = function(s)
+	local list
+	for tbl in s:gmatch("[^%.]+") do
+		tbl = tonumber(tbl) and tonumber(tbl) or tbl
+		list = (list and list[tbl] or _G[tbl])
+	end
+	return list
+end
+system.players = function()
+	local alive,total = 0,0
+	for k,v in next,tfm.get.room.playerList do
+		if system.isPlayer(k) then
+			if not v.isDead and not v.isVampire then
+				alive = alive + 1
+			end
+			total = total + 1
+		end
+	end
+	return alive,total
+end
+system.setRoom = function()
+	if system.isRoom and system.roomAttributes then
+		local chars = ""
+		for k in next,system.roomSettings do
+			chars = chars .. k
+		end
+		
+		for char,value in system.roomAttributes:gmatch("(["..chars.."])([^"..chars.."]+)") do
+			for k,v in next,system.roomSettings do
+				if k == char then
+					v(value)
+					break
+				end
+			end
+		end
+	end
+end
+
+	--[[ String ]]--
+string.split = function(value,pattern,f)
+	local out = {}
+	for v in value:gmatch(pattern) do
+		out[#out + 1] = (f and f(v) or v)
+	end
+	return out
+end
+string.nick=function(player)
+	return player:lower():gsub('%a',string.upper,1)
+end
+
+	--[[ Math ]]--
+math.percent = function(x,y)
+	local m = x/y * 100
+	return math.min(m,100)
+end
 math.pythag = function(x1,y1,x2,y2,range)
 	return (x1-x2)^2 + (y1-y2)^2 <= (range^2)
 end
-math.percent = function(x,y)
-	local m = x/y * 100
-	return m < 0 and 0 or m > 100 and 100 or m
-end
+
+	--[[ Table ]]--
 table.find = function(list,value,index)
 	for k,v in next,list do
 		if index then
@@ -39,35 +102,63 @@ table.find = function(list,value,index)
 	end
 	return false
 end
-string.split = function(value,pattern,f)
-	local out = {}
-	for v in value:gmatch(pattern) do
-		out[#out + 1] = (f and f(v) or v)
+table.turnTable = function(x)
+	return (type(x)=="table" and x or {x})
+end
+table.random=function(t)
+	return (type(t)=="table" and t[math.random(#t)] or math.random())
+end
+
+	--[[ Remake from Official ones ]]--
+table.concat = function(list,sep,f)
+	local txt = ""
+	sep = sep or ""
+	for k,v in next,list do
+		txt = txt .. (f and f(k,v) or v) .. sep
 	end
-	return out
+	return txt:sub(1,-1-#sep)
 end
-string.nick=function(player)
-	return player:lower():gsub('%a',string.upper,1)
+do
+	local byte = string.byte
+	string.byte = function(str)
+		return byte(str,1,#str)
+	end
+	
+	local savePlayerData = system.savePlayerData
+	system.savePlayerData = function(n,data)
+		if system.isPlayer(n) then
+			savePlayerData(n,data)
+		end
+	end		
 end
-system.players = function()
-	local alive,total = 0,0
-	for k,v in next,tfm.get.room.playerList do
-		if system.isPlayer(k) then
-			if not v.isDead and not v.isVampire then
-				alive = alive + 1
-			end
-			total = total + 1
+
+	--[[ Others ]]--
+concat = function(k,v)
+	if type(v) == "table" then
+		return table.concat(v,"\n",function(i,j) return concat(i,j) end)
+	else
+		return v
+	end
+end
+deactivateAccents=function(str)
+	local letters = {a = {"á","â","à","å","ã","ä"},e = {"é","ê","è","ë"},i = {"í","î","ì","ï"},o = {"ó","ô","ò","õ","ö"},u = {"ú","û","ù","ü"}}
+	for k,v in next,letters do
+		for i = 1,#v do
+			str = str:gsub(v[i],tostring(k))
 		end
 	end
-	return alive,total
+	return str
 end
-system.loadTable = function(s)
-	local list
-	for tbl in s:gmatch("[^%.]+") do
-		tbl = tonumber(tbl) and tonumber(tbl) or tbl
-		list = (list and list[tbl] or _G[tbl])
+listener = function(t,st,from)
+	from = (from and from.."." or "")
+	for k,v in next,t do
+		if type(v) == "table" then
+			listener(v,st,from .. tostring(k))
+		else
+			st[#st + 1] = from .. k
+		end
 	end
-	return list
+	return st
 end
 serialization = function(x)
 	if type(x) == "table" then
@@ -99,44 +190,9 @@ serialization = function(x)
 		return list
 	end
 end
-deactivateAccents=function(str)
-	local letters = {a = {"á","â","à","å","ã","ä"},e = {"é","ê","è","ë"},i = {"í","î","ì","ï"},o = {"ó","ô","ò","õ","ö"},u = {"ú","û","ù","ü"}}
-	for k,v in next,letters do
-		for i = 1,#v do
-			str = str:gsub(v[i],tostring(k))
-		end
-	end
-	return str
-end
-table.concat = function(list,sep,f)
-	local txt = ""
-	sep = sep or ""
-	for k,v in next,list do
-		txt = txt .. (f and f(k,v) or v) .. sep
-	end
-	return txt:sub(1,-1-#sep)
-end
-do
-	local byte = string.byte
-	string.byte = function(str)
-		return byte(str,1,#str)
-	end
-	
-	local savePlayerData = system.savePlayerData
-	system.savePlayerData = function(n,data)
-		if system.isPlayer(n) then
-			savePlayerData(n,data)
-		end
-	end		
-end
-table.turnTable = function(x)
-	return (type(x)=="table" and x or {x})
-end
-table.random=function(t)
-	return (type(t)=="table" and t[math.random(#t)] or math.random())
-end
+
 --[[ Map System ]]--
-system.maps = {6226386,5993927,5198518,6133469,4396371,5425815,4140491,5168440,3324180,6564380,6600268,6987992,6987993,6988672,6230212,6340023,7057010,7047955,3326675,4184558,6392883,3324284,5043429,3326655,7069304,7069314,7069343,7069816,7069835,6558179,6726599,5921744,5921754,5632126,7071400,3099763,2283901,2887357,5507021,6945850,6568120,2874090,6961916,6576282,6578479, 6994066,4055924,4361619,4361785,4612510,4633670,3851416,4362362,4514386}
+system.maps = {6226386,5993927,5198518,6133469,4396371,5425815,4140491,5168440,3324180,6564380,6600268,6987992,6987993,6988672,6230212,6340023,7057010,7047955,3326675,4184558,6392883,3324284,5043429,3326655,7069304,7069314,7069343,7069816,7069835,6558179,6726599,5921744,5921754,5632126,7071400,3099763,2283901,2887357,5507021,6945850,6568120,2874090,6961916,6576282,6578479, 6994066,4055924,4361619,4361785,4612510,4633670,3851416,4362362,4514386,4592612,6332986,5981054,7071075,7079644}
 system.newMap = coroutine.wrap(function()
 	local currentMap = 0
 	while true do
@@ -895,7 +951,15 @@ system.getTranslation = function(s,n)
 	s = "system.translation."..(n and info[n].langue or system.roomCommunity).."."..s
 	return system.loadTable(s)
 end
+
 cmds = system.getTranslation("commands")
+langues = {}
+for k,v in next,system.translation do
+	langues[#langues+1] = k:upper()
+end
+table.sort(langues)
+
+translationIndexes = listener(system.translation.en,{})
 --[[ Health ]]--
 system.bar = function(id,player,value,color,size,height)
 	size = size or 100
@@ -1025,13 +1089,6 @@ ui.profile = function(n,p)
 end
 
 --[[ Menu ]]--
-concat = function(k,v)
-	if type(v) == "table" then
-		return table.concat(v,"\n",function(i,j) return concat(i,j) end)
-	else
-		return v
-	end
-end
 ui.menu = function(n)
 	if not info[n].menu.accessing then
 		info[n].menu.page = 1
@@ -1586,11 +1643,6 @@ eventNewPlayer = function(n)
 	loadData(n)
 	]]--
 	info[n].isOnline = true
-	if system.isRoom then
-		if tostring(system.roomAttributes):lower():find(n:lower()) then
-			system.roomAdmins[string.nick(n)] = true
-		end
-	end
 end
 
 --[[ newGame ]]--
@@ -1897,12 +1949,6 @@ eventChatCommand = function(n,c)
 				end
 				tfm.exec.chatMessage(string.format("<PT>[•] <BV>%s",system.getTranslation("language",n):format(info[n].langue:upper())),n)
 			else
-				local langues = {}
-				for k,v in next,system.translation do
-					langues[#langues+1] = k:upper()
-				end
-				table.sort(langues)
-				
 				tfm.exec.chatMessage(string.format("<PT>[•] <J>!%s <PS>%s",p[1],table.concat(langues," <G>-</G> ")),n)
 			end
 		elseif p[1] == cmds.leaderboard or p[1] == "k" then
@@ -1921,8 +1967,9 @@ eventChatCommand = function(n,c)
 				ui.displayInfo(n,{"info","grounds",ground[1]:gsub("'","#"),ground[2]})
 			end
 		else
-			if system.roomAdmins[n] then
-				if p[1] == cmds.pw or p[1] == "pw" then
+			local isAdmin,isMapEv,isTranslator = system.roomAdmins[n],table.find(system.staff.mapEvaluators,n,1),table.find(system.staff.translators,n,1)
+			if (p[1] == cmds.pw or p[1] == "pw") then
+				if isAdmin then
 					local newPassword = p[2] or ""
 					local pwMsg = system.getTranslation("password")
 					if newPassword == "" then
@@ -1938,16 +1985,44 @@ eventChatCommand = function(n,c)
 						end
 					end
 					tfm.exec.setRoomPassword(newPassword)
+				else
+					tfm.exec.chatMessage("<ROSE>[•] /room #" .. system.module .. math.random(0,999) .. "@" .. n,n)
 				end
-			else
-				if table.find(cmds,p[1]) then
-					tfm.exec.chatMessage("<ROSE>[•] /room #"..system.module..math.random(0,999)..n,n)
+			end
+			if not system.isRoom then
+				if p[1] == "time" and isMapEv then
+					tfm.exec.setGameTime(p[2] or 1e7)
+				elseif p[1] == "np" and p[2] and isMapEv then
+					tfm.exec.newGame(p[2])
+				end
+			end
+			if p[1] == "is" and isMapEv then
+				p[2] = tonumber(p[2]:match("@?(%d+)")) or 0
+				tfm.exec.chatMessage(string.format("<BV>[•] @%s : %s",p[2],tostring(table.find(system.maps,p[2])):upper()),n)
+			end	
+			if p[1] == "check" and isTranslator then
+				p[2] = p[2] and p[2]:lower() or nil
+				if p[2] and system.translation[p[2]] then
+					local newP3 = p[3] and system.loadTable("system.translation."..p[2].."."..p[3]) or {}
+					if newP3 and type(newP3) == "string" then
+						tfm.exec.chatMessage("<CEP>[•] " .. p[3] .. " : <N><VI>\"</VI>" .. newP3 .. "<VI>\"</VI>",n)
+					else
+						tfm.exec.chatMessage("<CEP>[•] " .. (p[3] and "Invalid! Try one of these indexes:" or "!" .. p[1] .. " " .. p[2] .. " <VI>id"),n)
+						for k,v in next,translationIndexes do
+							tfm.exec.chatMessage("<N>\t\t" .. v,n)
+						end
+					end
+				else
+					tfm.exec.chatMessage("<CEP>[•] !" .. p[1] .. " " .. table.concat(langues," <G>-</G> "),n)
 				end
 			end
 		end
 	end
 end
 for k,v in next,cmds do
+	disableChatCommand(v)
+end
+for k,v in next,{"o","p","h","k","?","pw","time","np","is","check"} do
 	disableChatCommand(v)
 end
 
@@ -1965,6 +2040,7 @@ end
 --[[ Settings ]]--
 tfm.exec.setRoomMaxPlayers(15)
 table.foreach(tfm.get.room.playerList,eventNewPlayer)
+system.setRoom()
 eventPlayerWon = function(n)
 	if system.availableRoom and info[n].groundsDataLoaded then
 		podium = podium + 1
