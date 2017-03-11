@@ -228,6 +228,7 @@ system.staff = {
 	},
 	mapEvaluators = {
 		{"Bolodefchoco","14/02/2017"},
+		{"Error_404","11/03/2017"}
 	},
 }
 for k,v in next,system.staff do
