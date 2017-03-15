@@ -25,7 +25,7 @@ system.isPlayer = function(n)
 		end
 		return true
 	else
-		return false
+		return falser
 	end
 end
 system.loadTable = function(s)
@@ -1783,6 +1783,7 @@ normalizedTime = function(time)
 	return math.floor(time) + ((time - math.floor(time)) >= .5 and .5 or 0)
 end
 
+review = false
 eventLoop = function(currentTime,leftTime)
 	_G.currentTime = normalizedTime(currentTime/1e3)
 	_G.leftTime = normalizedTime(leftTime/1e3)
@@ -1791,7 +1792,7 @@ eventLoop = function(currentTime,leftTime)
 	if _G.currentTime == 3 and math.random(50) < 21 then
 		tfm.exec.chatMessage(string.format("<PT>[•] <BV>%s",system.getTranslation("powersenabled")))
 	end
-	if _G.currentTime%2 == 0 then
+	if _G.currentTime%2 == 0 and not review then
 		if system.alivePlayers < 1 or _G.leftTime <= 2 then
 			tfm.exec.newGame(system.newMap())
 		elseif system.alivePlayers == 1 and _G.leftTime > 50 then
@@ -1998,6 +1999,9 @@ eventChatCommand = function(n,c)
 					tfm.exec.setGameTime(p[2] or 1e7)
 				elseif p[1] == "np" and p[2] and isMapEv then
 					tfm.exec.newGame(p[2])
+				elseif p[1] == "review" then
+					review = not review
+					tfm.exec.chatMessage("<BV>[•] REVIEW MODE : " .. tostring(review):upper(),n)
 				end
 			end
 			if p[1] == "is" and isMapEv then
@@ -2026,7 +2030,7 @@ end
 for k,v in next,cmds do
 	disableChatCommand(v)
 end
-for k,v in next,{"o","p","h","k","?","pw","time","np","is","check"} do
+for k,v in next,{"o","p","h","k","?","pw","time","np","is","check","review"} do
 	disableChatCommand(v)
 end
 
@@ -2083,6 +2087,9 @@ eventPlayerDied = function(n)
 	end
 	system.bindKeyboard(n,32,true,false)
 	ui.removeTextArea(-1,n)
+	if review then
+		tfm.exec.respawnPlayer(n)
+	end
 end
 eventPlayerLeft = function(n)
 	info[n].isOnline = false
