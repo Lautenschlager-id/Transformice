@@ -110,11 +110,14 @@ table.random=function(t)
 end
 
 	--[[ Remake from Official ones ]]--
-table.concat = function(list,sep,f)
+table.concat = function(list,sep,f,i,j)
 	local txt = ""
 	sep = sep or ""
+	i,j = i or 1,j or #list
 	for k,v in next,list do
-		txt = txt .. (f and f(k,v) or v) .. sep
+		if k >= i and k <= j then
+			txt = txt .. (f and f(k,v) or v) .. sep
+		end
 	end
 	return txt:sub(1,-1-#sep)
 end
@@ -192,7 +195,7 @@ serialization = function(x)
 end
 
 --[[ Map System ]]--
-system.maps = {6226386,5993927,5198518,6133469,4396371,5425815,4140491,5168440,3324180,6564380,6600268,6987992,6987993,6988672,6230212,6340023,7057010,7047955,3326675,4184558,6392883,3324284,5043429,3326655,7069304,7069314,7069343,7069816,7069835,6558179,6726599,5921744,5921754,5632126,7071400,3099763,2283901,2887357,5507021,6945850,6568120,2874090,6961916,6576282,6578479, 6994066,4055924,4361619,4361785,4612510,4633670,3851416,4362362,4514386,4592612,6332986,5981054,7071075,7079644}
+system.maps = {6226386,5993927,5198518,6133469,4396371,5425815,4140491,5168440,3324180,6564380,6600268,6987992,6987993,6988672,6230212,6340023,7057010,7047955,3326675,4184558,6392883,3324284,5043429,3326655,7069304,7069314,7069343,7069816,7069835,6558179,6726599,5921744,5921754,5632126,7071400,3099763,2283901,2887357,5507021,6945850,6568120,2874090,6961916,6576282,6578479, 6994066,4055924,4361619,4361785,4612510,4633670,3851416,4362362,4514386,4592612,6332986,5981054,7071075,7079644,6968299,7079708,7079827,7079880,7078090,7079092,6333026,6347093,2265250,6620004,}
 system.newMap = coroutine.wrap(function()
 	local currentMap = 0
 	while true do
@@ -1969,9 +1972,9 @@ eventChatCommand = function(n,c)
 			end
 		else
 			local isAdmin,isMapEv,isTranslator = system.roomAdmins[n],table.find(system.staff.mapEvaluators,n,1),table.find(system.staff.translators,n,1)
-			if (p[1] == cmds.pw or p[1] == "pw") then
+			if p[1] == cmds.pw or p[1] == "pw" then
 				if isAdmin then
-					local newPassword = p[2] or ""
+					local newPassword = p[2] and table.concat(p," ",nil,2) or ""
 					local pwMsg = system.getTranslation("password")
 					if newPassword == "" then
 						tfm.exec.chatMessage(string.format("<R>[•] %s",pwMsg.off))
