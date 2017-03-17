@@ -1,11 +1,20 @@
 --[[ Main ]]--
 system.module = "grounds"
+
 system.isRoom = tfm.get.room.name:byte(2) ~= 3
+
 system.roomAdmins = {}
+
+system.leaderMode = 0
+
 system.roomAttributes = system.isRoom and tfm.get.room.name:match("%*?#"..system.module.."%d+(.*)") or ""
 system.roomSettings = {
 	["@"] = function(n)
 		system.roomAdmins[string.nick(n)] = true
+	end,
+	["#"] = function(id)
+		system.leaderMode = tonumber(id) or 1
+		system.leaderMode = system.leaderMode < 1 and 1 or system.leaderMode > 3 and 3 or system.leaderMode
 	end
 }
 
@@ -25,7 +34,7 @@ system.isPlayer = function(n)
 		end
 		return true
 	else
-		return falser
+		return false
 	end
 end
 system.loadTable = function(s)
@@ -195,7 +204,7 @@ serialization = function(x)
 end
 
 --[[ Map System ]]--
-system.maps = {6226386,5993927,5198518,6133469,4396371,5425815,4140491,5168440,3324180,6564380,6600268,6987992,6987993,6988672,6230212,6340023,7057010,7047955,3326675,4184558,6392883,3324284,5043429,3326655,7069304,7069314,7069343,7069816,7069835,6558179,6726599,5921744,5921754,5632126,7071400,3099763,2283901,2887357,5507021,6945850,6568120,2874090,6961916,6576282,6578479, 6994066,4055924,4361619,4361785,4612510,4633670,3851416,4362362,4514386,4592612,6332986,5981054,7071075,7079644,6968299,7079708,7079827,7079880,7078090,7079092,6333026,6347093,2265250,6620004,}
+system.maps = {6226386,5993927,5198518,6133469,4396371,5425815,4140491,5168440,3324180,6564380,6600268,6987992,6987993,6988672,6230212,6340023,7057010,7047955,3326675,4184558,6392883,3324284,5043429,3326655,7069304,7069314,7069343,7069816,7069835,6558179,6726599,5921744,5921754,5632126,7071400,3099763,2283901,2887357,5507021,6945850,6568120,2874090,6961916,6576282,6578479, 6994066,4055924,4361619,4361785,4612510,4633670,3851416,4362362,4514386,4592612,6332986,5981054,7071075,7079644,6968299,7079708,7079827,7079880,7078090,7079092,6347093,2265250,6620004,5198607,6935117,5921867,7074686,3448597,4509060,4364504}
 system.newMap = coroutine.wrap(function()
 	local currentMap = 0
 	while true do
@@ -1185,9 +1194,7 @@ ui.leaderboard = function(n)
 		for k,v in next,players do
 			info[v[1]].ranking = k
 			if k < 11 then
-				if v[2] > 0 then
-					table.insert(system.leaderboard.data,"<J>"..k..". " .. (k==1 and "<BV>" or k==2 and "<PS>" or k==3 and "<CE>" or "<V>") .. "<a href='event:profile.open."..v[1].."'>".. v[1] .. "</a> <BL>- <VP>" .. v[2] .. "G")
-				end
+				table.insert(system.leaderboard.data,"<J>"..k..". " .. (k==1 and "<BV>" or k==2 and "<PS>" or k==3 and "<CE>" or "<V>") .. "<a href='event:profile.open."..v[1].."'>".. v[1] .. "</a> <BL>- <VP>" .. v[2] .. "G")
 			end
 		end
 		if #system.leaderboard.data == 0 then
@@ -1795,7 +1802,7 @@ eventLoop = function(currentTime,leftTime)
 	if _G.currentTime%2 == 0 and not review then
 		if system.alivePlayers < 1 or _G.leftTime <= 2 then
 			tfm.exec.newGame(system.newMap())
-		elseif system.alivePlayers == 1 and _G.leftTime > 50 then
+		elseif system.alivePlayers == 1 and _G.leftTime > 50 and system.totalPlayers > 1 then
 			tfm.exec.setGameTime(30)
 		elseif podium > 3 and system.alivePlayers > 3 and _G.leftTime > 20 then
 			tfm.exec.setGameTime(20)
@@ -1812,6 +1819,8 @@ eventLoop = function(currentTime,leftTime)
 		end
 	end
 	for n,v in next,info do
+		v.isWalking = tfm.get.room.playerList[n].movingRight or tfm.get.room.playerList[n].movingLeft
+		v.right = tfm.get.room.playerList[n].isFacingRight
 		if v.powersOP.GTYPE ~= 7 then -- Sand
 			ui.removeTextArea(-1,n)
 		end
@@ -1840,9 +1849,6 @@ eventKeyboard = function(n,k,d,x,y)
 				info[n].right = false
 			elseif k == 2 then
 				info[n].right = true
-			end
-			if k%2 == 0 then
-				info[n].isWalking = d
 			end
 		elseif k == string.byte("O") then
 			eventChatCommand(n,"o")
@@ -1999,9 +2005,16 @@ eventChatCommand = function(n,c)
 					tfm.exec.setGameTime(p[2] or 1e7)
 				elseif p[1] == "np" and p[2] and isMapEv then
 					tfm.exec.newGame(p[2])
-				elseif p[1] == "review" then
+				elseif p[1] == "review" and isMapEv then
 					review = not review
 					tfm.exec.chatMessage("<BV>[•] REVIEW MODE : " .. tostring(review):upper(),n)
+					tfm.exec.disableAfkDeath(review)
+				elseif p[1] == "next" and currentTime > 5 and isMapEv then
+					tfm.exec.newGame(system.newMap())
+				elseif p[1] == "again" and currentTime > 5 and isMapEv then
+					if tfm.get.room.currentMap then
+						tfm.exec.newGame(tfm.get.room.currentMap)
+					end
 				end
 			end
 			if p[1] == "is" and isMapEv then
@@ -2030,7 +2043,7 @@ end
 for k,v in next,cmds do
 	disableChatCommand(v)
 end
-for k,v in next,{"o","p","h","k","?","pw","time","np","is","check","review"} do
+for k,v in next,{"o","p","h","k","?","pw","time","np","is","check","review","next","again"} do
 	disableChatCommand(v)
 end
 
@@ -2050,7 +2063,7 @@ tfm.exec.setRoomMaxPlayers(15)
 table.foreach(tfm.get.room.playerList,eventNewPlayer)
 system.setRoom()
 eventPlayerWon = function(n)
-	if system.availableRoom and info[n].groundsDataLoaded then
+	if system.availableRoom and info[n].groundsDataLoaded and system.isPlayer(n) then
 		podium = podium + 1
 		if podium < 4 then
 			info[n].stats.podiums = info[n].stats.podiums + 1
@@ -2072,6 +2085,11 @@ eventPlayerWon = function(n)
 			system.bar(1,n,info[n].drown,0x6FDA51,100,20)
 		end
 		--system.savePlayerData(n,serialization(info[n].stats))
+		if system.leaderMode ~= 0 then
+			if podium == system.leaderMode then
+				tfm.exec.setGameTime(0)
+			end
+		end
 	end
 	info[n].canRev = false
 end
