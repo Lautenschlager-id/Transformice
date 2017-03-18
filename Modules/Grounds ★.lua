@@ -204,7 +204,7 @@ serialization = function(x)
 end
 
 --[[ Map System ]]--
-system.maps = {6226386,5993927,5198518,6133469,4396371,5425815,4140491,5168440,3324180,6564380,6600268,6987992,6987993,6988672,6230212,6340023,7057010,7047955,3326675,4184558,6392883,3324284,5043429,3326655,7069304,7069314,7069343,7069816,7069835,6558179,6726599,5921744,5921754,5632126,7071400,3099763,2283901,2887357,5507021,6945850,6568120,2874090,6961916,6576282,6578479, 6994066,4055924,4361619,4361785,4612510,4633670,3851416,4362362,4514386,4592612,6332986,5981054,7071075,7079644,6968299,7079708,7079827,7079880,7078090,7079092,6347093,2265250,6620004,5198607,6935117,5921867,7074686,3448597,4509060,4364504}
+system.maps = {6226386,5993927,5198518,6133469,4396371,5425815,4140491,5168440,3324180,6564380,6600268,6987992,6987993,6988672,6230212,6340023,7057010,7047955,3326675,4184558,6392883,3324284,5043429,3326655,7069304,7069314,7069343,7069816,7069835,6558179,6726599,5921744,5921754,5632126,7071400,3099763,2283901,2887357,5507021,6945850,6568120,2874090,6961916,6576282,6578479, 6994066,4055924,4361619,4361785,4612510,4633670,3851416,4362362,4514386,4592612,6332986,5981054,7071075,7079644,6968299,7079708,7079827,7079880,7078090,7079092,6347093,2265250,6620004,5198607,6935117,5921867,7074686,3448597,4509060,4364504,4802574,6300148,4493715,4531989,4509584,7086737,7086768}
 system.newMap = coroutine.wrap(function()
 	local currentMap = 0
 	while true do
@@ -283,6 +283,7 @@ system.translation.en = {
 		[12] = {"Rectangle","Each color has its own function","?",{
 			["C90909"] = "Kills you",
 			["18C92B"] = "Revives all the enemies",
+			["555D77"] = "Respawning Checkpoint",
 		}},
 		[13] = {"Circle","Each color has its own function","?"},
 		[14] = {"Invisible","?","?"},
@@ -363,6 +364,7 @@ system.translation.br = {
 		[12] = {"Retângulo","Cada cor tem sua própria função","?",{
 			["C90909"] = "Mata-o",
 			["18C92B"] = "Revive todos os inimigos",
+			["555D77"] = "Checkpoint para reviver",
 		}},
 		[13] = {"Círculo","Cada cor tem sua própria função","?","?"},
 		[14] = {"Invisível","?","?"},
@@ -441,6 +443,7 @@ system.translation.nl = {
         [12] = {"Rechthoek","Elke kleur heeft zijn eigen functie","?",{
 			["C90909"] = "Vermoordt jou",
 			["18C92B"] = "Brengt alle tegenstanders weer tot leven",
+			["555D77"] = "Respawning Checkpoint",
 		}},
         [13] = {"Cirkel","Elke kleur heeft zijn eigen functie","?"},
         [14] = {"Onzichtbaar","?","?"},
@@ -519,6 +522,7 @@ system.translation.es = {
 		[12] = {"Rectángulo","Cada color tiene su propia función","?",{
 			["C90909"] = "Te mata",
 			["18C92B"] = "Revive todos los enemigos",
+			["555D77"] = "Respawning Checkpoint",
 		}},
 		[13] = {"Círculo","Cada color tiene su propia función","?"},
 		[14] = {"Invisible","?","?"},
@@ -597,6 +601,7 @@ system.translation.pl = {
         [12] = {"Trójkąt","Każdy kolor ma swoją funkcję","?",{
 			["C90909"] = "Zabija ciebie",
 			["18C92B"] = "Ożywia wszystkich przeciwników",
+			["555D77"] = "Ponowne spawnowanie Checkpointów",
 		}},
         [13] = {"Koło","Każdy kolor ma swoją funkcję","?"},
         [14] = {"Niewidzialność","?","?"},
@@ -675,6 +680,7 @@ system.translation.hu = {
 		[12] = {"Téglalap","Mindegyik színnek megvan a saját szerepe","?",{
 			["C90909"] = "Megöl téged",
 			["18C92B"] = "Újraéleszti az összes ellenséget",
+			["555D77"] = "Újraéledő Ellenőrzőpont",
 		}},
 		[13] = {"Kör","Mindegyik színnek megvan a saját szerepe","?"},
 		[14] = {"Láthatatlan","?","?"},
@@ -753,6 +759,7 @@ system.translation.ar = {
 		[12] = {"مستطيل","كل لون له قوته الخاصة","?",{
 			["C90909"] = "يقتلك",
 			["18C92B"] = "إعادة الحياة إلى جميع أعدائك",
+			["555D77"] = "نقطة العودة للحياة",
 		}},
 		[13] = {"الدائرة","كل لون له قوته الخاصة","?"},
 		[14] = {"الإختفاء","?","?"},
@@ -831,6 +838,7 @@ system.translation.de = {
 		[12] = {"Rechteck","Jede Farbe hat seine eigene Funktion","?",{
 			["C90909"] = "Tötet du",
 			["18C92B"] = "Aufleben alle Feinde",
+			["555D77"] = "Respawning Checkpoint",
 		}},
 		[13] = {"Kreis","Jede Farbe hat seine eigene Funktion","?"},
 		[14] = {"Unsichtbar","?","?"},
@@ -909,6 +917,7 @@ system.translation.fr = {
 		[12] = {"Rectangle","Chaque couleur a sa propre fonction","?",{
 			["C90909"] = "Te tue",
 			["18C92B"] = "Ressuscite tous les ennemis",
+			["555D77"] = "Respawning Checkpoint",
 		}},
 		[13] = {"Cercle","Chaque couleur a sa propre fonction","?"},
 		[14] = {"Invisible","?","?"},
@@ -973,6 +982,7 @@ end
 table.sort(langues)
 
 translationIndexes = listener(system.translation.en,{})
+
 --[[ Health ]]--
 system.bar = function(id,player,value,color,size,height)
 	size = size or 100
@@ -1354,6 +1364,19 @@ end
 --[[ Ground collision lib ]]--
 system.grounds = {}
 system.disabledGrounds = {}
+system.respawn = 0
+system.getTpPos = function(g)
+	local prop = string.split(g.P,"[^,]+",tonumber)
+	local hTP,ang = {g.X,g.Y - (g.H/2)},prop[5]
+	if ang == 90 or ang == -270 then
+		hTP = {g.X + (g.L/2),g.Y}
+	elseif ang == -90 or ang == 270 then
+		hTP = {g.X - (g.L/2),g.Y}
+	elseif math.abs(ang) == 180 then
+		hTP = {g.X,g.Y + (g.H/2)}
+	end
+	return hTP
+end
 system.onGround = function(t,px,py)
 	local prop = string.split(t.P,"[^,]+",tonumber)
 
@@ -1449,15 +1472,7 @@ system.groundEffects = function()
 							end
 							if id > 1 then
 								local g = system.grounds[id-1]
-								local prop = string.split(g.P,"[^,]+",tonumber)
-								local hTP,ang = {g.X,g.Y - (g.H/2)},prop[5]
-								if ang == 90 or ang == -270 then
-									hTP = {g.X + (g.L/2),g.Y}
-								elseif ang == -90 or ang == 270 then
-									hTP = {g.X - (g.L/2),g.Y}
-								elseif math.abs(ang) == 180 then
-									hTP = {g.X,g.Y + (g.H/2)}
-								end
+								local hTP = system.getTpPos(g)
 								tfm.exec.displayParticle(36,p.x,p.y,0,0,0,0,n)
 								tfm.get.room.playerList[n].x = 0
 								tfm.get.room.playerList[n].y = 0
@@ -1508,24 +1523,31 @@ system.groundEffects = function()
 							if color == "C90909" then
 								tfm.exec.killPlayer(n)
 							elseif color == "18C92B" then
-								for k,v in next,tfm.get.room.playerList do
-									if v.isVampire then
-										tfm.exec.killPlayer(k)
+								if os.time() > system.respawn then
+									system.respawn = os.time() + 5e3
+									for k,v in next,tfm.get.room.playerList do
+										if v.isVampire then
+											tfm.exec.killPlayer(k)
+										elseif v.isDead and info[k].canRev then
+											if info[k].groundsDataLoaded and system.availableRoom then
+												info[k].stats.rounds = info[k].stats.rounds + 1
+												--system.savePlayerData(k,serialization(info[k].stats))
+											end
+											tfm.exec.respawnPlayer(k)
+											if info[k].checkpoint ~= -1 then
+												local g = system.grounds[info[k].checkpoint]
+												local hTP = system.getTpPos(g)
+												tfm.exec.movePlayer(k,hTP[1],hTP[2])
+											end
+											if hasWater then
+												system.bar(1,k,info[k].drown,0x519DDA,100,20)
+											end
+											tfm.exec.chatMessage(string.format("<R>[•] %s",system.getTranslation("zombie",k)),k)
+										end
 									end
 								end
-								for k,v in next,tfm.get.room.playerList do
-									if v.isDead and info[k].canRev then
-										if info[k].groundsDataLoaded and system.availableRoom then
-											info[k].stats.rounds = info[k].stats.rounds + 1
-											--system.savePlayerData(k,serialization(info[k].stats))
-										end
-										tfm.exec.respawnPlayer(k)
-										if hasWater then
-											system.bar(1,k,info[k].drown,0x519DDA,100,20)
-										end
-										tfm.exec.chatMessage(string.format("<R>[•] %s",system.getTranslation("zombie",k)),k)
-									end
-								end
+							elseif color == "555D77" then
+								info[n].checkpoint = id
 							end
 						elseif gtype == 15 then -- web
 							local init = ""
@@ -1575,11 +1597,15 @@ xml.attribFunc = function(currentXml,funcs)
 	end
 end
 
---[[ newPlayer ]]--
+--[[ New Player ]]--
 info = {}
 bindMouse = {0,1,2,3,string.byte("OPHK")}
 eventNewPlayer = function(n)
 	tfm.exec.chatMessage(string.format("<PT>[•] <BV>%s\n\n<G>[^_^] <VP>%s",system.getTranslation("welcome"):format("<ROSE>"..system.module.."<BV>"),system.getTranslation("developer"):format("Bolodefchoco")),n)
+	if math.random(10) < 3 then
+		tfm.exec.chatMessage("<ROSE>[•] Play #powers at /room #powers",n)
+	end
+	
 	if system.isPlayer(n) then
 		tfm.exec.lowerSyncDelay(n)
 		for _,key in next,bindMouse do
@@ -1601,6 +1627,7 @@ eventNewPlayer = function(n)
 			drown = 0,
 			ranking = -1,
 			canRev = false,
+			checkpoint = -1,
 			shop = {
 				accessing = false,
 				page = 0,
@@ -1654,9 +1681,10 @@ eventNewPlayer = function(n)
 	loadData(n)
 	]]--
 	info[n].isOnline = true
+	info[n].canRev = false
 end
 
---[[ newGame ]]--
+--[[ New Game ]]--
 hasWater = false
 podium = 0
 system.availableRoom = false
@@ -1684,6 +1712,7 @@ eventNewGame = function()
 		end
 		info[k].canRev = true
 		info[k].right = true
+		info[k].checkpoint = -1
 	end
 	hasWater = false
 	local deactivateWater = false
@@ -1760,6 +1789,16 @@ eventNewGame = function()
 						tfm.exec.movePlayer(v,c.x,c.y)
 						tfm.exec.setVampirePlayer(v)
 					end
+				else
+					table.foreach(tfm.get.room.playerList,tfm.exec.setVampirePlayer)
+				end
+			end
+		},
+		[8] = {
+			attribute = "shaman",
+			func = function(t)
+				if t ~= "" then
+					ui.setShamanName(t)
 				end
 			end
 		},
@@ -1819,8 +1858,8 @@ eventLoop = function(currentTime,leftTime)
 		end
 	end
 	for n,v in next,info do
-		v.isWalking = tfm.get.room.playerList[n].movingRight or tfm.get.room.playerList[n].movingLeft
-		v.right = tfm.get.room.playerList[n].isFacingRight
+		v.isWalking = (tfm.get.room.playerList[n] and (tfm.get.room.playerList[n].movingRight or tfm.get.room.playerList[n].movingLeft) or false)
+		v.right = (tfm.get.room.playerList[n] and (tfm.get.room.playerList[n].isFacingRight) or false)
 		if v.powersOP.GTYPE ~= 7 then -- Sand
 			ui.removeTextArea(-1,n)
 		end
@@ -2090,6 +2129,9 @@ eventPlayerWon = function(n)
 				tfm.exec.setGameTime(0)
 			end
 		end
+	end
+	if review then
+		tfm.exec.respawnPlayer(n)
 	end
 	info[n].canRev = false
 end
