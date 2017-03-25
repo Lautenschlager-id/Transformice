@@ -204,7 +204,7 @@ serialization = function(x)
 end
 
 --[[ Map System ]]--
-system.maps = {6226386,5993927,5198518,6133469,4396371,5425815,4140491,5168440,3324180,6564380,6600268,6987992,6987993,6988672,6230212,6340023,7057010,7047955,3326675,4184558,6392883,3324284,5043429,3326655,7069304,7069314,7069343,7069816,7069835,6558179,6726599,5921744,5921754,5632126,7071400,3099763,2283901,2887357,5507021,6945850,6568120,2874090,6961916,6576282,6578479, 6994066,4055924,4361619,4361785,4612510,4633670,3851416,4362362,4514386,4592612,6332986,5981054,7071075,7079644,6968299,7079708,7079827,7079880,7078090,7079092,6347093,2265250,6620004,5198607,6935117,5921867,7074686,3448597,4509060,4364504,4802574,6300148,4493715,4531989,4509584,7086737,7086768}
+system.maps = {6226386,5993927,5198518,6133469,4396371,5425815,4140491,5168440,3324180,6564380,6600268,6987992,6987993,6988672,6230212,6340023,7057010,7047955,3326675,4184558,6392883,3324284,5043429,3326655,7069304,7069314,7069343,7069816,7069835,6558179,6726599,5921744,5921754,5632126,7071400,3099763,2283901,2887357,5507021,6945850,6568120,2874090,6961916,6576282,6578479, 6994066,4055924,4361619,4361785,4612510,4633670,3851416,4362362,4514386,4592612,6332986,5981054,7071075,7079644,6968299,7079708,7079827,7079880,7078090,7079092,6347093,2265250,6620004,5198607,6935117,5921867,7074686,3448597,4509060,4364504,4802574,6300148,4493715,4531989,4509584,7086737,7086768,7087798,7087840,6391815,6335452}
 system.newMap = coroutine.wrap(function()
 	local currentMap = 0
 	while true do
@@ -1365,17 +1365,24 @@ end
 system.grounds = {}
 system.disabledGrounds = {}
 system.respawn = 0
-system.getTpPos = function(g)
-	local prop = string.split(g.P,"[^,]+",tonumber)
-	local hTP,ang = {g.X,g.Y - (g.H/2)},prop[5]
-	if ang == 90 or ang == -270 then
-		hTP = {g.X + (g.L/2),g.Y}
-	elseif ang == -90 or ang == 270 then
-		hTP = {g.X - (g.L/2),g.Y}
-	elseif math.abs(ang) == 180 then
-		hTP = {g.X,g.Y + (g.H/2)}
+system.getTpPos = function(g,center)
+	if center then
+		return {g.X,g.Y}
+	else
+		local ang = string.split(g.P,"[^,]+",tonumber)
+		ang = ang[5]
+		local hTP = {g.X,g.Y}
+		if ang == 90 or ang == -270 then
+			hTP[1] = hTP[1] + g.L/2
+		elseif ang == -90 or ang == 270 then
+			hTP[1] = hTP[1] - g.L/2
+		elseif ang % 180 == 0 then
+			hTP[2] = hTP[2] + g.H/2
+		else
+			hTP[2] = hTP[2] - g.H/2
+		end
+		return hTP
 	end
-	return hTP
 end
 system.onGround = function(t,px,py)
 	local prop = string.split(t.P,"[^,]+",tonumber)
@@ -1524,25 +1531,12 @@ system.groundEffects = function()
 								tfm.exec.killPlayer(n)
 							elseif color == "18C92B" then
 								if os.time() > system.respawn then
-									system.respawn = os.time() + 5e3
+									system.respawn = os.time() + 7e3
 									for k,v in next,tfm.get.room.playerList do
 										if v.isVampire then
 											tfm.exec.killPlayer(k)
 										elseif v.isDead and info[k].canRev then
-											if info[k].groundsDataLoaded and system.availableRoom then
-												info[k].stats.rounds = info[k].stats.rounds + 1
-												--system.savePlayerData(k,serialization(info[k].stats))
-											end
 											tfm.exec.respawnPlayer(k)
-											if info[k].checkpoint ~= -1 then
-												local g = system.grounds[info[k].checkpoint]
-												local hTP = system.getTpPos(g)
-												tfm.exec.movePlayer(k,hTP[1],hTP[2])
-											end
-											if hasWater then
-												system.bar(1,k,info[k].drown,0x519DDA,100,20)
-											end
-											tfm.exec.chatMessage(string.format("<R>[•] %s",system.getTranslation("zombie",k)),k)
 										end
 									end
 								end
@@ -1802,6 +1796,14 @@ eventNewGame = function()
 				end
 			end
 		},
+		[9] = {
+			attribute = "A", -- Soulmate not allowed for rooms with odd amount of players
+			func = function()
+				if system.totalPlayers % 2 ~= 0 then
+					table.foreach(tfm.get.room.playerList,tfm.exec.killPlayer)
+				end
+			end
+		},
 	})
 	system.getGroundProperties(currentXml.xml)
 	if not deactivateWater then
@@ -1878,7 +1880,7 @@ eventLoop = function(currentTime,leftTime)
 	end
 end
 
---[[ keyboard ]]--
+--[[ Keyboard ]]--
 eventKeyboard = function(n,k,d,x,y)
 	if table.find(bindMouse,k) then
 		if k < 4 then
@@ -1947,7 +1949,7 @@ eventKeyboard = function(n,k,d,x,y)
 	end
 end
 
---[[ chat commands ]]--
+--[[ Chat commands ]]--
 disableChatCommand = function(command)
 	system.disableChatCommandDisplay(command,true)
 	system.disableChatCommandDisplay(command:lower(),true)
@@ -2097,10 +2099,7 @@ eventPlayerDataLoaded = function(n,d)
 	tfm.exec.chatMessage("<G>Data loaded!",n)
 end
 
---[[ Settings ]]--
-tfm.exec.setRoomMaxPlayers(15)
-table.foreach(tfm.get.room.playerList,eventNewPlayer)
-system.setRoom()
+--[[ Won ]]--
 eventPlayerWon = function(n)
 	if system.availableRoom and info[n].groundsDataLoaded and system.isPlayer(n) then
 		podium = podium + 1
@@ -2135,6 +2134,8 @@ eventPlayerWon = function(n)
 	end
 	info[n].canRev = false
 end
+
+--[[ Died ]]--
 eventPlayerDied = function(n)
 	if info[n].groundsDataLoaded and system.availableRoom then
 		info[n].stats.deaths = info[n].stats.deaths + 1
@@ -2151,12 +2152,36 @@ eventPlayerDied = function(n)
 		tfm.exec.respawnPlayer(n)
 	end
 end
+
+--[[ Left ]]--
 eventPlayerLeft = function(n)
 	info[n].isOnline = false
 end
+
+--[[ Respawn ]]--
+eventPlayerRespawn = function(n)
+	if info[n].checkpoint ~= -1 then
+		local g = system.grounds[info[n].checkpoint]
+		local hTP = system.getTpPos(g,true)
+		tfm.exec.movePlayer(n,hTP[1],hTP[2])
+	end
+	if info[n].groundsDataLoaded and system.availableRoom then
+		info[n].stats.rounds = info[n].stats.rounds + 1
+		--system.savePlayerData(n,serialization(info[n].stats))
+	end
+	if hasWater then
+		system.bar(1,n,info[n].drown,0x519DDA,100,20)
+	end
+	tfm.exec.chatMessage(string.format("<R>[•] %s",system.getTranslation("zombie",n)),n)
+end
+
+--[[ Settings ]]--
+tfm.exec.setGameTime(10)
 for _,f in next,{"AutoShaman","AutoScore","AutoNewGame","AutoTimeLeft","MinimalistMode","PhysicalConsumables"} do
 	tfm.exec["disable"..f]()
 end
+table.foreach(tfm.get.room.playerList,eventNewPlayer)
+tfm.exec.setRoomMaxPlayers(15)
+system.setRoom()
 tfm.exec.setAutoMapFlipMode(false)
 ui.leaderboard()
-tfm.exec.setGameTime(10)
