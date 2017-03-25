@@ -1376,7 +1376,7 @@ system.getTpPos = function(g,center)
 			hTP[1] = hTP[1] + g.L/2
 		elseif ang == -90 or ang == 270 then
 			hTP[1] = hTP[1] - g.L/2
-		elseif ang % 180 == 0 then
+		elseif math.abs(ang) == 180 then
 			hTP[2] = hTP[2] + g.H/2
 		else
 			hTP[2] = hTP[2] - g.H/2
