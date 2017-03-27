@@ -1,8 +1,30 @@
 click = {
+	translations = {
+		en = {
+			welcome = "<BV>Welcome to <CH><B>#click</B><BV>!\n\t» Typing <B>!info</B> displays the help message\n\t» Typing <B>!p Playername</B> opens the profile of the player\n\t» Report any issue to <B>Bolodefchoco</B>",
+			fast = "Click as fast as you can! You have %s seconds!",
+			won = "%s won!",
+			newGame = "New game in <ROSE>%s seconds",
+			help = "<BV>Click on the big circle <CH>as fast as you can<BV>. The more you click the higher your chances to be the winner!",
+			profile = "Total clicks <BL>: <V>%s\n<J>High Score <BL>: <V>%s\n\n<J>Victories <BL>: <V>%s",
+			close = "Close",
+		},
+		br = {
+			welcome = "<BV>Bem-vindo ao <CH><B>#click</B><BV>!\n\t» Digitando <B>!info</B> aparece uma mensagem de ajuda\n\t» Digitando <B>!p Jogador</B> abre o perfil do jogador\n\t» Reporte qualquer problema para <B>Bolodefchoco</B>",
+			fast = "Clique o mais rápido que você puder! Você tem %s segundos!",
+			won = "%s venceu!",
+			newGame = "Novo jogo em <ROSE>%s segundos",
+			help = "<BV>Clique no grande circulo <CH>o mais rápido que você puder<BV>. Quanto mais você clicar maior sua chance de ganhar!",
+			profile = "Cliques totais <BL>: <V>%s\n<J>Maior pontuação <BL>: <V>%s\n\n<J>Vitórias <BL>: <V>%s",
+			close = "Fechar",
+		},
+	},
+	langue = "en",
 	new = 11,
 	timer = 21,
 	info = {},
 	init = function()
+		click.langue = click.translations[tfm.get.room.community] and tfm.get.room.community or "en"
 		for k,v in next,{"utoNewGame","utoShaman","fkDeath","utoScore"} do
 			tfm.exec["disableA"..v]()
 		end
@@ -17,7 +39,7 @@ click = {
 		tfm.exec.respawnPlayer(n)
 	end,
 	eventNewPlayer = function(n)
-		tfm.exec.chatMessage("<BV>Welcome to <CH><B>#click</B><BV>!\n\t» Typing <B>!info</B> displays the help message\n\t» Typing <B>!p Playername</B> opens the profile of the player",n)
+		tfm.exec.chatMessage(click.translations[click.langue].welcome,n)
 		click.info[n] = {
 			count = 0,
 			total = 0,
@@ -31,7 +53,7 @@ click = {
 			if click.timer > 0 then
 				click.timer = click.timer - .5
 				ui.setMapName("CLICK!<")
-				ui.addTextArea(0,"<p align='center'><font size='30'>Click as fast as you can! You have "..math.floor(click.timer).." seconds!",nil,5,30,nil,nil,1,1,0,true)
+				ui.addTextArea(0,"<p align='center'><font size='28'>" .. click.translations[click.langue].fast:format(math.floor(click.timer)),nil,5,30,nil,nil,1,1,0,true)
 				ui.addTextArea(1,"<p align='center'><font size='600'><R><a href='event:.'>•",nil,240,-180,nil,nil,1,1,0,false)
 			else
 				local p,r = {},""
@@ -42,7 +64,7 @@ click = {
 				for k,v in next,p do
 					if k < 51 then
 						if k == 1 and v[2]>0 then
-							tfm.exec.chatMessage("<J>"..v[1].." <G>won!")
+							tfm.exec.chatMessage("<J>" .. click.translations[click.langue].won:format(v[1]))
 							tfm.exec.setPlayerScore(v[1],1,true)
 						end
 						r = r .. "<J>"..k..". <V>"..v[1].." <BL>- <VP>"..v[2].." clicks\n"
@@ -63,7 +85,7 @@ click = {
 				end
 			end
 		else
-			ui.setMapName("<J>New game in <ROSE>"..math.floor(click.new).." <J>seconds!<")
+			ui.setMapName("<J>" .. click.translations[click.langue].newGame:format(math.floor(click.new).."<J>") .. "!<")
 		end
 	end,
 	eventTextAreaCallback = function(i,n,c)
@@ -85,7 +107,7 @@ click = {
 			p[#p+1]=k
 		end
 		if p[1] == "info" then
-			tfm.exec.chatMessage("<BV>Click in the big circle <CH>as fast as you can<BV>. The more you click the higher your chances to be the winner!",n)
+			tfm.exec.chatMessage(click.translations[click.langue].help,n)
 		end
 		if p[1] == "p" then
 			if p[2] then
@@ -94,32 +116,18 @@ click = {
 				p[2] = n
 			end
 			if click.info[p[2]] then
-				ui.addTextArea(3,"<p align='center'><font size='18'><a:active>"..p[2].."<font size='13'><p align='left'>\n<J>Total clicks <BL>: <V>"..click.info[p[2]].total.."\n<J>High Score <BL>: <V>"..click.info[p[2]].best.."\n\n<J>Victories <BL>: <V>"..tfm.get.room.playerList[p[2]].score,n,620,260,175,130,1,1,1,true)
-				ui.addTextArea(4,"<p align='center'><R><B><a href='event:cp'>Close",n,625,365,165,20,0x101010,0x101010,1,true)
+				ui.addTextArea(3,"<p align='center'><font size='18'><a:active>"..p[2].."<font size='13'><p align='left'>\n<J>" .. click.translations[click.langue].profile:format(click.info[p[2]].total,click.info[p[2]].best,tfm.get.room.playerList[p[2]].score),n,620,260,175,130,1,1,1,true)
+				ui.addTextArea(4,"<p align='center'><R><B><a href='event:cp'>" .. click.translations[click.langue].close,n,625,365,165,20,0x101010,0x101010,1,true)
 			end
 		end
 	end,
 }
 
-eventPlayerDied = function(n)
-	click.eventPlayerDied(n)
-end
-
-eventNewPlayer = function(n)
-	click.eventNewPlayer(n)
+for _,f in next,{"PlayerDied","NewPlayer","Loop","TextAreaCallback","ChatCommand"} do
+	_G["event" .. f] = function(...)
+		click["event" .. f](...)
+	end
 end
 table.foreach(tfm.get.room.playerList,eventNewPlayer)
-
-eventLoop = function()
-	click.eventLoop()
-end
-
-eventTextAreaCallback = function(i,n,c)
-	click.eventTextAreaCallback(i,n,c)
-end
-
-eventChatCommand = function(n,c)
-	click.eventChatCommand(n,c)
-end
 
 click.init()
