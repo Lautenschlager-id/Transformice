@@ -87,14 +87,14 @@ chat = {
 		end		
 	end,
 	eventChatCommand = function(n,c)
-		if c:sub(1,5) == "title" and c:sub(7) ~= "" and system.roomAdmins[n] then
+		if c:sub(1,5) == "title" and c:sub(7) ~= "" then
 			chat.title = c:sub(7,47)
 			chat.displayChat()
 		end
 	end,
 }
 
-for _,f in next,{"PopupAnswer","NewPlayer","TextAreaCallback"} do
+for _,f in next,{"PopupAnswer","NewPlayer","TextAreaCallback","ChatCommand"} do
 	_G["event" .. f] = function(...)
 		chat["event" .. f](...)
 	end
