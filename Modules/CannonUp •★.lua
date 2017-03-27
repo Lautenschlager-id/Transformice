@@ -1,35 +1,3 @@
-string.nick=function(player)
-	return player:lower():gsub('%a',string.upper,1)
-end
-table.turnTable = function(x)
-	return (type(x)=="table" and x or {x})
-end
-system.players = function(alivePlayers)
-    local alive,total = 0,0
-	if alivePlayers then
-		alive = {}
-	end
-    for k,v in next,tfm.get.room.playerList do
-        if true then
-            if not v.isDead and not v.isVampire then
-                if alivePlayers then
-					alive[#alive + 1] = k
-				else
-					alive = alive + 1
-				end
-            end
-            total = total + 1
-        end
-    end
-	if alivePlayers then
-		return alive
-	else
-		return alive,total
-	end
-end
-table.random=function(t)
-	return (type(t)=="table" and t[math.random(#t)] or math.random())
-end
 xml = {}
 xml.parse = function(currentXml)
 	currentXml = currentXml:match("<P (.-)/>") or ""
@@ -62,11 +30,79 @@ xml.addAttrib = function(currentXml,out,launch)
 		return currentXml
 	end
 end
+
 normalizedTime = function(time)
 	return math.floor(time) + ((time - math.floor(time)) >= .5 and .5 or 0)
 end
 
+table.random=function(t)
+	return (type(t)=="table" and t[math.random(#t)] or math.random())
+end
+
+string.nick=function(player)
+	return player:lower():gsub('%a',string.upper,1)
+end
+
+system.isPlayer = function(n)
+	if tfm.get.room.playerList[n] then
+		if n:sub(1,1) == "*" then
+			return false
+		end
+		if tfm.get.room.playerList[n].registrationDate then
+			if os.time() - (tfm.get.room.playerList[n].registrationDate or 0) < 432e6 then -- 5 days in tfm
+				return false
+			end
+		else
+			return false
+		end
+		return true
+	else
+		return false
+	end
+end
+
+system.players = function(alivePlayers)
+    local alive,total = 0,0
+	if alivePlayers then
+		alive = {}
+	end
+    for k,v in next,tfm.get.room.playerList do
+        if system.isPlayer(k) then
+            if not v.isDead and not v.isVampire then
+                if alivePlayers then
+					alive[#alive + 1] = k
+				else
+					alive = alive + 1
+				end
+            end
+            total = total + 1
+        end
+    end
+	if alivePlayers then
+		return alive
+	else
+		return alive,total
+	end
+end
+
 cannonup = {
+	translations = {
+		en = {
+			profile = "Rounds : <V>%d</V>\nCheeses : <V>%d</V>\n\nDeaths : <V>%d</V>",
+			welcome = "Welcome to #cannonup, %s. Your aim is to be the survivor! <VP>Take care, watermelons are dangerous!\n\t<J>Report any issue to Bolodefchoco.",
+			needed = "At least 2 mice are necessary to play #CannonUp!",
+			nosurvivor = "No survivors!",
+			won = "%s <G>won!",
+		},
+		br = {
+			profile = "Rodadas : <V>%d</V>\nQueijos : <V>%d</V>\n\nMortes : <V>%d</V>",
+			welcome = "Bem-vindo ao #cannonup, %s. Seu objetivo é ser o sobrevivente! <VP>Tome cuidado, melancias são perigosas!\n\t<J>Reporte qualquer problema para Bolodefchoco.",
+			needed = "Pelo menos 2 ratos são necessários para jogar #CannonUp!",
+			nosurvivor = "Nenhum sobrevivente!",
+			won = "%s <G>venceu!",
+		},
+	},
+	langue = "en",
 	start = false,
 	initX = nil,
 	initY = nil,
@@ -77,9 +113,10 @@ cannonup = {
 	difficulty = {0,1,1}, -- timer to verify again, dif, amount of cn
 	xml = 0,
 	alive = 0,
-	maps = {2310447,3746497,6001536,3666224,4591929},
+	maps = {2310447,3746497,6001536,3666224,4591929,"#10"},
 	info = {},
 	init = function()
+		cannonup.langue = cannonup.translations[tfm.get.room.community] and tfm.get.room.community or "en"
 		for _,f in next,{"AutoShaman","AutoScore","AutoNewGame","AutoTimeLeft","MinimalistMode","PhysicalConsumables"} do
 			tfm.exec["disable"..f]()
 		end
@@ -122,7 +159,7 @@ cannonup = {
 		end
 	end,
 	displayProfile = function(p,n)
-		ui.addTextArea(1,string.format("\n\n<font size='13'>\nRounds : <V>%d</V>\nCheeses : <V>%d</V>\n\nDeaths : <V>%d</V>",cannonup.info[p].round,cannonup.info[p].win,cannonup.info[p].death),n,300,100,200,150,0x0B282E,0x1B282E,1,true)
+		ui.addTextArea(1,"\n\n<font size='13'>\n" .. cannonup.translations[cannonup.langue].profile:format(cannonup.info[p].round,cannonup.info[p].win,cannonup.info[p].death),n,300,100,200,150,0x0B282E,0x1B282E,1,true)
 		ui.addTextArea(2,"<p align='center'><font size='20'><VP><B><a href='event:close'>"..p.."</a>",n,305,105,190,30,0x244452,0x1B282E,.4,true)
 	end,
 	eventNewPlayer = function(n)
@@ -133,7 +170,7 @@ cannonup = {
 				round = 0,
 			}
 		end
-		tfm.exec.chatMessage(string.format("<V>[•]</V> <CE>Welcome to #CannonUp, %s. Your aim is to be the survivor! <VP>Take care, watermelons are dangerous!",n),n)
+		tfm.exec.chatMessage("<V>[•] <CE>" .. cannonup.translations[cannonup.langue].welcome:format(n),n)
 	end,
 	eventNewGame = function()
 		cannonup.start = true
@@ -194,13 +231,13 @@ cannonup = {
 			end
 		else
 			cannonup.start = false
-			tfm.exec.chatMessage("<V>[•]</V> <R>At least 2 mice are necessary to play #CannonUp!</R>")
+			tfm.exec.chatMessage("<V>[•] <R>" .. cannonup.translations[cannonup.langue].needed)
 			tfm.exec.newGame('<C><P /><Z><S><S L="800" o="324650" H="100" X="400" Y="400" T="12" P="0,0,0.3,0.2,0,0,0,0" /></S><D /><O /></Z></C>')
 		end
 	end,
 	eventLoop = function(currentTime,leftTime)
-		currentTime = normalizedTime(currentTime/1e3)
-		leftTime = normalizedTime(leftTime/1e3)
+		_G.currentTime = normalizedTime(currentTime/1e3)
+		_G.leftTime = normalizedTime(leftTime/1e3)
 		if cannonup.xml ~= 0 then
 			tfm.exec.newGame(cannonup.xml)
 		end
@@ -209,18 +246,18 @@ cannonup = {
 		cannonup.alive = #alive
 		if cannonup.alive < 2 or leftTime < 4 then
 			if cannonup.alive == 0 then
-				tfm.exec.chatMessage("<G>No winners! :(")
+				tfm.exec.chatMessage("<G>" .. cannonup.translations[cannonup.langue].nosurvivor .. " :(")
 			else
 				for k,v in next,alive do
 					tfm.exec.giveCheese(v)
 					tfm.exec.playerVictory(v)
 				end
-				tfm.exec.chatMessage(string.format("<J>%s <G>won!",table.concat(alive,"<G>, <J>")))
+				tfm.exec.chatMessage("<J>" .. cannonup.translations[cannonup.langue].won:format(table.concat(alive,"<G>, <J>")))
 			end
 			tfm.exec.newGame(table.random(cannonup.maps))
 		end
 		
-		if cannonup.xml == 0 and currentTime > 5 and leftTime > 3 then
+		if cannonup.xml == 0 and _G.currentTime > 5 and _G.leftTime > 3 then
 			if os.time() > cannonup.newSpawn then
 				cannonup.timer = cannonup.timer + .5
 				
@@ -291,33 +328,11 @@ cannonup = {
 	end,
 }
 
-eventLoop = function(currentTime,leftTime)
-	cannonup.eventLoop(currentTime,leftTime)
-end
-
-eventNewGame = function()
-	cannonup.eventNewGame()
-end
-
-eventNewPlayer = function(n)
-	cannonup.eventNewPlayer(n)
+for _,f in next,{"NewPlayer","NewGame","Loop","PlayerWon","PlayerDied","TextAreaCallback","ChatCommand"} do
+	_G["event" .. f] = function(...)
+		cannonup["event" .. f](...)
+	end
 end
 table.foreach(tfm.get.room.playerList,eventNewPlayer)
-
-eventPlayerWon = function(n)
-	cannonup.eventPlayerWon(n)
-end
-
-eventPlayerDied = function(n)
-	cannonup.eventPlayerDied(n)
-end
-
-eventTextAreaCallback = function(i,n,c)
-	cannonup.eventTextAreaCallback(i,n,c)
-end
-
-eventChatCommand = function(n,c)
-	cannonup.eventChatCommand(n,c)
-end
 
 cannonup.init()
