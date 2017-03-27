@@ -33,7 +33,7 @@ jokenpo = {
 		en = {
 			tie = "Tie",
 			won = "Won",
-			welcome = "Welcome to <ROSE>#Jokenpo<CE>! Choose a chair, press space and start playing!",
+			welcome = "Welcome to <ROSE>#Jokenpo<CE>! Choose a chair, press space and start playing!\n\tReport any issue to Bolodefchoco",
 			guide = "<%s>Hello %s! <J>Press\n\t<PS>» <J>%s<PT> - Rock\n\t<PS>» <J>%s<PT> - Paper\n\t<PS>» <J>%s<PT> - Scissor (Pufferfish)",
 			played = "You've selected the item %s!",
 			items = {"Rock","Paper","Scissor"},
@@ -42,8 +42,8 @@ jokenpo = {
 		br = {
 			tie = "Empate",
 			won = "Venceu",
-			welcome = "Bem-vindo ao <ROSE>#Jokenpo<CE>! Escolha uma cadeira, aperte espaço e comece a jogar!",
-			guide = "%s>Olá %s! <J>Pressione\n\t<PS>» <J>%s<PT> - Pedra\n\t<PS>» <J>%s<PT> - Papel\n\t<PS>» <J>%s<PT> - Tesoura (Baiacu)",
+			welcome = "Bem-vindo ao <ROSE>#Jokenpo<CE>! Escolha uma cadeira, aperte espaço e comece a jogar!\n\tReporte qualquer problema para Bolodefchoco",
+			guide = "<%s>Olá %s! <J>Pressione\n\t<PS>» <J>%s<PT> - Pedra\n\t<PS>» <J>%s<PT> - Papel\n\t<PS>» <J>%s<PT> - Tesoura (Baiacu)",
 			played = "Você selecionou o item %s!",
 			items = {"Pedra","Papel","Tesoura"},
 			winner = "Venceu o jogo!",
@@ -212,14 +212,14 @@ jokenpo = {
 		end
 	end,
 	eventLoop = function(currentTime)
-		currentTime = normalizedTime(currentTime/1e3)
-		if currentTime > 3 then
+		_G.currentTime = normalizedTime(currentTime/1e3)
+		if _G.currentTime > 3 then
 			if jokenpo.newMapCD > 0 and os.time() > jokenpo.newMapCD then
 				jokenpo.newRound()
 			end
 
 			if jokenpo.cBlue ~= "" and jokenpo.cRed ~= "" then
-				if currentTime % 2 == 0 then
+				if _G.currentTime % 2 == 0 then
 					tfm.exec.movePlayer(jokenpo.cBlue,515,330)
 					tfm.exec.playEmote(jokenpo.cBlue,26)
 					tfm.exec.movePlayer(jokenpo.cRed,285,330)
@@ -268,17 +268,11 @@ jokenpo = {
 	end
 }
 
-eventNewPlayer = function(n)
-	jokenpo.eventNewPlayer(n)
+for _,f in next,{"NewPlayer","Keyboard","Loop"} do
+	_G["event" .. f] = function(...)
+		jokenpo["event" .. f](...)
+	end
 end
 table.foreach(tfm.get.room.playerList,eventNewPlayer)
-
-eventKeyboard = function(n,k,d,x,y)
-	jokenpo.eventKeyboard(n,k,d,x,y)
-end
-
-eventLoop = function(currentTime,timeLeft)
-	jokenpo.eventLoop(currentTime)
-end
 
 jokenpo.init()
