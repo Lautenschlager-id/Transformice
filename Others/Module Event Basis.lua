@@ -104,6 +104,18 @@ eventPlayerDataLoaded = function(n,data)
 	
 	-- TODO Data Loaded
 end
+system.giveTitle = function(n,id)
+	-- Use system.giveTitle instead of system.giveEventGift
+	if title[id] and info[n] then
+		if info[n].dataLoaded and info[n].db.allowTitle then
+			system.giveEventGift(n,title[id])
+			info[n].db.allowTitle = false
+			system.savePlayerData(n,serialization(info[n].db))
+			return true
+		end
+	end
+end
+			
 
 	--[[ Others ]]--
 os.normalizedTime = function(time)
