@@ -48,33 +48,54 @@ end
 --[[ Functions ]]--
 	--[[ Data ]]--
 serialization = function(x)
-	-- Avoid the following characters in your code: '_@', '_!', '_#', '_%', '+&', '&-', '?', ':', ';'
 	if type(x) == "table" then
-		local t = x
-		local str = ""
-		for index,value in next,t do
-			local prefix,tbOption = (type(value)=="string" and "_@" or type(value)=="boolean" and "_!" or type(value)=="number" and "_#" or type(value)=="table" and "_%" or ""),(type(value)~="table" and tostring(value) or "+&"..serialization(value):gsub(";","?").."&-")
-			str = str .. ':' .. tostring(index) .. prefix .. tbOption .. ";"
-		end
-		return str
-	elseif type(x) == "string" then
-		local s = x
-		local list = {}
-		for str in s:gmatch("(.-);") do
-			local varName,valueType,value = str:match(':(.-)_(%p)(.+)')
-			if varName~=nil then
-				varName = tonumber(varName) or varName
-				if valueType == "@" then
-					list[varName] = tostring(value)
-				elseif valueType == "!" then
-					list[varName] = value=="true"
-				elseif valueType == "#" then
-					list[varName] = tonumber(value)
-				elseif valueType == "%" then
-					list[varName] = serialization(value:gsub("+&",""):gsub("&-",""):gsub("%?",";"))
-				end	
+		local str = {}
+
+		for index,value in next,x do
+			local v = type(value)
+
+			local prefix = (v == "string" and "@" or v == "boolean" and "!" or v == "number" and "#" or v == "table" and "%" or "")
+			if prefix then
+				local data
+				if prefix == "@" then
+					data = table.concat({string.byte(value,1,#value)},".")
+				elseif prefix == "!" then
+					data = (value and 1 or 0)
+				elseif prefix == "#" then
+					data = tostring(value)
+				elseif prefix == "%" then
+					data = string.format("{%s}",serialization(value):gsub(";","?"))
+				end
+
+				str[#str + 1] = string.format(":%s%s%s;",index,prefix,data)
 			end
 		end
+
+		return table.concat(str)
+	elseif type(x) == "string" then
+		local list = {}
+		
+		for str in x:gmatch("(.-);") do
+			local index,vtype,value = str:match(":(.-)(%p)(.+)")
+			if index and vtype and value then
+				index = tonumber(index) or index
+
+				if vtype == "@" then
+					local sub = {}
+					for i in value:gmatch("[^%.]+") do
+						sub[#sub+1] = i
+					end
+					list[index] = string.char(table.unpack(sub))
+				elseif vtype == "!" then
+					list[index] = (value == "1")
+				elseif vtype == "#" then
+					list[index] = tonumber(value)
+				elseif vtype == "%" then
+					list[index] = serialization(value:gsub("{",""):gsub("}",""):gsub("%?",";"))
+				end
+			end
+		end
+
 		return list
 	end
 end
