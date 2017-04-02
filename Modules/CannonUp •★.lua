@@ -1,90 +1,3 @@
-xml = {}
-xml.parse = function(currentXml)
-	currentXml = currentXml:match("<P (.-)/>") or ""
-	local out = {}
-	for tag,_,value in currentXml:gmatch("([%-%w]+)=([\"'])(.-)%2") do
-		out[tag] = value
-	end
-	return out
-end
-xml.attribFunc = function(currentXml,funcs)
-	local attributes = xml.parse(currentXml)
-	for k,v in next,funcs do
-		if attributes[v.attribute] then
-			v.func(attributes[v.attribute])
-		end
-	end
-end
-xml.addAttrib = function(currentXml,out,launch)
-	local parameters = currentXml:match("<P (.-)/>") or ""
-	for k,v in next,out do
-		if not parameters:find(v.tag) then
-			currentXml = currentXml:gsub("<P (.-)/>",function(attribs)
-				return string.format("<P %s=\"%s\" %s/>",v.tag,v.value,attribs)
-			end)
-		end
-	end
-	if launch then
-		tfm.exec.newGame(currentXml)
-	else
-		return currentXml
-	end
-end
-
-normalizedTime = function(time)
-	return math.floor(time) + ((time - math.floor(time)) >= .5 and .5 or 0)
-end
-
-table.random=function(t)
-	return (type(t)=="table" and t[math.random(#t)] or math.random())
-end
-
-string.nick=function(player)
-	return player:lower():gsub('%a',string.upper,1)
-end
-
-system.isPlayer = function(n)
-	if tfm.get.room.playerList[n] then
-		if n:sub(1,1) == "*" then
-			return false
-		end
-		if tfm.get.room.playerList[n].registrationDate then
-			if os.time() - (tfm.get.room.playerList[n].registrationDate or 0) < 432e6 then -- 5 days in tfm
-				return false
-			end
-		else
-			return false
-		end
-		return true
-	else
-		return false
-	end
-end
-
-system.players = function(alivePlayers)
-    local alive,total = 0,0
-	if alivePlayers then
-		alive = {}
-	end
-    for k,v in next,tfm.get.room.playerList do
-        if system.isPlayer(k) then
-            if not v.isDead and not v.isVampire then
-                if alivePlayers then
-					alive[#alive + 1] = k
-				else
-					alive = alive + 1
-				end
-            end
-            total = total + 1
-        end
-    end
-	if alivePlayers then
-		return alive
-	else
-		return alive,total
-	end
-end
-
 cannonup = {
 	translations = {
 		en = {
@@ -236,15 +149,14 @@ cannonup = {
 		end
 	end,
 	eventLoop = function(currentTime,leftTime)
-		_G.currentTime = normalizedTime(currentTime/1e3)
-		_G.leftTime = normalizedTime(leftTime/1e3)
 		if cannonup.xml ~= 0 then
 			tfm.exec.newGame(cannonup.xml)
 		end
 		
 		local alive = system.players(true)
-		cannonup.alive = #alive
-		if cannonup.alive < 2 or leftTime < 4 then
+		local total,aliven = system.players()
+		cannonup.alive = aliven
+		if total > 1 and cannonup.alive < 2 or leftTime < 4 then
 			if cannonup.alive == 0 then
 				tfm.exec.chatMessage("<G>" .. cannonup.translations[cannonup.langue].nosurvivor .. " :(")
 			else
@@ -327,12 +239,3 @@ cannonup = {
 		end
 	end,
 }
-
-for _,f in next,{"NewPlayer","NewGame","Loop","PlayerWon","PlayerDied","TextAreaCallback","ChatCommand"} do
-	_G["event" .. f] = function(...)
-		cannonup["event" .. f](...)
-	end
-end
-table.foreach(tfm.get.room.playerList,eventNewPlayer)
-
-cannonup.init()
