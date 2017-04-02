@@ -122,12 +122,3 @@ click = {
 		end
 	end,
 }
-
-for _,f in next,{"PlayerDied","NewPlayer","Loop","TextAreaCallback","ChatCommand"} do
-	_G["event" .. f] = function(...)
-		click["event" .. f](...)
-	end
-end
-table.foreach(tfm.get.room.playerList,eventNewPlayer)
-
-click.init()
