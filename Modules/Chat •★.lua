@@ -1,29 +1,3 @@
-string.split = function(value,pattern,f)
-	local out = {}
-	for v in value:gmatch(pattern) do
-		out[#out + 1] = (f and f(v) or v)
-	end
-	return out
-end
-string.nick=function(player)
-	return player:lower():gsub('%a',string.upper,1)
-end
-
-table.find = function(list,value,index)
-	for k,v in next,list do
-		if index then
-			if v[index] == value then
-				return true,k
-			end
-		else
-			if v == value then
-				return true,k
-			end
-		end
-	end
-	return false
-end
-
 chat = {
 	translations = {
 		en = {
@@ -90,8 +64,8 @@ chat = {
 			local p = string.split(message:sub(2),"[^%s]+")
 			if p[1] == "title" then
 				chat.eventChatCommand(n,table.concat(p," "))
-			elseif p[1] == "adm" then
-				
+			elseif p[1] == "adm" and system.roomAdmins[n] then
+				system.roomAdmins[string.nick(p[2])] = true
 			end
 		else
 			message = message:gsub("{(.-):(.-)}",function(color,text)
@@ -138,8 +112,8 @@ chat = {
 	end,
 	eventChatCommand = function(n,c)
 		local p = string.split(c,"[^%s]+")
-		if p[1] == "title" and p[2] then
-			chat.title = table.concat(p," ",2):sub(1,40)
+		if p[1] == "title" and p[2] and system.roomAdmins[n] then
+			chat.title = table.concat(p," ",nil,2):sub(1,40)
 			chat.displayChat()
 		elseif p[1] == "np" and p[2] then
 			tfm.exec.chatMessage(string.format("<S>%s loaded by %s",p[2]:sub(1,1) == "@" and p[2] or "@" .. p[2],n))
@@ -151,12 +125,3 @@ chat = {
 		end
 	end,
 }
-
-for _,f in next,{"PopupAnswer","NewPlayer","TextAreaCallback","ChatCommand"} do
-	_G["event" .. f] = function(...)
-		chat["event" .. f](...)
-	end
-end
-table.foreach(tfm.get.room.playerList,eventNewPlayer)
-
-chat.init()
