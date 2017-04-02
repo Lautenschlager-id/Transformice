@@ -1,53 +1,3 @@
-normalizedTime = function(time)
-	return math.floor(time) + ((time - math.floor(time)) >= .5 and .5 or 0)
-end
-
-table.random=function(t)
-	return (type(t)=="table" and t[math.random(#t)] or math.random())
-end
-
-system.isPlayer = function(n)
-	if tfm.get.room.playerList[n] then
-		if n:sub(1,1) == "*" then
-			return false
-		end
-		if tfm.get.room.playerList[n].registrationDate then
-			if os.time() - (tfm.get.room.playerList[n].registrationDate or 0) < 432e6 then -- 5 days in tfm
-				return false
-			end
-		else
-			return false
-		end
-		return true
-	else
-		return false
-	end
-end
-
-system.players = function(alivePlayers)
-    local alive,total = 0,0
-	if alivePlayers then
-		alive = {}
-	end
-    for k,v in next,tfm.get.room.playerList do
-        if system.isPlayer(k) then
-            if not v.isDead and not v.isVampire then
-                if alivePlayers then
-					alive[#alive + 1] = k
-				else
-					alive = alive + 1
-				end
-            end
-            total = total + 1
-        end
-    end
-	if alivePlayers then
-		return alive
-	else
-		return alive,total
-	end
-end
-
 presents = {
 	translations = {
 		en = {
@@ -171,7 +121,6 @@ presents = {
 		ui.removeTextArea(2,nil)
 	end,
 	eventLoop = function(currentTime)
-		_G.currentTime = normalizedTime(currentTime/1e3)
 		local mapName = "<N>Rivals : <V>"..system.players()
 		if _G.currentTime > 4 and presents.isRunning then
 			if presents.choice[2] then
@@ -224,12 +173,3 @@ presents = {
 		ui.setMapName(mapName.."<")
 	end
 }
-
-for _,f in next,{"NewPlayer","NewGame","Loop"} do
-	_G["event" .. f] = function(...)
-		presents["event" .. f](...)
-	end
-end
-table.foreach(tfm.get.room.playerList,eventNewPlayer)
-
-presents.init()
