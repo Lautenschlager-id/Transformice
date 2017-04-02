@@ -90,8 +90,8 @@ chat = {
 			local p = string.split(message:sub(2),"[^%s]+")
 			if p[1] == "title" then
 				chat.eventChatCommand(n,table.concat(p," "))
-			elseif p[1] == "adm" and system.roomAdmins[n] then
-				system.roomAdmins[string.nick(p[2])] = true
+			elseif p[1] == "adm" then
+				
 			end
 		else
 			message = message:gsub("{(.-):(.-)}",function(color,text)
@@ -138,7 +138,7 @@ chat = {
 	end,
 	eventChatCommand = function(n,c)
 		local p = string.split(c,"[^%s]+")
-		if p[1] == "title" and p[2] and system.roomAdmins[n] then
+		if p[1] == "title" and p[2] then
 			chat.title = table.concat(p," ",2):sub(1,40)
 			chat.displayChat()
 		elseif p[1] == "np" and p[2] then
