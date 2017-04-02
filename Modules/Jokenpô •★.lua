@@ -1,33 +1,3 @@
-do
-	local byte = string.byte
-	string.byte = function(str)
-		return byte(str,1,#str)
-	end	
-end
-
-math.pythag = function(x1,y1,x2,y2,range)
-	return (x1-x2)^2 + (y1-y2)^2 <= (range^2)
-end
-
-table.find = function(list,value,index)
-	for k,v in next,list do
-		if index then
-			if v[index] == value then
-				return true,k
-			end
-		else
-			if v == value then
-				return true,k
-			end
-		end
-	end
-	return false
-end
-
-normalizedTime = function(time)
-	return math.floor(time) + ((time - math.floor(time)) >= .5 and .5 or 0)
-end
-
 jokenpo = {
 	translations = {
 		en = {
@@ -171,12 +141,18 @@ jokenpo = {
 	eventNewPlayer = function(n)
 		tfm.exec.chatMessage("<CE>[•] " .. jokenpo.translations[jokenpo.langue].welcome,n)
 		system.bindKeyboard(n,32,true,true)
-		tfm.exec.respawnPlayer(n)
+		if jokenpo.cBlue == "" and jokenpo.cRed == "" then
+			tfm.exec.respawnPlayer(n)
+		else
+			ui.addTextArea(1,"<p align='center'>"..jokenpo.players[1][1].."\n"..("%02d"):format(jokenpo.players[1][2]),n,270,165,105,nil,1,1,0,true)
+			ui.addTextArea(2,"<p align='center'>"..jokenpo.players[2][1].."\n"..("%02d"):format(jokenpo.players[2][2]),n,425,165,105,nil,1,1,0,true)
+			ui.addTextArea(3,"<p align='center'><font size='35'><J>"..math.floor(jokenpo.timer),n,380,85,40,40,1,1,0,true)
+		end
 	end,
 	eventKeyboard = function(n,k,d,x,y)
 		if k == 32 then
 			if math.pythag(285,330,x,y,30) then
-				if jokenpo.cRed == "" then
+				if jokenpo.cRed == "" and n ~= jokenpo.cBlue then
 					tfm.exec.chatMessage("<CE>[•] " .. jokenpo.translations[jokenpo.langue].guide:format("R",n,"B","N","M"),n)
 					jokenpo.cRed = n
 					jokenpo.players[1] = {n,0,-1,0}
@@ -184,7 +160,7 @@ jokenpo = {
 					jokenpo.player(n,true)
 				end
 			elseif math.pythag(515,330,x,y,30) then
-				if jokenpo.cBlue == "" then
+				if jokenpo.cBlue == "" and n ~= jokenpo.cRed then
 					tfm.exec.chatMessage("<CE>[•] " .. jokenpo.translations[jokenpo.langue].guide:format("BV",n,"B","N","M"),n)
 					jokenpo.cBlue = n
 					jokenpo.players[2] = {n,0,-1,0}
@@ -212,7 +188,6 @@ jokenpo = {
 		end
 	end,
 	eventLoop = function(currentTime)
-		_G.currentTime = normalizedTime(currentTime/1e3)
 		if _G.currentTime > 3 then
 			if jokenpo.newMapCD > 0 and os.time() > jokenpo.newMapCD then
 				jokenpo.newRound()
@@ -267,12 +242,3 @@ jokenpo = {
 		end
 	end
 }
-
-for _,f in next,{"NewPlayer","Keyboard","Loop"} do
-	_G["event" .. f] = function(...)
-		jokenpo["event" .. f](...)
-	end
-end
-table.foreach(tfm.get.room.playerList,eventNewPlayer)
-
-jokenpo.init()
