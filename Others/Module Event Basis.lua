@@ -134,7 +134,9 @@ system.giveTitle = function(n,id)
 			system.savePlayerData(n,serialization(info[n].db))
 			return true
 		end
+		return false
 	end
+	return false
 end
 			
 
