@@ -166,8 +166,8 @@ end
 
 --[[ Loop ]]--
 eventLoop = function(currentTime,timeLeft)
-	_G.currentTime = os.normalizedTime(currentTime/1000) -- [Global] Current time in secondsm 0.5 by 0.5
-	_G.timeLeft = os.normalizedTime(timeLeft/1000) -- [Global] Time left in secondsm 0.5 by 0.5
+	_G.currentTime = os.normalizedTime(currentTime/1000) -- [Global] Current time in seconds 0.5 by 0.5
+	_G.timeLeft = os.normalizedTime(timeLeft/1000) -- [Global] Time left in seconds 0.5 by 0.5
 	-- TODO Loop
 end
 
