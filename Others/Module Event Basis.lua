@@ -42,7 +42,7 @@ system.staff = {
 	artist = {"Artist 1"},
 }
 for k,v in next,system.staff do
-	table.sort(v,function(t1,t2) return t2 > t1 end)
+	table.sort(v)
 end
 
 --[[ Functions ]]--
