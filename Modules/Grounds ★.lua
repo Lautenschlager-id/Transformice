@@ -6,6 +6,8 @@
 		3 = #Presents
 		4 = #Chat
 		5 = #CannonUp
+		6 = #Xmas
+		7 = #Signal
 	]]--
 system.gameMode = 0
 
@@ -39,6 +41,10 @@ system.roomSettings = {
 			system.gameMode = 4
 		elseif name == "cannonup" then
 			system.gameMode = 5
+		elseif name == "xmas" then
+			system.gameMode = 6
+		elseif name == "signal" then
+			system.gameMode = 7
 		end
 	end
 }
@@ -71,22 +77,22 @@ system.loadTable = function(s)
 	return list
 end
 system.players = function(alivePlayers)
-    local alive,total = 0,0
+	local alive,total = 0,0
 	if alivePlayers then
 		alive = {}
 	end
-    for k,v in next,tfm.get.room.playerList do
-        if system.isPlayer(k) then
-            if not v.isDead and not v.isVampire then
-                if alivePlayers then
+	for k,v in next,tfm.get.room.playerList do
+		if system.isPlayer(k) then
+			if not v.isDead and not v.isVampire then
+				if alivePlayers then
 					alive[#alive + 1] = k
 				else
 					alive = alive + 1
 				end
-            end
-            total = total + 1
-        end
-    end
+			end
+			total = total + 1
+		end
+	end
 	if alivePlayers then
 		return alive
 	else
@@ -124,9 +130,13 @@ string.nick=function(player)
 end
 
 	--[[ Math ]]--
-math.percent = function(x,y)
-	local m = x/y * 100
-	return math.min(m,100)
+math.isNegative = function(x,iN,iP)
+	return (x<0 and iN or iP)
+end
+math.percent = function(x,y,v)
+	v = (v or 100)
+	local m = x/y * v
+	return math.min(m,v)
 end
 math.pythag = function(x1,y1,x2,y2,range)
 	return (x1-x2)^2 + (y1-y2)^2 <= (range^2)
@@ -276,6 +286,7 @@ jokenpo = {
 	newMapCD = 0,
 	tie = 0,
 	init = function()
+		jokenpo.translations.pt = jokenpo.translations.br
 		jokenpo.langue = jokenpo.translations[tfm.get.room.community] and tfm.get.room.community or "en"
 		for _,f in next,{"AutoShaman","AutoScore","AutoNewGame","AutoTimeLeft","MinimalistMode","PhysicalConsumables","AfkDeath"} do
 			tfm.exec["disable"..f]()
@@ -383,12 +394,18 @@ jokenpo = {
 	eventNewPlayer = function(n)
 		tfm.exec.chatMessage("<CE>[•] " .. jokenpo.translations[jokenpo.langue].welcome,n)
 		system.bindKeyboard(n,32,true,true)
-		tfm.exec.respawnPlayer(n)
+		if jokenpo.cBlue == "" and jokenpo.cRed == "" then
+			tfm.exec.respawnPlayer(n)
+		else
+			ui.addTextArea(1,"<p align='center'>"..jokenpo.players[1][1].."\n"..("%02d"):format(jokenpo.players[1][2]),n,270,165,105,nil,1,1,0,true)
+			ui.addTextArea(2,"<p align='center'>"..jokenpo.players[2][1].."\n"..("%02d"):format(jokenpo.players[2][2]),n,425,165,105,nil,1,1,0,true)
+			ui.addTextArea(3,"<p align='center'><font size='35'><J>"..math.floor(jokenpo.timer),n,380,85,40,40,1,1,0,true)
+		end
 	end,
 	eventKeyboard = function(n,k,d,x,y)
 		if k == 32 then
 			if math.pythag(285,330,x,y,30) then
-				if jokenpo.cRed == "" then
+				if jokenpo.cRed == "" and n ~= jokenpo.cBlue then
 					tfm.exec.chatMessage("<CE>[•] " .. jokenpo.translations[jokenpo.langue].guide:format("R",n,"B","N","M"),n)
 					jokenpo.cRed = n
 					jokenpo.players[1] = {n,0,-1,0}
@@ -396,7 +413,7 @@ jokenpo = {
 					jokenpo.player(n,true)
 				end
 			elseif math.pythag(515,330,x,y,30) then
-				if jokenpo.cBlue == "" then
+				if jokenpo.cBlue == "" and n ~= jokenpo.cRed then
 					tfm.exec.chatMessage("<CE>[•] " .. jokenpo.translations[jokenpo.langue].guide:format("BV",n,"B","N","M"),n)
 					jokenpo.cBlue = n
 					jokenpo.players[2] = {n,0,-1,0}
@@ -504,6 +521,7 @@ click = {
 	timer = 21,
 	info = {},
 	init = function()
+		click.translations.pt = click.translations.br
 		click.langue = click.translations[tfm.get.room.community] and tfm.get.room.community or "en"
 		for k,v in next,{"utoNewGame","utoShaman","fkDeath","utoScore"} do
 			tfm.exec["disableA"..v]()
@@ -633,6 +651,7 @@ presents = {
 	currentGift = 1,
 	total = 1,
 	init = function()
+		presents.translations.pt = presents.translations.br
 		presents.langue = presents.translations[tfm.get.room.community] and tfm.get.room.community or "en"
 		for k,v in next,{"AutoShaman","AutoNewGame","AutoTimeLeft","AutoScore","AfkDeath","MortCommand","DebugCommand","PhysicalConsumables"} do
 			tfm.exec["disable"..v]()
@@ -791,13 +810,14 @@ chat = {
 	info = {},
 	title = "Chat",
 	init = function()
+		chat.translations.pt = chat.translations.br
 		chat.langue = chat.translations[tfm.get.room.community] and tfm.get.room.community or "en"
 		tfm.exec.setRoomMaxPlayers(30)
 		system.disableChatCommandDisplay("title",true)
 		chat.displayChat()
 	end,
 	loadMessage = function()
-		local message = ""
+		local message = "<font size='7'>\n</font>"
 		for i = 18,1,-1 do
 			if #message < 2000 then
 				local line = chat.data[i] or ""
@@ -809,21 +829,23 @@ chat = {
 		end
 		return message
 	end,
-	Chat = function(n,message)
-		ui.addPopup(0,2,"",n,197,325,405,true)
+	Chat = function(n,message,update)
+		if not update then
+			ui.addPopup(0,2,"",n,197,325,405,true)
+		end
 		ui.addTextArea(0,"",n,198,73,404,253,0x212E35,0x212E35,1,true)
 		ui.addTextArea(1,message,n,200,75,400,250,0x324650,0x324650,1,true)
 		ui.addTextArea(2,"<p align='center'><B><V>" .. chat.title,n,198,53,404,20,0x212E35,0x212E35,1,true)
 		ui.addTextArea(3,"<p align='right'><B><R><a href='event:close'>X",n,200,54,400,20,1,1,0,true)
 	end,
-	displayChat = function(n)
+	displayChat = function(n,update)
 		local loadM = chat.loadMessage()
-		if n then
+		if not update then
 			chat.Chat(n,loadM)
 		else
 			for k,v in next,chat.info do
 				if v.open then
-					chat.Chat(k,loadM)
+					chat.Chat(k,loadM,k ~= n)
 				else
 					v.toRead = v.toRead + 1
 					chat.updateToRead(k)
@@ -834,10 +856,27 @@ chat = {
 	updateToRead = function(n)
 		ui.addTextArea(4,"<p align='center'><V><a href='event:open'><B>" .. chat.title:sub(1,10) .. "</B> <J>" .. chat.info[n].toRead,n,745,378,50,nil,0x324650,0x212E35,1,true)
 	end,
+	newMessage = function(message,n)
+		message = message:gsub("<","&lt;"):gsub("https?",""):gsub("://","")
+		
+		if message:sub(1,1) == "/" then
+			chat.eventChatCommand(n,message:sub(2))
+		else
+			message = message:gsub("{(.-):(.-)}",function(color,text)
+				color = color:upper()
+				if table.find({"BV","R","BL","J","N","N2","PT","CE","CEP","CS","S","PS","G","V","VP","VI","ROSE","CH","T"},color) then
+					return string.format("<%s>%s</%s>",color,text,color)
+				else
+					return text
+				end
+			end)
+			table.insert(chat.data,1,string.format("<V>[%s] <N>%s\n",n,message))
+		end
+	end,
 	eventPopupAnswer = function(i,n,a)
 		if a ~= "" then
-			table.insert(chat.data,1,string.format("<V>[%s] <N>%s\n",n,a:gsub("<","&lt;"):gsub("https?",""):gsub("://","")))
-			chat.displayChat()
+			chat.newMessage(a,n)
+			chat.displayChat(n,true)
 		else
 			chat.displayChat(n)
 		end
@@ -866,9 +905,19 @@ chat = {
 		end		
 	end,
 	eventChatCommand = function(n,c)
-		if c:sub(1,5) == "title" and c:sub(7) ~= "" and system.roomAdmins[n] then
-			chat.title = c:sub(7,47)
+		local p = string.split(c,"[^%s]+")
+		if p[1] == "title" and p[2] and system.roomAdmins[n] then
+			chat.title = table.concat(p," ",nil,2):sub(1,40)
 			chat.displayChat()
+		elseif p[1] == "np" and p[2] then
+			tfm.exec.chatMessage(string.format("<S>%s loaded by %s",p[2]:sub(1,1) == "@" and p[2] or "@" .. p[2],n))
+			tfm.exec.newGame(p[2])
+		elseif p[1] == "sha" then
+			tfm.exec.disableAutoShaman(p[2] == "1")
+		elseif p[1] == "new" then
+			tfm.exec.disableAutoNewGame(p[2] == "1")
+		elseif p[1] == "adm" and system.roomAdmins[n] then
+			system.roomAdmins[string.nick(p[2])] = true
 		end
 	end,
 }
@@ -903,6 +952,7 @@ cannonup = {
 	maps = {2310447,3746497,6001536,3666224,4591929,"#10"},
 	info = {},
 	init = function()
+		cannonup.translations.pt = cannonup.translations.br
 		cannonup.langue = cannonup.translations[tfm.get.room.community] and tfm.get.room.community or "en"
 		for _,f in next,{"AutoShaman","AutoScore","AutoNewGame","AutoTimeLeft","MinimalistMode","PhysicalConsumables"} do
 			tfm.exec["disable"..f]()
@@ -1112,9 +1162,611 @@ cannonup = {
 		end
 	end,
 }
+xmas = {
+	translations = {
+		en = {"Merry Christmas & Happy New Year!","Christmas is approaching and S4nt4 has a lot to do on his <I>paws</I>. He wants to give all the gifts on time, but he must be fast! Since our dear S4nt4 is clumsy, some gifts will fall and you will have to <CE>collect</CE> them by pressing the <I>space bar</I>! Give the gifts back to S4nt4 when he feels <CE>dizzy</CE> by pressing the <I>space bar</I>!"},
+		fr = {"Joyeux Noël et Bonne Année!","Noël approche et S4nt4 en a plein les <I>pattes</I>. Il veut donner tous les cadeaux à temps, mais il doit être rapide ! Puisque notre cher S4nt4 est maladroix, certains cadeaux tombent et vous devrez les, <CE>collecter</CE> en appuyant sur la <I>barre d'espace</I>! Donnez les cadeaux à S4nt4 quand il se sent <CE>étourdi</CE> en appuyant sur la <I>barre d'espace</I>!"},
+		br = {"Feliz Natal & Feliz Ano Novo!","O Natal está chegando e S4nt4 tem em suas <I>patas</I> muito o que fazer. Ele quer entregar todos os presentes a tempo, mas ele deve ser rápido! Uma vez que nosso querido S4NT4 é desajeitado, alguns presentes cairão e você terá que <CE>coletá-los</CE> pressionando a <I>barra de espaço</I>! Devolva os presentes ao S4nt4, pressionando a <I>barra de espaço</I>, quando ele se sentir <CE>tonto</CE>!"},
+		es = {"¡Feliz Navidad y Próspero Año Nuevo!","La Navidad se está acercando y S4nt4 tiene muchas cosas que hacer con sus <I>patas</I>. Él quiere dar todos los regalos a tiempo, pero debe ser rápido! Puesto que nuestro querido S4nt4 es torpe, algunos regalos caerán y tendrás que <CE>recogerlos</CE> pulsando la <I>barra espaciadora</I>! Regrese los regalos a S4nt4 cuando se sienta <CE>mareado</CE> presionando la <I>barra de espacio</I>!"},
+		tr = {"Mutlu Noeller & Mutlu Yıllar!","Noel geliyor ve S4nt4'nın <I>patilerinde</I> yapacağı çok işi var. Bütün hediyeleri zamanında vermek istiyor ama hızlı olması gerek! Sevgili S4nt4'mız sakar olduğu için, bazı hediyeler düşecek ve <I>boşluk tuşuna</I> basarak onları <CE>toplamanız</CE> gerekecek! S4nt4'nın <CE>başı döndüğünde</CE> <I>boşluk tuşuna</I> basarak hediyeleri ona geri verin!"},
+		pl = {"Wesołych Świąt i Wesołego Nowego Roku!","Święta nadchodzą, a S4nt4 ma <I>łapki</I> pełne roboty. On chce dać wszystkim prezenty na czas, ale musi się pośpieszyć! Od kiedy nasz S4nt4 jest niezdarny, gubi prezenty, które musicie <CE>pozbierać</CE> wciskając <I>spację</I>! Oddajcie prezenty S4nt4 kiedy jest <CE>oszołomiony</CE> wciskając <I>spację</I>!"},
+		ar = {"عيد ميلاد مجيدا و كل عام و أنتم بخير","عيد الميلاد اقترب و<I> يدى </I> سانتا مليئة. يريد سانتا تسليم جميع الهدايا على الوقت, ولكن يجب ان يكون سريعا! ولكن صديقنا العزيز سانتا غير بارع في تسليم الهدايا, بعض الهدايا ستسقط وعليك ان تقوم <CE> بجمع</CE>  الهدايا التي سقطت عن طريق الضغط على المسطرة ! وارجاع الهدايا الى صديقنا العزيز سانتا عندما يشعر <CE> بالدوار</CE> عن طريق الضغط على زر المسطرة!"},
+		hu = {"Boldog Karácsonyt & Boldog Új Évet!","A Karácsony közeleg, és a Mikulásra pedig <I>rengeteg munka vár<I>. Oda akarja adni az összes ajándékot időben, de muszáj gyorsnak lennie! Mivel a mi Mikulásunk kétbalkezes, néhány ajándék lepottyan és Neked kell <CE>összegyűjteni</CE> azokat, a <I>Szóköz</I> megnyomásával! Vidd vissza a Mikulásnak az ajándékot a <I>Szóköz</I> megnyomásával, amikor Mikulás <CE>megszédül</CE>!"},
+		ru = {"С новым годом и Рождеством!","Рождество приближается и S4nt4 направляется к вам! Он очень спешит, чтобы раздать все подарки вовремя! Но так как наш дорогой S4nt4 неуклюж, то некоторые подарки будут падать. Вы должны <CE>собрать</CE> их, нажимая клавишу <I>пробел</I>! Помогите S4nta. <CE>Верните</CE> ему подарки обратно с помощью <I>пробела</I>!"},
+	},
+	langue = "en",
+	santaMessage = "<V><B>[^_^]</B></V> <BV>%s</BV>\n<V><B>[S4NT4 M4U5]</B></V> <R>%s</R>",
+	xml = '<C><P DS="y;310" /><Z><S><S H="10" L="50" X="275" c="2" Y="165" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="200" X="100" H="80" Y="360" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="200" X="109" H="80" Y="379" T="12" P="0,0,0.3,0.2,-10,0,0,0" /><S X="391" L="230" H="80" c="3" Y="354" T="12" P="0,0,0.3,0.2,-2,0,0,0" /><S H="100" L="230" X="430" c="3" Y="411" T="12" P="0,0,0.3,0.2,-30,0,0,0" /><S H="80" L="180" X="705" c="3" Y="397" T="12" P="0,0,0.3,0.2,-2,0,0,0" /><S P="0,0,0.3,0.2,0,0,0,0" L="44" H="10" c="3" Y="361" T="13" X="237" /><S X="-5" L="10" H="3000" c="3" Y="100" T="12" P="0,0,0,0,0,0,0,0" /><S H="3000" L="10" X="805" c="3" Y="101" T="12" P="0,0,0,0,0,0,0,0" /><S L="10" X="400" H="3000" Y="-5" T="12" P="0,0,0,0,90,0,0,0" /><S L="80" H="10" X="96" Y="158" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S P="0,0,0.3,.9,0,0,0,0" L="50" X="275" c="3" Y="165" T="12" H="10" /><S L="130" X="527" H="10" Y="128" T="12" P="0,0,0.3,0.2,10,0,0,0" /><S L="90" H="10" X="632" Y="131" T="12" P="0,0,0.3,0.2,-10,0,0,0" /><S H="3000" L="10" o="23E9E9" X="805" c="2" Y="100" T="12" m="" P="0,0,0,2,0,0,0,0" /><S X="-5" L="10" o="23E9E9" H="3000" c="2" Y="100" T="12" m="" P="0,0,0,2,0,0,0,0" /><S P="0,0,0.3,0.2,-35,0,0,0" L="230" X="549" c="3" Y="467" T="12" H="100" /><S P="0,0,0.3,0.2,-55,0,0,0" L="230" H="100" c="3" Y="441" T="12" X="250" /><S L="230" X="125" H="100" Y="422" T="12" P="0,0,0.3,0.2,-30,0,0,0" /><S X="510" L="230" H="100" c="3" Y="477" T="12" P="0,0,0.3,0.2,-65,0,0,0" /><S L="50" X="91" H="50" Y="339" T="12" P="0,0,0.3,0.2,-45,0,0,0" /><S P="0,0,0.3,0.2,0,0,0,0" L="30" X="164" c="2" Y="325" T="12" H="50" /><S P="0,0,0.3,1.1,0,0,0,0" L="30" H="50" c="3" Y="325" T="12" X="164" /><S L="50" X="240" H="10" Y="158" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="50" H="10" X="443" Y="125" T="12" P="0,0,0.3,0.2,-20,0,0,0" /><S H="80" L="220" o="23E9E9" X="393" c="1" Y="359" T="12" m="" P="0,0,0.3,0.2,-2,0,0,0" /><S L="230" o="23E9E9" X="427" H="100" Y="416" T="12" m="" P="0,0,0.3,0.2,-30,0,0,0" /><S P="0,0,0.3,0.2,-65,0,0,0" L="230" o="23E9E9" H="100" Y="481" T="12" m="" X="501" /><S P="0,0,0.3,0.2,-35,0,0,0" L="230" o="23E9E9" H="100" Y="474" T="12" m="" X="550" /><S P="0,0,0.3,0.2,-2,0,0,0" L="180" o="23E9E9" X="706" Y="404" T="12" m="" H="80" /><S P="0,0,0.3,0.2,1,0,0,0" L="230" o="23E9E9" X="314" c="2" Y="373" T="12" m="" H="100" /></S><D><P X="241" Y="507" T="51" P="0,1" /><P X="566" Y="449" T="46" P="0,0" /></D><O /></Z></C>',
+	aim = 8,
+	start = true,
+	amountPlayers = 20,
+	despawnObjects = {},
+	currentGifts = {},
+	info = {},
+	gifts = {
+		[1] = {
+			[1] = "158bb1db61b",
+			[2] = 20000,
+		};
+		[2] = {
+			[1] = "158bb1c95e0",
+			[2] = 15000,
+		};
+		[3] = {
+			[1] = "158bb1cc6ec",
+			[2] = 10000,
+		};
+		[4] = {
+			[1] = "158bb1ce1aa",
+			[2] = 8000,
+		};
+		[5] = {
+			[1] = "1591c9b3123",
+			[2] = 6000,
+		};
+	},
+	noel = {
+		x = 240,
+		y = 140,
+		id = -1,
+		isEscaping = false,
+		isDizzy = {0,false},
+		timers = {
+			teleport = 0,
+			prize = 0
+		},
+		img = {
+			dizzy = {"158bb1dccb6","158bb1cf9a8","158bb1d6489","158bb1e2518"},
+			right = "158bb1d8069",
+			left = "158bb1e0daf",
+			jumping = "158bb1d470a",
+			stop = "158bb1d9b67",
+		},
+		updateImage = function(img)
+			tfm.exec.removeImage(xmas.noel.imgId)
+			xmas.noel.imgId = tfm.exec.addImage(img..".png","#"..xmas.noel.id,-23,-32)
+		end,
+		particles = function(id)
+			for i = 1,5 do
+				tfm.exec.displayParticle(id,xmas.noel.x + math.random(-50,50),xmas.noel.y + math.random(-50,50),table.random({-.2,.2}),table.random({-.2,.2}))
+			end
+		end,
+		move = function(x,y)
+			tfm.exec.moveObject(xmas.noel.id,0,0,false,x,y,false)
+		end,
+		nearMouse = function(range)
+			local player = {"",{dist=math.random(800),x=0,y=0}}
+			for k,v in next,tfm.get.room.playerList do
+				if not v.isDead then
+					if math.pythag(v.x,v.y,xmas.noel.x,xmas.noel.y,range) then
+						local m = v.x-xmas.noel.x
+						if math.abs(m) < player[2].dist then
+							player = {k,{dist=m,x=v.x,y=v.y}}
+						end
+					end
+				end
+			end
+			xmas.noel.isEscaping = player[1] ~= ""
+			return player
+		end,
+		escape = function(id)
+			local player = xmas.noel.nearMouse(math.random(80,100))
+			local mul = (player[1] ~= "" and math.isNegative(player[2].dist,1,-1) or table.random({-1,1}))
+			local img = math.isNegative(mul,"left","right")
+			local rand = 9 - math.random(0,9)
+			if id == 0 or (rand < 6) then
+				xmas.noel.move(mul * math.random(50,80),-math.random(1,10))
+				xmas.noel.updateImage(xmas.noel.img[img])
+			elseif id == 1 or (rand < 9) then
+				xmas.noel.move(mul * math.random(60,70),-80)
+				xmas.noel.updateImage(table.random({xmas.noel.img[img],xmas.noel.img.jumping}))
+			elseif id == 2 or rand == 9 then
+				xmas.noel.move(mul * math.random(10,20),-math.random(70,100))
+				xmas.noel.updateImage(xmas.noel.img.jumping)
+			end
+		end,
+		meep = function()
+			tfm.exec.displayParticle(20,xmas.noel.x,xmas.noel.y)
+			tfm.exec.explosion(xmas.noel.x,xmas.noel.y,20,50)
+		end,
+		cannon = function()
+			local player = xmas.noel.nearMouse(100)
+			if player[1] ~= "" then
+				local x = xmas.noel.x + (xmas.noel.x > player[2].x and -40 or 40)
+				local y = xmas.noel.y + (xmas.noel.y > player[2].y and -40 or 40)
+				local angle = math.deg(math.atan2(player[2].y-xmas.noel.y,player[2].x-xmas.noel.x)) + 90
+				table.insert(xmas.despawnObjects,{
+					[1] = tfm.exec.addShamanObject(1703,x,y,angle),
+					[2] = os.time() + 2500
+				})
+				local effect = function(id,sx,sy,xs,ys,e)
+					for i = 1,2 do
+						tfm.exec.displayParticle(id[i] and id[i] or id[1],x + sx * e,y - sy * e,xs/1.5,ys/1.5)
+					end
+				end
+				for i = 1,20 do
+					effect({9,11},math.cos(i),math.sin(i),math.cos(i),-math.sin(i),22)
+					effect({13},math.cos(i),math.sin(i),math.sin(i),math.cos(i),19)
+				end
+			end
+		end,
+		teleport = function()
+			if os.time() > xmas.noel.timers.teleport then
+				xmas.noel.timers.teleport = os.time() + 8000
+				tfm.exec.displayParticle(37,xmas.noel.x,xmas.noel.y)
+				local x,y = math.random(20,780),math.random(50,300)
+				tfm.exec.moveObject(xmas.noel.id,x,y)
+				tfm.exec.displayParticle(37,x,y)
+			else
+				xmas.noel.escape(2)
+			end
+		end,
+		gift = function()
+			if os.time() > xmas.noel.timers.prize then
+				xmas.noel.timers.prize = os.time() + 5000
+				xmas.noel.updateImage(xmas.noel.img.stop)
+				local giftsAmount = xmas.amountPlayers < 10 and 1 or math.floor(xmas.amountPlayers/10)
+				for i = 1,giftsAmount do
+					local gift = table.random({2,4,3,1,1,2,3,5,2,4})
+					for k,v in next,xmas.gifts do
+						if gift == k then
+							gift = k
+							break
+						end
+					end
+					local gen = {}
+					gen[1] = tfm.exec.addShamanObject(6300,xmas.noel.x,xmas.noel.y,0,table.random({-13,-10,-5,5,10,13}))
+					gen[2] = os.time() + xmas.gifts[gift][2]
+					gen[3] = tfm.exec.addImage(xmas.gifts[gift][1]..".png","#"..gen[1],-15,-15)
+					gen[4] = gift
+					table.insert(xmas.currentGifts,gen)
+				end
+			else
+				xmas.noel.escape(0)
+			end
+		end,
+		dizzy = function(timer)
+			if os.time() > xmas.noel.timers.prize then
+				xmas.noel.isDizzy[1] = os.time() + 9500
+			else
+				xmas.noel.escape(2)
+			end
+		end,
+	},
+	initx = 240,
+	inity = 140,
+	init = function()
+		xmas.translations.pt = xmas.translations.br
+		xmas.langue = xmas.translations[tfm.get.room.community] and tfm.get.room.community or "en"
+		for i,f in next,{"AutoShaman","AfkDeath","MortCommand","AutoTimeLeft","PhysicalConsumables","AutoNewGame"} do
+			tfm.exec["disable"..f]()
+		end
+		tfm.exec.setRoomMaxPlayers(25)
+		tfm.exec.newGame(xmas.xml)
+		xmas.aim = 8
+	end,
+	displayBar = function(id,player,value,nvalue,color,sig,size,height)
+		sig = sig or ""
+		size = size or 100
+		height = height or 20
+
+		ui.addTextArea(id,"",player,5,(height+8) * id,size + 4,height,0xC7CED2,1,1,true)
+		if value ~= 0 then
+			ui.addTextArea(id.."0","",player,6,(height+8) * id + 2,nvalue + 2,height - 4,color,color,1,true)
+		end
+		ui.addTextArea(id.."00","<B><font color='#0'>"..value..sig,player,(size-30)/2,(height+8) * id + 1,50,height,1,1,0,true)
+	end,
+	updateBar = function(n,giftColor)
+		giftColor = giftColor or xmas.info[n].lastColor
+		xmas.displayBar(1,n,math.floor(xmas.info[n].db.eventNoelGifts[2]) .. " / "..xmas.aim,(xmas.info[n].db.eventNoelGifts[2] > xmas.aim and 100 or math.percent(xmas.info[n].db.eventNoelGifts[2],xmas.aim,100)),0xFF0000)
+		xmas.displayBar(2,n,xmas.info[n].db.eventNoelGifts[1],(xmas.info[n].db.eventNoelGifts[1] > 50 and 50 or math.percent(xmas.info[n].db.eventNoelGifts[1],50,50)),giftColor,"G",50,20)
+	end,
+	resetNoel = function()
+		xmas.initx = 240
+		xmas.inity = 140
+		xmas.noel.x = xmas.initx
+		xmas.noel.y = xmas.inity
+		xmas.noel.id = -1
+		xmas.noel.isEscaping = false
+		xmas.noel.isDizzy = {0,false}
+		xmas.noel.timers = {
+			teleport = 0,
+			prize = 0
+		}
+	end,
+	looping = function(f,tk)
+		local s = 1000 / tk
+		local t = {}
+		for timer = 0,1000-s,s do
+			system.newTimer(function() t[#t+1] = system.newTimer(f,1000,true) end,1000+timer,false)
+		end
+		return t
+	end,
+	eventNewGame = function()
+		xmas.resetNoel()
+
+		xmas.start = true
+		local _,aP = system.players()
+		xmas.amountPlayers = aP
+		tfm.exec.setGameTime(150)
+		tfm.exec.snow(150)
+		tfm.exec.addImage("158c1feaf90.png","?0",0,0)
+		ui.setMapName("<J>"..table.random({"Nöel","Christmas","Bolodefchoco","Lua event","#xmas","Bogkitty"}).." <G>- @"..table.random({666,404,801,os.date("%Y"),0,1}))
+		ui.setShamanName("<R>S4NT4 M4U5")
+		for k,v in next,tfm.get.room.playerList do
+			xmas.info[k] = {
+				db = {
+					eventNoelGifts = {0,0},
+				},
+				catch = 0,
+				lastColor = 0xB73535,
+			}
+			if not v.isDead then
+				system.bindKeyboard(k,32,true,true)
+			end
+			xmas.updateBar(k)
+		end
+		tfm.exec.chatMessage(xmas.santaMessage:format(xmas.translations[xmas.langue][2],xmas.translations[xmas.langue][1]:upper()))
+	end,
+	eventPlayerDied = function(n)
+		if xmas.start then
+			system.bindKeyboard(n,32,true,false)
+		end
+	end,
+	eventNewPlayer = function(n)
+		tfm.exec.addImage("158c1feaf90.png","?0",0,0,n)
+		tfm.exec.respawnPlayer(n)
+	end,
+	eventLoop = function(currentTime,leftTime)
+		if xmas.start then
+			if _G.currentTime > 4 then
+				if xmas.noel.id == -1 then
+					xmas.noel.id = tfm.exec.addShamanObject(6300,xmas.noel.x,xmas.noel.y)
+					xmas.noel.updateImage(xmas.noel.img.stop)
+				end
+
+				local ox,oy
+				if tfm.get.room.objectList[xmas.noel.id] then
+					ox,oy = tfm.get.room.objectList[xmas.noel.id].x,tfm.get.room.objectList[xmas.noel.id].y
+				else
+					ox,oy = xmas.noel.x,xmas.noel.y
+				end
+
+				if (ox < -10 or ox > 810) or (oy > 400 or oy < -50) then
+					tfm.exec.removeObject(xmas.noel.id)
+					xmas.noel.x,noel.y = xmas.initx,xmas.inity
+					xmas.noel.id = nil
+				end
+
+				if xmas.noel.id then
+					xmas.noel.x = ox
+					xmas.noel.y = oy
+				end
+
+				for k,v in ipairs(xmas.despawnObjects) do
+					if os.time() > v[2] then
+						tfm.exec.removeObject(v[1])
+					end
+				end
+				for k,v in ipairs(xmas.currentGifts) do
+					if os.time() > v[2] then
+						tfm.exec.removeObject(v[1])
+						tfm.exec.removeImage(v[3])
+					end
+				end
+
+				if os.time() > xmas.noel.isDizzy[1] and _G.currentTime > 5 then
+					xmas.noel.particles(13)
+					if _G.currentTime % 60 == 0 then
+						xmas.noel.dizzy()
+					elseif _G.currentTime % 5 == 0 then
+						xmas.noel.gift()
+						xmas.noel.escape(1)
+					elseif math.floor(_G.currentTime) % 2 == 0 then
+						local option = math.random((xmas.noel.isEscaping and 15 or 12))
+						if option > 3 then
+							xmas.noel.escape()
+						else
+							xmas.noel.updateImage(xmas.noel.img.stop)
+							if _G.currentTime > 7 and math.random(1,2) == 1 then
+								if option == 3 then
+									xmas.noel.cannon()
+								elseif option == 2 then
+									xmas.noel.teleport()
+								elseif option == 1 then
+									xmas.noel.meep()
+								end
+							end
+						end
+					else
+						xmas.noel.updateImage(xmas.noel.img.stop)
+					end
+				else
+					xmas.noel.particles(1)
+					if not xmas.noel.isDizzy[2] then
+						xmas.noel.isDizzy[2] = true
+						xmas.noel.timers.prize = os.time() + 5000
+						local imgId = #xmas.noel.img.dizzy
+						local animation = {}
+						local numb = 1
+						animation = xmas.looping(function()
+							xmas.noel.updateImage(xmas.noel.img.dizzy[imgId])
+
+							if imgId == #xmas.noel.img.dizzy or imgId == 1 then
+								numb = -numb
+							end
+
+							imgId = imgId + numb
+
+							if (os.time()+250) > xmas.noel.isDizzy[1] then
+								for k,v in next,animation do
+									system.removeTimer(v)
+								end
+								xmas.noel.isDizzy = {0,false}
+							end
+						end,10)
+					end
+				end
+			end
+			if _G.leftTime < 2 then
+				xmas.start = false
+				tfm.exec.newGame(xmas.xml)
+			end
+		end
+	end,
+	eventKeyboard = function(n,k,d,x,y)
+		if xmas.start then
+			if os.time() > xmas.info[n].catch and k == 32 then
+				if os.time() < xmas.noel.isDizzy[1] then
+					if math.pythag(x,y,xmas.noel.x,xmas.noel.y,32) then
+						xmas.info[n].db.eventNoelGifts[2] = (xmas.info[n].db.eventNoelGifts[1]/10) + xmas.info[n].db.eventNoelGifts[2]
+						xmas.info[n].db.eventNoelGifts[1] = 0
+
+						xmas.updateBar(n)
+					end
+				else
+					for k,v in next,xmas.currentGifts do
+						local o = tfm.get.room.objectList[v[1]]
+						if o and math.pythag(x,y,o.x,o.y,25) then
+							if (xmas.info[n].db.eventNoelGifts[1]+v[4]) <= 50 then
+								tfm.exec.removeObject(v[1])
+								tfm.exec.removeImage(v[3])
+
+								xmas.currentGifts[k][2] = 0
+								xmas.info[n].db.eventNoelGifts[1] = xmas.info[n].db.eventNoelGifts[1] + v[4]
+
+								xmas.updateBar(n,({0xB73535,0x358CB7,0x35B765,0xB7B735,0xB73487})[v[4]])
+								break
+							end
+						end
+					end
+				end
+				xmas.info[n].catch = os.time() + 1000
+			end
+		end
+	end,
+}
+signal = {
+	translations = {
+		en = {
+			welcome = "<S>Welcome to <PS>#Signal<S>! Follow the signs and join the hole! Use !help to read more informations.\n\tReport any issue to Bolodefchoco",
+			info = {
+				[1] = {"Run","Run the faster you can. Do not stop!"},
+				[2] = {"Attention","Pay attention! You can die in a few seconds!"},
+				[3] = {"Stop","Stop or die!"},
+			},
+			close = "Close",
+			skip = "<PS>[•] <S>Impossible map? Type !skip",
+			skipped = "Your vote to skip the map has been recorded.",
+		},
+		br = {
+			welcome = "<S>Bem-vindo ao <PS>#Signal<S>! Siga os sinais e entre na toca!  Use !help para ler mais informações.\n\tReporte qualquer problema para Bolodefchoco",
+			info = {
+				[1] = {"Corra","Corra o mais rápido que puder. Não pare!"},
+				[2] = {"Atenção","Preste atenção! Você poderá morrer a qualquer momento!"},
+				[3] = {"Pare","Pare ou morra!"},
+			},
+			close = "Fechar",
+			skip = "<PS>[•] <S>Mapa impossível? Digite !skip",
+			skipped = "Seu voto para passar o mapa foi registrado.",
+		},
+	},
+	langue = "en",
+	sys = {0,1},
+	info = {},
+	discrepancy = 0,
+	lights = {"15b52f8717d","15b52f8583a","15b52f88765"},
+	lightId = -1,
+	skip = 0,
+	rounds = 0,
+	possible = false,
+	init = function()
+		signal.translations.pt = signal.translations.br
+		signal.langue = signal.translations[tfm.get.room.community] and tfm.get.room.community or "en"
+
+		for _,f in next,{"AutoShaman","AutoNewGame","AutoTimeLeft","PhysicalConsumables"} do
+			tfm.exec["disable"..f]()
+		end
+
+		signal.generateMap()
+	end,
+	message = function(id)
+		tfm.exec.removeImage(signal.lightId)
+		signal.lightId = tfm.exec.addImage(signal.lights[signal.sys[2]] .. ".png","&0",375,30)
+		local color = ({0x1CB70C,0xF4D400,0xEC0000})[signal.sys[2]]
+		for k,v in next,signal.info do
+			if id == 1 then
+				if not v.afk and v.canRev then
+					tfm.exec.respawnPlayer(k)
+				end
+			end
+			tfm.exec.setNameColor(k,color)
+		end
+	end,
+	displayInfo = function(n,id)
+		local color = ({"<VP>","<J>","<R>"})[id]
+		ui.addTextArea(1,"<p align='center'><font size='25'>" .. color .. signal.translations[signal.langue].info[id][1] .. "\n</font></p><p align='left'><font size='14'>" .. signal.translations[signal.langue].info[id][2],n,250,100,300,181,0x324650,0x324650,1,true)
+		ui.addTextArea(2,"<font size='2'>\n</font><p align='center'><font size='16'><a href='event:close'>" .. signal.translations[signal.langue].close,n,250,300,300,30,0x324650,0x324650,1,true)
+		ui.addTextArea(3,"<p align='center'><font size='20'><a href='event:info.1'><VP>•</a> <a href='event:info.2'><J>•</a> <a href='event:info.3'><R>•</a>",n,250,135,300,30,1,1,0,true)
+		tfm.exec.removeImage(signal.info[n].imageId)
+		signal.info[n].imageId = tfm.exec.addImage(signal.lights[id] .. ".png","&1",375,200,n)
+	end,
+	generateMap = function()
+		local groundProperties = {[0] = {.3,.2},[4] = {20,.2},[5] = {.3,.2},[6] = {.3,.2},[7] = {.1,.2},[10] = {.3,0},[11]
+ = {.05,.1},[3] = {5,20}}
+		local groundDecorations = {[0] = {0,4,5},[4] = {1,42,51},[5] = {1,2,4,12,18,20,32,42,46},[6] = {0,1,2,3,4,5,11,42},[7] = {7,8,9,10},[10] = {42,103,118},[11] = {51,106},[3] = {}}
+		local newGround = "<S L=\"%s\" H=\"%s\" X=\"%s\" Y=\"%s\" T=\"%s\" P=\"0,0,%s,%s,0,0,0,0\" />"
+		local newDecoration = "<P P=\"%s,0\" X=\"%d\" Y=\"%d\" T=\"%d\" />"
+		local object = "<%s X=\"%s\" Y=\"%s\"/>"
+		local objects = {hole="T",mice="DS",cheese="F"}
+
+		local mapHeight = math.random(1500,3000)
+
+		local grounds = {}
+		local decorations = {}
+		for i = 1,22 do
+			local T = table.random({0,4,5,6,7,10,11,table.random({4,5,6,10,3})})
+
+			local H = T==3 and math.random(10,20) or math.random(40,100)
+
+			local Y = (#grounds > 1 and grounds[#grounds].Y < 320 and math.random(250,300) or math.random(300,350)) or math.random(300,350)
+
+			local X,L
+			repeat
+				X = (#grounds > 1 and (grounds[#grounds].X + ((math.random(-1,1) * 30) + 200)) or math.random(50,300))
+				X = X < 60 and 100 or X > mapHeight - 100 and mapHeight - 300 or X
+				L = T==3 and H or math.random(40,mapHeight/15)
+			until (X - (L/2)) > 50 and (X + (L/2)) < mapHeight - 50
+
+			local properties = groundProperties[T]
+			grounds[#grounds + 1] = {X=X,Y=Y,L=L,H=H,newGround:format(L,H,X,Y,T,properties[1],properties[2])}
+
+			if T ~= 3 and math.random(20) < 10 then
+				local decoList = groundDecorations[T]
+				decorations[#decorations + 1] = newDecoration:format(table.random({0,0,0,math.random(0,1),1}),X - math.random(-((L/4)+1),((L/4)+1)),Y - (H/2),table.random(decoList))
+			end
+		end
+		
+		local cheeseX
+		repeat
+			cheeseX = math.random(200,mapHeight - 500)
+		until (function()
+			for k,v in next,grounds do
+				if (cheeseX + 10) > (v.X - v.L/2) and (cheeseX - 10) < (v.X + v.L/2) then
+					return false
+				end
+			end
+			return true
+		end)()
+
+		grounds[#grounds + 1] = {X=0,Y=0,L=0,H=0,newGround:format(200,40,100,380,2,.3,.9)}
+		grounds[#grounds + 1] = {X=0,Y=0,L=0,H=0,newGround:format(300,40,mapHeight - 150,380,6,.3,.2)}
+
+		tfm.exec.newGame(string.format("<C><P G=\"0,%s\" F=\"%s\" L=\"%s\" /><Z><S>%s</S><D>%s%s%s%s</D><O /></Z></C>",table.random({math.random(7,12),10,11,9}),table.random({0,1,2,3,4,5,7,8}),mapHeight,table.concat(grounds,"",function(k,v) return v[1] end),object:format(objects.hole,mapHeight - 30,360),object:format(objects.mice,10,365),object:format(objects.cheese,cheeseX,math.random(280,340)),table.concat(decorations)))
+	end,
+	eventNewPlayer = function(n)
+		if not signal.info[n] then
+			signal.info[n] = {
+				isMoving = {false,false,false,false},
+				imageId = -1,
+				afk = true,
+				skipped = false,
+				canRev = true,
+			}
+		end
+		for i = 0,3 do
+			system.bindKeyboard(n,i,true,true)
+			system.bindKeyboard(n,i,false,true)
+		end
+		tfm.exec.chatMessage(signal.translations[signal.langue].welcome,n)
+	end,
+	eventNewGame = function()
+		signal.skip = 0
+		signal.possible = false
+		signal.rounds = signal.rounds + 1
+		if signal.rounds % 3 == 0 then
+			tfm.exec.chatMessage(signal.translations[signal.langue].skip)
+		end
+		ui.setMapName("<BL>@" .. math.random(999) .. "   <G>|   <N>Round : <V>" .. signal.rounds)
+		for k,v in next,signal.info do
+			v.isMoving = {false,false,false,false}
+			v.afk = true
+			v.skipped = false
+			v.canRev = true
+		end
+		signal.sys = {0,1}
+		signal.message(signal.sys[2])
+	end,
+	eventKeyboard = function(n,k,d)
+		if signal.sys[2] == 3 and d and os.time() > signal.discrepancy then
+			tfm.exec.killPlayer(n)
+		else
+			signal.info[n].isMoving[k + 1] = d
+		end
+		signal.info[n].afk = false
+	end,
+	eventLoop = function(currentTime,leftTime)
+		if _G.currentTime > 8 then
+			if os.time() > signal.sys[1] then
+				signal.sys[2] = (signal.sys[2] % 3) + 1
+				signal.sys[1] = os.time() + ({math.random(7,13),math.random(2,3),math.random(3,5)})[signal.sys[2]] * 1000
+				signal.message(signal.sys[2])
+				signal.discrepancy = os.time() + 520
+			end
+		end
+
+		if _G.leftTime > 2 and system.players() > 0 then
+			if signal.sys[2] == 3 and os.time() > signal.discrepancy then
+				for k,v in next,signal.info do
+					for i,j in next,v.isMoving do
+						if j then
+							tfm.exec.killPlayer(k)
+							break
+						end
+					end
+				end
+			end
+		else
+			signal.generateMap()
+		end
+	end,
+	eventTextAreaCallback = function(i,n,c)
+		local p = {}
+		for k in c:gmatch("[^%.]+") do
+			p[#p + 1] = k
+		end
+
+		if p[1] == "info" then
+			signal.displayInfo(n,tonumber(p[2]))
+		elseif p[1] == "close" then
+			tfm.exec.removeImage(signal.info[n].imageId)
+			for i = 1,3 do
+				ui.removeTextArea(i,n)
+			end
+		end
+	end,
+	eventChatCommand = function(n,c)
+		if c == "info" or c == "help" or c == "?" then
+			eventTextAreaCallback(nil,n,"info." .. signal.sys[2])
+		elseif c == "skip" and _G.currentTime > 8 and not signal.possible and not signal.info[n].skipped then
+			signal.skip = signal.skip + 1
+			tfm.exec.chatMessage(signal.translations[signal.langue].skipped,n)
+			local alive,total = system.players()
+			if signal.skip == math.ceil(.5 * total) then
+				tfm.exec.chatMessage("o/")
+				signal.generateMap()
+			end
+		end
+	end,
+	eventPlayerWon = function(n)
+		signal.possible = true
+		signal.info[n].canRev = false
+		tfm.exec.setGameTime(40,false)
+	end,
+}
 
 --[[ Map System ]]--
-system.maps = {6226386,5993927,5198518,6133469,4396371,5425815,4140491,5168440,3324180,6564380,6600268,6987992,6987993,6988672,6230212,6340023,7057010,7047955,3326675,4184558,6392883,3324284,5043429,3326655,7069304,7069314,7069343,7069816,7069835,6558179,6726599,5921744,5921754,5632126,7071400,3099763,2283901,2887357,5507021,6945850,6568120,2874090,6961916,6576282,6578479, 6994066,4055924,4361619,4361785,4612510,4633670,3851416,4362362,4514386,4592612,6332986,5981054,7071075,7079644,6968299,7079708,7079827,7079880,7078090,7079092,6347093,2265250,6620004,5198607,6935117,5921867,7074686,3448597,4509060,4364504,4802574,6300148,4493715,4531989,4509584,7086737,7086768,7087798,7087840,6391815,6335452,6797243,7090907,7090909,6333026,7011800,7095393}
+system.maps = {6226386,5993927,5198518,6133469,4396371,5425815,4140491,5168440,3324180,6564380,6600268,6987992,6987993,6988672,6230212,6340023,7057010,7047955,3326675,4184558,6392883,3324284,5043429,3326655,7069304,7069314,7069343,7069816,7069835,6558179,6726599,5921744,5921754,5632126,7071400,3099763,2283901,2887357,5507021,6945850,6568120,2874090,6961916,6576282,6578479, 6994066,4055924,4361619,4361785,4612510,4633670,3851416,4362362,4514386,4592612,6332986,5981054,7071075,7079644,6968299,7079708,7079827,7079880,7078090,7079092,6347093,2265250,6620004,5198607,6935117,5921867,7074686,3448597,4509060,4364504,4802574,6300148,4493715,4531989,4509584,7086737,7086768,7087798,7087840,6391815,6335452,6797243,7090907,7090909,6333026,7011800,7095393,7093647,2030030,7102187,7102175,5921816,5772226,6000012,6623930}
 system.newMap = coroutine.wrap(function()
 	local currentMap = 0
 	while true do
@@ -2059,6 +2711,19 @@ ui.menu = function(n)
 
 	if info[n].menu.page == 1 then
 		displayText[1] = displayText[1]:format(string.nick(system.module))
+		
+		local gameModes = "<PT>"
+		for k,v in next,{"powers","jokenpo","click","presents","chat","cannonup","xmas","signal"} do
+			local room
+			if k > 1 then
+				room = string.format("/room #%s%s@%s*%s",system.module,math.random(0,999),n,v)
+			else
+				room = string.format("/room #%s%s%s",v,math.random(0,999),n)
+			end
+			gameModes = gameModes .. string.format("<a href='event:print.&lt;ROSE>%s'>%s</a>\n",room,room)
+		end
+		
+		displayText[2] = displayText[2] .. "\n\n" .. gameModes
 	else
 		local textFormat = nil
 		if info[n].menu.page == 2 then
@@ -2075,7 +2740,7 @@ ui.menu = function(n)
 			end)
 			displayText[2] = displayText[2]:format(cmds.profile,cmds.shop,cmds.langue,cmds.help,cmds.leaderboard,cmds.info,cmds.pw)
 		elseif info[n].menu.page == 4 then
-			displayText[2] = displayText[2]:format(#system.maps.."<N>","<BV><a href='event:print.atelier801@com/topic?f=6&t=845005'>#"..system.module:upper().." MAP SUBMISSIONS</a></BV>")
+			displayText[2] = displayText[2]:format(#system.maps.."<N>","<BV><a href='event:print.atelier801¬com/topic?f=6&t=845005'>#"..system.module:upper().." MAP SUBMISSIONS</a></BV>")
 		elseif info[n].menu.page == 5 then
 			local concat = {}
 			for i,j in next,{{"translators","<CEP>"},{"mapEvaluators","<BV>"}} do
@@ -2252,7 +2917,7 @@ eventTextAreaCallback = function(i,n,c)
 				end
 			end
 		elseif p[1] == "print" then
-			p[2] = p[2]:gsub("@",".")
+			p[2] = p[2]:gsub("¬",".")
 			tfm.exec.chatMessage(string.format("<PT>[•] <BV>%s",p[2]),n)
 		elseif p[1] == "ranking" then
 			if p[2] == "close" then
@@ -2279,6 +2944,9 @@ eventTextAreaCallback = function(i,n,c)
 	end
 	if system.gameMode == 5 then
 		cannonup.eventTextAreaCallback(i,n,c)
+	end
+	if system.gameMode == 7 then
+		signal.eventTextAreaCallback(i,n,c)
 	end
 end
 
@@ -2322,7 +2990,7 @@ system.onGround = function(t,px,py)
 		gtype = 0
 	end
 	
-	local collisionArea = {34,40,50,50,40,34,34,35,0,0,40,35,35,35,0,0}
+	local collisionArea = {34,40,50,50,40,34,34,35,0,0,40,35,35,23,0,0}
 	
 	if not table.find({8,9,15},gtype) then
 		local area = collisionArea[gtype + 1]
@@ -2399,15 +3067,14 @@ system.groundEffects = function()
 							if color ~= "" then
 								info[n].powersOP.GTYPE = 3
 							end
-							if id > 1 then
-								local g = system.grounds[id-1]
-								local hTP = system.getTpPos(g)
-								tfm.exec.displayParticle(36,p.x,p.y,0,0,0,0,n)
-								tfm.get.room.playerList[n].x = 0
-								tfm.get.room.playerList[n].y = 0
-								tfm.exec.movePlayer(n,hTP[1],hTP[2])
-								tfm.exec.displayParticle(36,hTP[1],hTP[2],0,0,0,0,n)
-							end
+							id = (id > 1 and id - 1 or #system.grounds)
+							local g = system.grounds[id]
+							local hTP = system.getTpPos(g)
+							tfm.exec.displayParticle(36,p.x,p.y,0,0,0,0,n)
+							tfm.get.room.playerList[n].x = 0
+							tfm.get.room.playerList[n].y = 0
+							tfm.exec.movePlayer(n,hTP[1],hTP[2])
+							tfm.exec.displayParticle(36,hTP[1],hTP[2],0,0,0,0,n)
 						elseif gtype == 8 or color == "9BAABC" then -- cloud
 							system.bindKeyboard(n,32,true,true)
 						elseif gtype == 7 then -- sand
@@ -2630,6 +3297,12 @@ eventNewPlayer = function(n)
 	if system.gameMode == 5 then
 		cannonup.eventNewPlayer(n)
 	end
+	if system.gameMode == 6 then
+		xmas.eventNewPlayer(n)
+	end
+	if system.gameMode == 7 then
+		signal.eventNewPlayer(n)
+	end
 end
 
 --[[ New Game ]]--
@@ -2785,6 +3458,12 @@ eventNewGame = function()
 	if system.gameMode == 5 then
 		cannonup.eventNewGame()
 	end
+	if system.gameMode == 6 then
+		xmas.eventNewGame()
+	end
+	if system.gameMode == 7 then
+		signal.eventNewGame()
+	end
 end
 
 --[[ loop ]]--
@@ -2808,8 +3487,8 @@ eventLoop = function(currentTime,leftTime)
 				tfm.exec.newGame(system.newMap())
 			elseif system.alivePlayers == 1 and _G.leftTime > 50 and system.totalPlayers > 1 then
 				tfm.exec.setGameTime(30)
-			elseif podium > 3 and system.alivePlayers > 3 and _G.leftTime > 20 then
-				tfm.exec.setGameTime(20)
+			elseif podium > 5 and system.alivePlayers > 3 then
+				tfm.exec.setGameTime(20,false)
 			end
 		end
 		local grounds = {}
@@ -2853,6 +3532,12 @@ eventLoop = function(currentTime,leftTime)
 	end
 	if system.gameMode == 5 then
 		cannonup.eventLoop(currentTime,leftTime)
+	end
+	if system.gameMode == 6 then
+		xmas.eventLoop(currentTime,leftTime)
+	end
+	if system.gameMode == 7 then
+		signal.eventLoop(currentTime,leftTime)
 	end
 end
 
@@ -2927,6 +3612,12 @@ eventKeyboard = function(n,k,d,x,y)
 	end
 	if system.gameMode == 1 then
 		jokenpo.eventKeyboard(n,k,d,x,y)
+	end
+	if system.gameMode == 6 then
+		xmas.eventKeyboard(n,k,d,x,y)
+	end
+	if system.gameMode == 7 then
+		signal.eventKeyboard(n,k,d,x,y)
 	end
 end
 
@@ -3072,6 +3763,9 @@ eventChatCommand = function(n,c)
 	if system.gameMode == 5 then
 		cannonup.eventChatCommand(n,c)
 	end
+	if system.gameMode == 7 then
+		signal.eventChatCommand(n,c)
+	end
 end
 for k,v in next,cmds do
 	disableChatCommand(v)
@@ -3102,12 +3796,12 @@ eventPlayerWon = function(n)
 				info[n].stats.groundsCoins = info[n].stats.groundsCoins + addedCoins
 				tfm.exec.setPlayerScore(n,4-podium,true)
 				tfm.exec.chatMessage(string.format("<PT>[•] <BV>%s",system.getTranslation("gotcoin",n):format("<J>+$"..addedCoins.."</J>")),n)
-				if podium == 1 and leftTime > 60 then
-					tfm.exec.setGameTime(60)
+				if podium == 1 then
+					tfm.exec.setGameTime(60,false)
 				end
 			else
-				if podium == 4 and leftTime > 30 then
-					tfm.exec.setGameTime(30)
+				if podium == 4 then
+					tfm.exec.setGameTime(30,false)
 				end
 				info[n].stats.groundsCoins = info[n].stats.groundsCoins + 1
 				tfm.exec.setPlayerScore(n,1,true)
@@ -3129,6 +3823,9 @@ eventPlayerWon = function(n)
 	end
 	if system.gameMode == 5 then
 		cannonup.eventPlayerWon(n)
+	end
+	if system.gameMode == 7 then
+		signal.eventPlayerWon(n)
 	end
 end
 
@@ -3155,6 +3852,9 @@ eventPlayerDied = function(n)
 	end
 	if system.gameMode == 5 then
 		cannonup.eventPlayerDied(n)
+	end
+	if system.gameMode == 6 then
+		xmas.eventPlayerDied(n)
 	end
 end
 
@@ -3194,12 +3894,12 @@ end
 --[[ Settings ]]--
 system.setRoom()
 if system.gameMode == 0 then
-	tfm.exec.setGameTime(10)
 	for _,f in next,{"AutoShaman","AutoScore","AutoNewGame","AutoTimeLeft","MinimalistMode","PhysicalConsumables"} do
 		tfm.exec["disable"..f]()
 	end
-	tfm.exec.setRoomMaxPlayers(15)
 	tfm.exec.setAutoMapFlipMode(false)
+	tfm.exec.newGame(system.newMap())
+	tfm.exec.setRoomMaxPlayers(15)
 	ui.leaderboard()
 end
 if system.gameMode == 1 then
@@ -3216,5 +3916,11 @@ if system.gameMode == 4 then
 end
 if system.gameMode == 5 then
 	cannonup.init()
+end
+if system.gameMode == 6 then
+	xmas.init()
+end
+if system.gameMode == 7 then
+	signal.init()
 end
 table.foreach(tfm.get.room.playerList,eventNewPlayer)
