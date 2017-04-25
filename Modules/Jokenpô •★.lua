@@ -34,6 +34,8 @@ jokenpo = {
 	newMapCD = 0,
 	tie = 0,
 	init = function()
+		jokenpo.totalRounds = system.miscAttrib>0 and system.miscAttrib or 5
+		jokenpo.translations.pt = jokenpo.translations.br
 		jokenpo.langue = jokenpo.translations[tfm.get.room.community] and tfm.get.room.community or "en"
 		for _,f in next,{"AutoShaman","AutoScore","AutoNewGame","AutoTimeLeft","MinimalistMode","PhysicalConsumables","AfkDeath"} do
 			tfm.exec["disable"..f]()
@@ -41,8 +43,9 @@ jokenpo = {
 		tfm.exec.setRoomMaxPlayers(25)
 		jokenpo.newRound()
 	end,
+	maps = {'<C><P /><Z><S><S P="0,0,0.3,0.2,0,0,0,0" L="30" o="2d3232" H="400" Y="200" T="12" X="15" /><S P="0,0,0.3,0.2,0,0,0,0" L="800" o="2d3232" H="70" Y="410" T="12" X="400" /><S L="30" o="2d3232" H="400" X="785" Y="210" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="800" H="20" X="400" Y="10" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="10" o="E3454D" X="318" H="66" Y="224" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S P="0,0,0.3,0.2,-90,0,0,0" L="10" o="E3454D" H="46" Y="196" T="12" X="346" /><S L="10" o="E3454D" H="66" X="374" Y="224" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="10" o="E3454D" H="46" X="346" Y="252" T="12" P="0,0,0.3,0.2,-90,0,0,0" /><S P="0,0,0.3,0.2,0,0,0,0" L="10" o="4577E3" X="482" Y="224" T="12" H="66" /><S P="0,0,0.3,0.2,-90,0,0,0" L="10" o="4577E3" X="454" Y="252" T="12" H="46" /><S P="0,0,0.3,0.2,0,0,0,0" L="10" o="4577E3" H="66" Y="224" T="12" X="426" /><S L="10" o="4577E3" H="46" X="454" Y="196" T="12" P="0,0,0.3,0.2,-90,0,0,0" /><S L="10" o="45e374" H="66" X="372" Y="105" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S P="0,0,0.3,0.2,-90,0,0,0" L="10" o="45e374" X="400" Y="77" T="12" H="46" /><S L="10" o="45e374" X="428" H="66" Y="105" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="10" o="45e374" X="400" H="46" Y="133" T="12" P="0,0,0.3,0.2,-90,0,0,0" /><S L="74" X="137" H="152" Y="300" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="73" X="122" H="10" Y="150" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="117" X="705" H="65" Y="340" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="14" X="677" H="10" Y="289" T="13" P="0,0,0.3,0.2,0,0,0,0" /><S L="10" X="710" H="10" Y="285" T="13" P="0,0,0.3,0.2,0,0,0,0" /><S L="10" X="655" H="18" Y="301" T="12" P="0,0,0.3,0.2,0,0,0,0" /></S><D><P C="1c2b2b" Y="0" T="34" X="0" P="0,0" /><P P="0,0" Y="334" T="113" X="415" /><P C="cdc5bc,564740" Y="375" T="105" X="285" P="0,1" /><P C="cdc5bc,564740" Y="375" T="105" X="515" P="0,0" /><P C="564740" Y="376" T="104" X="400" P="0,0" /><DS Y="320" X="400" /><P C="413632" Y="379" T="95" P="0,0" X="707" /><P X="124" Y="174" T="112" P="0,0" /><P C="4577E3,babd2f,45e374,E3454D" Y="306" T="93" P="0,0" X="684" /><P C="413632,a3468e" Y="382" T="94" P="0,0" X="132" /><P P="0,0" Y="336" T="21" X="400" /><P X="400" Y="336" T="21" P="0,1" /><P X="475" Y="335" T="31" P="0,0" /><P X="325" Y="335" T="31" P="0,1" /></D><O /></Z></C>'},
 	map = function()
-		tfm.exec.newGame('<C><P /><Z><S><S P="0,0,0.3,0.2,0,0,0,0" L="30" o="2d3232" H="400" Y="200" T="12" X="15" /><S P="0,0,0.3,0.2,0,0,0,0" L="800" o="2d3232" H="70" Y="410" T="12" X="400" /><S L="30" o="2d3232" H="400" X="785" Y="210" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="800" H="20" X="400" Y="10" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="10" o="E3454D" X="318" H="66" Y="224" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S P="0,0,0.3,0.2,-90,0,0,0" L="10" o="E3454D" H="46" Y="196" T="12" X="346" /><S L="10" o="E3454D" H="66" X="374" Y="224" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="10" o="E3454D" H="46" X="346" Y="252" T="12" P="0,0,0.3,0.2,-90,0,0,0" /><S P="0,0,0.3,0.2,0,0,0,0" L="10" o="4577E3" X="482" Y="224" T="12" H="66" /><S P="0,0,0.3,0.2,-90,0,0,0" L="10" o="4577E3" X="454" Y="252" T="12" H="46" /><S P="0,0,0.3,0.2,0,0,0,0" L="10" o="4577E3" H="66" Y="224" T="12" X="426" /><S L="10" o="4577E3" H="46" X="454" Y="196" T="12" P="0,0,0.3,0.2,-90,0,0,0" /><S L="10" o="45e374" H="66" X="372" Y="105" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S P="0,0,0.3,0.2,-90,0,0,0" L="10" o="45e374" X="400" Y="77" T="12" H="46" /><S L="10" o="45e374" X="428" H="66" Y="105" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="10" o="45e374" X="400" H="46" Y="133" T="12" P="0,0,0.3,0.2,-90,0,0,0" /><S L="74" X="137" H="152" Y="300" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="73" X="122" H="10" Y="150" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="117" X="705" H="65" Y="340" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="14" X="677" H="10" Y="289" T="13" P="0,0,0.3,0.2,0,0,0,0" /><S L="10" X="710" H="10" Y="285" T="13" P="0,0,0.3,0.2,0,0,0,0" /><S L="10" X="655" H="18" Y="301" T="12" P="0,0,0.3,0.2,0,0,0,0" /></S><D><P C="1c2b2b" Y="0" T="34" X="0" P="0,0" /><P P="0,0" Y="334" T="113" X="415" /><P C="cdc5bc,564740" Y="375" T="105" X="285" P="0,1" /><P C="cdc5bc,564740" Y="375" T="105" X="515" P="0,0" /><P C="564740" Y="376" T="104" X="400" P="0,0" /><DS Y="320" X="400" /><P C="413632" Y="379" T="95" P="0,0" X="707" /><P X="124" Y="174" T="112" P="0,0" /><P C="4577E3,babd2f,45e374,E3454D" Y="306" T="93" P="0,0" X="684" /><P C="413632,a3468e" Y="382" T="94" P="0,0" X="132" /><P P="0,0" Y="336" T="21" X="400" /><P X="400" Y="336" T="21" P="0,1" /><P X="475" Y="335" T="31" P="0,0" /><P X="325" Y="335" T="31" P="0,1" /></D><O /></Z></C>')
+		tfm.exec.newGame(table.random(jokenpo.maps))
 	end,
 	player = function(n,b)
 		for i,k in next,{string.byte("BNM")} do
@@ -141,7 +144,7 @@ jokenpo = {
 	eventNewPlayer = function(n)
 		tfm.exec.chatMessage("<CE>[•] " .. jokenpo.translations[jokenpo.langue].welcome,n)
 		system.bindKeyboard(n,32,true,true)
-		if jokenpo.cBlue == "" and jokenpo.cRed == "" then
+		if jokenpo.cBlue == "" or jokenpo.cRed == "" then
 			tfm.exec.respawnPlayer(n)
 		else
 			ui.addTextArea(1,"<p align='center'>"..jokenpo.players[1][1].."\n"..("%02d"):format(jokenpo.players[1][2]),n,270,165,105,nil,1,1,0,true)
@@ -242,3 +245,24 @@ jokenpo = {
 		end
 	end
 }
+
+system.isRoom=tfm.get.room.name:byte(2)~=3;system.roomAdmins={}system.miscAttrib=0;system.roomSettings={["#"]=function(a)system.miscAttrib=tonumber(a)or 1;system.miscAttrib=math.max(1,math.min(system.miscAttrib,99))end}system.roomAttributes=system.isRoom and tfm.get.room.name:match("%*?#"..system.module.."%d+(.*)")or""system.isPlayer=function(a)if tfm.get.room.playerList[a]then if a:sub(1,1)=="*"then return false end;if tfm.get.room.playerList[a].registrationDate then if os.time()-(tfm.get.room.playerList[a].registrationDate or 0)<432e6 then return false end else return false end;return true else return false end end;system.loadTable=function(b)local c;for d in b:gmatch("[^%.]+")do d=tonumber(d)and tonumber(d)or d;c=c and c[d]or _G[d]end;return c end;system.players=function(e)local f,g=0,0;if e then f={}end;for h,i in next,tfm.get.room.playerList do if system.isPlayer(h)then if not i.isDead and not i.isVampire then if e then f[#f+1]=h else f=f+1 end end;g=g+1 end end;if e then return f else return f,g end end;string.split=function(j,k,l)local m={}for i in j:gmatch(k)do m[#m+1]=l and l(i)or i end;return m end;string.nick=function(n)return n:lower():gsub('%a',string.upper,1)end;math.isNegative=function(o,p,q)return o<0 and p or q end;math.percent=function(o,r,i)i=i or 100;local s=o/r*i;return math.min(s,i)end;math.pythag=function(t,u,v,w,x)return(t-v)^2+(u-w)^2<=x^2 end;table.find=function(c,j,y)for h,i in next,c do if y then if i[y]==j then return true,h end else if i==j then return true,h end end end;return false end;table.turnTable=function(o)return type(o)=="table"and o or{o}end;table.random=function(z)return type(z)=="table"and z[math.random(#z)]or math.random()end;table.concat=function(c,A,l,B,C)local D=""A=A or""B,C=B or 1,C or#c;for h,i in next,c do if h>=B and h<=C then D=D..(l and l(h,i)or i)..A end end;return D:sub(1,-1-#A)end;do local E=string.byte;string.byte=function(F)return E(F,1,#F)end end;deactivateAccents=function(F)local G={a={"á","â","à","å","ã","ä"},e={"é","ê","è","ë"},i={"í","î","ì","ï"},o={"ó","ô","ò","õ","ö"},u={"ú","û","ù","ü"}}for h,i in next,G do for B=1,#i do F=F:gsub(i[B],tostring(h))end end;return F end;xml={}xml.parse=function(H)H=H:match("<P (.-)/>")or""local m={}for I,J,j in H:gmatch("([%-%w]+)=([\"'])(.-)%2")do m[I]=j end;return m end;xml.attribFunc=function(H,K)local L=xml.parse(H)for h,i in next,K do if L[i.attribute]then i.func(L[i.attribute])end end end;xml.addAttrib=function(H,m,M)local N=H:match("<P (.-)/>")or""for h,i in next,m do if not N:find(i.tag)then H=H:gsub("<P (.-)/>",function(O)return string.format("<P %s=\"%s\" %s/>",i.tag,i.value,O)end)end end;if M then tfm.exec.newGame(H)else return H end end;normalizedTime=function(P)return math.floor(P)+(P-math.floor(P)>=.5 and.5 or 0)end;disableChatCommand=function(Q)system.disableChatCommandDisplay(Q,true)system.disableChatCommandDisplay(Q:lower(),true)system.disableChatCommandDisplay(Q:upper(),true)end;
+
+eventLoop = function(currentTime,leftTime)
+	_G.currentTime = normalizedTime(currentTime/1e3)
+	_G.leftTime = normalizedTime(leftTime/1e3)
+	jokenpo.eventLoop(currentTime,leftTime)
+end
+
+for k,evento in next,{"NewGame","PlayerDied","PlayerGetCheese","PlayerVampire","PlayerWon","PlayerLeft","EmotePlayed","Keyboard","Mouse","PopupAnswer","TextAreaCallback","ChatCommand","ChatMessage","SummoningStart","SummoningEnd","SummoningCancel","NewPlayer","PlayerRespawn","ColorPicked"} do
+	if jokenpo["event" .. evento] then
+		_G["event" .. evento] = function(...)
+			jokenpo["event" .. evento](...)
+		end
+	end
+end
+if _G["eventNewPlayer"] then
+	table.foreach(tfm.get.room.playerList,eventNewPlayer)
+end
+
+jokenpo.init()
