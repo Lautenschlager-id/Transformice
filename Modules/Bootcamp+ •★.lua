@@ -160,8 +160,13 @@ bootcampp = {
 		if bootcampp.info[n].cheese then
 			tfm.exec.giveCheese(n)
 		end
+		tfm.exec.setPlayerScore(n,-1,true)
 	end,
 	eventPlayerWon = function(n)
+		bootcampp.info[n].cheese = false
+		bootcampp.info[n].checkpoint = {false,0,0}
+		ui.removeTextArea(1,n)
+
 		bootcampp.eventPlayerDied(n)
 	end,
 	eventPlayerGetCheese = function(n)
