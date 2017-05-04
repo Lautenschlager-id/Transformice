@@ -16,13 +16,13 @@ bootcampp = {
 		bootcampp.translations.pt = bootcampp.translations.br
 		bootcampp.langue = bootcampp.translations[tfm.get.room.community] and tfm.get.room.community or "en"
 
-		for _,f in next,{"AutoShaman","AutoNewGame","PhysicalConsumables","AfkDeath"} do
+		for _,f in next,{"AutoShaman","AutoTimeLeft","AutoNewGame","PhysicalConsumables","AfkDeath"} do
 			tfm.exec["disable"..f]()
 		end
 
 		tfm.exec.newGame(bootcampp.maps[math.random(#bootcampp.maps)])
 	end,
-	rank=function(players,fromValue,showPos,showPoints,pointsName,lim)
+	rank = function(players,fromValue,showPos,showPoints,pointsName,lim)
 		local p,rank = {},""
 		fromValue,lim = fromValue or {tfm.get.room.playerList,"score"},tonumber(lim) or 100
 		for n in next,players do
@@ -39,6 +39,10 @@ bootcampp = {
 	eventNewGame = function()
 		bootcampp.groundsData = {}
 		bootcampp.mapData = {}
+		for k,v in next,bootcampp.info do
+			v.checkpoint = {false,0,0}
+			ui.removeTextArea(1,n)
+		end
 		local xml = tfm.get.room.xmlMapInfo.xml
 		if xml then
 			local grounds = xml:match("<S>(.-)</S>")
@@ -151,6 +155,9 @@ bootcampp = {
 		if bootcampp.info[n].checkpoint[1] then
 			tfm.exec.movePlayer(n,bootcampp.info[n].checkpoint[2],bootcampp.info[n].checkpoint[3])
 		end
+	end,
+	eventPlayerWon = function(n)
+		bootcampp.eventPlayerDied(n)
 	end,
 	eventChatCommand = function(n,c)
 		local p = string.split(c,"[^%s]+")
