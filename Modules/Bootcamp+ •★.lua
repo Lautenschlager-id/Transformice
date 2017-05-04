@@ -9,6 +9,7 @@ bootcampp = {
 			setstandtime = "The standard time of all the rounds has been set to %s minutes!",
 			enabled = "enabled! Press <B>E</B> to put a checkpoint and <B>Shift+E</B> to remove it.",
 			disabled = "disabled!",
+			info = "Checkpoint:\n\tIf the checkpoint system is enabled, press <B>E</B> to put a checkpoint and <B>Shift+E</B> to remove it.\nAdmin\n\tIf you are a room admin, there are some commands that you can execute:\n\tMaps\n\t\t!next <V>--> Pass the map</V>\n\t\t!again <V>--> Resets the current map</V>\n\t\t!np @Code <VP>or</VP> !map @Code <V>--> Loads a map</V>\n\t\t!queue clear <V>--> Clear the map queue</V>\n\t\t!queue add @Code <V>--> Adds a map in the map queue</V>\n\t\t!queue P3 <VP>or</VP> P13 <VP>or</VP> P23 <V>--> Adds the whole official rotation of P3 or P13 or P23 in the map queue</V>\n\tTime\n\t\t!time TimeInMinutes <V>--> Set the time of the current round in TimeInMinutes</V>\n\t\t!standtime TimeInMinutes <V>--> Set the time of all the rounds in TimeInMinutes</V>\n\tOthers\n\t\t!checkpoint <V>--> Enables/Disables the checkpoint system</V>",
 		},
 		br = {
 			welcome = "Bem-vindo ao <B>#Bootcamp+</B>! Digite !info para checar os comandos\n\tReporte quaisquer problemas para Bolodefchoco!",
@@ -19,6 +20,7 @@ bootcampp = {
 			setstandtime = "O tempo padrão para todas as partidas foram definidas para %s minutos!",
 			enabled = "ativado! Pressione <B>E</B> para marcar um checkpoint e <B>Shift+E</B> para remove-lo.",
 			disabled = "desativado!",
+			info = "Checkpoint:\n\tSe o sistema de checkpoint está ativado, pressione <B>E</B> para marcar um checkpoint e <B>Shift+E</B> para remove-lo.\nAdmin\n\tSe você é um administrador da sala, há alguns comandos que você pode executar:\n\tMapas\n\t\t!next <V>--> Passa o mapa</V>\n\t\t!again <V>--> Reinicia o mapa atual</V>\n\t\t!np @Código <VP>ou</VP> !map @Código <V>--> Carrega um mapa</V>\n\t\t!queue clear <V>--> Limpa a lista de mapas</V>\n\t\t!queue add @Código <V>--> Adiciona um mapa na lista de mapas</V>\n\t\t!queue P3 <VP>ou</VP> P13 <VP>ou</VP> P23 <V>--> Adiciona a rotação inteira de P3 ou P13 ou P23 na lista de mapas</V>\n\tTempo\n\t\t!time TempoEmMinutos <V>--> Define o tempo do mapa atual em TempoEmMinutos</V>\n\t\t!standtime TempoEmMinutos <V>--> Define o tempo de todas as partidas em TempoEmMinutos</V>\n\tOutros\n\t\t!checkpoint <V>--> Ativa/Desativa o sistema de checkpoint</V>",
 		},
 	},
 	langue = "en",
@@ -198,39 +200,43 @@ bootcampp = {
 	eventChatCommand = function(n,c)
 		local p = string.split(c,"[^%s]+")
 		table.concat(p,"",function(k,v) p[k] = v:lower() end)
-		if system.roomAdmins[n] then
-			if p[1] == "next" then
-				tfm.exec.newGame(bootcampp.maps[math.random(#bootcampp.maps)])
-				tfm.exec.chatMessage("<T>• "..bootcampp.translations[bootcampp.langue].skip:format(n))
-			elseif p[1] == "again" then
-				tfm.exec.newGame(tfm.get.room.currentMap)
-				tfm.exec.chatMessage("<T>• "..bootcampp.translations[bootcampp.langue].restart:format(n))
-			elseif p[1] == "np" or p[1] == "map" then
-				tfm.exec.newGame(p[2])
-				tfm.exec.chatMessage("<T>• "..bootcampp.translations[bootcampp.langue].loadmap:format(n,p[2]:find("@") and p[2] or "@"..p[2]))
-			elseif p[1] == "time" then
-				tfm.exec.setGameTime(p[2] * 60)
-				tfm.exec.chatMessage(bootcampp.translations[bootcampp.langue].settime:format(p[2]))
-			elseif p[1] == "standtime" then
-				p[2] = p[2] and tonumber(p[2]) or 6
-				if p[2] > 0 and p[2] < 10 then
-					bootcampp.standardTime = p[2]
-					tfm.exec.chatMessage(bootcampp.translations[bootcampp.langue].setstandtime:format(p[2]))
-				end
-			elseif p[1] == "checkpoint" then
-				bootcampp.checkpoint = not bootcampp.checkpoint
-				tfm.exec.chatMessage("<T>Checkpoint " .. (bootcampp.checkpoint and bootcampp.translations[bootcampp.langue].enabled or bootcampp.translations[bootcampp.langue].disabled))
-			elseif p[1] == "queue" then
-				if p[2] == "clear" then
-					bootcampp.maps = {}
-				elseif p[2] == "add" then
-					bootcampp.maps[#bootcampp.maps + 1] = p[3]
-				elseif p[2]:sub(1,1) == "p" then
-					if p[2] == "p3" or p[2] == "p13" or p[2] == "p23" then
-						bootcampp.maps[#bootcampp.maps + 1] = "#" .. p[2]:sub(2)
+		if p[1] == "info" then
+			tfm.exec.chatMessage("<T>" .. bootcampp.translations[bootcampp.langue].info)
+		else
+			if system.roomAdmins[n] then
+				if p[1] == "next" then
+					tfm.exec.newGame(bootcampp.maps[math.random(#bootcampp.maps)])
+					tfm.exec.chatMessage("<T>• "..bootcampp.translations[bootcampp.langue].skip:format(n))
+				elseif p[1] == "again" then
+					tfm.exec.newGame(tfm.get.room.currentMap)
+					tfm.exec.chatMessage("<T>• "..bootcampp.translations[bootcampp.langue].restart:format(n))
+				elseif p[1] == "np" or p[1] == "map" then
+					tfm.exec.newGame(p[2])
+					tfm.exec.chatMessage("<T>• "..bootcampp.translations[bootcampp.langue].loadmap:format(n,p[2]:find("@") and p[2] or "@"..p[2]))
+				elseif p[1] == "time" then
+					tfm.exec.setGameTime(p[2] * 60)
+					tfm.exec.chatMessage(bootcampp.translations[bootcampp.langue].settime:format(p[2]))
+				elseif p[1] == "standtime" then
+					p[2] = p[2] and tonumber(p[2]) or 6
+					if p[2] > 0 and p[2] < 10 then
+						bootcampp.standardTime = p[2]
+						tfm.exec.chatMessage(bootcampp.translations[bootcampp.langue].setstandtime:format(p[2]))
 					end
-				else
-					bootcampp.map()
+				elseif p[1] == "checkpoint" then
+					bootcampp.checkpoint = not bootcampp.checkpoint
+					tfm.exec.chatMessage("<T>Checkpoint " .. (bootcampp.checkpoint and bootcampp.translations[bootcampp.langue].enabled or bootcampp.translations[bootcampp.langue].disabled))
+				elseif p[1] == "queue" then
+					if p[2] == "clear" then
+						bootcampp.maps = {}
+					elseif p[2] == "add" then
+						bootcampp.maps[#bootcampp.maps + 1] = p[3]
+					elseif p[2]:sub(1,1) == "p" then
+						if p[2] == "p3" or p[2] == "p13" or p[2] == "p23" then
+							bootcampp.maps[#bootcampp.maps + 1] = "#" .. p[2]:sub(2)
+						end
+					else
+						bootcampp.map()
+					end
 				end
 			end
 		end
