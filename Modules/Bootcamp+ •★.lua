@@ -183,9 +183,7 @@ bootcampp = {
 			elseif p[1] == "np" or p[1] == "map" then
 				tfm.exec.newGame(p[2])
 			elseif p[1] == "time" then
-				local newTime = p[2] * 60
-				tfm.exec.setGameTime(newTime)
-				_G.leftTime = newTime
+				tfm.exec.setGameTime(p[2] * 60)
 			end
 		end
 	end,
