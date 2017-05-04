@@ -37,6 +37,7 @@ bootcampp = {
 		return rank
 	end,
 	eventNewGame = function()
+		tfm.exec.setGameTime(3 * 60)
 		bootcampp.groundsData = {}
 		bootcampp.mapData = {}
 		for k,v in next,bootcampp.info do
@@ -182,7 +183,9 @@ bootcampp = {
 			elseif p[1] == "np" or p[1] == "map" then
 				tfm.exec.newGame(p[2])
 			elseif p[1] == "time" then
-				tfm.exec.setGameTime(p[2] * 60)
+				local newTime = p[2] * 60
+				tfm.exec.setGameTime(newTime)
+				_G.leftTime = newTime
 			end
 		end
 	end,
