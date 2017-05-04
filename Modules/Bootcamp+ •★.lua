@@ -40,6 +40,7 @@ bootcampp = {
 		bootcampp.groundsData = {}
 		bootcampp.mapData = {}
 		for k,v in next,bootcampp.info do
+			v.cheese = false
 			v.checkpoint = {false,0,0}
 			ui.removeTextArea(1,n)
 		end
@@ -95,6 +96,7 @@ bootcampp = {
 			bootcampp.info[n] = {
 				shift = false,
 				checkpoint = {false,0,0},
+				cheese = false,
 			}
 		end
 		system.bindMouse(n,true)
@@ -155,9 +157,15 @@ bootcampp = {
 		if bootcampp.info[n].checkpoint[1] then
 			tfm.exec.movePlayer(n,bootcampp.info[n].checkpoint[2],bootcampp.info[n].checkpoint[3])
 		end
+		if bootcampp.info[n].cheese then
+			tfm.exec.giveCheese(n)
+		end
 	end,
 	eventPlayerWon = function(n)
 		bootcampp.eventPlayerDied(n)
+	end,
+	eventPlayerGetCheese = function(n)
+		bootcampp.info[n].cheese = true
 	end,
 	eventChatCommand = function(n,c)
 		local p = string.split(c,"[^%s]+")
