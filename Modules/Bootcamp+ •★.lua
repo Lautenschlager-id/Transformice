@@ -187,11 +187,11 @@ if _G["eventNewPlayer"] then
 end
 
 eventLoop = function(currentTime,leftTime)
-_G.currentTime = normalizedTime(currentTime/1e3)
-_G.leftTime = normalizedTime(leftTime/1e3)
-if bootcampp.loop then
-bootcampp.init(currentTime,leftTime)
-end
+	_G.currentTime = normalizedTime(currentTime/1e3)
+	_G.leftTime = normalizedTime(leftTime/1e3)
+	if bootcampp.loop then
+		bootcampp.init(currentTime,leftTime)
+	end
 end
 
 bootcampp.init()
