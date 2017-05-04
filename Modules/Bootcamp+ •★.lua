@@ -1,3 +1,5 @@
+tfm.exec.chatMessage = print
+
 bootcampp = {
 	translations = {
 		en = {
@@ -184,12 +186,13 @@ bootcampp = {
 		end
 		tfm.exec.setPlayerScore(n,-1,true)
 	end,
-	eventPlayerWon = function(n)
+	eventPlayerWon = function(n,t,time)
 		bootcampp.info[n].cheese = false
 		bootcampp.info[n].checkpoint = {false,0,0}
 		ui.removeTextArea(1,n)
 
 		bootcampp.eventPlayerDied(n)
+		tfm.exec.chatMessage(string.format("<ROSE>%s (%ss)",n,time/100),n)
 	end,
 	eventPlayerGetCheese = function(n)
 		bootcampp.info[n].cheese = true
