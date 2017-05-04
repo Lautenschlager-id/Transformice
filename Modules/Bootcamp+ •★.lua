@@ -1,5 +1,3 @@
-tfm.exec.chatMessage = print
-
 bootcampp = {
 	translations = {
 		en = {
