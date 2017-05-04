@@ -212,8 +212,8 @@ end
 eventLoop = function(currentTime,leftTime)
 	_G.currentTime = normalizedTime(currentTime/1e3)
 	_G.leftTime = normalizedTime(leftTime/1e3)
-	if bootcampp.loop then
-		bootcampp.init(currentTime,leftTime)
+	if bootcampp.eventLoop then
+		bootcampp.eventLoop(currentTime,leftTime)
 	end
 end
 
