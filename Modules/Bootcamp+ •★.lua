@@ -1,17 +1,36 @@
 bootcampp = {
 	translations = {
 		en = {
-			welcome = "Welcome to #bootcamp+",
+			welcome = "Welcome to <B>#Bootcamp+</B>! Type !info to check the commands\n\tReport any issue to Bolodefchoco!",
+			skip = "<VP>%s</VP> just skipped the map!",
+			restart = "<VP>%s</VP> just restarted the current map!",
+			loadmap = "<VP>%s</VP> just loaded the map %s!",
+			settime = "The time has been set to %s minutes!",
+			setstandtime = "The standard time of all the rounds has been set to %s minutes!",
+			enabled = "enabled! Press <B>E</B> to put a checkpoint and <B>Shift+E</B> to remove it.",
+			disabled = "disabled!",
 		},
 		br = {
-			welcome = "Bem-vindo ao #bootcamp+",
+			welcome = "Bem-vindo ao <B>#Bootcamp+</B>! Digite !info para checar os comandos\n\tReporte quaisquer problemas para Bolodefchoco!",
+			skip = "<VP>%s</VP> acabou de passar o mapa!",
+			restart = "<VP>%s</VP> acabou de reiniciar o mapa atual!",
+			loadmap = "<VP>%s</VP> acabou de carregar o mapa %s!",
+			settime = "O tempo foi definido para %s minutos!",
+			setstandtime = "O tempo padrão para todas as partidas foram definidas para %s minutos!",
+			enabled = "ativado! Pressione <B>E</B> para marcar um checkpoint e <B>Shift+E</B> para remove-lo.",
+			disabled = "desativado!",
 		},
 	},
 	langue = "en",
-	maps = {6501305,6118143,2604997,2836937,6921682,3339586,5776126,5678468,3588850,5731571,6531399,6794559,5847160,5745650,7091808,7000003,6999993,5475528,4559999,3783671,2194497,3636264,4559344,4784241,4892845,3883780,5819565,6229884,6367688,4976520,4854044,6374076,3636206,3883883,6793803,4499335,4694197,5485847,6258690,3938895,1719709,4267610,4209243,764650},
+	maps = {},
 	info = {},
 	groundsData = {},
 	mapData = {},
+	standardTime = 6,
+	checkpoint = false,
+	map = function()
+		bootcampp.maps = {6501305,6118143,2604997,2836937,6921682,3339586,5776126,5678468,3588850,5731571,6531399,6794559,5847160,5745650,7091808,7000003,6999993,5475528,4559999,3783671,2194497,3636264,4559344,4784241,4892845,3883780,5819565,6229884,6367688,4976520,4854044,6374076,3636206,3883883,6793803,4499335,4694197,5485847,6258690,3938895,1719709,4267610,4209243,764650}
+	end,
 	init = function()
 		bootcampp.translations.pt = bootcampp.translations.br
 		bootcampp.langue = bootcampp.translations[tfm.get.room.community] and tfm.get.room.community or "en"
@@ -20,6 +39,7 @@ bootcampp = {
 			tfm.exec["disable"..f]()
 		end
 
+		bootcampp.map()
 		tfm.exec.newGame(bootcampp.maps[math.random(#bootcampp.maps)])
 	end,
 	rank = function(players,fromValue,showPos,showPoints,pointsName,lim)
@@ -37,7 +57,7 @@ bootcampp = {
 		return rank
 	end,
 	eventNewGame = function()
-		tfm.exec.setGameTime(3 * 60)
+		tfm.exec.setGameTime(bootcampp.standardTime * 60)
 		bootcampp.groundsData = {}
 		bootcampp.mapData = {}
 		for k,v in next,bootcampp.info do
@@ -106,6 +126,7 @@ bootcampp = {
 			system.bindKeyboard(n,string.byte("K"),i==1,true)
 		end
 		system.bindKeyboard(n,string.byte("E"),true,true)
+		tfm.exec.chatMessage("<T>"..bootcampp.translations[bootcampp.langue].welcome,n)
 	end,
 	eventMouse = function(n,x,y)
 		if bootcampp.info[n].shift then
@@ -137,7 +158,7 @@ bootcampp = {
 	eventKeyboard = function(n,k,d,x,y)
 		if k == 16 then
 			bootcampp.info[n].shift = d
-		elseif k == string.byte("E") then
+		elseif k == string.byte("E") and bootcampp.checkpoint then
 			if bootcampp.info[n].shift then
 				bootcampp.info[n].checkpoint = {false,0,0}
 				ui.removeTextArea(1,n)
@@ -175,15 +196,41 @@ bootcampp = {
 	end,
 	eventChatCommand = function(n,c)
 		local p = string.split(c,"[^%s]+")
+		table.concat(p,"",function(k,v) p[k] = v:lower() end)
 		if system.roomAdmins[n] then
 			if p[1] == "next" then
 				tfm.exec.newGame(bootcampp.maps[math.random(#bootcampp.maps)])
+				tfm.exec.chatMessage("<T>• "..bootcampp.translations[bootcampp.langue].skip:format(n))
 			elseif p[1] == "again" then
 				tfm.exec.newGame(tfm.get.room.currentMap)
+				tfm.exec.chatMessage("<T>• "..bootcampp.translations[bootcampp.langue].restart:format(n))
 			elseif p[1] == "np" or p[1] == "map" then
 				tfm.exec.newGame(p[2])
+				tfm.exec.chatMessage("<T>• "..bootcampp.translations[bootcampp.langue].loadmap:format(n,p[2]:find("@") and p[2] or "@"..p[2]))
 			elseif p[1] == "time" then
 				tfm.exec.setGameTime(p[2] * 60)
+				tfm.exec.chatMessage(bootcampp.translations[bootcampp.langue].settime:format(p[2]))
+			elseif p[1] == "standtime" then
+				p[2] = p[2] and tonumber(p[2]) or 6
+				if p[2] > 0 and p[2] < 10 then
+					bootcampp.standardTime = p[2]
+					tfm.exec.chatMessage(bootcampp.translations[bootcampp.langue].setstandtime:format(p[2]))
+				end
+			elseif p[1] == "checkpoint" then
+				bootcampp.checkpoint = not bootcampp.checkpoint
+				tfm.exec.chatMessage("<T>Checkpoint " .. (bootcampp.checkpoint and bootcampp.translations[bootcampp.langue].enabled or bootcampp.translations[bootcampp.langue].disabled))
+			elseif p[1] == "queue" then
+				if p[2] == "clear" then
+					bootcampp.maps = {}
+				elseif p[2] == "add" then
+					bootcampp.maps[#bootcampp.maps + 1] = p[3]
+				elseif p[2]:sub(1,1) == "p" then
+					if p[2] == "p3" or p[2] == "p13" or p[2] == "p23" then
+						bootcampp.maps[#bootcampp.maps + 1] = "#" .. p[2]:sub(2)
+					end
+				else
+					bootcampp.map()
+				end
 			end
 		end
 	end,
@@ -194,7 +241,7 @@ bootcampp = {
 	end
 }
 
-system.isRoom=tfm.get.room.name:byte(2)~=3;system.roomAdmins={}system.miscAttrib=0;system.roomSettings={["#"]=function(a)system.miscAttrib=tonumber(a)or 1;system.miscAttrib=math.max(1,math.min(system.miscAttrib,99))end}system.roomAttributes=system.isRoom and tfm.get.room.name:match("%*?#"..system.module.."%d+(.*)")or""system.isPlayer=function(a)if tfm.get.room.playerList[a]then if a:sub(1,1)=="*"then return false end;if tfm.get.room.playerList[a].registrationDate then if os.time()-(tfm.get.room.playerList[a].registrationDate or 0)<432e6 then return false end else return false end;return true else return false end end;system.loadTable=function(b)local c;for d in b:gmatch("[^%.]+")do d=tonumber(d)and tonumber(d)or d;c=c and c[d]or _G[d]end;return c end;system.players=function(e)local f,g=0,0;if e then f={}end;for h,i in next,tfm.get.room.playerList do if system.isPlayer(h)then if not i.isDead and not i.isVampire then if e then f[#f+1]=h else f=f+1 end end;g=g+1 end end;if e then return f else return f,g end end;string.split=function(j,k,l)local m={}for i in j:gmatch(k)do m[#m+1]=l and l(i)or i end;return m end;string.nick=function(n)return n:lower():gsub('%a',string.upper,1)end;math.isNegative=function(o,p,q)return o<0 and p or q end;math.percent=function(o,r,i)i=i or 100;local s=o/r*i;return math.min(s,i)end;math.pythag=function(t,u,v,w,x)return(t-v)^2+(u-w)^2<=x^2 end;table.find=function(c,j,y)for h,i in next,c do if y then if i[y]==j then return true,h end else if i==j then return true,h end end end;return false end;table.turnTable=function(o)return type(o)=="table"and o or{o}end;table.random=function(z)return type(z)=="table"and z[math.random(#z)]or math.random()end;table.concat=function(c,A,l,B,C)local D=""A=A or""B,C=B or 1,C or#c;for h,i in next,c do if h>=B and h<=C then D=D..(l and l(h,i)or i)..A end end;return D:sub(1,-1-#A)end;do local E=string.byte;string.byte=function(F)return E(F,1,#F)end end;deactivateAccents=function(F)local G={a={"á","â","à","å","ã","ä"},e={"é","ê","è","ë"},i={"í","î","ì","ï"},o={"ó","ô","ò","õ","ö"},u={"ú","û","ù","ü"}}for h,i in next,G do for B=1,#i do F=F:gsub(i[B],tostring(h))end end;return F end;xml={}xml.parse=function(H)H=H:match("<P (.-)/>")or""local m={}for I,J,j in H:gmatch("([%-%w]+)=([\"'])(.-)%2")do m[I]=j end;return m end;xml.attribFunc=function(H,K)local L=xml.parse(H)for h,i in next,K do if L[i.attribute]then i.func(L[i.attribute])end end end;xml.addAttrib=function(H,m,M)local N=H:match("<P (.-)/>")or""for h,i in next,m do if not N:find(i.tag)then H=H:gsub("<P (.-)/>",function(O)return string.format("<P %s=\"%s\" %s/>",i.tag,i.value,O)end)end end;if M then tfm.exec.newGame(H)else return H end end;normalizedTime=function(P)return math.floor(P)+(P-math.floor(P)>=.5 and.5 or 0)end;disableChatCommand=function(Q)system.disableChatCommandDisplay(Q,true)system.disableChatCommandDisplay(Q:lower(),true)system.disableChatCommandDisplay(Q:upper(),true)end;
+system.isRoom=tfm.get.room.name:byte(2)~=3;system.roomAdmins={Bolodefchoco = true}system.miscAttrib=0;system.roomSettings={["#"]=function(a)system.miscAttrib=tonumber(a)or 1;system.miscAttrib=math.max(1,math.min(system.miscAttrib,99))end}system.roomAttributes=system.isRoom and tfm.get.room.name:match("%*?#"..system.module.."%d+(.*)")or""system.isPlayer=function(a)if tfm.get.room.playerList[a]then if a:sub(1,1)=="*"then return false end;if tfm.get.room.playerList[a].registrationDate then if os.time()-(tfm.get.room.playerList[a].registrationDate or 0)<432e6 then return false end else return false end;return true else return false end end;system.loadTable=function(b)local c;for d in b:gmatch("[^%.]+")do d=tonumber(d)and tonumber(d)or d;c=c and c[d]or _G[d]end;return c end;system.players=function(e)local f,g=0,0;if e then f={}end;for h,i in next,tfm.get.room.playerList do if system.isPlayer(h)then if not i.isDead and not i.isVampire then if e then f[#f+1]=h else f=f+1 end end;g=g+1 end end;if e then return f else return f,g end end;string.split=function(j,k,l)local m={}for i in j:gmatch(k)do m[#m+1]=l and l(i)or i end;return m end;string.nick=function(n)return n:lower():gsub('%a',string.upper,1)end;math.isNegative=function(o,p,q)return o<0 and p or q end;math.percent=function(o,r,i)i=i or 100;local s=o/r*i;return math.min(s,i)end;math.pythag=function(t,u,v,w,x)return(t-v)^2+(u-w)^2<=x^2 end;table.find=function(c,j,y)for h,i in next,c do if y then if i[y]==j then return true,h end else if i==j then return true,h end end end;return false end;table.turnTable=function(o)return type(o)=="table"and o or{o}end;table.random=function(z)return type(z)=="table"and z[math.random(#z)]or math.random()end;table.concat=function(c,A,l,B,C)local D=""A=A or""B,C=B or 1,C or#c;for h,i in next,c do if h>=B and h<=C then D=D..(l and l(h,i)or i)..A end end;return D:sub(1,-1-#A)end;do local E=string.byte;string.byte=function(F)return E(F,1,#F)end end;deactivateAccents=function(F)local G={a={"á","â","à","å","ã","ä"},e={"é","ê","è","ë"},i={"í","î","ì","ï"},o={"ó","ô","ò","õ","ö"},u={"ú","û","ù","ü"}}for h,i in next,G do for B=1,#i do F=F:gsub(i[B],tostring(h))end end;return F end;xml={}xml.parse=function(H)H=H:match("<P (.-)/>")or""local m={}for I,J,j in H:gmatch("([%-%w]+)=([\"'])(.-)%2")do m[I]=j end;return m end;xml.attribFunc=function(H,K)local L=xml.parse(H)for h,i in next,K do if L[i.attribute]then i.func(L[i.attribute])end end end;xml.addAttrib=function(H,m,M)local N=H:match("<P (.-)/>")or""for h,i in next,m do if not N:find(i.tag)then H=H:gsub("<P (.-)/>",function(O)return string.format("<P %s=\"%s\" %s/>",i.tag,i.value,O)end)end end;if M then tfm.exec.newGame(H)else return H end end;normalizedTime=function(P)return math.floor(P)+(P-math.floor(P)>=.5 and.5 or 0)end;disableChatCommand=function(Q)system.disableChatCommandDisplay(Q,true)system.disableChatCommandDisplay(Q:lower(),true)system.disableChatCommandDisplay(Q:upper(),true)end;
 
 for k,evento in next,{"NewGame","PlayerDied","PlayerGetCheese","PlayerVampire","PlayerWon","PlayerLeft","EmotePlayed","Keyboard","Mouse","PopupAnswer","TextAreaCallback","ChatCommand","ChatMessage","SummoningStart","SummoningEnd","SummoningCancel","NewPlayer","PlayerRespawn","ColorPicked"} do
 	if bootcampp["event" .. evento] then
