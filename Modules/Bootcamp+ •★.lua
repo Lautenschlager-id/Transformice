@@ -181,7 +181,7 @@ bootcampp = {
 		if bootcampp.info[n].checkpoint[1] then
 			tfm.exec.movePlayer(n,bootcampp.info[n].checkpoint[2],bootcampp.info[n].checkpoint[3])
 		end
-		if bootcampp.info[n].cheese then
+		if bootcampp.info[n].cheese and system.miscAttrib == 1 then
 			tfm.exec.giveCheese(n)
 		end
 		tfm.exec.setPlayerScore(n,-1,true)
