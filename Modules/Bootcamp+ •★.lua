@@ -1,10 +1,10 @@
 bootcampp = {
 	translations = {
 		en = {
-			welcome = "Hello",
+			welcome = "Welcome to #bootcamp+",
 		},
 		br = {
-			welcome = "Olá",
+			welcome = "Bem-vindo ao #bootcamp+",
 		},
 	},
 	langue = "en",
@@ -21,6 +21,20 @@ bootcampp = {
 		end
 
 		tfm.exec.newGame(bootcampp.maps[math.random(#bootcampp.maps)])
+	end,
+	rank=function(players,fromValue,showPos,showPoints,pointsName,lim)
+		local p,rank = {},""
+		fromValue,lim = fromValue or {tfm.get.room.playerList,"score"},tonumber(lim) or 100
+		for n in next,players do
+			p[#p+1] = {name=n,v=fromValue[1][n][fromValue[2]]}
+		end
+		table.sort(p,function(f,s) return f.v>s.v end)
+		for o,n in next,p do
+			if o <= lim then
+				rank = rank .. (showPos and "<J>"..o..". " or "") .. "<V>" .. n.name .. (showPoints and " <BL>- <VP>" .. n.v .. " "..(pointsName or "points") .."\n" or "\n")
+			end
+		end
+		return rank
 	end,
 	eventNewGame = function()
 		bootcampp.groundsData = {}
@@ -82,6 +96,7 @@ bootcampp = {
 		system.bindMouse(n,true)
 		for i = 1,2 do
 			system.bindKeyboard(n,16,i==1,true)
+			system.bindKeyboard(n,string.byte("K"),i==1,true)
 		end
 		system.bindKeyboard(n,string.byte("E"),true,true)
 	end,
@@ -122,6 +137,12 @@ bootcampp = {
 			else
 				bootcampp.info[n].checkpoint = {true,x,y}
 				ui.addTextArea(1,"",n,x-5,y-5,10,10,0x56A75A,0x56A75A,.5,true)
+			end
+		elseif k == string.byte("K") then
+			if d then
+				ui.addTextArea(2,bootcampp.rank(tfm.get.room.playerList,{tfm.get.room.playerList,"score"},true,true,"points",20),n,5,30,nil,200,nil,nil,.8,true)
+			else
+				ui.removeTextArea(2,n)
 			end
 		end
 	end,
