@@ -23,7 +23,7 @@ bootcampp = {
 			info = "Checkpoint:\n\tSe o sistema de checkpoint está ativado, pressione <B>E</B> para marcar um checkpoint e <B>Shift+E</B> para remove-lo.\nAdmin\n\tSe você é um administrador da sala, há alguns comandos que você pode executar:\n\tMapas\n\t\t!next <V>--> Passa o mapa</V>\n\t\t!again <V>--> Reinicia o mapa atual</V>\n\t\t!np @Código <VP>ou</VP> !map @Código <V>--> Carrega um mapa</V>\n\t\t!queue clear <V>--> Limpa a lista de mapas</V>\n\t\t!queue add @Código <V>--> Adiciona um mapa na lista de mapas</V>\n\t\t!queue P3 <VP>ou</VP> P13 <VP>ou</VP> P23 <V>--> Adiciona a rotação inteira de P3 ou P13 ou P23 na lista de mapas</V>\n\tTempo\n\t\t!time TempoEmMinutos <V>--> Define o tempo do mapa atual em TempoEmMinutos</V>\n\t\t!standtime TempoEmMinutos <V>--> Define o tempo de todas as partidas em TempoEmMinutos</V>\n\tOutros\n\t\t<B>Shift+Click</B> sobre um piso para ler suas propriedades\n\t\t!checkpoint <V>--> Ativa/Desativa o sistema de checkpoint</V>",
 		},
 		pl = {
-			welcome = "Witaj <B>#Bootcamp+</B>! Wpisz !info na czacie aby sprawdzić jakie są komendy\n\tZgłaszaj wszelkie błędy do Bolodefchoco!",
+			welcome = "Witaj w <B>#Bootcamp+</B>! Wpisz !info na czacie aby sprawdzić jakie są komendy\n\tZgłaszaj wszelkie błędy do Bolodefchoco!",
 			skip = "<VP>%s</VP> pominął/-ęła mapę!",
 			restart = "<VP>%s</VP> zrestartował/-a mapę!",
 			loadmap = "<VP>%s</VP> załadował/-a mapę %s!",
