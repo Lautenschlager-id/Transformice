@@ -1,3 +1,28 @@
+--Creator: Bolodefchoco
+--Made in: 06/02/2017
+--Last update: 04/05/2017
+--[[ Notes:
+	Does:
+		Cada piso tem um efeito diferente sobre seu rato
+	Commands:
+		!o --> Abre a loja
+		!p --> Abre o perfil
+			name --> Nome do jogador
+		!h --> Abre o menu de ajuda
+		!langue --> Muda o idioma
+			Id --> Id do idioma
+		!k --> Abre o ranking
+		!? --> Mostra a informação do piso que você está pisando
+		!pw --> Põe senha na sala
+			password --> Senha
+	Key commands:
+		Space --> Realiza as funções dos pisos (quando existente)
+		P --> Abre seu perfil
+		O --> Abre a loja
+		H --> Abre o menu de ajuda
+		K --> Abre o ranking
+]]--
+
 --[[ Modes ]]--
 	--[[
 		0 = #Grounds
@@ -8,6 +33,7 @@
 		5 = #CannonUp
 		6 = #Xmas
 		7 = #Signal
+		8 = #Bootcamp+
 	]]--
 system.gameMode = 0
 
@@ -21,7 +47,8 @@ system.gameModes = {
 	"chat",
 	"cannonup",
 	"xmas",
-	"signal"
+	"signal",
+	"bootcamp+"
 }
 system.modeChanged = os.time() + 10e3
 getGameMode = function(name)
@@ -1783,6 +1810,266 @@ signal = {
 		tfm.exec.setGameTime(40,false)
 	end,
 }
+bootcampp = {
+	translations = {
+		en = {
+			welcome = "Welcome to <B>#Bootcamp+</B>! Type !info to check the commands\n\tReport any issue to Bolodefchoco!",
+			skip = "<VP>%s</VP> just skipped the map!",
+			restart = "<VP>%s</VP> just restarted the current map!",
+			loadmap = "<VP>%s</VP> just loaded the map %s!",
+			settime = "The time has been set to %s minutes!",
+			setstandtime = "The standard time of all the rounds has been set to %s minutes!",
+			enabled = "enabled! Press <B>E</B> to put a checkpoint and <B>Shift+E</B> to remove it.",
+			disabled = "disabled!",
+			info = "Checkpoint:\n\tIf the checkpoint system is enabled, press <B>E</B> to put a checkpoint and <B>Shift+E</B> to remove it.\nAdmin\n\tIf you are a room admin, there are some commands that you can execute:\n\tMaps\n\t\t!next <V>--> Pass the map</V>\n\t\t!again <V>--> Resets the current map</V>\n\t\t!np @Code <VP>or</VP> !map @Code <V>--> Loads a map</V>\n\t\t!queue clear <V>--> Clear the map queue</V>\n\t\t!queue add @Code <V>--> Adds a map in the map queue</V>\n\t\t!queue P3 <VP>or</VP> P13 <VP>or</VP> P23 <V>--> Adds the whole official rotation of P3 or P13 or P23 in the map queue</V>\n\tTime\n\t\t!time TimeInMinutes <V>--> Set the time of the current round in TimeInMinutes</V>\n\t\t!standtime TimeInMinutes <V>--> Set the time of all the rounds in TimeInMinutes</V>\n\tOthers\n\t\t!checkpoint <V>--> Enables/Disables the checkpoint system</V>",
+		},
+		br = {
+			welcome = "Bem-vindo ao <B>#Bootcamp+</B>! Digite !info para checar os comandos\n\tReporte quaisquer problemas para Bolodefchoco!",
+			skip = "<VP>%s</VP> acabou de passar o mapa!",
+			restart = "<VP>%s</VP> acabou de reiniciar o mapa atual!",
+			loadmap = "<VP>%s</VP> acabou de carregar o mapa %s!",
+			settime = "O tempo foi definido para %s minutos!",
+			setstandtime = "O tempo padrão para todas as partidas foram definidas para %s minutos!",
+			enabled = "ativado! Pressione <B>E</B> para marcar um checkpoint e <B>Shift+E</B> para remove-lo.",
+			disabled = "desativado!",
+			info = "Checkpoint:\n\tSe o sistema de checkpoint está ativado, pressione <B>E</B> para marcar um checkpoint e <B>Shift+E</B> para remove-lo.\nAdmin\n\tSe você é um administrador da sala, há alguns comandos que você pode executar:\n\tMapas\n\t\t!next <V>--> Passa o mapa</V>\n\t\t!again <V>--> Reinicia o mapa atual</V>\n\t\t!np @Código <VP>ou</VP> !map @Código <V>--> Carrega um mapa</V>\n\t\t!queue clear <V>--> Limpa a lista de mapas</V>\n\t\t!queue add @Código <V>--> Adiciona um mapa na lista de mapas</V>\n\t\t!queue P3 <VP>ou</VP> P13 <VP>ou</VP> P23 <V>--> Adiciona a rotação inteira de P3 ou P13 ou P23 na lista de mapas</V>\n\tTempo\n\t\t!time TempoEmMinutos <V>--> Define o tempo do mapa atual em TempoEmMinutos</V>\n\t\t!standtime TempoEmMinutos <V>--> Define o tempo de todas as partidas em TempoEmMinutos</V>\n\tOutros\n\t\t!checkpoint <V>--> Ativa/Desativa o sistema de checkpoint</V>",
+		},
+		pl = {
+			welcome = "Witaj w <B>#Bootcamp+</B>! Wpisz !info na czacie aby sprawdzić jakie są komendy\n\tZgłaszaj wszelkie błędy do Bolodefchoco!",
+			skip = "<VP>%s</VP> pominął/-ęła mapę!",
+			restart = "<VP>%s</VP> zrestartował/-a mapę!",
+			loadmap = "<VP>%s</VP> załadował/-a mapę %s!",
+			settime = "Czas został ustawiony na %s minut!",
+			setstandtime = "Standardowy czas dla wszystkich map został ustawiony na %s minut!",
+			enabled = "włączony! Kliknij <B>E</B>, aby ustawić checkpoint i <B>Shift+E</B>, aby go usunąć.",
+			disabled = "wyłączony!",
+			info = "Checkpoint:\n\tJeżeli system checkpointów jest włączony, kliknij <B>E</B>, aby ustawić checkpoint i <B>Shift+E</B>, aby go usunąć.\nAdmin\n\tJeżeli jesteś administratorem pokoju, jest kilka komend, które możesz użyć:\n\tMapy\n\t\t!next <V>--> Przełącza mapę</V>\n\t\t!again <V>--> Restartuje mapę</V>\n\t\t!np @Code <VP>albo</VP> !map @Code <V>--> Ładuje mapę</V>\n\t\t!queue clear <V>--> Czyści kolejkę map</V>\n\t\t!queue add @Code <V>--> Dodaję mapę do kolejki</V>\n\t\t!queue P3 <VP>albo</VP> P13 <VP>albo</VP> P23 <V>--> Dodaje wszystkie oficjalne rotacje z permów P3 albo P13 albo P23 do kolejki map</V>\n\tCzas\n\t\t!time CzasWMinutach <V>--> Ustawia czas obecnej mapy na CzasWMinutach</V>\n\t\t!standtime CzasWMinutach <V>--> Ustawia czas dla wszystkich rund na CzasWMinutach</V>\n\tInne\n\t\t<B>Shift+Click</B> na gruncie aby przeczytać jego właściwości\n\t\t!checkpoint <V>--> Włącza/Wyłącza system checkpointów</V>",
+		}
+	},
+	langue = "en",
+	maps = {},
+	info = {},
+	groundsData = {},
+	mapData = {},
+	standardTime = 6,
+	checkpoint = false,
+	map = function()
+		bootcampp.maps = {6501305,6118143,2604997,2836937,6921682,3339586,5776126,5678468,3588850,5731571,6531399,6794559,5847160,5745650,7091808,7000003,6999993,5475528,4559999,3783671,2194497,3636264,4559344,4784241,4892845,3883780,5819565,6229884,6367688,4976520,4854044,6374076,3636206,3883883,6793803,4499335,4694197,5485847,6258690,3938895,1719709,4267610,4209243,764650}
+	end,
+	init = function()
+		bootcampp.translations.pt = bootcampp.translations.br
+		bootcampp.langue = bootcampp.translations[tfm.get.room.community] and tfm.get.room.community or "en"
+
+		for _,f in next,{"AutoShaman","AutoTimeLeft","AutoNewGame","PhysicalConsumables","AfkDeath"} do
+			tfm.exec["disable"..f]()
+		end
+
+		bootcampp.map()
+		tfm.exec.newGame(bootcampp.maps[math.random(#bootcampp.maps)])
+	end,
+	rank = function(players,fromValue,showPos,showPoints,pointsName,lim)
+		local p,rank = {},""
+		fromValue,lim = fromValue or {tfm.get.room.playerList,"score"},tonumber(lim) or 100
+		for n in next,players do
+			p[#p+1] = {name=n,v=fromValue[1][n][fromValue[2]]}
+		end
+		table.sort(p,function(f,s) return f.v>s.v end)
+		for o,n in next,p do
+			if o <= lim then
+				rank = rank .. (showPos and "<J>"..o..". " or "") .. "<V>" .. n.name .. (showPoints and " <BL>- <VP>" .. n.v .. " "..(pointsName or "points") .."\n" or "\n")
+			end
+		end
+		return rank
+	end,
+	eventNewGame = function()
+		tfm.exec.setGameTime(bootcampp.standardTime * 60)
+		bootcampp.groundsData = {}
+		bootcampp.mapData = {}
+		for k,v in next,bootcampp.info do
+			v.cheese = false
+			v.checkpoint = {false,0,0}
+			ui.removeTextArea(1,n)
+		end
+		local xml = tfm.get.room.xmlMapInfo.xml
+		if xml then
+			local grounds = xml:match("<S>(.-)</S>")
+			local properties = xml:match("<C><P (.-)/>.*<Z>")
+			if properties then
+				bootcampp.mapData = {
+					width = properties:match('L="(%d+)"') or 800,
+					heigth = properties:match('H="(%d+)"') or 400,
+				}
+			else
+				bootcampp.mapData = {
+					width = 800,
+					heigth = 400,
+				}
+			end
+
+			local data = {}
+			grounds:gsub("<S (.-)/>",function(attributes)
+				data[#data + 1] = attributes
+			end)
+			for i = 1,#data do
+				bootcampp.groundsData[i] = {}
+				
+				local type = data[i]:match('T="(%d+)"')
+				bootcampp.groundsData[i].type = type and tonumber(type) or -1
+
+				local x = data[i]:match('X="(%d+)"')
+				bootcampp.groundsData[i].x = x and tonumber(x) or 0
+
+				local y = data[i]:match('Y="(%d+)"')
+				bootcampp.groundsData[i].y = y and tonumber(y) or 0
+
+				local width = data[i]:match('L="(%d+)"')
+				bootcampp.groundsData[i].width = width and tonumber(width) or 0
+
+				local heigth = data[i]:match('H="(%d+)"')
+				bootcampp.groundsData[i].heigth = heigth and tonumber(heigth) or 0
+
+				local info = data[i]:match('P="(.*)"')
+				info = string.split(info,"[^,]+")
+
+				bootcampp.groundsData[i].friction = info[3] and tonumber(info[3]) or .3
+				bootcampp.groundsData[i].restitution = info[3] and tonumber(info[4]) or .2
+				bootcampp.groundsData[i].angle = info[3] and tonumber(info[5]) or 0
+			end
+		end
+	end,
+	eventNewPlayer = function(n)
+		if not bootcampp.info[n] then
+			bootcampp.info[n] = {
+				shift = false,
+				checkpoint = {false,0,0},
+				cheese = false,
+			}
+		end
+		system.bindMouse(n,true)
+		for i = 1,2 do
+			system.bindKeyboard(n,16,i==1,true)
+			system.bindKeyboard(n,string.byte("K"),i==1,true)
+		end
+		system.bindKeyboard(n,string.byte("E"),true,true)
+		tfm.exec.chatMessage("<T>"..bootcampp.translations[bootcampp.langue].welcome,n)
+	end,
+	eventMouse = function(n,x,y)
+		if bootcampp.info[n].shift then
+			for i = #bootcampp.groundsData,1,-1 do
+				local g = bootcampp.groundsData[i]
+				local rad = math.rad(g.angle)
+				local ax = {math.cos(rad),math.sin(rad)}
+
+				local gX = g.x + ax[1] * (x - g.x) - ax[2] * (y - g.y)
+				local gY = g.y + ax[2] * (x - g.x) + ax[1] * (y - g.y)
+
+				if (g.type == 13 and math.pythag(x,y,g.x,g.y,g.width/2) or (math.abs(gX - g.x) < g.width/2 and math.abs(gY - g.y) < g.heigth/2)) then
+					local properties = {"Type","ID","X","Y","Heigth","Width","Friction","Restitution","Angle"}
+					local info = ""
+
+					for k,v in next,properties do
+						info = info .. string.format("<N>%s : <V>%s\n",v,(v == "ID" and i or v == "Type" and (({[0] = "Unknown","Wood","Ice","Trampoline","Lava","Chocolate","Earth","Grass","Sand","Cloud","Water","Stone","Snow","Rectangle","Circle","Spiderweb"})[g.type + 1]) or tostring(g[v:lower()])))
+					end
+
+					local mapW = tonumber(bootcampp.mapData.width)
+					local mapH = tonumber(bootcampp.mapData.heigth)
+					ui.addTextArea(0,info,n,(x + 150 <= mapW and x) or (x < 0 and 0) or (mapW - 150),(y + 180 <= mapH and y > 20 and y) or (y < 20 and 25) or (mapH - 180),nil,nil,nil,nil,.8,false)
+				end
+			end
+		else
+			ui.removeTextArea(0,n)
+		end
+	end,
+	eventKeyboard = function(n,k,d,x,y)
+		if k == 16 then
+			bootcampp.info[n].shift = d
+		elseif k == string.byte("E") and bootcampp.checkpoint then
+			if bootcampp.info[n].shift then
+				bootcampp.info[n].checkpoint = {false,0,0}
+				ui.removeTextArea(1,n)
+			else
+				bootcampp.info[n].checkpoint = {true,x,y}
+				ui.addTextArea(1,"",n,x-5,y-5,10,10,0x56A75A,0x56A75A,.5,true)
+			end
+		elseif k == string.byte("K") then
+			if d then
+				ui.addTextArea(2,bootcampp.rank(tfm.get.room.playerList,{tfm.get.room.playerList,"score"},true,true,"points",20),n,5,30,nil,200,nil,nil,.8,true)
+			else
+				ui.removeTextArea(2,n)
+			end
+		end
+	end,
+	eventPlayerDied = function(n)
+		tfm.exec.respawnPlayer(n)
+		if bootcampp.info[n].checkpoint[1] then
+			tfm.exec.movePlayer(n,bootcampp.info[n].checkpoint[2],bootcampp.info[n].checkpoint[3])
+		end
+		if bootcampp.info[n].cheese and system.miscAttrib == 1 then
+			tfm.exec.giveCheese(n)
+		end
+		tfm.exec.setPlayerScore(n,-1,true)
+	end,
+	eventPlayerWon = function(n,t,time)
+		bootcampp.info[n].cheese = false
+		bootcampp.info[n].checkpoint = {false,0,0}
+		ui.removeTextArea(1,n)
+
+		bootcampp.eventPlayerDied(n)
+		tfm.exec.chatMessage(string.format("<ROSE>%s (%ss)",n,time/100),n)
+	end,
+	eventPlayerGetCheese = function(n)
+		bootcampp.info[n].cheese = true
+	end,
+	eventChatCommand = function(n,c)
+		local p = string.split(c,"[^%s]+")
+		table.concat(p,"",function(k,v) p[k] = v:lower() end)
+		if p[1] == "info" then
+			tfm.exec.chatMessage("<T>" .. bootcampp.translations[bootcampp.langue].info)
+		else
+			if system.roomAdmins[n] then
+				if p[1] == "next" then
+					tfm.exec.newGame(bootcampp.maps[math.random(#bootcampp.maps)])
+					tfm.exec.chatMessage("<T>• "..bootcampp.translations[bootcampp.langue].skip:format(n))
+				elseif p[1] == "again" then
+					tfm.exec.newGame(tfm.get.room.currentMap)
+					tfm.exec.chatMessage("<T>• "..bootcampp.translations[bootcampp.langue].restart:format(n))
+				elseif p[1] == "np" or p[1] == "map" then
+					tfm.exec.newGame(p[2])
+					tfm.exec.chatMessage("<T>• "..bootcampp.translations[bootcampp.langue].loadmap:format(n,p[2]:find("@") and p[2] or "@"..p[2]))
+				elseif p[1] == "time" then
+					tfm.exec.setGameTime(p[2] * 60)
+					tfm.exec.chatMessage(bootcampp.translations[bootcampp.langue].settime:format(p[2]))
+				elseif p[1] == "standtime" then
+					p[2] = p[2] and tonumber(p[2]) or 6
+					if p[2] > 0 and p[2] < 10 then
+						bootcampp.standardTime = p[2]
+						tfm.exec.chatMessage(bootcampp.translations[bootcampp.langue].setstandtime:format(p[2]))
+					end
+				elseif p[1] == "checkpoint" then
+					bootcampp.checkpoint = not bootcampp.checkpoint
+					tfm.exec.chatMessage("<T>Checkpoint " .. (bootcampp.checkpoint and bootcampp.translations[bootcampp.langue].enabled or bootcampp.translations[bootcampp.langue].disabled))
+				elseif p[1] == "queue" then
+					if p[2] == "clear" then
+						bootcampp.maps = {}
+					elseif p[2] == "add" then
+						bootcampp.maps[#bootcampp.maps + 1] = p[3]
+					elseif p[2]:sub(1,1) == "p" then
+						if p[2] == "p3" or p[2] == "p13" or p[2] == "p23" then
+							bootcampp.maps[#bootcampp.maps + 1] = "#" .. p[2]:sub(2)
+						end
+					else
+						bootcampp.map()
+					end
+				end
+			end
+		end
+	end,
+	eventLoop = function()
+		if _G.leftTime < 1 then
+			tfm.exec.newGame(bootcampp.maps[math.random(#bootcampp.maps)])
+		end
+	end
+}
 
 --[[ Map System ]]--
 system.maps = {6226386,5993927,5198518,6133469,4396371,5425815,4140491,5168440,3324180,6564380,6600268,6987992,6987993,6988672,6230212,6340023,7057010,7047955,3326675,4184558,6392883,3324284,5043429,3326655,7069304,7069314,7069343,7069816,7069835,6558179,6726599,5921744,5921754,5632126,7071400,3099763,2283901,2887357,5507021,6945850,6568120,2874090,6961916,6576282,6578479, 6994066,4055924,4361619,4361785,4612510,4633670,3851416,4362362,4514386,4592612,6332986,5981054,7071075,7079644,6968299,7079708,7079827,7079880,7078090,7079092,6347093,2265250,6620004,5198607,6935117,5921867,7074686,3448597,4509060,4364504,4802574,6300148,4493715,4531989,4509584,7086737,7086768,7087798,7087840,6391815,6335452,6797243,7090907,7090909,6333026,7011800,7095393,7093647,2030030,7102187,7102175,5921816,5772226,6000012,6623930}
@@ -3322,6 +3609,9 @@ eventNewPlayer = function(n)
 	if system.gameMode == 7 then
 		signal.eventNewPlayer(n)
 	end
+	if system.gameMode == 8 then
+		bootcampp.eventNewPlayer(n)
+	end
 end
 
 --[[ New Game ]]--
@@ -3483,6 +3773,9 @@ eventNewGame = function()
 	if system.gameMode == 7 then
 		signal.eventNewGame()
 	end
+	if system.gameMode == 8 then
+		bootcampp.eventNewGame()
+	end
 end
 
 --[[ loop ]]--
@@ -3557,6 +3850,9 @@ eventLoop = function(currentTime,leftTime)
 	end
 	if system.gameMode == 7 then
 		signal.eventLoop(currentTime,leftTime)
+	end
+	if system.gameMode == 8 then
+		bootcampp.eventLoop(currentTime,leftTime)
 	end
 end
 
@@ -3637,6 +3933,9 @@ eventKeyboard = function(n,k,d,x,y)
 	end
 	if system.gameMode == 7 then
 		signal.eventKeyboard(n,k,d,x,y)
+	end
+	if system.gameMode == 8 then
+		bootcampp.eventKeyboard(n,k,d,x,y)
 	end
 end
 
@@ -3789,6 +4088,9 @@ eventChatCommand = function(n,c)
 	if system.gameMode == 7 then
 		signal.eventChatCommand(n,c)
 	end
+	if system.gameMode == 8 then
+		bootcampp.eventChatCommand(n,c)
+	end
 	if not system.isRoom then
 			if os.time() > system.modeChanged then
 			local newMode = getGameMode(c)
@@ -3817,7 +4119,7 @@ eventPlayerDataLoaded = function(n,d)
 end
 
 --[[ Won ]]--
-eventPlayerWon = function(n)
+eventPlayerWon = function(n,time,respawnTime)
 	if system.gameMode == 0 then
 		if system.availableRoom and info[n].groundsDataLoaded and system.isPlayer(n) then
 			podium = podium + 1
@@ -3858,6 +4160,9 @@ eventPlayerWon = function(n)
 	if system.gameMode == 7 then
 		signal.eventPlayerWon(n)
 	end
+	if system.gameMode == 8 then
+		bootcampp.eventPlayerWon(n,time,respawnTime)
+	end
 end
 
 --[[ Died ]]--
@@ -3886,6 +4191,9 @@ eventPlayerDied = function(n)
 	end
 	if system.gameMode == 6 then
 		xmas.eventPlayerDied(n)
+	end
+	if system.gameMode == 8 then
+		bootcampp.eventPlayerDied(n)
 	end
 end
 
@@ -3922,6 +4230,20 @@ eventPopupAnswer = function(i,n,a)
 	end
 end
 
+--[[ Mouse ]]--
+eventMouse = function(n,x,y)
+	if system.gameMode == 8 then
+		bootcampp.eventMouse(n,x,y)
+	end
+end
+
+--[[ Got Cheese ]]--
+eventPlayerGetCheese = function(n)
+	if system.gameMode == 8 then
+		bootcampp.eventPlayerGetCheese(n)
+	end
+end
+
 --[[ Settings ]]--
 system.setRoom()
 init = function()
@@ -3954,6 +4276,9 @@ init = function()
 	end
 	if system.gameMode == 7 then
 		signal.init()
+	end
+	if system.gameMode == 8 then
+		bootcampp.init()
 	end
 	table.foreach(tfm.get.room.playerList,eventNewPlayer)
 end
