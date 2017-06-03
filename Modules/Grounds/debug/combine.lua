@@ -26,10 +26,6 @@ fileTree = {
 	"src:Initialize",
 }
 
-function string.StartWith( String, Start )
-	return string.sub(String,1,string.len(Start)) == Start
-end
-
 function file_exists(file)
 	local f = io.open(file,"rb")
 	if f then
