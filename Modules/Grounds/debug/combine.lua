@@ -3,7 +3,11 @@ combiner = {}
 
 combiner.newVersion = false
 combiner.newVersionString = "none"
-dump = {}
+dump = {
+	[[--Creator: Bolodefchoco
+--Made in: 06/02/2017
+--Last update: ]] .. os.date("%d/%m/%Y")
+}
 workPath = debug.getinfo(1).short_src
 modulePath = string.format("%s\\",workPath:match("([^,]+)\\debug\\combine.lua"))
 
