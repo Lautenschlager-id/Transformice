@@ -1,3 +1,4 @@
+-- Stolen from Jordynl#Pokelua
 combiner = {}
 
 combiner.newVersion = false
