@@ -6,7 +6,7 @@ combiner.newVersionString = "none"
 dump = {
 	[[--Creator: Bolodefchoco
 --Made in: 06/02/2017
---Last update: ]] .. os.date("%d/%m/%Y") .. "\n\n"
+--Last update: ]] .. os.date("%d/%m/%Y")
 }
 workPath = debug.getinfo(1).short_src
 modulePath = string.format("%s\\",workPath:match("([^,]+)\\debug\\combine.lua"))
@@ -62,7 +62,7 @@ combiner.run = function()
 				print(string.format("File '%s' does not exist.", fullPath))
 			else
 				local lines = lines_from(fullPath)
-				table.insert(dump,string.format("--[[ %s ]]--\n%s\n",string.match(file,":(.-)$"),string.gsub(lines,"&version&",combiner.version)))
+				table.insert(dump,string.format("--[[ %s ]]--\n%s",string.match(file,":(.-)$"),string.gsub(lines,"&version&",combiner.version)))
 			end
 		end
 	end
@@ -70,8 +70,8 @@ combiner.run = function()
 	buildFile = string.format("debug\\builds\\Grounds_%s.lua",os.date("%d_%m_%y")) 
 	file = io.open("module.lua","w")
 	fileBuild = io.open(buildFile,"w")
-	file:write(table.concat(dump,"\n"))
-	fileBuild:write(table.concat(dump,"\n"))
+	file:write(table.concat(dump,"\n\n"))
+	fileBuild:write(table.concat(dump,"\n\n"))
 	file.close()
 	fileBuild.close()
 end
@@ -80,8 +80,8 @@ combiner.debug = function()
 	buildFile = string.format("debug\\builds\\Grounds_%s.lua", os.date("%d_%m_%y")) 
 	file = io.open("module.lua","w")
 	fileBuild = io.open(buildFile,"w")
-	file:write(table.concat(dump,"\n"))
-	fileBuild:write(table.concat(dump,"\n"))
+	file:write(table.concat(dump,"\n\n"))
+	fileBuild:write(table.concat(dump,"\n\n"))
 	file.close()
 	fileBuild.close()
 end
