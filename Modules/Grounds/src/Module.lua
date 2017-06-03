@@ -1,4 +1,4 @@
-local Module = {
+local module = {
 	_VERSION = "3.1",
 	_NAME = "grounds",
 	_STATUS = "semi-official",
