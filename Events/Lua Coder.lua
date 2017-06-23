@@ -420,7 +420,7 @@ system.decorations = {
 
 system.fragments = {
 	[1] = {
-		[1] = {"<VI>local","<N>event_title","<N2>=","<CE>\"Turing Mouse\""},
+		[1] = {"<N>event_title","<N2>=","<CE>\"Turing Mouse\""},
 		[2] = {"<VI>if","<VI>not","<N>tfm.get.room.playerList[<CE>\"%s\"<N>].hasCheese","<VI>then"},
 		[3] = {"<N>tfm.exec.giveCheese","<N2>(<CE>\"%s\"<N2>)"},
 		[4] = {"<N>tfm.exec.playerVictory","<N2>(<CE>\"%s\"<N2>)"},
@@ -430,7 +430,7 @@ system.fragments = {
 		[8] = "<VI>end"
 	},
 	[2] = {
-		[1] = {"<VI>local","<N>event_title","<N2>=","<CE>\"Turing Mouse\""},
+		[1] = {"<N>event_title","<N2>=","<CE>\"Turing Mouse\""},
 		[2] = {"<VI>if","<N>tfm.get.room.playerList[<CE>\"%s\"<N>].hasCheese","<VI>then"},
 		[3] = {"<N>tfm.exec.killPlayer","<N2>(<CE>\"%s\"<N2>)"},
 		[4] = "<VI>else",
@@ -441,7 +441,7 @@ system.fragments = {
 		[9] = "<VI>end"
 	},
 	[3] = {
-		[1] = {"<VI>local","<N>event_title","<N2>=","<CE>\"Turing Mouse\""},
+		[1] = {"<N>event_title","<N2>=","<CE>\"Turing Mouse\""},
 		[2] = {"<VI>function","<N>eventPlayerVampire","<N2>(<N>playerName<N2>)"},
 		[3] = {"<N>tfm.exec.killPlayer","<N2>(<CE>\"%s\"<N2>)"},
 		[4] = {"<N>tfm.exec.respawnPlayer","<N2>(<CE>\"%s\"<N2>)"},
@@ -456,17 +456,17 @@ system.fragments = {
 }
 system.fragmentLaunched = {
 	[1] = {
-		[1] = {{"<VI>local","<N>event_title","<N2>=","<CE>\"Turing Mouse\""}},
+		[1] = {{"<N>event_title","<N2>=","<CE>\"Turing Mouse\""}},
 		[2] = {{"<VI>if","<VI>not","<N>tfm.get.room.playerList[<CE>\"%s\"<N>].hasCheese","<VI>then"},{"<N>tfm.exec.giveCheese","<N2>(<CE>\"%s\"<N2>)"},{"<N>tfm.exec.playerVictory","<N2>(<CE>\"%s\"<N2>)"},"<VI>end"},
 		[3] = {{"<VI>function","<N>eventPlayerWon","<N2>(<N>playerName<N2>)"},{"<N>system.giveEventGift","<N2>(<N>playerName<N2>,<N>event_title<N2>)"},"<VI>end"},
 	},
 	[2] = {
-		[1] = {{"<VI>local","<N>event_title","<N2>=","<CE>\"Turing Mouse\""}},
+		[1] = {{"<N>event_title","<N2>=","<CE>\"Turing Mouse\""}},
 		[2] = {{"<VI>if","<N>tfm.get.room.playerList[<CE>\"%s\"<N>].hasCheese","<VI>then"},{"<N>tfm.exec.killPlayer","<N2>(<CE>\"%s\"<N2>)"},"<VI>else",{"<N>tfm.exec.giveCheese","<N2>(<CE>\"%s\"<N2>)"},"<VI>end"},
 		[3] = {{"<VI>function","<N>eventPlayerGetCheese","<N2>(<N>playerName<N2>)"},{"<N>system.giveEventGift","<N2>(<N>playerName<N2>,<N>event_title<N2>)"},"<VI>end"},
 	},
 	[3] = {
-		[1] = {{"<VI>local","<N>event_title","<N2>=","<CE>\"Turing Mouse\""}},
+		[1] = {{"<N>event_title","<N2>=","<CE>\"Turing Mouse\""}},
 		[2] = {{"<VI>function","<N>eventPlayerVampire","<N2>(<N>playerName<N2>)"},{"<N>tfm.exec.killPlayer","<N2>(<CE>\"%s\"<N2>)"},{"<N>tfm.exec.respawnPlayer","<N2>(<CE>\"%s\"<N2>)"},"<VI>end"},
 		[3] = {{"<VI>if","<VI>not","<N>tfm.get.room.playerList[<CE>\"%s\"<N>].isVampire","<VI>then"},{"<N>tfm.exec.setVampirePlayer","<N2>(<CE>\"%s\"<N2>)"},"<VI>end",},
 		[4] = {{"<VI>function","<N>eventPlayerRespawn","<N2>(<N>playerName<N2>)"},{"<N>system.giveEventGift","<N2>(<N>playerName<N2>,<N>event_title<N2>)"},"<VI>end"},
@@ -740,6 +740,11 @@ eventPlayerDataLoaded = function(n,data)
 	
 	local done = system.verifyTrigger(n)
 	if not done then
+		local id = tfm.exec.addImage("imaaage.png","&0",120,100,n)
+		system.newTimer(function()
+			tfm.exec.removeImage(id)
+		end,10000,false)
+		
 		tfm.exec.chatMessage("<CE>[•] ".. system.community.findFragments,n)
 		info[n].pieces = {(#descompiled - #info[n].missedFragments),#descompiled}
 		tfm.exec.chatMessage("<CE>[•] ".. system.community.fragments .." : " .. info[n].pieces[1] .. "/" .. info[n].pieces[2],n)
@@ -785,7 +790,7 @@ eventNewGame = function()
 	for k,v in next,tfm.get.room.playerList do
 		info[k] = {
 			piece = {
-				duck = table.random({9,8,7,1,7,7,9,8,9,7,5}) * 2,
+				duck = table.random({7,5,4,7,5,6,3,4,9,3,5}) * 2,
 				timer = 0,
 			},
 			missedFragments = {},
@@ -833,12 +838,12 @@ eventKeyboard = function(n,k,d,x,y)
 
 								if info[n].piece.duck <= 0 then
 									info[n].piece = {
-										duck = table.random({9,8,7,1,7,7,9,8,9,7,5}) * 2,
+										duck = table.random({7,5,4,7,5,6,3,4,9,3,5}) * 2,
 										timer = 0
 									}
 									
 									if v.available then
-										if math.random(15) < 8 then
+										if math.random(15) < 12 then
 											local fragmentIndex = math.random(#info[n].missedFragments)
 											local newFragment = info[n].missedFragments[fragmentIndex]
 											table.remove(info[n].missedFragments,fragmentIndex)
