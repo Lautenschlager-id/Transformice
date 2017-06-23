@@ -740,7 +740,7 @@ eventPlayerDataLoaded = function(n,data)
 	
 	local done = system.verifyTrigger(n)
 	if not done then
-		local id = tfm.exec.addImage("imaaage.png","&0",120,100,n)
+		local id = tfm.exec.addImage("15cd74e485e.png","&0",120,100,n)
 		system.newTimer(function()
 			tfm.exec.removeImage(id)
 		end,10000,false)
