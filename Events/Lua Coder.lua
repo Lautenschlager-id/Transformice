@@ -457,7 +457,7 @@ system.fragments = {
 system.fragmentLaunched = {
 	[1] = {
 		[1] = {{"<N>event_title","<N2>=","<CE>\"Turing Mouse\""}},
-		[2] = {{"<VI>if","<VI>not","<N>tfm.get.room.playerList[<CE>\"%s\"<N>].hasCheese","<VI>then"},{"<N>tfm.exec.giveCheese","<N2>(<CE>\"%s\"<N2>)"},{"<N>tfm.exec.playerVictory","<N2>(<CE>\"%s\"<N2>)"},"<VI>end"},
+		[2] = {{"<VI>if","<VI>not","<N>tfm.get.room.playerList[<CE>\"%s\"<N>].hasCheese","<VI>then"},{"<N>tfm.exec.giveCheese","<N2>(<CE>\"%s\"<N2>)"},"<VI>end",{"<N>tfm.exec.playerVictory","<N2>(<CE>\"%s\"<N2>)"}},
 		[3] = {{"<VI>function","<N>eventPlayerWon","<N2>(<N>playerName<N2>)"},{"<N>system.giveEventGift","<N2>(<N>playerName<N2>,<N>event_title<N2>)"},"<VI>end"},
 	},
 	[2] = {
