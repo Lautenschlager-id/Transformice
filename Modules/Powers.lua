@@ -1,13 +1,6 @@
 --Creator: Bolodefchoco
 --Made in: 28/05/2016
 --Last update: 02/03/2017
---[[ Notes:
-	Does:
-		Você terá poderes e poderá usá-los pelo mapa.
-	Commands:
-		!
-			help
-]]--
 
 --[[ Data ]]--
 data={ 
