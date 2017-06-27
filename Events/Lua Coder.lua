@@ -1,6 +1,6 @@
 --[[ Title ]]--
 title = {
-	[1] = "titre_turing_mouse", -- Turing Mouse
+	[1] = "titre_lua_coder", -- Turing Mouse
 }
 
 --[[ Translations ]]--
