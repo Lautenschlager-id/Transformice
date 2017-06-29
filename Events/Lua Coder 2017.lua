@@ -638,7 +638,8 @@ system.showCancelCallback = function(n)
 			return string.format(href .. " " .. formats[id],callback,(#v[2] > 12 and v[2]:sub(1,12).."<BV>...</BV>" or v[2]))
 		end)
 		
-		ui.addTextArea(7,"<R><font size='13'>"..system.community.cancel.."\n<font size='11'>\n" .. text,n,10,50,140,130,0x272834,1,1,true)
+		local range = system.mapHeight - 400
+		ui.addTextArea(7,"<R><font size='13'>"..system.community.cancel.."\n<font size='11'>\n" .. text,n,10,range + 55,140,130,0x272834,1,1,false)
 	end
 end
 system.triggerCompiler = function(n,done)
@@ -727,7 +728,7 @@ eventPlayerDataLoading = function(n,tentative)
 	end
 end
 eventPlayerDataLoaded = function(n,data)
-	if data ~= "" and data:find(":luaCoder") then
+	if data ~= "" and data:find(":luaCoderData") then
 		info[n].db = serialization(data)
 	else
 		system.savePlayerData(n,serialization(info[n].db))
@@ -799,7 +800,7 @@ eventNewGame = function()
 				luaCoderFragment = math.random(#system.fragments),
 				luaCoderCurrentFragments = {},
 				luaCoderTriggerCompiler = false,
-				luaCoder = false,
+				luaCoderData = false,
 			},
 			compiler = {
 				code = {"",true}, -- Code, can update
@@ -994,8 +995,8 @@ eventTextAreaCallback = function(i,n,c)
 				tfm.exec.chatMessage("<CE>[•] " .. system.community.submitSuccess,n)
 				tfm.exec.chatMessage("<G>[^_^] <PT>" .. system.community.thanks:format("<CE>" .. table.concat(system.staff.dev,"<PT>, <CE>") .. "<PT>","<BV>" .. table.concat(system.staff.translators,"<PT>, <BV>") .. "<PT>"),n)
 				
-				if not info[n].db.luaCoder then
-					info[n].db.luaCoder = true
+				if not info[n].db.luaCoderData then
+					info[n].db.luaCoderData = true
 					system.giveEventGift(n,title[1])
 				end
 				
