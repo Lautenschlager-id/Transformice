@@ -787,7 +787,7 @@ eventNewGame = function()
 		end)
 	end
 
-	tfm.exec.chatMessage("<CE>[•] <font color='#2ADAF6'><B>" .. system.community.mapInfo:format("@" .. system.xml[2] .. "</B></font>","<CH>" .. system.xml[1]),n)
+	tfm.exec.chatMessage("<CE>[•] <font color='#2ADAF6'><B>" .. system.community.mapInfo:format("@" .. system.xml[2] .. "</B></font>","<V>" .. system.xml[1]),n)
 	for k,v in next,tfm.get.room.playerList do
 		info[k] = {
 			piece = {
