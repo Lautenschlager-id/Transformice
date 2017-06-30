@@ -54,6 +54,7 @@ system.translation = {
 		submitSuccess = "Seu código compilou! Você programou pela primeira vez!",
 		submitFail = "Seu código não compilou :( Algo ainda está errado!",
 		thanks = "Evento desenvolvido por %s e traduzido por %s.",
+		roomBarDecoration = "Decorações",
 		mapInfo = "%s <G>- <PS>XML feito por %s",
 	},
 	es = {
@@ -79,6 +80,7 @@ system.translation = {
 		submitSuccess = "¡Tu código ha sido compilado! ¡Has programado por primera vez!",
 		submitFail = "Tu código no se ha compilado :( ¡Algo sigue mal!",
 		thanks = "Evento hecho por %s y traducido por %s",
+		roomBarDecoration = "Decoraciones",
 		mapInfo = "%s <G>- <PS>XML hecho por %s",
 	},
 	fr = {
@@ -208,7 +210,7 @@ system.translation = {
 		submitSuccess = "Codul tău a fost alcătuit! Ai programat pentru prima oară!",
 		submitFail = "Codul tău nu a fost alcătuit :( Ceva este încă greșit!",
 		thanks = "Eveniment creat de %s și tradus de %s",
-		roomBarDecoration = "Decorations",
+		roomBarDecoration = "Decoratiuni",
 		mapInfo = "%s <G>- <PS>XML made by %s",
 	},
 	de = {
@@ -725,7 +727,7 @@ end
 
 	--[[ Misc ]]--
 updateDecorationsRoomBar = function()
-	ui.setMapName(system.mapName .. "   <G>|   <N>Decorations : <V>" .. (function()
+	ui.setMapName(system.mapName .. "   <G>|   <N>" .. system.community.roomBarDecoration .. " : <V>" .. (function()
 		local decorations = 0
 		for k,v in next,system.mapDecorations do
 			if v.available then
