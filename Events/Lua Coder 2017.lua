@@ -791,7 +791,7 @@ eventNewGame = function()
 	for k,v in next,tfm.get.room.playerList do
 		info[k] = {
 			piece = {
-				duck = table.random({7,5,4,7,5,6,3,4,9,3,5}) * 2,
+				duck = table.random({8,5,5,7,5,6,9,4,9,2,5}) * 2,
 				timer = 0,
 			},
 			missedFragments = {},
@@ -839,7 +839,7 @@ eventKeyboard = function(n,k,d,x,y)
 
 								if info[n].piece.duck <= 0 then
 									info[n].piece = {
-										duck = table.random({7,5,4,7,5,6,3,4,9,3,5}) * 2,
+										duck = table.random({8,5,5,7,5,6,9,4,9,2,5}) * 2,
 										timer = 0
 									}
 									
@@ -1029,7 +1029,7 @@ eventPlayerLeft = function(n)
 	end
 end
 
-for i,f in next,{"AutoShaman","AfkDeath","MortCommand","AutoTimeLeft","PhysicalConsumables","DebugCommand"} do
+for i,f in next,{"AutoShaman","AfkDeath","MortCommand","AutoTimeLeft","PhysicalConsumables","DebugCommand","MinimalistMode"} do
 	tfm.exec["disable"..f]()
 end
 
