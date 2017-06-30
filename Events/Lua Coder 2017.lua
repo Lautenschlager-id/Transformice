@@ -763,7 +763,7 @@ eventNewGame = function()
 		system.mapHeight = height and tonumber(height) or 400
 	end,1)
 
-	tfm.exec.setGameTime(3 * 60)
+	tfm.exec.setGameTime(2 * 60)
 
 	system.mapDecorations = {}
 	local xml = tfm.get.room.xmlMapInfo.xml:match("<D>(.*)</D>")
@@ -791,7 +791,7 @@ eventNewGame = function()
 	for k,v in next,tfm.get.room.playerList do
 		info[k] = {
 			piece = {
-				duck = table.random({8,5,5,7,5,6,9,4,9,2,5}) * 2,
+				duck = table.random({9,9,8,7,7,6,5,5,4,5,2}) * 2,
 				timer = 0,
 			},
 			missedFragments = {},
@@ -828,7 +828,7 @@ eventKeyboard = function(n,k,d,x,y)
 				if not info[n].db.luaCoderTriggerCompiler and not info[n].notThisRound then
 					if os.time() > info[n].piece.timer then
 						info[n].piece.timer = os.time() + 700
-						info[n].piece.duck = table.random({9,8,7,1,7,7,9,8,9,7,5}) * 2
+						info[n].piece.duck = table.random({9,9,8,7,7,6,5,5,4,5,2}) * 2
 					end
 					
 					for k,v in next,system.mapDecorations do
