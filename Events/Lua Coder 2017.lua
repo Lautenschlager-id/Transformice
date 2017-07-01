@@ -186,7 +186,7 @@ system.translation = {
 		thanks = "Bu etkinlik %s tarafından geliştirilmiştir ve %s tarafından çevrilmiştir.",
 		roomBarDecoration = "Dekorasyonlar",
 		mapInfo = "%s <G>- <PS>XML %s tarafından yapılmıştır.",
-	},
+	},--[[
 	ro = {
 		cancelWord = "Cuvânt selectat",
 		cancelLine = "Rând selectat",
@@ -212,7 +212,7 @@ system.translation = {
 		thanks = "Eveniment creat de %s și tradus de %s",
 		roomBarDecoration = "Decoratiuni",
 		mapInfo = "%s <G>- <PS>XML made by %s",
-	},
+	},]]
 	de = {
 		cancelWord = "Wort ausgewählt",
 		cancelLine = "Linie ausgewählt",
@@ -816,7 +816,10 @@ eventNewGame = function()
 	end
 
 	tfm.exec.chatMessage("<CE>[•] <font color='#2ADAF6'><B>" .. system.community.mapInfo:format("@" .. system.xml[2] .. "</B></font>","<V>" .. system.xml[1]),n)
+	
+	local totalPlayers = 0
 	for k,v in next,tfm.get.room.playerList do
+		totalPlayers = totalPlayers + 1
 		info[k] = {
 			piece = {
 				duck = table.random({9,9,8,7,7,6,5,5,4,5,2}) * 2,
@@ -841,6 +844,9 @@ eventNewGame = function()
 			notThisRound = false,
 		}
 		eventPlayerDataLoading(k,1)
+	end
+	if totalPlayers < 4 or totalPlayers > 49 then
+		system.exit()
 	end
 
 	system.mapName = "<J>#" .. table.random({"Bolodefchoco","Lua event",system.xml[2]}).." <G>- @"..table.random({666,404,801,os.date("%Y"),0,1})
