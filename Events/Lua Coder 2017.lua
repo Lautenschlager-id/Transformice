@@ -791,7 +791,7 @@ eventNewGame = function()
 		system.mapHeight = height and tonumber(height) or 400
 	end,1)
 
-	tfm.exec.setGameTime(2 * 60)
+	tfm.exec.setGameTime(2.5 * 60)
 
 	system.mapDecorations = {}
 	local xml = tfm.get.room.xmlMapInfo.xml:match("<D>(.*)</D>")
