@@ -1043,8 +1043,8 @@ end
 eventLoop = function(currentTime,timeLeft)
 	_G.currentTime,_G.timeLeft = os.normalizedTime(currentTime/1000),os.normalizedTime(timeLeft/1000)
 	if _G.timeLeft <= 1 then
-		for k,v in next,tfm.get.room.playerList do
-			system.savePlayerData(k,serialization(info[k].db))
+		for k,v in next,info do
+			system.savePlayerData(k,serialization(v.db))
 		end
 		system.exit()
 	end
