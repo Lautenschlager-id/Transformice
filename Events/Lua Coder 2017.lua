@@ -887,7 +887,7 @@ eventKeyboard = function(n,k,d,x,y)
 											info[n].db.luaCoderCurrentFragments[#info[n].db.luaCoderCurrentFragments + 1] = newFragment
 											tfm.exec.chatMessage("<CE>[•] " .. system.community.found,n)
 
-											info[n].pieces[1] = info[n].pieces[1] + 1
+											info[n].pieces[1] = math.abs(info[n].pieces[1] + 1)
 											tfm.exec.chatMessage("<CE>[•] ".. system.community.fragments .." : " .. info[n].pieces[1] .. "/" .. info[n].pieces[2],n)
 
 											system.verifyTrigger(n)
