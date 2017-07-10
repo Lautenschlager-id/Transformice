@@ -47,56 +47,71 @@ end
 
 --[[ Functions ]]--
 	--[[ Data ]]--
-serialization = function(x)
-	if type(x) == "table" then
-		local str = {}
-
-		for index,value in next,x do
-			local v = type(value)
-
-			local prefix = (v == "string" and "@" or v == "boolean" and "!" or v == "number" and "#" or v == "table" and "%" or "")
-			if prefix then
-				local data
-				if prefix == "@" then
-					data = table.concat({string.byte(value,1,#value)},".")
-				elseif prefix == "!" then
-					data = (value and 1 or 0)
-				elseif prefix == "#" then
-					data = tostring(value)
-				elseif prefix == "%" then
-					data = string.format("{%s}",serialization(value):gsub(";","?"))
-				end
-
-				str[#str + 1] = string.format(":%s%s%s;",index,prefix,data)
+serialization = function(i,lastIndex)
+	lastIndex = lastIndex or ""
+	if type(i) == "table" then
+		local out = ""
+	
+		for k,v in next,i do
+			if type(v) == "string" then
+				out = out .. string.format("@[%s]{%s}",string.format("%s[%s]",lastIndex,k),table.concat({string.byte(v,1,#v)},","))
+			elseif type(v) == "number" then
+				out = out .. string.format("#[%s]{%s}",string.format("%s[%s]",lastIndex,k),tostring(v))
+			elseif type(v) == "boolean" then
+				out = out .. string.format("![%s]{%s}",string.format("%s[%s]",lastIndex,k),tostring(v))
+			elseif type(v) == "table" then
+				out = out .. serialization(v,string.format("%s[%s]",lastIndex,k))
 			end
 		end
 
-		return table.concat(str)
-	elseif type(x) == "string" then
-		local list = {}
-		
-		for str in x:gmatch("(.-);") do
-			local index,vtype,value = str:match(":(.-)(%p)(.+)")
-			if index and vtype and value then
-				index = tonumber(index) or index
+		return out
+	elseif type(i) == "string" then
+		local out = {}
 
-				if vtype == "@" then
-					local sub = {}
-					for i in value:gmatch("[^%.]+") do
-						sub[#sub+1] = i
+		for t,k,v in string.gmatch(i,"([@#!])(%[.-%])%{(.-)%}") do
+			print(string.format("%s %s %s",t,k,v))
+			local value
+			if t == "@" then
+				value = string.char((function(bytes)
+					local foo = {}
+					for byte in string.gmatch(bytes,"[^,]+") do
+						foo[#foo + 1] = tonumber(byte)
 					end
-					list[index] = string.char(table.unpack(sub))
-				elseif vtype == "!" then
-					list[index] = (value == "1")
-				elseif vtype == "#" then
-					list[index] = tonumber(value)
-				elseif vtype == "%" then
-					list[index] = serialization(value:gsub("{",""):gsub("}",""):gsub("%?",";"))
+					return table.unpack(foo)
+				end)(v))
+			elseif t == "#" then
+				value = tonumber(v)
+			elseif t == "!" then
+				value = (v == "true")
+			elseif t == "=" then
+				value = serialization(v)
+			end
+			
+			local index = {}
+			for j in string.gmatch(k:sub(2,#k-1),"[^%[%]]") do
+				index[#index + 1] = tonumber(j) or j
+			end
+
+			if #index == 1 then
+				out[index[1]] = value
+			else
+				local m,n = 1
+				while m <= #index do
+					if not n then
+						out[index[m]] = (out[index[m]] or {})
+						n = out[index[m]]
+						m = m + 1
+					end
+
+					n[index[m]] = (m ~= #index and (n[index[m]] or {}) or value)
+
+					n = n[index[m]]
+					m = m + 1
 				end
 			end
 		end
 
-		return list
+		return out
 	end
 end
 eventPlayerDataLoading = function(n,tentative)
