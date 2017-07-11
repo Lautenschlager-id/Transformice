@@ -289,6 +289,32 @@ system.translation = {
 		roomBarDecoration = "Dekorációk",
 		mapInfo = "%s <G>- <PS>XML-t készítette %s",
 	},
+	bg = {
+		cancelWord = "Избрана Дума",
+		cancelLine = "Избран Ред",
+		cancel = "Отказ",
+		submit = "Приложи",
+		close = "Затвори",
+		allFrag = "Ти откри всички фрагменти!",
+		putInOrder = "Подредете всички фрагменти,които сте намерили,като подредите",
+		dataTry = "Чакай! Вашите данни се зареждат!",
+		dataFail = "Невъзможно е да ви заредим вашите данни :(,опитайте пак на следващата карта!",
+		dataSuccess = "Данните са заредени!",
+		findFragments = "Няколко фрагмента бяха откраднати! Крадеца ги е скрил <B>зад</B> няколко обекта! Намерете тези фрагменти и ги подредете в вашият компилатор и спечелете награда! ",
+		fragments = "Фрагменти",
+		found = "Ти намерих нещо тук!",
+		notFound = "Нищо не беше намерено тук! Опитайте на друго място и се върнете по-късно.",
+		notDecoration = "Някой е намерил нещо тук вече. Опитайте някъде другаде.",
+		wordSameError = "Не можеш да избереш същата дума!",
+		wordDifRowError = "Не можеш да изберете дума от друг ред!",
+		wordNotWordError = "Не можеш да избереш тази дума!",
+		lineSameError = "Не можеш да избереш същия ред!",
+		submitSuccess = "Вашият код е готов! Програмирахте за първи път!",
+		submitFail = "Вашият код не е готов :( Нещо е още грешно!",
+		thanks = "Евента е разработен от %s и преведен от %s",
+		roomBarDecoration = "Декорации",
+		mapInfo = "%s <G>- <PS>XML Направен от %s",
+	},
 }
 system.translation.pt = system.translation.br
 
@@ -304,7 +330,7 @@ system.mapName = ""
 system.mapHeight = 400
 system.staff = {
 	dev = {"Bolodefchoco"},
-	translators = {"Error_404","Sebafrancuz","Tocutoeltuco","Alessyaxd","Sweetphoenix","Miwakiko","Hikariblabla","Miyakogotoku"}
+	translators = {"Error_404","Sebafrancuz","Tocutoeltuco","Alessyaxd","Sweetphoenix","Miwakiko","Hikariblabla","Miyakogotoku","Bjikata"}
 }
 for k,v in next,system.staff do
 	table.sort(v,function(t1,t2) return t2 > t1 end)
