@@ -753,7 +753,7 @@ end
 
 	--[[ Misc ]]--
 updateDecorationsRoomBar = function()
-	ui.setMapName(system.mapName .. "   <G>|   <N>" .. system.community.roomBarDecoration .. " : <V>" .. (function()
+	ui.setMapName(system.mapName .. "   <G>|   <N>" .. string.format("%s / %s",system.community.roomBarDecoration,system.community.fragments) .. " : <V>" .. (function()
 		local decorations = 0
 		for k,v in next,system.mapDecorations do
 			if v.available then
@@ -765,6 +765,16 @@ updateDecorationsRoomBar = function()
 		end
 		return decorations
 	end)())
+end
+alterFaceImage = function(n,id)
+	local imgs = {
+		{"15d34880400",-16,-26},
+		{"",0,0}
+	} -- Turing, Tigrounette
+	if info[n].img then
+		tfm.exec.removeImage(info[n].img)
+	end
+	info[n].img = tfm.exec.addImage(imgs[id][1] .. ".png","$" .. n,imgs[id][2],imgs[id][3])
 end
 
 --[[ Collect decorations + playerData ]]--
@@ -800,13 +810,17 @@ eventPlayerDataLoaded = function(n,data)
 			tfm.exec.removeImage(id)
 		end,10000,false)
 		
-		tfm.exec.chatMessage("<CE>[•] ".. system.community.findFragments,n)
+		tfm.exec.chatMessage("<CE>[•] ".. system.community.findFragments .. "\n↓ ↓ ↓ ↓ ↓ ↓",n)
 		info[n].pieces = {(#descompiled - #info[n].missedFragments),#descompiled}
 		tfm.exec.chatMessage("<CE>[•] ".. system.community.fragments .." : " .. info[n].pieces[1] .. "/" .. info[n].pieces[2],n)
 		system.bindKeyboard(n,3,true,true)
 	end
 	
 	info[n].dataLoaded = true
+	
+	if info[n].db.luaCoderData then
+		alterFaceImage(n,1)
+	end
 end
 
 info = {}
@@ -868,6 +882,7 @@ eventNewGame = function()
 			},
 			dataLoaded = false,
 			notThisRound = false,
+			img = nil,
 		}
 		eventPlayerDataLoading(k,1)
 	end
@@ -896,6 +911,12 @@ eventKeyboard = function(n,k,d,x,y)
 							if y < (v.Y + 10) and y > (v.Y - v.range - 10) then
 								info[n].piece.timer = os.time() + 700
 								info[n].piece.duck = info[n].piece.duck - 1
+								
+								if info[n].piece.duck % 2 == 0 and v.available then
+									for i = 1,3 do
+										tfm.exec.displayParticle(3,x + math.random(-15,10),y + math.random(-15,10),table.random({-.5,.5}),table.random({-.5,.5}),0,0,n)
+									end
+								end
 
 								if info[n].piece.duck <= 0 then
 									info[n].piece = {
@@ -921,6 +942,12 @@ eventKeyboard = function(n,k,d,x,y)
 											
 											system.savePlayerData(n,serialization(info[n].db))
 											updateDecorationsRoomBar()
+											
+											for i = 1,5 do
+												tfm.exec.displayParticle(table.random({2,11}),x + math.random(-15,10),y + math.random(-15,10),table.random({-.5,.5}),table.random({-.5,.5}),0,0,n)
+											end
+											ui.addPopup(0,0,"<p align='center'><font size='13'><B>" .. newFragment,n,250,200,150,true)
+											tfm.exec.playEmote(n,10,tfm.get.room.community)
 										else
 											tfm.exec.chatMessage("<BV>[•] " .. system.community.notFound,n)
 										end
@@ -1064,6 +1091,7 @@ eventTextAreaCallback = function(i,n,c)
 				
 				system.displayRunningCode(n)
 				system.resetPlayer(n)
+				alterFaceImage(n,2)
 			else
 				tfm.exec.chatMessage("<R>[•] " .. system.community.submitFail,n)
 			end
