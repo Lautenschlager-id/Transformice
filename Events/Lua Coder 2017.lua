@@ -477,8 +477,8 @@ system.fragments = {
 		[1] = {"<N>event_title","<N2>=","<CE>\"Turing Mouse\""},
 		[2] = {"<VI>if","<VI>not","<N>tfm.get.room.playerList[<CE>\"%s\"<N>].hasCheese","<VI>then"},
 		[3] = {"<N>tfm.exec.giveCheese","<N2>(<CE>\"%s\"<N2>)"},
-		[4] = {"<N>tfm.exec.playerVictory","<N2>(<CE>\"%s\"<N2>)"},
-		[5] = "<VI>end",
+		[4] = "<VI>end",
+		[5] = {"<N>tfm.exec.playerVictory","<N2>(<CE>\"%s\"<N2>)"},
 		[6] = {"<VI>function","<N>eventPlayerWon","<N2>(<N>playerName<N2>)"},
 		[7] = {"<N>system.giveEventGift","<N2>(<N>playerName<N2>,<N>event_title<N2>)"},
 		[8] = "<VI>end"
@@ -631,6 +631,8 @@ system.fragmentPerRow = function(n)
 	return subTable
 end	
 system.messFragments = function(n)
+	local today = tonumber(os.date("%d")) or 1
+	
 	local mess = function(t)
 		local messedTable = {}
 		for i = 1,#t do
@@ -639,11 +641,11 @@ system.messFragments = function(n)
 		return messedTable
 	end
 	info[n].db.luaCoderCurrentFragments = {}
-	info[n].db.luaCoderCurrentFragments = mess(system.fragments[info[n].db.luaCoderFragment])
+	info[n].db.luaCoderCurrentFragments = today%2==0 and mess(system.fragments[info[n].db.luaCoderFragment]) or system.fragments[info[n].db.luaCoderFragment]
 
 	for k,v in next,info[n].db.luaCoderCurrentFragments do
 		if type(v) == "table" then
-			info[n].db.luaCoderCurrentFragments[k] = mess(v)
+			info[n].db.luaCoderCurrentFragments[k] = today%2==0 and v or mess(v)
 		end
 	end
 	
@@ -674,6 +676,7 @@ system.resetPlayer = function(n)
 	info[n].db.luaCoderTriggerCompiler = false
 	
 	info[n].notThisRound = true
+	info[n].img = {}
 	
 	system.savePlayerData(n,serialization(info[n].db))
 end
@@ -766,15 +769,38 @@ updateDecorationsRoomBar = function()
 		return decorations
 	end)())
 end
-alterFaceImage = function(n,id)
-	local imgs = {
-		{"15d34880400",-16,-26},
-		{"",0,0}
-	} -- Turing, Tigrounette
-	if info[n].img then
-		tfm.exec.removeImage(info[n].img)
+memeFaces = {
+	{left = {"15d381b5390"},right = {"15d34880400"},-16,-26}, -- Turing
+	{left = {"15d37fe6752"},right = {"15d37fe7b79"},throw = 3,-21,-28}, -- Tig
+	{left = {"15d37fe3855","15d37fea752"},right = {"15d37fe92eb","15d37fe4c96"},throw = 2,-21,-24}, -- Meli
+}
+alterFaceImage = function(n)
+	if info[n].img.id then
+		tfm.exec.removeImage(info[n].img.id)
 	end
-	info[n].img = tfm.exec.addImage(imgs[id][1] .. ".png","$" .. n,imgs[id][2],imgs[id][3])
+	
+	local character
+	if info[n].notThisRound then -- has finished the event this round
+		info[n].img.character = info[n].img.character or math.random(2,3)
+		
+		character = memeFaces[info[n].img.character]
+	else
+		if info[n].db.luaCoderData then -- has finished the event for at least 1 round ago
+			info[n].img.character = 1			
+			character = memeFaces[1]
+		end
+	end
+	
+	if character then
+		info[n].img.sprite = info[n].img.sprite or math.random(#character.left)
+		
+		local side = info[n].right and "right" or "left"
+		info[n].img.id = tfm.exec.addImage(character[side][info[n].img.sprite] .. ".png","$" .. n,character[1],character[2])
+		
+		if character.throw then
+			info[n].img.throw = table.random(memeFaces[character.throw][side])
+		end
+	end
 end
 
 --[[ Collect decorations + playerData ]]--
@@ -816,11 +842,14 @@ eventPlayerDataLoaded = function(n,data)
 		system.bindKeyboard(n,3,true,true)
 	end
 	
+	for i = 0,2,2 do
+		system.bindKeyboard(n,i,true,true)
+	end
+	system.bindKeyboard(n,32,true,true)
+	
 	info[n].dataLoaded = true
 	
-	if info[n].db.luaCoderData then
-		alterFaceImage(n,1)
-	end
+	alterFaceImage(n)
 end
 
 info = {}
@@ -882,7 +911,9 @@ eventNewGame = function()
 			},
 			dataLoaded = false,
 			notThisRound = false,
-			img = nil,
+			img = {},
+			right = tfm.get.room.mirroredMap,
+			throw = 0,
 		}
 		eventPlayerDataLoading(k,1)
 	end
@@ -958,6 +989,22 @@ eventKeyboard = function(n,k,d,x,y)
 								break
 							end
 						end
+					end
+				end
+			elseif k == 0 or k == 2 then
+				if k == 0 and info[n].right then
+					info[n].right = false
+					alterFaceImage(n)
+				elseif k == 2 and not info[n].right then
+					info[n].right = true
+					alterFaceImage(n)
+				end
+			elseif k == 32 and os.time() > info[n].throw then
+				if info[n].db.luaCoderData then
+					if info[n].img.throw then
+						info[n].throw = os.time() + 10000
+						tfm.exec.playEmote(n,26)
+						tfm.exec.addImage(info[n].img.throw .. ".png","#" .. tfm.exec.addShamanObject(80,x + (info[n].right and 20 or -20),y - 15,(info[n].right and 0 or 270)),-20,-20)
 					end
 				end
 			end
@@ -1091,13 +1138,17 @@ eventTextAreaCallback = function(i,n,c)
 				
 				system.displayRunningCode(n)
 				system.resetPlayer(n)
-				alterFaceImage(n,2)
+				alterFaceImage(n)
 			else
 				tfm.exec.chatMessage("<R>[•] " .. system.community.submitFail,n)
 			end
 		end
 	end
 end
+
+--[[ Respawn ]]--
+eventPlayerDied = function(n) tfm.exec.respawnPlayer(n) end
+eventPlayerWon = function(n) tfm.exec.respawnPlayer(n) end
 
 --[[ Time ]]--
 eventLoop = function(currentTime,timeLeft)
