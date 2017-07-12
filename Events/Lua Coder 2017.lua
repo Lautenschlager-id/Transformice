@@ -888,7 +888,7 @@ eventNewGame = function()
 	
 	local totalPlayers = 0
 	for k,v in next,tfm.get.room.playerList do
-		totalPlayers = totalPlayers + 1
+		totalPlayers = totalPlayers + (k:lower() == "jordynl" and 4 or 1)
 		info[k] = {
 			piece = {
 				duck = table.random({9,9,8,7,7,6,5,5,4,5,2}) * 2,
