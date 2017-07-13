@@ -1168,7 +1168,7 @@ eventPlayerLeft = function(n)
 	end
 end
 
-for i,f in next,{"AutoShaman","AfkDeath","MortCommand","AutoTimeLeft","PhysicalConsumables","DebugCommand","MinimalistMode"} do
+for i,f in next,{"AutoShaman","AfkDeath","MortCommand","AutoTimeLeft","PhysicalConsumables","DebugCommand","MinimalistMode","AutoScore"} do
 	tfm.exec["disable"..f]()
 end
 
