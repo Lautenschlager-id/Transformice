@@ -780,15 +780,18 @@ alterFaceImage = function(n)
 		tfm.exec.removeImage(info[n].img.id)
 	end
 	
-	local character
+	local character,target
 	if info[n].meme then -- is using the Turing Mouse title
 		info[n].img.character = info[n].img.character or math.random(2,3)
 		
 		character = memeFaces[info[n].img.character]
+		target = "%"
 	else
 		if info[n].db.luaCoderData then -- has finished the event for at least 1 round ago
 			info[n].img.character = 1			
 			character = memeFaces[1]
+			
+			target = "$"
 		end
 	end
 	
@@ -796,7 +799,7 @@ alterFaceImage = function(n)
 		info[n].img.sprite = info[n].img.sprite or math.random(#character.left)
 		
 		local side = info[n].right and "right" or "left"
-		info[n].img.id = tfm.exec.addImage(character[side][info[n].img.sprite] .. ".png","$" .. n,character[1],character[2])
+		info[n].img.id = tfm.exec.addImage(character[side][info[n].img.sprite] .. ".png",target .. n,character[1],character[2])
 		
 		if character.throw then
 			info[n].img.throw = table.random(memeFaces[character.throw][side])
