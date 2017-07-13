@@ -677,6 +677,7 @@ system.resetPlayer = function(n)
 	
 	info[n].notThisRound = true
 	info[n].img = {}
+	info[n].meme = true
 	
 	system.savePlayerData(n,serialization(info[n].db))
 end
@@ -780,7 +781,7 @@ alterFaceImage = function(n)
 	end
 	
 	local character
-	if info[n].notThisRound then -- has finished the event this round
+	if info[n].meme then -- is using the Turing Mouse title
 		info[n].img.character = info[n].img.character or math.random(2,3)
 		
 		character = memeFaces[info[n].img.character]
@@ -914,6 +915,7 @@ eventNewGame = function()
 			img = {},
 			right = tfm.get.room.mirroredMap,
 			throw = 0,
+			meme = tfm.get.room.playerList[k].title == 423,
 		}
 		eventPlayerDataLoading(k,1)
 	end
