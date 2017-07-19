@@ -4,7 +4,7 @@ Insert your lsmap here
 
 ]]
 
-admin = maps:match("(.*)'s maps:")
+admin = maps:match("(%S+)'s maps:")
 
 P = {}
 
