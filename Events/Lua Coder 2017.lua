@@ -775,7 +775,7 @@ memeFaces = {
 	{left = {"15d37fe6752"},right = {"15d37fe7b79"},throw = 3,-21,-28}, -- Tig
 	{left = {"15d37fe3855","15d37fea752"},right = {"15d37fe92eb","15d37fe4c96"},throw = 2,-21,-24}, -- Meli
 	{left = {"15d74a60e18"},right = {"15d74a5f389"},throw = 5,-28,-23}, -- Galaktine
-	{left = {"15d74a63f07"},right = {"15d74a625f6"},throw = 4,-20,-28}, -- Pikashu
+	{left = {"15d74a63f07"},right = {"15d74a625f6"},throw = 4,-20,-36}, -- Pikashu
 }
 alterFaceImage = function(n)
 	if info[n].img.id then
@@ -894,7 +894,7 @@ eventNewGame = function()
 	
 	local totalPlayers = 0
 	for k,v in next,tfm.get.room.playerList do
-		totalPlayers = totalPlayers + (k:lower() == "jordynl" and 4 or 1)
+		totalPlayers = totalPlayers + 1
 		info[k] = {
 			piece = {
 				duck = table.random({9,9,8,7,7,6,5,5,4,5,2}) * 2,
@@ -924,7 +924,7 @@ eventNewGame = function()
 		}
 		eventPlayerDataLoading(k,1)
 	end
-	if totalPlayers < 4 or totalPlayers > 49 then
+	if not tfm.get.room.name:find("#") and (totalPlayers < 4 or totalPlayers > 49) then
 		system.exit()
 	end
 
@@ -1011,7 +1011,7 @@ eventKeyboard = function(n,k,d,x,y)
 					if info[n].img.throw then
 						info[n].throw = os.time() + 10000
 						tfm.exec.playEmote(n,26)
-						tfm.exec.addImage(info[n].img.throw .. ".png","#" .. tfm.exec.addShamanObject(table.random({32,80}),x + (info[n].right and 20 or -20),y - 15,(info[n].right and 0 or 270)),-20,-20)
+						tfm.exec.addImage(info[n].img.throw .. ".png","#" .. tfm.exec.addShamanObject(80,x + (info[n].right and 20 or -20),y - 15,(info[n].right and 0 or 270)),-20,-20)
 					end
 				end
 			end
