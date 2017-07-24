@@ -1011,7 +1011,7 @@ eventKeyboard = function(n,k,d,x,y)
 					if info[n].img.throw then
 						info[n].throw = os.time() + 10000
 						tfm.exec.playEmote(n,26)
-						tfm.exec.addImage(info[n].img.throw .. ".png","#" .. tfm.exec.addShamanObject(80,x + (info[n].right and 20 or -20),y - 15,(info[n].right and 0 or 270)),-20,-20)
+						tfm.exec.addImage(info[n].img.throw .. ".png","#" .. tfm.exec.addShamanObject(table.random({32,80}),x + (info[n].right and 20 or -20),y - 15,(info[n].right and 0 or 270)),-20,-20)
 					end
 				end
 			end
