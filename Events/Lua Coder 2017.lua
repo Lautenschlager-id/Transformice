@@ -771,11 +771,11 @@ updateDecorationsRoomBar = function()
 	end)())
 end
 memeFaces = {
-	{left = {"15d381b5390"},right = {"15d34880400"},-16,-26}, -- Turing
-	{left = {"15d37fe6752"},right = {"15d37fe7b79"},throw = 3,-21,-28}, -- Tig
-	{left = {"15d37fe3855","15d37fea752"},right = {"15d37fe92eb","15d37fe4c96"},throw = 2,-21,-24}, -- Meli
-	{left = {"15d74a60e18"},right = {"15d74a5f389"},throw = 5,-28,-23}, -- Galaktine
-	{left = {"15d74a63f07"},right = {"15d74a625f6"},throw = 4,-20,-36}, -- Pikashu
+	{left = {"15d381b5390"},right = {"15d34880400"},-16,-26,"Alan Turing"},
+	{left = {"15d37fe6752"},right = {"15d37fe7b79"},throw = 3,-21,-28,"Tigrounette"},
+	{left = {"15d37fe3855","15d37fea752"},right = {"15d37fe92eb","15d37fe4c96"},throw = 2,-21,-24,"Melibellule"},
+	{left = {"15d74a60e18"},right = {"15d74a5f389"},throw = 5,-28,-23,"Galaktine"},
+	{left = {"15d74a63f07"},right = {"15d74a625f6"},throw = 4,-20,-36,"Pikashu"},
 }
 alterFaceImage = function(n)
 	if info[n].img.id then
@@ -798,6 +798,11 @@ alterFaceImage = function(n)
 	end
 	
 	if character then
+		if info[n].memeFace then
+			info[n].memeFace = false
+			tfm.exec.chatMessage(string.format("<R>• %s => %s",n,character[3]),n)
+		end
+		
 		info[n].img.sprite = info[n].img.sprite or math.random(#character.left)
 		
 		local side = info[n].right and "right" or "left"
@@ -921,6 +926,7 @@ eventNewGame = function()
 			right = tfm.get.room.mirroredMap,
 			throw = 0,
 			meme = tfm.get.room.playerList[k].title == 423,
+			memeFace = true,
 		}
 		eventPlayerDataLoading(k,1)
 	end
