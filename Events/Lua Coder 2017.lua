@@ -774,6 +774,8 @@ memeFaces = {
 	{left = {"15d381b5390"},right = {"15d34880400"},-16,-26}, -- Turing
 	{left = {"15d37fe6752"},right = {"15d37fe7b79"},throw = 3,-21,-28}, -- Tig
 	{left = {"15d37fe3855","15d37fea752"},right = {"15d37fe92eb","15d37fe4c96"},throw = 2,-21,-24}, -- Meli
+	{left = {"15d74a60e18"},right = {"15d74a5f389"},throw = 5,-28,-23}, -- Galaktine
+	{left = {"15d74a63f07"},right = {"15d74a625f6"},throw = 4,-20,-28}, -- Pikashu
 }
 alterFaceImage = function(n)
 	if info[n].img.id then
@@ -782,7 +784,7 @@ alterFaceImage = function(n)
 	
 	local character,target
 	if info[n].meme then -- is using the Turing Mouse title
-		info[n].img.character = info[n].img.character or math.random(2,3)
+		info[n].img.character = info[n].img.character or math.random(2,#memeFaces)
 		
 		character = memeFaces[info[n].img.character]
 		target = "%"
