@@ -1,6 +1,6 @@
 adm="Bolodefchoco" --<-- Replace "Bolodefchoco" to "YourNickName"
 
-tfm.exec.newGame()
+tfm.exec.newGame("#1")
 eventKeyboard=table.foreach({32,80},function(_,k) system.bindKeyboard(adm,k,true,true) end) or function(n,k)
 	if k==80 then tfm.exec.newGame(tfm.get.room.currentMap) end
 	if k==32 then local xml,current=tfm.get.room.xmlMapInfo.xml,0
