@@ -4,7 +4,7 @@ info = [[
 
 ]]
 
-author = info:match("(%S+)'s maps:")
+author = info:match("(%S+)'s maps:") or info:match("(%S+) %- @")
 
 string.split = function(value,pattern,f)
 	local out = {}
@@ -298,23 +298,32 @@ categories = {
 	}
 }
 
-getMaps = function(data)
+do
 	local _DATA = {}
+	
+	setMeta = function(cat)
+		return setmetatable({},{
+			__call = function()
+				return _DATA[cat]
+			end
+		})
+	end
+	setData = function(cat,i)
+		_DATA[cat] = i
+	end
+end
 
+getMaps = function(data)
 	local out = {}
 	
 	for code,cat in data:gmatch("(@%d+).-P(%d+)") do
 		cat = tonumber(cat)
 		if not out[cat] then
-			out[cat] = setmetatable({},{
-				__call = function()
-					return _DATA[cat]
-				end
-			})
+			out[cat] = setMeta(cat)
 		end
 		
 		out[cat][#out[cat] + 1] = code
-		_DATA[cat] = #out[cat]
+		setData(cat,#out[cat])
 	end
 	
 	for cat,codes in next,out do
@@ -492,7 +501,12 @@ eventTextAreaCallback = function(i,n,c)
 		
 		if ui.checkBoxData[8].isChecked then
 			for k,v in next,categories do
-				if v.ref and maps[v.ref] and maps[v.category] then
+				if v.ref and maps[v.category] then
+					if not maps[v.ref] then
+						maps[v.ref] = setMeta(v.ref)
+						setData(v.ref,0)
+					end
+					
 					for m,n in next,maps[v.category] do
 						maps[v.ref][#maps[v.ref] + 1] = n
 					end
