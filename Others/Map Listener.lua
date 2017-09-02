@@ -5,6 +5,9 @@ info = [[
 ]]
 
 author = info:match("(%S+)'s maps:") or info:match("(%S+) %- @")
+if not author then
+	error("Invalid Author")
+end
 
 string.split = function(value,pattern,f)
 	local out = {}
