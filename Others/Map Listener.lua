@@ -537,7 +537,7 @@ eventTextAreaCallback = function(i,n,c)
 			end
 		end
 		
-		local result = "[table][cel]" .. table.concat(bbcode,"\n") .. createSingularTab(highperm,insertTab,"High Perm") .. createSingularTab(discussion,insertTab,"Maps in test") .. "[/cel][/table]"
+		local result = table.concat(bbcode,"\n") .. createSingularTab(highperm,insertTab,"High Perm") .. createSingularTab(discussion,insertTab,"Maps in test")
 		
 		if p[2] == "byte" then
 			local out = {}
