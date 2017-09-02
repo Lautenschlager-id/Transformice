@@ -440,7 +440,7 @@ ui.addCheckBox(9,"Create high perm list",author,120,280)
 ui.addCheckBox(10,"Create maps in test list",author,120,310)
 
 ui.addTextArea(4,"<a href='event:language'>Language : " .. languages[2][languages[1]],author,115,320,290,20,1,1,0,true)
-ui.addTextArea(5,"<p align='center'>Create BBCode&nbsp;&nbsp;&nbsp;&nbsp;<a href='event:generate'>ANSII</a>&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;<a href='event:generate.byte'>BYTE</a>",author,115,350,290,20,0x333348,0x333348,1,true)
+ui.addTextArea(5,"<p align='center'>Create BBCode&nbsp;&nbsp;&nbsp;&nbsp;<a href='event:generate'>ASCII</a>&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;<a href='event:generate.byte'>BYTE</a>",author,115,350,290,20,0x333348,0x333348,1,true)
 
 eventLoop = function()
 	if not ui.checkBoxData[7].isChecked then
