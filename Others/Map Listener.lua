@@ -102,7 +102,7 @@ categories = {
 		image = "AjcGgyx",
 	},
 	{
-		name = {"Permanent","Protegido","Protegido","Protégée"},
+		name = {"Protected","Protegido","Protegido","Protégée"},
 		category = 1,
 		checked = true,
 		color = "FCD46E",
