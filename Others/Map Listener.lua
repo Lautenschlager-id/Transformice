@@ -1,6 +1,6 @@
 info = [[
 
-	Insert your /lsmap here
+	Insert your lsmap content here
 
 ]]
 
