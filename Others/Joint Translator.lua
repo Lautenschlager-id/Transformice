@@ -20,6 +20,13 @@ math.minmax = function(a, b)
 		return b, a
 	end
 end
+table.copy = function(list)
+	local out = {}
+	for k,v in next,list do
+		out[k] = v
+	end
+	return out
+end
 
 do
 	local _J = {}
@@ -139,7 +146,7 @@ do
 	end
 
 	executeJoint = function()
-		for id,drawing in next,_J do
+		for id,drawing in next,table.copy(_J) do
 			local X = { drawing.x + drawing.size.min[1], drawing.x + drawing.size.max[1] }
 			local Y = { drawing.y + drawing.size.min[2], drawing.y + drawing.size.max[2] }
 			for playerName,data in next,tfm.get.room.playerList do
