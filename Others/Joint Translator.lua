@@ -164,16 +164,22 @@ eventNewPlayer = function(n)
 			system.bindKeyboard(n, k, i == 0, true)
 		end
 	end
+	-- TODO Event New Player
 end
 table.foreach(tfm.get.room.playerList,eventNewPlayer)
 
 eventKeyboard = function(n,k,d,x,y)
 	tfm.get.room.playerList[n].x = x
 	tfm.get.room.playerList[n].y = y
+	-- TODO Event Keyboard
 end
 
 eventLoop = function()
 	executeJoint()
+	-- TODO Event Loop
 end
 
+eventNewGame = function()
+	-- TODO Event New Game
+end
 tfm.exec.newGame(0)
