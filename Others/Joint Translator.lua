@@ -188,6 +188,7 @@ eventLoop = function()
 end
 
 eventNewGame = function()
+	tfm.exec.addPhysicObject(0, 0, 0, { type = 14, miceCollision = false, groundCollision = false })
 	-- TODO Event New Game
 end
 tfm.exec.newGame(0)
