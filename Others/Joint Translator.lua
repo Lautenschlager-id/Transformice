@@ -156,6 +156,14 @@ do
 			end
 		end
 	end
+	
+	setFunction = function(id, f)
+		if _J[id] then
+			_J[id].func = f or function() end
+			return true
+		end
+		return false
+	end
 end
 
 eventNewPlayer = function(n)
