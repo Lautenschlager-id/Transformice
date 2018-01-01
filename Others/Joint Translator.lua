@@ -61,7 +61,9 @@ do
 				tfm.exec.removeJoint(v)
 			end
 			_J[id] = nil
+			return true
 		end
+		return false
 	end	
 	translateJoint = function(id, xml, x, y, foreground, f)
 		if type(id) == "string" then
