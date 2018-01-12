@@ -28,7 +28,7 @@ local translation = setmetatable({
 		eventConcluded = "Congratulations! You won the event! It would not be possible without them:\n\t» Developer: %s\n\t» Artist: %s\n\t» Translator: %s",
 	},
 	fr = {
-		eventConcluded = "Félicitations ! Vous avez gagné l'événement! Ce ne serait pas possible sans eux:\n\t» Développeur: %s\n\t» Artiste: %s\n\t» Traducteur: %s",
+		eventConcluded = "Félicitations! Vous avez gagné l'événement! Ce ne serait pas possible sans eux:\n\t» Développeur: %s\n\t» Artiste: %s\n\t» Traducteur: %s",
 	},
 },{
 	__call = function()
