@@ -1,203 +1,345 @@
---[[ Title ]]--
-title = {
-	[1] = "titre_Title name",
-}
+--[[ Module Info ]]--
+local module = { 
+	name = "event_name",
+	title = { "titre_title_name" },
+	map = "<C><P /><Z><S /><D /><O /></Z></C>"
+}	
 
---[[ Translations ]]--
-system.translation = {
-	-- At least EN, BR, ES, FR are needed, complementarily AR, PL, TR, RO, DE, RU
-	en = {
-		dataTry = "Wait! Your data is loading...",
-		dataFail = "Impossible to load your data :( Try again in the next map.",
-		dataSuccess = "Data loaded!",
-	},
-	br = {
-		dataTry = "Aguarde! Seus dados estão carregando...",
-		dataFail = "Impossível carregar seus dados :( Tente novamente no próximo mapa.",
-		dataSuccess = "Dados carregados!",
-	},
-	es = {
-		dataTry = "¡Espera! Tus datos se están cargando...",
-		dataFail = "No se pudieron cargar tus datos :( Prueba de nuevo en el siguiente mapa.",
-		dataSuccess = "¡Datos cargados!",
-	},
-	fr = {
-		dataTry = "Attends ! Tes données sont en train de charger...",
-		dataFail = "Impossible de charger vos données :( Essayez encore lors de la prochaine map.",
-		dataSuccess = "Données chargées !",
-	},
+--[[ Development ]]--
+local team = {
+	developer = {"Nickname1", "Nickname2"},
+	artist = {"Nickname1", "Nickname2"},
+	translator = {"Nickname1", "Nickname2"}
 }
-system.translation.pt = system.translation.br
-
-system.community = tfm.get.room.community
-if not system.translation[system.community] then
-	system.community = "en"
-end
-system.community = system.translation[system.community]
-
---[[ Thanks ]]--
-system.staff = {
-	dev = {"Developer 1"},
-	translator = {"Translator 1"},
-	artist = {"Artist 1"},
-}
-for k,v in next,system.staff do
+for k, v in next, team do
 	table.sort(v)
 end
 
+--[[ Translations ]]--
+local translation = setmetatable({
+	-- The languages EN, BR, ES, and FR are needed. Complementarily the languages AR, PL, TR, RO, DE, and RU can be added!
+	en = {
+		eventConcluded = "Congratulations! You won the event! It would not be possible without them:\n\t<N>» <BV>Developer: %s\n\t<N><N>» <R>Artist: %s\n\t<N>» <CE>Translator: %s",
+	},
+	br = {
+		eventConcluded = "Parabéns! Você concluiu o evento! Isso não seria possível sem eles:\n\t<N>» <BV>Desenvolvedor: %s\n\t<N>» <R>Artista: %s\n\t<N>» <CE>Tradutor: %s",
+	},
+	es = {
+		eventConcluded = "Congratulations! You won the event! It would not be possible without the\n\t» Developer: %s\n\t» Artist: %s\n\t» Translator: %s",
+	},
+	fr = {
+		eventConcluded = "Congratulations! You won the event! It would not be possible without the\n\t» Developer: %s\n\t» Artist: %s\n\t» Translator: %s",
+	},
+},{
+	__call = function()
+		return translation[tfm.get.room.community] or translation.en
+	end
+})
+translation.pt = translation.br
+
 --[[ Functions ]]--
-	--[[ Data ]]--
-serialization = function(i,lastIndex)
-	lastIndex = lastIndex or ""
-	if type(i) == "table" then
-		local out = ""
-	
-		for k,v in next,i do
-			if type(v) == "string" then
-				out = out .. string.format("@[%s]{%s}",string.format("%s[%s]",lastIndex,k),table.concat({string.byte(v,1,#v)},","))
-			elseif type(v) == "number" then
-				out = out .. string.format("#[%s]{%s}",string.format("%s[%s]",lastIndex,k),tostring(v))
-			elseif type(v) == "boolean" then
-				out = out .. string.format("![%s]{%s}",string.format("%s[%s]",lastIndex,k),tostring(v))
-			elseif type(v) == "table" then
-				out = out .. serialization(v,string.format("%s[%s]",lastIndex,k))
+do
+	local concat = table.concat
+	table.concat = function(list,sep,f,i,j)
+		if type(f) == "boolean" and f then
+			return concat(list, sep)
+		end
+		
+		local txt = ""
+		sep = sep or ""
+		i,j = i or 1,j or #list
+		for k,v in next,list do
+			if type(k) ~= "number" and true or (k >= i and k <= j) then
+				txt = txt .. (f and f(k,v) or v) .. sep
 			end
 		end
+		return string.sub(txt,1,-1-#sep)
+	end
+end
+table.find = function(list,value,index,f)
+	for k,v in next,list do
+		local i = (type(v) == "table" and index and v[index] or v)
+		if (f and f(i) or i) == value then
+			return true,k
+		end
+	end
+	return false,0
+end
+string.split = function(value, pattern, f)
+	local out = {}
+	for v in string.gmatch(value, pattern) do
+		out[#out + 1] = (not f and v or f(v))
+	end
+	return out
+end
+math.round = function(x)
+	local r = x%1
+	return (math.floor(x) + (r > .5 and .5 or 0))
+end
 
-		return out
-	elseif type(i) == "string" then
-		local out = {}
-
-		for t,k,v in string.gmatch(i,"([@#!])(%[.-%])%{(.-)%}") do
-			print(string.format("%s %s %s",t,k,v))
-			local value
-			if t == "@" then
-				value = string.char((function(bytes)
-					local foo = {}
-					for byte in string.gmatch(bytes,"[^,]+") do
-						foo[#foo + 1] = tonumber(byte)
-					end
-					return table.unpack(foo)
-				end)(v))
-			elseif t == "#" then
-				value = tonumber(v)
-			elseif t == "!" then
-				value = (v == "true")
-			elseif t == "=" then
-				value = serialization(v)
-			end
+system.giveTitle = function(playerName, id)
+	if module.title[id] and playerFlashData[playerName] then
+		if playerFlashData[playerName].dataSuccess and playerData:getData(playerName, "getTitle") then
+			system.giveEventGift(playerName, module.title[id])
+			playerData:setValue(playerName, { getTitle = false })
+			playerData:save(playerData)
 			
-			local index = {}
-			for j in string.gmatch(k:sub(2,#k-1),"[^%[%]]") do
-				index[#index + 1] = tonumber(j) or j
-			end
-
-			if #index == 1 then
-				out[index[1]] = value
-			else
-				local m,n = 1
-				while m <= #index do
-					if not n then
-						out[index[m]] = (out[index[m]] or {})
-						n = out[index[m]]
-						m = m + 1
-					end
-
-					n[index[m]] = (m ~= #index and (n[index[m]] or {}) or value)
-
-					n = n[index[m]]
-					m = m + 1
-				end
-			end
-		end
-
-		return out
-	end
-end
-eventPlayerDataLoading = function(n,tentative)
-	-- Avoids data replacement and error
-	if tentative < 4 then
-		local loadingData = system.loadPlayerData(n)
-		if loadingData then
-			tfm.exec.chatMessage("<G>" .. system.community.dataTry,n)
-		else
-			eventPlayerDataLoading(n,tentative + 1)
-		end
-	else
-		tfm.exec.killPlayer(n)
-		tfm.exec.chatMessage("<G>" .. system.community.dataFail,n)
-	end
-end
-eventPlayerDataLoaded = function(n,data)
-	if data ~= "" and data:find(":allowTitle") then -- ":allowTitle" refers to the info[playerName].db.allowTitle var
-		info[n].db = serialization(data)
-	else
-		system.savePlayerData(n,serialization(info[n].db))
-	end
-	
-	info[n].dataLoaded = true
-	tfm.exec.chatMessage("<G>" .. system.community.dataSuccess,n)
-	
-	-- TODO Data Loaded
-end
-system.giveTitle = function(n,id)
-	-- Use system.giveTitle instead of system.giveEventGift
-	if title[id] and info[n] then
-		if info[n].dataLoaded and info[n].db.allowTitle then
-			system.giveEventGift(n,title[id])
-			info[n].db.allowTitle = false
-			system.savePlayerData(n,serialization(info[n].db))
+			-- You may want to thanks the team
+			tfm.exec.chatMessage("<J>" .. string.format(translation().eventConcluded, "<BL>" .. table.concat(team.developer,"<G>, <BL>"), "<BL>" .. table.concat(team.artist,"<G>, <BL>"), "<BL>" .. table.concat(team.translator,"<G>, <BL>")), playerName)	
 			return true
 		end
-		return false
 	end
 	return false
 end
-			
 
-	--[[ Others ]]--
-os.normalizedTime = function(time)
-	return math.floor(time) + ((time - math.floor(time)) >= .5 and .5 or 0)
+--[[ Data ]]--
+dataManager = {}
+dataManager.using = function(module, data)
+	local self = {}	
+	
+	--[[ Tools ]]--
+	local transform = function(value, dataType, reverse)
+		if dataType == "number" then
+			return reverse and (tostring(value)) or (tonumber(value) or 0)
+		elseif dataType == "boolean" then
+			return reverse and (value and "1" or "0") or (value == "1")
+		elseif dataType == "table" then
+			return reverse and (table.concat(value, "|")) or (string.split(value, "[^|]+", function(value)
+				if value == "true" or value == "false" then print(true)
+					return value == "true"
+				end
+				return tonumber(value) or tostring(value)
+			end))
+		else
+			return tostring(value)
+		end
+	end
+	
+	self.normalizeData = function(self, data)
+		data = string.split(data, "[^~]+")
+		local out = {}
+		
+		for k, v in next, self._data do
+			local value = data[v.index]
+			if value then
+				if value == "nil" then
+					value = v.default
+				else
+					value = transform(value, type(v.default))
+				end
+			end
+			if type(value) == "nil" then
+				value = v.default
+			end
+			
+			out[v.name] = value
+		end
+		
+		return out
+	end
+	
+	--[[ Managers ]]--
+	self.init = function(self, module, data)
+		self._module = module
+		self._data = {}
+		self._players = {}
+		
+		local availableTypes = { number = true, string =  true, table = true, boolean = true }
+		
+		for k, v in next, data do
+			if v.index and type(v.index) == "number" then
+				if not self._data[v.index] then
+					if v.default ~= nil and availableTypes[type(v.default)] then
+						self._data[v.index] = {
+							index = v.index,
+							default = v.default,
+							name = k
+						}
+					else
+						error(string.format("parameter_index_%s:%s: The index 'default' does not exist or have not its value type available for this manager [number, string, table, boolean].", v.index, type(v.default)))
+					end
+				else
+					error(string.format("parameter_index_%s: The index 'index' must be unique. There is already a value with this index.", v.index))
+				end
+			else
+				error(string.format("parameter_%s: The index 'index' does not exist or is not a number.", k))
+			end
+		end
+	end
+
+	self.struct = function(self, player, data)
+		local hasData = false
+		
+		local garbage = data
+		for Module, Data in string.gmatch(data, "%[(.-)%]%((.-)%)") do
+			garbage = string.gsub(string.gsub(garbage, string.format("%%[%s%%]%%(.-%%)", Module), ""), "<INSERT_DATA>", "")
+		
+			if Module == self._module then
+				hasData = true
+				
+				local raw = string.gsub(data, string.format("%%[%s%%]%%(.-%%)", Module), "<INSERT_DATA>")
+				self._players[player] = setmetatable({_GARBAGE = {"", false}, data = self:normalizeData(Data)},{
+					__call = function(playerTable, single)
+						local out = {}
+						for k, v in next, self._data do
+							out[#out + 1] = transform(self._players[player].data[v.name], type(self._players[player].data[v.name]), true)
+						end
+						
+						local out =  string.format("[%s](%s)", self._module, table.concat(out, "~"))
+						if single then
+							return out
+						else
+							raw = string.gsub(raw, playerTable._GARBAGE[2] and playerTable._GARBAGE[1] or "", "", 1)
+							return string.gsub(raw, "<INSERT_DATA>", out)
+						end
+					end
+				})
+			end
+		end
+
+		if hasData then
+			garbage = string.gsub(garbage, "[%^%$%(%)%%%[%]%?%*%+%-]", "%%%1")
+			self._players[player]._GARBAGE[1] = garbage
+		else
+			return self:struct(player, data .. string.format("[%s](nil)", self._module))
+		end
+		
+		return not not self._players[player]
+	end
+	
+	self.getData = function(self, player, index)
+		if self._players[player] then
+			if index then
+				if self._players[player].data[index] ~= nil then
+					return self._players[player].data[index]
+				else
+					return { error = string.format("getData_ The index '%s' does not exist.", index) }
+				end
+			else
+				return self._players[player]()
+			end
+		else
+			return { error = string.format("getData_ The player '%s' does not have a player structure.", player) }
+		end
+	end
+	
+	self.setValue = function(self, player, values)
+		if self._players[player] then
+			local updated = false
+			for k, v in next, values do
+				if self._players[player].data[k] ~= nil and type(v) == type(self._players[player].data[k]) then
+					if not updated then
+						updated = true
+					end
+					
+					self._players[player].data[k] = v
+				end
+			end
+			
+			if updated then
+				return self._players[player]()
+			else
+				return { error = string.format("setValue_ The values '%s' do not exist.", table.concat(values, " ~ ", tostring)) }
+			end
+		else
+			return { error = string.format("setValue_ The player '%s' does not have a player structure.", player) }
+		end
+	end
+	
+	self.save = function(self, player, data)
+		return player and system.savePlayerData(player, data or self._players[player]()) or false
+	end
+	
+	self.garbage = function(self, player, remove)
+		if self._players[player] then
+			if remove then
+				self._players[player]._GARBAGE[2] = true
+				self:save(player)
+				self._players[player]._GARBAGE[1] = ""
+			end
+			return self._players[player]._GARBAGE[1], self._players[player]._GARBAGE[2]
+		else
+			return { error = string.format("garbage_ The player '%s' does not have a player structure.", player) }
+		end
+	end
+	
+	self:init(module, data)
+	return self
+end
+dataManager.delete = function(module, data)
+	for Module, Data in string.gmatch(data, "%[(.-)%]%((.-)%)") do
+		local mod = module
+		if type(module) == "table" then
+			local found, index = table.find(module, Module)
+			if found then
+				mod = module[index]
+			end
+		end
+		if Module == mod then
+			data = string.gsub(data, string.format("%%[%s%%]%%(.-%%)", Module), "")
+		end
+	end
+	return data
 end
 
---[[ New Game ]]--
-info = {} -- Hosts the data of the players
-eventNewGame = function()
-	-- TODO New Game
-	for k,v in next,tfm.get.room.playerList do
-		info[k] = {
-			-- TODO Data
-			dataLoaded = false,
+local playerData, playerFlashData = dataManager.using(module.name, {
+	-- Obligatory: the value informs if the player got the title or not
+	getTitle = {
+		index = 1,
+		default = true
+	},
+	param1 = {
+		index = 2,
+		default = 1
+	}
+}), {}
 
-			db = {
-				-- TODO Data to Save
-				allowTitle = true,
-			}
+--[[ Events ]]--
+eventNewGame = function()
+	-- 2 and a half minutes
+	tfm.exec.setGameTime(2.5 * 60)
+
+	for playerName, playerInfo in next, tfm.get.room.playerList do
+		playerFlashData[playerName] = {
+			dataSuccess = false
+			-- TODO FLASH DATA
 		}
 		
-		eventPlayerDataLoading(k,1)
+		-- The player will be alive when the data loads
+		tfm.exec.killPlayer(playerName)
+		system.loadPlayerData(playerName)
+	end
+	-- TODO NEW GAME
+end
+
+eventPlayerDataLoaded = function(playerName, data)
+	playerFlashData[playerName].dataSuccess = true
+	tfm.exec.respawnPlayer(playerName)
+	
+	playerData:struct(playerName, data)
+	-- TODO DATA
+end
+
+eventLoop = function(currentTime, timeLeft)
+	_G.currentTime = math.round(currentTime / 1000)
+	_G.timeLeft = math.round(timeLeft / 1000)
+	-- TODO LOOP
+end
+
+eventPlayerLeft = function(playerName)
+	if playerFlashData[playerName] then
+		playerData:save(playerName)
 	end
 end
 
---[[ Loop ]]--
-eventLoop = function(currentTime,timeLeft)
-	_G.currentTime = os.normalizedTime(currentTime/1000) -- [Global] Current time in seconds; 0.5 by 0.5
-	_G.timeLeft = os.normalizedTime(timeLeft/1000) -- [Global] Time left in seconds; 0.5 by 0.5
-	-- TODO Loop
-end
-
---[[ Left ]]--
-eventPlayerLeft = function(n)
-	if info[n] then
-		system.savePlayerData(n,serialization(info[n].db))
-	end
-end
-
---[[ Init ]]--
-for i,f in next,{"AutoShaman","AfkDeath","AutoTimeLeft","MortCommand","PhysicalConsumables","DebugCommand"} do
-	-- Edit the functions
+--[[ Initialization ]]--
+for i, f in next,{"AfkDeath","AutoShaman","AutoTimeLeft","DebugCommand","MortCommand","PhysicalConsumables"} do
+	-- Edit the functions above
 	tfm.exec["disable"..f]()
 end
+if string.byte(tfm.get.room.name, 2) == 3 then
+	-- Executed only in tribe houses
+	tfm.exec.disableAutoNewGame()
+end
 
-system.map = '<C><P /><Z><S /><D /><O /></Z></C>'
-tfm.exec.newGame(system.map)
+tfm.exec.newGame(module.map)
