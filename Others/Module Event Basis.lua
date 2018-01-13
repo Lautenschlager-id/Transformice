@@ -223,7 +223,7 @@ dataManager.using = function(module, data)
 		end
 	end
 	
-	self.setValue = function(self, player, values)
+	self.setValue = function(self, player, values, save)
 		if self._players[player] then
 			local updated = false
 			for k, v in next, values do
@@ -237,7 +237,11 @@ dataManager.using = function(module, data)
 			end
 			
 			if updated then
-				return self._players[player]()
+				local out = self._players[player]()
+				if save then
+					self:save(player, out)
+				end
+				return out
 			else
 				return { error = string.format("setValue_ The values '%s' do not exist.", table.concat(values, " ~ ", tostring)) }
 			end
