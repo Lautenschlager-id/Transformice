@@ -105,7 +105,7 @@ dataManager.using = function(module, data)
 			return reverse and (value and "1" or "0") or (value == "1")
 		elseif dataType == "table" then
 			return reverse and (table.concat(value, "|")) or (string.split(value, "[^|]+", function(value)
-				if value == "true" or value == "false" then print(true)
+				if value == "true" or value == "false" then
 					return value == "true"
 				end
 				return tonumber(value) or tostring(value)
