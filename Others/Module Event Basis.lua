@@ -50,7 +50,7 @@ do
 		i,j = i or 1,j or #list
 		for k,v in next,list do
 			if type(k) ~= "number" and true or (k >= i and k <= j) then
-				txt = txt .. (f and f(k,v) or v) .. sep
+				txt = txt .. (not f and v or f(k,v)) .. sep
 			end
 		end
 		return string.sub(txt,1,-1-#sep)
@@ -59,7 +59,7 @@ end
 table.find = function(list,value,index,f)
 	for k,v in next,list do
 		local i = (type(v) == "table" and index and v[index] or v)
-		if (f and f(i) or i) == value then
+		if (not f and i or f(i)) == value then
 			return true,k
 		end
 	end
@@ -251,7 +251,12 @@ dataManager.using = function(module, data)
 	end
 	
 	self.save = function(self, player, data)
-		return player and system.savePlayerData(player, data or self._players[player]()) or false
+		if player then
+			system.savePlayerData(player, data or self._players[player]())
+			return true
+		else
+			return false
+		end
 	end
 	
 	self.garbage = function(self, player, remove)
