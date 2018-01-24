@@ -79,6 +79,7 @@ end
 
 system.giveTitle = function(playerName, id)
 	if module.title[id] and playerFlashData[playerName] then
+		-- if #module.title>1 use <playerData:getData(playerName, "getTitle")[id]>
 		if playerFlashData[playerName].dataSuccess and playerData:getData(playerName, "getTitle") then
 			system.giveEventGift(playerName, module.title[id])
 			playerData:setValue(playerName, { getTitle = false })
@@ -295,6 +296,7 @@ local playerData, playerFlashData = dataManager.using(module.name, {
 	-- Obligatory: the value informs if the player got the title or not
 	getTitle = {
 		index = 1,
+		-- if #module.title>1 use <{true, true, ...}>
 		default = true
 	},
 	param1 = {
