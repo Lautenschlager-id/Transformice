@@ -31,8 +31,8 @@ local translation = setmetatable({
 		eventConcluded = "Félicitations! Vous avez gagné l'événement! Ce ne serait pas possible sans eux:\n\t» Développeur: %s\n\t» Artiste: %s\n\t» Traducteur: %s",
 	},
 },{
-	__call = function()
-		return translation[tfm.get.room.community] or translation.en
+	__call = function(list, flag)
+		return list[flag or tfm.get.room.community] or list.en
 	end
 })
 translation.pt = translation.br
