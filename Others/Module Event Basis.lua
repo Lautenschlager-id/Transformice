@@ -2,7 +2,7 @@
 local module = { 
 	name = "event_name",
 	title = { "titre_title_name" },
-	map = "<C><P /><Z><S /><D /><O /></Z></C>"
+	map = '<C><P /><Z><S /><D /><O /></Z></C>'
 }	
 
 --[[ Development ]]--
