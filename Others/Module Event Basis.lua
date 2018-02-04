@@ -93,6 +93,7 @@ system.giveTitle = function(playerName, id)
 end
 
 --[[ Data ]]--
+
 dataManager = {}
 dataManager.using = function(module, data)
 	local self = {}	
@@ -115,7 +116,7 @@ dataManager.using = function(module, data)
 		end
 	end
 	
-	self.normalizeData = function(self, data)
+	local normalizeData = function(self, data)
 		data = string.split(data, "[^~]+")
 		local out = {}
 		
@@ -137,9 +138,8 @@ dataManager.using = function(module, data)
 		
 		return out
 	end
-	
-	--[[ Managers ]]--
-	self.init = function(self, module, data)
+
+	local init = function(self, module, data)
 		self._module = module
 		self._data = {}
 		self._players = {}
@@ -167,6 +167,7 @@ dataManager.using = function(module, data)
 		end
 	end
 
+	--[[ Managers ]]--
 	self.struct = function(self, player, data)
 		local hasData = false
 		
@@ -178,7 +179,7 @@ dataManager.using = function(module, data)
 				hasData = true
 				
 				local raw = string.gsub(data, string.format("%%[%s%%]%%(.-%%)", Module), "<INSERT_DATA>")
-				self._players[player] = setmetatable({_GARBAGE = {"", false}, data = self:normalizeData(Data)},{
+				self._players[player] = setmetatable({_GARBAGE = {"", false}, data = normalizeData(self, Data)},{
 					__call = function(playerTable, single)
 						local out = {}
 						for k, v in next, self._data do
@@ -272,7 +273,7 @@ dataManager.using = function(module, data)
 		end
 	end
 	
-	self:init(module, data)
+	init(self, module, data)
 	return self
 end
 dataManager.delete = function(module, data)
