@@ -73,8 +73,7 @@ string.split = function(value, pattern, f)
 	return out
 end
 math.round = function(x)
-	local r = x%1
-	return (math.floor(x) + (r > .5 and .5 or 0))
+	return (math.floor(x) + (x%1 > .5 and .5 or 0))
 end
 
 system.giveTitle = function(playerName, id)
