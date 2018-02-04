@@ -262,12 +262,13 @@ dataManager.using = function(module, data)
 	
 	self.garbage = function(self, player, remove)
 		if self._players[player] then
+			local garbage = self._players[player]._GARBAGE[1]
 			if remove then
 				self._players[player]._GARBAGE[2] = true
 				self:save(player)
 				self._players[player]._GARBAGE[1] = ""
 			end
-			return self._players[player]._GARBAGE[1], self._players[player]._GARBAGE[2]
+			return garbage, self._players[player]._GARBAGE[2]
 		else
 			return { error = string.format("garbage_ The player '%s' does not have a player structure.", player) }
 		end
