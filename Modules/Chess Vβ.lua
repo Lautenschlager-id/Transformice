@@ -184,10 +184,10 @@ uiboard = function(n)
 		[-88:-11] -> Effects
 		[-10:0] -> Others
 	]]
-	ui.addTextArea(0, "", nil, 247, 45, 306, 306, colors.background, colors.background, 1, true)
+	ui.addTextArea(0, "", n, 247, 45, 306, 306, colors.background, colors.background, 1, true)
 	for row = 1, 8 do
 		for column = 1, 8 do
-			uiupdateSquare(row, column)
+			uiupdateSquare(row, column, n)
 		end
 	end
 end
