@@ -53,8 +53,8 @@ local pieces = {
 local playerInfo = function()
 	return 
 	{
-		[1] = { name = "", pieces = 16, castling = true, lastMove = "" },
-		[2] = { name = "", pieces = 16, castling = true, lastMove = "" },
+		[1] = { name = "", pieces = 16, castling = {true, true}, lastMove = "" },
+		[2] = { name = "", pieces = 16, castling = {true, true}, lastMove = "" },
 	}
 end
 local players = playerInfo()
@@ -224,7 +224,7 @@ eventTextAreaCallback = function(i, n, c)
 			board[row][iniSig] = board[row][finalSquare]
 			board[row][finalSquare] = ''
 			
-			players[currentPlayer].castling = false
+			players[currentPlayer].castling = {false, false}
 			players[currentPlayer].lastMove = ''
 			
 			uiupdateLastMove(row, iniTwo)
@@ -320,16 +320,14 @@ eventTextAreaCallback = function(i, n, c)
 				end
 				if piece == pieces.king then
 					-- Castling
-					if players[currentPlayer].castling then
-						local d = 1
-						for i = 1, 2 do
-							if not isPieceSquare(row, column + d) and not isPieceSquare(row, column + (d * 2)) then
-								if d > 0 or not isPieceSquare(row, column - 3) then
-									uiupdateSquare(row, column + (d > 0 and 2 or -3), n, colors.specialMove, string.format(stringReference.castling, row, column, (d > 0 and "right" or "left")))
-								end
+					local d = 1
+					for i = 1, 2 do
+						if players[currentPlayer].castling[i] and not isPieceSquare(row, column + d) and not isPieceSquare(row, column + (d * 2)) then
+							if d > 0 or not isPieceSquare(row, column - 3) then
+								uiupdateSquare(row, column + (d > 0 and 2 or -3), n, colors.specialMove, string.format(stringReference.castling, row, column, (d > 0 and "right" or "left")))
 							end
-							d = -d
 						end
+						d = -d
 					end
 				end
 			elseif c[1] == "select" then
@@ -377,8 +375,15 @@ eventTextAreaCallback = function(i, n, c)
 						return
 					end
 				-- Disable Castling
-				elseif piece == pieces.king or piece == pieces.rook then
-					players[currentPlayer].castling = false
+				elseif piece == pieces.king then
+					players[currentPlayer].castling = {false, false}
+				elseif piece == pieces.rook then
+					if players[currentPlayer].castling[1] or players[currentPlayer].castling[2] then
+						local pieceColumn = column == 1 and 1 or column == 8 and 2 or 0
+						if pieceColumn > 0 then
+							players[currentPlayer].castling[pieceColumn] = true
+						end
+					end
 				end
 				
 				changeTurn()
