@@ -337,6 +337,13 @@ eventTextAreaCallback = function(i, n, c)
 			
 				uiupdateLastMove(c[6] or newRow, newColumn)
 				
+				-- Checks the attack
+				local checkmate = false
+				if isPieceSquare(row, column) and isPieceSquare(newRow, newColumn) and pieceDifColor(board[row][column], board[newRow][newColumn]) then
+					players[3 - currentPlayer].pieces = players[3 - currentPlayer].pieces - 1
+					checkmate = pieceID(board[newRow][newColumn]) == pieces.king
+				end
+				
 				-- Updates the squares
 				board[c[6] or newRow][newColumn] = board[row][column]
 				if c[6] then
@@ -348,17 +355,11 @@ eventTextAreaCallback = function(i, n, c)
 				board[row][column] = ''
 				uiupdateSquare(row, column)
 				
-				-- Checks the attack
-				if isPieceSquare(row, column) and isPieceSquare(newRow, newColumn) and pieceDifColor(board[row][column], board[newRow][newColumn]) then
-					players[3 - currentPlayer].pieces = players[3 - currentPlayer].pieces - 1
-					
-					-- Checkmate
-					if pieceID(board[newRow][newColumn]) == pieces.king then
-						tfm.exec.chatMessage("<S>[#Chess] " .. currentPlayerColor .. " pieces won!")
-						tfm.exec.setPlayerScore(n, 10, true)
-						restart()
-						return
-					end
+				if checkmate then
+					tfm.exec.chatMessage("<S>[#Chess] " .. currentPlayerColor .. " pieces won!")
+					tfm.exec.setPlayerScore(n, 10, true)
+					restart()
+					return
 				end
 				
 				-- Sets the lastMove
