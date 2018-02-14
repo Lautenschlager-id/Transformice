@@ -195,7 +195,7 @@ end
 -- Callbacks
 eventTextAreaCallback = function(i, n, c)
 	if players[currentPlayer].name == n and os.time() > moveTimer then
-		moveTimer = os.time() + 100
+		moveTimer = os.time() + 250
 	
 		c = string.split(c, "[^_]+", function(value)
 			return tonumber(value) or value
