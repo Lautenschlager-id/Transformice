@@ -115,7 +115,7 @@ local changeTurn = function()
 	currentPlayer = (currentPlayer == 1 and 2 or 1)
 	currentPlayerColor = ({"White", "Black"})[currentPlayer]
 	
-	local text = "<B><p align='center'><font size='18'>" .. currentPlayerColor .. " turn!"
+	local text = "<B><p align='center'><font size='18'>" .. currentPlayerColor .. "'s turn!"
 	border(text)
 end
 local restart = function()
