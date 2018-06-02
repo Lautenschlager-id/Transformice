@@ -31,7 +31,7 @@ end
 do
 	local _J = {}
 	local getID = coroutine.wrap(function()
-		local index = 0
+		local index = 1
 		while true do
 			coroutine.yield(index)
 			index = index + 1
