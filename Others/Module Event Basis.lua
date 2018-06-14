@@ -40,30 +40,36 @@ translation.pt = translation.br
 --[[ Functions ]]--
 do
 	local concat = table.concat
-	table.concat = function(list,sep,f,i,j)
+	table.concat = function(list, sep, f, i, j, iterator)
 		if type(f) == "boolean" and f then
 			return concat(list, sep)
 		end
-		
+	
+		iterator = iterator or function() return next, list end
+	
 		local txt = ""
+		
 		sep = sep or ""
-		i,j = i or 1,j or #list
-		for k,v in next,list do
-			if type(k) ~= "number" and true or (k >= i and k <= j) then
-				txt = txt .. (not f and v or f(k,v)) .. sep
+		
+		i, j = i or 1, j or #list
+		
+		for k, v in iterator(list) do
+			if (type(k) ~= "number" and true) or (k >= i and k <= j) then
+				txt = txt .. tostring((not f and v or f(k, v))) .. sep
 			end
 		end
-		return string.sub(txt,1,-1-#sep)
+		
+		return string.sub(txt, 1, -1-#sep)
 	end
 end
 table.find = function(list,value,index,f)
 	for k,v in next,list do
-		local i = (type(v) == "table" and index and v[index] or v)
-		if (not f and i or f(i)) == value then
-			return true,k
+		local i = (type(v) == "table" and index) and v[index] or v
+		if (not f and i or f(i, index)) == value then
+			return true, k
 		end
 	end
-	return false,0
+	return false, 0
 end
 string.split = function(value, pattern, f)
 	local out = {}
