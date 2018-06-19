@@ -347,7 +347,7 @@ do
 	copy_ignoring = function(tbl, pat)
 		local out = {}
 		for k, v in next, tbl do
-			if not k:find(pat) then
+			if not string.find(k, pat) then
 				if type(v) == "table" then
 					out[k] = copy_ignoring(v, pat)
 				else
