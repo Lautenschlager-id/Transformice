@@ -434,8 +434,7 @@ eventNewGame = function()
 		
 		-- The player will be alive when the data loads
 		tfm.exec.killPlayer(playerName)
-				eventPlayerDataLoaded(playerName, '{"m1":{"n":3,"w":1},"m2":{"cfff":2,"weywqu8ey2":2},"m3":[]}')
---		system.loadPlayerData(playerName)
+		system.loadPlayerData(playerName)
 	end
 	-- TODO NEW GAME
 end
