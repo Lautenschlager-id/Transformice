@@ -80,11 +80,11 @@ do
 			return self, true
 		end
 		
-		self.setCallback = function(self, evt, player)
-			if evt ~= "" and callback ~= evt then
-				callback = evt
+		self.setCallback = function(self, eventName, player)
+			if eventName ~= "" and callback ~= eventName then
+				callback = eventName
 			
-				ui.addTextArea(id, "<textformat leftmargin='1' rightmargin='1'><a href='event:" .. evt .. "'>" .. string.rep('\n', self.h / 10), player, self.x, self.y, self.w, self.h, 0, false)
+				ui.addTextArea(id, "<textformat leftmargin='1' rightmargin='1'><a href='event:" .. eventName .. "'>" .. string.rep('\n', self.h / 10), player, self.x, self.y, self.w, self.h, 0, false)
 				
 				return self, true
 			end
