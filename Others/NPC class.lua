@@ -94,6 +94,13 @@ do
 			return self, false
 		end
 		
+		self.setPosition = function(self, x, y)
+			self.x = x
+			self.y = y
+			
+			return self, true
+		end
+		
 		self.setState = function(self, state)
 			if self.data[state] then
 				currentState = self.data[state]
@@ -108,6 +115,7 @@ do
 				tfm.exec.addImage(currentState[1], target, x, y, player)
 				return self, true
 			end
+			
 			return self, false
 		end
 		
@@ -117,7 +125,7 @@ do
 			end
 			timers = { }
 			
-			return self
+			return self, true
 		end
 
 		return self
