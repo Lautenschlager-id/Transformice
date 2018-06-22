@@ -35,7 +35,7 @@ do
 			h = 1
 		}
 		
-		self.action = function(self, f, target, player)
+		self.action = function(self, f, target)
 			local state = currentState
 			
 			if state ~= "" and #timers == 0 then
@@ -56,7 +56,7 @@ do
 					local i = current % #currentState + 1
 					f(i)
 					
-					lastImage = tfm.exec.addImage(currentState[i] .. ".png", target, self.x, self.y, player)				
+					lastImage = tfm.exec.addImage(currentState[i] .. ".png", target, self.x, self.y)				
 				end, (currentState.speed or 1))
 				
 				return self, true
@@ -75,16 +75,17 @@ do
 			return id
 		end
 
-		self.removeCallback = function(self, player)
-			ui.removeTextArea(id, player)
+		self.removeCallback = function(self)
+			callback = ""
+			ui.removeTextArea(id)
 			return self, true
 		end
 		
-		self.setCallback = function(self, eventName, player)
+		self.setCallback = function(self, eventName)
 			if eventName ~= "" and callback ~= eventName then
 				callback = eventName
 			
-				ui.addTextArea(id, "<textformat leftmargin='1' rightmargin='1'><a href='event:" .. eventName .. "'>" .. string.rep('\n', self.h / 10), player, self.x, self.y, self.w, self.h, 0, false)
+				ui.addTextArea(id, "<textformat leftmargin='1' rightmargin='1'><a href='event:" .. eventName .. "'>" .. string.rep('\n', self.h / 10), nil, self.x, self.y, self.w, self.h, 0, false)
 				
 				return self, true
 			end
@@ -108,10 +109,10 @@ do
 			end
 		end
 		
-		self.static = function(self, target, player)
+		self.static = function(self, target)
 			if currentState ~= "" then
 				self.stop(self)
-				tfm.exec.addImage(currentState[1], target, self.x, self.y, player)
+				tfm.exec.addImage(currentState[1], target, self.x, self.y)
 				return self, true
 			end
 			
