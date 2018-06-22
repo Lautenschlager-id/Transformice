@@ -108,9 +108,9 @@ do
 			end
 		end
 		
-		self.static = function(self, target, x, y, player)
+		self.static = function(self, target, player)
 			if currentState ~= "" then
-				tfm.exec.addImage(currentState[1], target, x, y, player)
+				tfm.exec.addImage(currentState[1], target, self.x, self.y, player)
 				return self, true
 			end
 			
