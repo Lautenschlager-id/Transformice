@@ -21,7 +21,7 @@ do
 		end
 	end)
 	
-	npc = function(data, initState)
+	npc = function(data)
 		local callback = ""
 		local currentState = ""
 		local id = getId()
