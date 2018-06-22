@@ -35,7 +35,7 @@ do
 			h = 1
 		}
 		
-		self.action = function(self, f, target)
+		self.action = function(self, target, f)
 			local state = currentState
 			
 			if state ~= "" and #timers == 0 then
