@@ -77,7 +77,7 @@ do
 					current = current + 1
 					
 					local i = current % #currentState + 1
-					if f then f(i) end
+					if f then i = f(i) or i end
 					
 					lastImage = tfm.exec.addImage(currentState[i] .. ".png", target, self.x, self.y)				
 				end
