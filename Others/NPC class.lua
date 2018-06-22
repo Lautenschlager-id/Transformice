@@ -61,7 +61,7 @@ do
 		self.setAction = function(self, target, f)
 			local state = currentState
 			
-			if state ~= "" and #npcs[id] == 0 then
+			if state ~= "" then
 				local current, lastImage = 0
 				
 				action = function()
@@ -126,8 +126,7 @@ do
 		end
 		
 		self.stop = function(self)
-			npcs[id] = { }
-			
+			action = nil			
 			return self, true
 		end
 		
