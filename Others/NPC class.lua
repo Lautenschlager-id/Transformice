@@ -53,10 +53,7 @@ do
 					
 					current = current + 1
 					
-					local x, y = f(current)
-					
-					self.x = x or 0
-					self.y = y or 0
+					f(current)
 					
 					lastImage = tfm.exec.addImage(currentState[current % #currentState + 1] .. ".png", target, self.x, self.y, player)				
 				end, (currentState.speed or 1))
