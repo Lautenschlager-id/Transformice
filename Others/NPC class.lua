@@ -22,13 +22,13 @@ do
 	end)
 	
 	npc = function(data, initState)
-		local id = getId()
+		local callback = ""
 		local currentState = ""
+		local id = getId()
 		local timers = { }
-		
+
 		local self = {
 			data = data,
-			callback = "",
 			x = 0,
 			y = 0,
 			w = 1,
@@ -82,11 +82,11 @@ do
 			return self, true
 		end
 		
-		self.setCallback = function(self, callback, player)
-			if callback ~= "" and self.callback ~= callback then
-				self.callback = callback
+		self.setCallback = function(self, evt, player)
+			if evt ~= "" and callback ~= evt then
+				callback = evt
 			
-				ui.addTextArea(id, "<textformat leftmargin='1' rightmargin='1'><a href='event:" .. callback .. "'>" .. string.rep('\n', self.h / 10), player, self.x - self.w / 2, self.y - self.h / 2, self.w, self.h, 0, false)
+				ui.addTextArea(id, "<textformat leftmargin='1' rightmargin='1'><a href='event:" .. evt .. "'>" .. string.rep('\n', self.h / 10), player, self.x, self.y, self.w, self.h, 0, false)
 				
 				return self, true
 			end
