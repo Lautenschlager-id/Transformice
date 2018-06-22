@@ -13,6 +13,8 @@ end
 
 local npc
 do
+	local npcs = { }
+
 	local getId = coroutine.wrap(function()
 		local id = 0
 		while true do
@@ -22,10 +24,10 @@ do
 	end)
 	
 	npc = function(data)
+		local action
 		local callback = ""
 		local currentState = ""
 		local id = getId()
-		local timers = { }
 
 		local self = {
 			data = data,
@@ -34,14 +36,35 @@ do
 			w = 1,
 			h = 1
 		}
+	
+		self.setDimension = function(self, width, height)
+			self.w = width
+			self.h = height
+			
+			return self, true
+		end
 		
-		self.action = function(self, target, f)
+		self.getAction = function(self)
+			return action
+		end
+		
+		self.getId = function(self)
+			return id
+		end
+
+		self.removeCallback = function(self)
+			callback = ""
+			ui.removeTextArea(id)
+			return self, true
+		end
+		
+		self.setAction = function(self, target, f)
 			local state = currentState
 			
-			if state ~= "" and #timers == 0 then
+			if state ~= "" and #npcs[id] == 0 then
 				local current, lastImage = 0
 				
-				timers = system.looping(function()
+				action = function()
 					if currentState ~= state then
 						self.stop(self)
 						return
@@ -57,30 +80,13 @@ do
 					if f then f(i) end
 					
 					lastImage = tfm.exec.addImage(currentState[i] .. ".png", target, self.x, self.y)				
-				end, (currentState.speed or 1))
+				end
 				
 				return self, true
 			end
 			return self, false
 		end
-		
-		self.setDimension = function(self, width, height)
-			self.w = width
-			self.h = height
-			
-			return self, true
-		end
-		
-		self.getId = function(self)
-			return id
-		end
 
-		self.removeCallback = function(self)
-			callback = ""
-			ui.removeTextArea(id)
-			return self, true
-		end
-		
 		self.setCallback = function(self, eventName)
 			if eventName ~= "" and callback ~= eventName then
 				callback = eventName
@@ -120,14 +126,21 @@ do
 		end
 		
 		self.stop = function(self)
-			for i = 1, #timers do
-				system.removeTimer(timers[i])
-			end
-			timers = { }
+			npcs[id] = { }
 			
 			return self, true
 		end
-
+		
+		npcs[id] = self
 		return self
 	end
+	
+	system.looping(function()
+		for k, v in next, npcs do
+			local action = v:getAction()
+			if action then
+				action()
+			end
+		end
+	end, 10)
 end
