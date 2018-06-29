@@ -391,10 +391,11 @@ local playerData = setmetatable({}, {
 		rawset(this, playerName, setmetatable(tbl, {
 			-- Call playerData[playerName] to save the player data correctly
 			__call = function(playerTable)
-				playerTable.__modules[module.name] = playerTable
-			
+				local data = rawget(playerTable, "__modules")
+				data[module.name] = playerTable
+
 				-- Json.encode ignores all the indexes that starts with __
-				system.savePlayerData(playerName, json.encode(playerTable.__modules))
+				system.savePlayerData(playerName, json.encode(data))
 			end
 		}))
 	end
