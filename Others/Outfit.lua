@@ -1,6 +1,6 @@
 --Creator: Bolodefchoco
 --Made in: 06/01/2016
---Last update: 14/04/2017
+--Last update: 02/07/2018
 
 local shop = {
 	-- id, name, cheese, fraise
@@ -518,7 +518,7 @@ local getLook = function(player)
 		local tmp = { id = tonumber(item), colors = { } }
 		
 		for c in colors:gmatch("[_+](%x+)") do
-			tmp.colors[#tmp.colors + 1] = c
+			tmp.colors[#tmp.colors + 1] = c:upper()
 		end
 		out[#out + 1] = tmp
 	end
@@ -575,12 +575,12 @@ local displayLook = function(p, n)
 				price.fraise[1] = price.fraise[1] + 20
 			end
 			
-			ui.addTextArea(i, info[i][1] .. " : <V>" .. info[i][2][1] .. "<N>\n" .. table.concat(colors, " - "), n, 300, 20 + 48 * y, 150, 40, 1, 1, 1, true)
+			ui.addTextArea(i, info[i][1] .. " : <V>" .. info[i][2][1] .. "<N> [ <J>$" .. info[i][2][2] .. "<N> | <R>$" .. info[i][2][3] .. " <N>] ( " .. table.concat(colors, " - ") .. " )", n, 240, 30 + 25 * y, nil, nil, 1, 1, .5, true)
 			y = y + 1
 		end
 	end
 	
-	ui.addTextArea(11, "Preço em queijo: <J><B>$" .. price.cheese[1] .. "</B>" .. (price.cheese[2] > 0 and (" <N>+ <R><B>$" .. price.cheese[2] .. "</B>") or "") .. "\n<N>Preço em morango: <R><B>$" .. price.fraise[1] .. "</B>" .. (price.fraise[2] > 0 and (" <N>+ <J><B>$" .. price.fraise[2] .. "</B>") or "") , n, 5, 30, 150, 150, 1, 1, 1, true)
+	ui.addTextArea(11, "Preço em queijo: <J><B>$" .. price.cheese[1] .. "</B>" .. (price.cheese[2] > 0 and (" <N>+ <R><B>$" .. price.cheese[2] .. "</B>") or "") .. "\n\n\n<N>Preço em morango: <R><B>$" .. price.fraise[1] .. "</B>" .. (price.fraise[2] > 0 and (" <N>+ <J><B>$" .. price.fraise[2] .. "</B>") or "") , n, 5, 30, 230, nil, 1, 1, .8, true)
 end
 
 eventChatCommand = function(n, c)
