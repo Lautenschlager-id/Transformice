@@ -77,7 +77,7 @@ do
 					
 					deleteImage()
 					img = tfm.exec.addImage(state[i] .. ".png", layer, self.x, self.y)
-					ui.addTextArea(id + 1, "<p align='center'><font color='#FFF426' face='Verdana'><B>" .. name, nil, self.x - (static and 20 or 0), self.y - 20, 100, 20, 1, 1, 0, false)
+					ui.addTextArea(id, "<p align='center'><font color='#FFF426' face='Verdana'><B>" .. name, nil, self.x - (static and 20 or 0), self.y - 20, 100, 20, 1, 1, 0, false)
 				end
 
 				return self
@@ -125,7 +125,7 @@ do
 		end
 		
 		npcs[#npcs + 1] = self
-		npc_id = npc_id + 2
+		npc_id = npc_id + 1
 		return self
 	end
 
