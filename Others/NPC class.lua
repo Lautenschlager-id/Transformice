@@ -14,132 +14,128 @@ end
 local npc
 do
 	local npcs = { }
-
-	local getId = coroutine.wrap(function()
-		local id = 0
-		while true do
-			coroutine.yield(id)
-			id = id + 1
-		end
-	end)
 	
-	npc = function(data)
+	local npc_id = 0
+	
+	npc = function(name, collection, layer)
 		local action
-		local callback = ""
-		local currentState = ""
-		local id = getId()
-
-		local self = {
-			data = data,
-			x = 0,
-			y = 0,
-			w = 1,
-			h = 1
-		}
-	
-		self.setDimension = function(self, width, height)
-			self.w = width
-			self.h = height
-			
-			return self, true
+		local id = npc_id
+		local img
+		local state
+		
+		local deleteImage = function()
+			if img then
+				tfm.exec.removeImage(img)
+				img = nil
+			end
 		end
 		
+		local self = {
+			x = 0,
+			y = 0
+		}
+
 		self.getAction = function(self)
-			return action
+			if action then
+				return action
+			end
+			return nil, "Action is not set."
+		end
+	
+		self.getCollection = function(self)
+			return collection
 		end
 		
 		self.getId = function(self)
 			return id
 		end
-
-		self.removeCallback = function(self)
-			callback = ""
-			ui.removeTextArea(id)
-			return self, true
+		
+		self.getLayer = function(self)
+			return layer
 		end
 		
-		self.setAction = function(self, target, f)
-			local state = currentState
-			
-			if state ~= "" then
-				local current, lastImage = 0
-				
-				action = function()
-					if currentState ~= state then
-						self.stop(self)
-						return
-					end
-				
-					if lastImage then
-						tfm.exec.removeImage(lastImage)
-					end
-					
-					local i = current % #currentState + 1
-					if f then i = f(i) or i end
-					
-					lastImage = tfm.exec.addImage(currentState[i] .. ".png", target, self.x, self.y)				
-					
-					current = current + 1
-				end
-				
-				return self, true
-			end
-			return self, false
+		self.getName = function(self)
+			return name
 		end
-
-		self.setCallback = function(self, eventName)
-			if eventName ~= "" and callback ~= eventName then
-				callback = eventName
-			
-				ui.addTextArea(id, "<textformat leftmargin='1' rightmargin='1'><a href='event:" .. eventName .. "'>" .. string.rep('\n', self.h / 10), nil, self.x, self.y, self.w, self.h, 0, false)
+		
+		self.getState = function(self)
+			return state
+		end
+		
+		self.setAction = function(self, event, static)
+			if type(state) == "table" then
+				local oldState = state
 				
-				return self, true
+				local curr = 0
+				action = function(state)
+					local i = curr % #state + 1
+					if event then
+						i = event(i) or i
+					end
+					
+					curr = curr + 1
+					
+					deleteImage()
+					img = tfm.exec.addImage(state[i] .. ".png", layer, self.x, self.y)
+					ui.addTextArea(id + 1, "<p align='center'><font color='#FFF426' face='Verdana'><B>" .. name, nil, self.x - (static and 20 or 0), self.y - 20, 100, 20, 1, 1, 0, false)
+				end
+
+				return self
 			end
-			
-			return self, false
+			return self, "State not set or cannot have an action."
 		end
 		
 		self.setPosition = function(self, x, y)
 			self.x = x
 			self.y = y
 			
-			return self, true
+			return self
 		end
 		
-		self.setState = function(self, state)
-			if self.data[state] then
-				currentState = self.data[state]
-				return self, true
-			else
-				return self, false
-			end
-		end
-		
-		self.static = function(self, target)
-			if currentState ~= "" then
-				self.stop(self)
-				tfm.exec.addImage(currentState[1], target, self.x, self.y)
-				return self, true
-			end
+		self.setState = function(self, newState)
+			newState = collection[newState]
 			
-			return self, false
+			if newState and state ~= newState then
+				state = newState
+				self.stop(self)
+
+				return self
+			end
+			return self, "This state doesn't exist or is already running."
+		end
+		
+		self.static = function(self)
+			if state then
+				if #state == 1 then
+					self.setAction(self, function()
+						self.stop(self)
+					end, true)
+					
+					return self
+				end
+				return self, "State must be len:1"
+			end
+			return self, "State not set."
 		end
 		
 		self.stop = function(self)
-			action = nil			
-			return self, true
+			action = nil
+			deleteImage()
+			return self
 		end
 		
-		npcs[id] = self
+		npcs[#npcs + 1] = self
+		npc_id = npc_id + 2
 		return self
 	end
-	
+
 	system.looping(function()
 		for k, v in next, npcs do
 			local action = v:getAction()
 			if action then
-				action()
+				action(v:getState())
 			end
 		end
 	end, 10)
 end
+
