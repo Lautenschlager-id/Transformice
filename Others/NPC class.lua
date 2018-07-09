@@ -1,3 +1,8 @@
+local enumIds = {
+	callback = 100,
+	npc = 200
+}
+
 system.looping = function(f, tick)
 	local s = 1000 / tick
 	local t = { }
