@@ -148,6 +148,8 @@ do
 			if not playerName then
 				name = nil
 			end
+			
+			return self
 		end
 
 		self.setAction = function(self, event, static)
@@ -243,3 +245,4 @@ do
 		end
 	end, 10)
 end
+
