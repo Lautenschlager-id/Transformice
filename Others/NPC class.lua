@@ -59,7 +59,7 @@ do
 				return true
 			end
 
-			ui.addTextArea(id, "<textformat leftmargin='1' rightmargin='1'><a href='event:callback." .. eventName .. "'>" .. string.rep('\n', h / 10), nil, x - 5, y - 5, w + 5, h + 5, 1, 1, .1, false)
+			ui.addTextArea(id, "<textformat leftmargin='1' rightmargin='1'><a href='event:callback." .. eventName .. "'>" .. string.rep('\n', h / 10), nil, x - 5, y - 5, w + 5, h + 5, 1, 1, 0, false)
 
 			if not d_id then
 				callback_id = callback_id + 1
