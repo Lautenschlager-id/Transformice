@@ -1,12 +1,12 @@
 local enumIds = {
-	callback = 100,
-	npc = 200
+	npc = 100,
+	callback = 200,
 }
 
 system.looping = function(f, tick)
 	local s = 1000 / tick
 	local t = { }
-	
+
 	local fooTimer = function()
 		t[#t+1] = system.newTimer(f, 1000, true)
 	end
@@ -26,7 +26,11 @@ do
 			local action
 
 			local self = {
-				callback = eventName
+				callback = eventName,
+				x = x,
+				y = y,
+				w = w,
+				h = h
 			}
 
 			self.setAction = function(self, f)
@@ -46,9 +50,12 @@ do
 				return self, false
 			end
 
-			self.remove = function(self)
-				ui.removeTextArea(id)
-				this[eventName] = nil
+			self.remove = function(self, playerName)
+				ui.removeTextArea(id, playerName)
+
+				if not playerName then
+					this[eventName] = nil
+				end
 				return true
 			end
 
@@ -66,124 +73,139 @@ end
 local npc
 do
 	local npcs = { }
-	
+
 	local npc_id = enumIds.npc
-	
+
 	npc = function(name, collection, layer)
 		local action
 		local evt
 		local id = npc_id
 		local img
 		local state
-		
+
 		local self = {
 			x = 0,
 			y = 0,
 			w = 1,
 			h = 1
 		}
-		
-		self.deleteCallback = function(self)
+
+		self.deleteCallback = function(self, playerName)
 			if evt then
-				evt:remove()
+				evt:remove(playerName)
 				return self
 			end
 			return self, "Callback doesn't exist."
 		end
-	
-		self.destroy = function(self)
+
+		self.destroy = function(self, super)
 			if img then
 				tfm.exec.removeImage(img)
 				img = nil
 			end
+
+			if super then
+				ui.removeTextArea(id + 1)
+			end
 		end
-		
+
 		self.getAction = function(self)
 			if action then
 				return action
 			end
 			return nil, "Action is not set."
 		end
-	
+
 		self.getCollection = function(self)
 			return collection
 		end
-		
+
 		self.getId = function(self)
 			return id
 		end
-		
+
 		self.getLayer = function(self)
 			return layer
 		end
-		
+
 		self.getName = function(self)
 			return name
 		end
-		
+
 		self.getState = function(self)
 			return state
 		end
-		
+
 		self.removeAction = function(self)
 			action = nil
 			self.destroy(self)
 			return self
 		end
-		
+
+		self.removeName = function(self, playerName)
+			ui.removeTextArea(id + 1, playerName)
+
+			if not playerName then
+				name = nil
+			end
+		end
+
 		self.setAction = function(self, event, static)
 			if type(state) == "table" then
 				local oldState = state
-				
+
 				local curr = 0
 				action = function(state)
 					local i = curr % #state + 1
 					if event then
 						i = event(i) or i
 					end
-					
+
 					curr = curr + 1
-					
+
 					self.destroy(self)
 					img = tfm.exec.addImage(state[i] .. ".png", layer, self.x, self.y)
-					ui.addTextArea(id + 1, "<p align='center'><font color='#FFF426' face='Verdana'><B>" .. name, nil, self.x - (static and 20 or 0), self.y - 20, 100, 20, 1, 1, 0, false)
+
+					if name then
+						ui.addTextArea(id + 1, "<p align='center'><font color='#FFF426' face='Verdana'><B>" .. name, nil, self.x - (static and 20 or 0), self.y - 20, 100, 20, 1, 1, 0, false)
+					end
 				end
 
 				return self
 			end
 			return self, "State not set or cannot have an action."
 		end
-		
+
 		self.setCallback = function(self, eventName, event)
 			if not evt then
 				evt = callback(eventName, self.x, self.y, self.w, self.h, id)
-				
+
 				if event then
 					evt:setAction(event)
 				end
-			
+
 				return self
 			end
 			return self, "Callback already exists."
 		end
-		
+
 		self.setDimension = function(self, w, h)
 			self.w = w
 			self.h = h
-			
+
 			return self
 		end
-		
+
 		self.setPosition = function(self, x, y)
 			self.x = x
 			self.y = y
-			
+
 			return self
 		end
-		
+
 		self.setState = function(self, newState)
 			newState = collection[newState]
-			
+
 			if newState and state ~= newState then
 				state = newState
 				self.removeAction(self)
@@ -192,14 +214,14 @@ do
 			end
 			return self, "This state doesn't exist or is already running."
 		end
-		
+
 		self.static = function(self)
 			if state then
 				if #state == 1 then
 					self.setAction(self, function()
 						self.removeAction(self)
 					end, true)
-					
+
 					return self
 				end
 				return self, "State must be len:1"
