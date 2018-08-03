@@ -58,7 +58,7 @@ local translation = setmetatable({
 			[5] = "Pineapple",
 			[6] = "Vegetarian",
 			burned = "Your pizza burned! :( You careless!",
-			deliver = "Press space to deliver the pizza to the costumer!"
+			deliver = "Press space to deliver the pizza to the customer!"
 		},
 		ui = {
 			order = "Order",
