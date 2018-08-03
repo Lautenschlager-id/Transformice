@@ -3449,12 +3449,25 @@ local animal = function(this, playerName, id)
 	end
 end
 
+local closeGuide = function(playerName)
+	tfm.exec.removeImage(playerFlashData[playerName].help)
+	ui.removeTextArea(0, playerName)
+	system.bindMouse(playerName, false)
+	playerFlashData[playerName].help = false
+end
+
 local guide = function(this, playerName)
 	if not allowCallback(this, playerName, 50) then return end
 
 	ui.addTextArea(0, "", playerName, -1500, -1500, 5000, 5000, 1, 1, .6, false)
 	playerFlashData[playerName].help = tfm.exec.addImage("164dd423693.png", "&3", 166, 50, playerName)
 	system.bindMouse(playerName, true)
+	
+	system.newTimer(function()
+		if playerFlashData[playerName].help then
+			closeGuide(playerName)
+		end
+	end, 6000, false)
 end
 
 local loadBackground = function(playerName)
@@ -3651,10 +3664,7 @@ eventMouse = function(playerName, x, y)
 	if tfm.get.room.playerList[playerName].isDead then return end
 
 	if playerFlashData[playerName].help then
-		tfm.exec.removeImage(playerFlashData[playerName].help)
-		ui.removeTextArea(0, playerName)
-		system.bindMouse(playerName, false)
-		playerFlashData[playerName].help = false
+		closeGuide(playerName)
 		return
 	end
 
