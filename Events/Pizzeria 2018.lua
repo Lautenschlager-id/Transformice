@@ -397,7 +397,8 @@ local translation = setmetatable({
 		},
 		smasher = {
 			smash = "捣碎",
-			not_quantity = "%s 可以透过捣碎<B>%d</B>个 %s 获得。"
+			not_quantity = "%s 可以透过捣碎<B>%d</B>个 %s 获得。",
+			get = "你得到一个 <B>%s</B>。 你可以在<B>%s</B>裡找到它。"
 		},
 		storage = {
 			empty_f = "你的冰箱空空如也! :(",
@@ -425,7 +426,7 @@ local translation = setmetatable({
 		animal_ingred = "你得到了肉类/动物制品... <B>%s</B>!",
 		oven_assemble = "当烤箱正在使用的时候, 你不可以制作另外一个披萨!",
 		insufficient_cash = "你没有足够的金钱进行这操作!",
-		welcome = "我~的~天! 主厨 Remy 聘请了你來制作史上最美味的披萨! 请准备去善用这里所有的资源。"
+		welcome = "我~的~天! 主厨 Remy 聘请了你來制作史上最美味的披萨! 请准备去善用这里所有的资源。\n\n在收割了足够数量的材料之后, 请到擀面杖那里制作披萨。\n\n根据点菜单上列出的材料以及时间烤制披萨就可以做出完美的披萨!"
 	},
 	ee = {
 		event_concluded = "Sa lõpetasid sündmuse! (╯°□°）╯︵ ┻━┻\n\nMaagia <B>%s</B>poolt, erilised efektid <B>%s</B>poolt, ja <B>Unofficial Translators Team</B>heatahtlikus.\n<font size='9'>Erilised tänud %s, ...</font>",
@@ -3024,7 +3025,7 @@ local garbage = function(playerName, update)
 	end
 	playerFlashData[playerName].garbageImgId = tfm.exec.addImage(o.icon .. ".png", "&1", 281 + o.axis[1], 166 + o.axis[2], playerName)
 
-	ui.addTextArea(2, "<textformat tabstops='[0,0,65,75,140]'><font size='16'>" .. translation().ingredient[enum_ingredients[cat]][o.id] .. "</font> x" .. stored[2], playerName, 366, 166, 165, 70, 0x142A2D, 0x142A2D, 1, true)
+	ui.addTextArea(2, "<textformat tabstops='[0,0,65,75,140]'><font size='16'>" .. translation().ingredient[enum_ingredients[cat]][o.id] .. "</font> x" .. stored[2] .. "\n\n<B>" .. translation().ui[(o.inCabinet and "cabinet" or "freezer")], playerName, 366, 166, 165, 70, 0x142A2D, 0x142A2D, 1, true)
 
 	if not update then
 		ui.button(1, "<VP>" .. translation().garbage, "trash", playerName, 295, 261, 100, 20)
