@@ -2893,7 +2893,7 @@ local picker_format = "<textformat tabstops='[10]' leftmargin='1' rightmargin='1
 --[[ Interface ]]--
 local market = function(playerName, update)
 	if not update then
-		ui.menu("<p align='center'><font size='20'><a href='event:button.market.previous'><B>←</B></a>     " .. translation().ui.market .. "     <a href='event:button.market.next'><B>→</B></a>\n", playerName, 265, 112, 270, 175)
+		ui.menu("<p align='center'><font size='20'><a href='event:button.market.previous'><B><J>«</J></B></a>     " .. translation().ui.market .. "     <a href='event:button.market.next'><B><J>»</J></B></a>\n", playerName, 265, 112, 270, 175)
 	end
 
 	local o = ingredient.plant[playerFlashData[playerName].marketIndex]
@@ -2984,7 +2984,7 @@ local storage = function(type, playerName, update)
 	local obj = (type == 1 and "freezer" or "cabinet")
 
 	if not update then
-		ui.menu("<p align='center'><font size='20'><a href='event:button.storage.previous." .. type .. "'><B>←</B></a>     " .. translation().ui[obj] .. "     <a href='event:button.storage.next." .. type .. "'><B>→</B></a>\n<font size='10'>( " .. #playerData[playerName].storage[type] .. " / " .. limits[obj] .. " )", playerName, 265, 120, 270, 175)
+		ui.menu("<p align='center'><font size='20'><a href='event:button.storage.previous." .. type .. "'><B><J>«</J></B></a>     " .. translation().ui[obj] .. "     <a href='event:button.storage.next." .. type .. "'><B><J>»</J></B></a>\n<font size='10'>( " .. #playerData[playerName].storage[type] .. " / " .. limits[obj] .. " )", playerName, 265, 120, 270, 175)
 	end
 
 	local stored = playerData[playerName].storage[type][playerFlashData[playerName].storageIndex]
@@ -3009,7 +3009,7 @@ end
 
 local garbage = function(playerName, update)
 	if not update then
-		ui.menu("<p align='center'><font size='20'><a href='event:button.garbage.previous'><B>←</B></a>     " .. translation().ui.garbage .. "     <a href='event:button.garbage.next'><B>→</B></a>\n", playerName, 265, 112, 270, 175)
+		ui.menu("<p align='center'><font size='20'><a href='event:button.garbage.previous'><B><J>«</J></B></a>     " .. translation().ui.garbage .. "     <a href='event:button.garbage.next'><B><J>»</J></B></a>\n", playerName, 265, 112, 270, 175)
 	end
 
 	local stored = playerFlashData[playerName].concatenatedStorage[playerFlashData[playerName].garbageIndex]
