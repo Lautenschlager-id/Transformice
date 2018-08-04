@@ -3,8 +3,8 @@ math.randomseed(os.time())
 local module = { 
 	name = "pizzeria",
 	title = "titre_pizza",
-	time = 2.5 * 60,
-	map = '<C><P H="800" L="2000" /><Z><S><S P="0,0,0.3,0.2,37,0,0,0" L="20" X="759" Y="524" T="12" lua="0" H="448" /><S L="776" X="388" H="20" Y="349" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="104" H="20" X="938" Y="349" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="13" X="995" H="686" Y="343" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="1100" X="550" H="10" Y="125" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="240" H="20" X="870" Y="544" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="633" H="20" X="317" Y="544" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="1000" X="500" H="30" Y="786" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="10" X="1001" H="10" Y="778" T="12" P="0,0,0.3,0.2,35,0,0,0" /><S L="27" H="17" X="1618" Y="436" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="1000" H="25" X="1500" Y="788" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="340" X="1790" H="11" Y="770" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="20" H="10" X="1615" Y="774" T="12" P="0,0,0.3,0.2,-35,0,0,0" /><S L="10" H="290" X="1636" Y="560" T="12" P="0,0,0.7,0.2,0,0,0,0" /><S L="18" X="1951" H="355" Y="587" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="10" H="290" X="1645" Y="560" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S P="0,0,0.3,0.2,-56,0,0,0" L="16" X="1893" c="1" Y="369" T="12" H="220" /><S L="15" H="22" X="1610" Y="431" T="12" P="0,0,2.5,0.2,58,0,0,0" /><S P="0,0,0.3,0.2,58,0,0,0" L="15" X="1655" c="1" Y="403" T="12" H="90" /><S H="87" L="15" X="1772" c="1" Y="330" T="12" P="0,0,0.3,0.2,58,0,0,0" /><S L="225" H="27" X="480" Y="759" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="20" X="594" H="10" Y="765" T="13" P="0,0,0.3,0.2,0,0,0,0" /><S L="20" H="10" X="372" Y="765" T="13" P="0,0,0.3,0.2,0,0,0,0" /><S L="10" X="0" H="800" Y="400" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="170" X="1892" H="12" Y="658" T="12" P="0,0,0.3,0.2,-49,0,0,0" /><S L="215" H="12" X="1757" Y="596" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="10" H="10" X="1836" Y="723" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="15" H="12" X="624" Y="703" T="12" P="0,0,0.7,0.2,0,0,0,0" /><S L="560" H="30" X="317" Y="519" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="110" H="40" X="200" Y="752" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="20" H="10" X="123" Y="765" T="13" P="0,0,0.3,0.2,0,0,0,0" /><S L="20" H="10" X="278" Y="765" T="13" P="0,0,0.3,0.2,0,0,0,0" /><S L="25" H="105" X="1618" Y="725" T="9" m="" P="0,0,,,,0,0,0" /><S L="25" X="1618" H="50" Y="497" T="9" m="" P="0,0,,,,0,0,0" /></S><D><DS Y="730" X="400" /></D><O /></Z></C>'
+	time = 2.75 * 60,
+	map = '<C><P L="2000" H="800" /><Z><S><S L="20" X="759" H="448" Y="524" T="12" lua="0" P="0,0,0.3,0.2,37,0,0,0" /><S L="776" H="20" X="388" Y="349" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="104" X="938" H="20" Y="349" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="13" H="686" X="995" Y="343" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="1100" H="10" X="550" Y="125" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="240" X="870" H="20" Y="544" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="633" X="317" H="20" Y="544" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="1000" H="30" X="500" Y="786" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="10" H="10" X="1001" Y="778" T="12" P="0,0,0.3,0.2,35,0,0,0" /><S L="27" X="1618" H="17" Y="436" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="1000" X="1500" H="25" Y="788" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="340" H="11" X="1790" Y="770" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="20" X="1615" H="10" Y="774" T="12" P="0,0,0.3,0.2,-35,0,0,0" /><S L="10" X="1636" H="290" Y="560" T="12" P="0,0,0.7,0.2,0,0,0,0" /><S L="18" H="355" X="1951" Y="587" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="10" X="1645" H="290" Y="560" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S H="220" L="16" X="1893" c="1" Y="369" T="12" P="0,0,0.3,0.2,-56,0,0,0" /><S L="15" X="1610" H="22" Y="431" T="12" P="0,0,2.5,0.2,58,0,0,0" /><S H="90" L="15" X="1655" c="1" Y="403" T="12" P="0,0,0.3,0.2,58,0,0,0" /><S P="0,0,0.3,0.2,58,0,0,0" L="15" H="87" c="1" Y="330" T="12" X="1772" /><S L="225" X="480" H="27" Y="759" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="20" H="10" X="594" Y="765" T="13" P="0,0,0.3,0.2,0,0,0,0" /><S L="20" X="372" H="10" Y="765" T="13" P="0,0,0.3,0.2,0,0,0,0" /><S L="10" H="800" X="0" Y="400" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="170" H="12" X="1892" Y="658" T="12" P="0,0,0.3,0.2,-49,0,0,0" /><S L="215" X="1757" H="12" Y="596" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="10" X="1836" H="10" Y="723" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="15" X="624" H="12" Y="703" T="12" P="0,0,0.7,0.2,0,0,0,0" /><S L="560" X="317" H="30" Y="519" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="110" X="200" H="40" Y="752" T="12" P="0,0,0.3,0.2,0,0,0,0" /><S L="20" X="123" H="10" Y="765" T="13" P="0,0,0.3,0.2,0,0,0,0" /><S L="20" X="278" H="10" Y="765" T="13" P="0,0,0.3,0.2,0,0,0,0" /><S P="0,0,,,,0,0,0" L="25" X="1618" Y="725" T="9" m="" H="105" /><S P="0,0,,,,0,0,0" L="25" H="50" Y="497" T="9" m="" X="1618" /><S L="25" X="1972" H="300" Y="607" T="9" m="" P="0,0,,,,0,0,0" /></S><D><DS Y="730" X="400" /></D><O /></Z></C>'
 }
 
 --[[ Development ]]--
@@ -88,7 +88,8 @@ local translation = setmetatable({
 		},
 		smasher = {
 			smash = "Smash",
-			not_quantity = "%s can be obtained by smashing <B>%d</B> %s." -- Tomato Sauce can be obtained by smashing 10 tomatoes
+			not_quantity = "%s can be obtained by smashing <B>%d</B> %s.", -- Tomato Sauce can be obtained by smashing 10 tomatoes
+			get = "You got a <B>%s</B>. Find it in your <B>%s</B>."
 		},
 		storage = {
 			empty_f = "Your fridge is empty! :(",
@@ -106,7 +107,7 @@ local translation = setmetatable({
 				[5] = "Oh, forgot the <B>tomato sauce</B>!" -- Not sweet
 			},
 			no_ingredients = "You do not have ingredients to make a pizza. Plant the necessary ingredients according to the order.",
-			stop = "Press spacebar once you conclude the pizza assembling!"
+			stop = "Press spacebar once you conclude the pizza assembling!",
 		},
 		garbage = "Trash",
 		go_oven = "Take the pizza to the oven.",
@@ -116,7 +117,7 @@ local translation = setmetatable({
 		animal_ingred = "You got the aliment... <B>%s</B>!",
 		oven_assemble = "You can not make another pizza while you use the oven!",
 		insufficient_cash = "You do not have enough money to do it!",
-		welcome = "Mamma mia! Chef Remy hired you to make the most delicious pizzas ever! Be ready and use all the resources in the place."
+		welcome = "Mamma mia! Chef Remy hired you to make the most delicious pizzas ever! Be ready and use all the resources in the place.\n\nAfter harvesting the requested ingredients in their respective quantities, go to the dough roller and assemble the pizza.\n\nFollow the cooking time and ingredient quantities for a perfect pizza!"
 	},
 
 	ar = {
@@ -293,7 +294,8 @@ local translation = setmetatable({
 		},
 		smasher = {
 			smash = "Triturar",
-			not_quantity = "%s pode ser obtido ao triturar <B>%d</B> %s."
+			not_quantity = "%s pode ser obtido ao triturar <B>%d</B> %s.",
+			get = "Você conseguiu um <B>%s</B>. Encontre-o no <B>%s</B>."
 		},
 		storage = {
 			empty_f = "Seu congelador está vazio! :(",
@@ -306,7 +308,7 @@ local translation = setmetatable({
 			req = {
 				[1] = "Encontre <B>água</B> para fazer a massa de pizza!",
 				[2] = "Um pouco de <B>azeite</B> também é necessário para fazer a massa de pizza!",
-				[3] = "Uma pitada de sal <B>%s</B> para dar sabor à pizza!",
+				[3] = "Uma pitada de <B>%s</B> para dar sabor à pizza!",
 				[4] = "Agora um pouco de <B>farinha</B>... mmm, vai ficar perfeita!",
 				[5] = "Não se esqueça do <B>molho de tomate</B>!"
 			},
@@ -321,7 +323,7 @@ local translation = setmetatable({
 		animal_ingred = "Você obteve o alimento... <B>%s</B>!",
 		oven_assemble = "Você não pode fazer outra pizza enquanto estiver usando o forno!",
 		insufficient_cash = "Você não tem dinheiro suficiente para isso!",
-		welcome = "Mamma mia! O Chef Remy contratou você para fazer as pizzas mais deliciosas do mundo! Esteja atento e use todos os recursos no local!"
+		welcome = "Mamma mia! O Chef Remy contratou você para fazer as pizzas mais deliciosas do mundo! Esteja atento e use todos os recursos no local!\n\nDepois de colher os ingredientes pedidos em suas respectivas quantidades, vá para o rolo de massa e monte sua pizza.\n\nSiga o ponto da pizza e a quantidade dos ingredientes para uma pizza perfeita!"
 	},
 	cn = {
 		event_concluded = "你已经完成了活动! (╯°□°）╯︵ ┻━┻\n\n由<B>%s</B>创造魔法, <B>%s</B>制造特别效果,以及<B>非官方的翻译团队</B>亲切提供翻译.\n<font size='9'>特别感谢 %s, ...</font>",
@@ -701,7 +703,8 @@ local translation = setmetatable({
 		},
 		smasher = {
 			smash = "Concasseur",
-			not_quantity = "%s peut être obtenu en concassant <B>%d</B> %s."
+			not_quantity = "%s peut être obtenu en concassant <B>%d</B> %s.",
+			get = "Tu as obtenu l'ingrédient suivant : <B>%s</B>. Retrouve le dans ton <B>%s</B>."
 		},
 		storage = {
 			empty_f = "Ton congélateur est vide! :(",
@@ -729,7 +732,7 @@ local translation = setmetatable({
 		animal_ingred = "Tu as obtenu l'aliment... <B>%s</B>!",
 		oven_assemble = "Tu ne peux pas faire une autre pizza tant que vous utilisez le four!",
 		insufficient_cash = "Vous n'avez pas assez d'argent pour le faire!",
-		welcome = "Mamma mia! Le chef Remy t'a embauché pour que tu prépares les meilleures pizza du monde! Sois prêt et utilise toutes les ressources disponibles."
+		welcome = "Mamma mia! Le chef Remy t'a embauché pour que tu prépares les meilleures pizza du monde! Sois prêt et utilise toutes les ressources disponibles.\n\nAprès avoir récolté les ingrédients nécessaires en quantité suffisante, rend toi au rouleau à pâtisserie et assemble la pizza.\n\nSuis le temps de cuisson et la quantité d'ingrédients pour obtenir une pizza parfaite!"
 	},
 	he = {
 		event_concluded = "השלמת את האיוונט! (╯°□°）╯︵ ┻━┻\n\nקסם על ידי <B>%s</B>, אפקטים מיוחדים על ידי<B>%s</B>, והרצון הטוב של<B>קבוצת המתרגמים הלא רשמית</B>.\n<font size='9'>תודה מיוחדת ל%s, ...</font>",
@@ -803,7 +806,8 @@ local translation = setmetatable({
 		},
 		smasher = {
 			smash = "לרסק",
-			not_quantity = "%s מושג על ידי ריסוק <B>%d</B> %s."
+			not_quantity = "%s מושג על ידי ריסוק <B>%d</B> %s.",
+			get = "קיבלת <B>%s</B>. מצא את זה ב<B>%s</B>."
 		},
 		storage = {
 			empty_f = "המקפיא שלך ריק! :(",
@@ -831,7 +835,7 @@ local translation = setmetatable({
 		animal_ingred = "קיבלת את המזון... <B>%s</B>!",
 		oven_assemble = "אתה לא יכול להכין עוד פיצה בזמן שהתנור בשימוש!",
 		insufficient_cash = "אין לך מספיק כסף לעשות את זה!",
-		welcome = "מאמה מיה! צ'ף רמי העסיק אותך על מנת להכין את הפיצות הכי טעימות! היה מוכן והשתמש בכל המשאבים באזור."
+		welcome = "מאמה מיה! צ'ף רמי העסיק אותך על מנת להכין את הפיצות הכי טעימות! היה מוכן והשתמש בכל המשאבים באזור.\n\nלאחר השתלת המרכיבים המבוקשים בכמויות המכובדות להן, לך לרולר של הבצק והרכב את הפיצה.\n\nעקוב אחרי זמן הבישול וכמות המרכיבים בשביל פיצה מושלמת!"
 	},
 	hr = {
 		event_concluded = "Završio si event! (╯°□°）╯︵ ┻━┻\n\nMagic by <B>%s</B>, specijalni efekti od <B>%s</B>, i dobar <B>Unofficial Translators Team</B>.\n<font size='9'>Specijalno hvala za %s, ...</font>",
@@ -905,7 +909,8 @@ local translation = setmetatable({
 		},
 		smasher = {
 			smash = "Smrviti",
-			not_quantity = "%s možeš dobiti mrvljenjem <B>%d</B> %s."
+			not_quantity = "%s možeš dobiti mrvljenjem <B>%d</B> %s.",
+			get = "Dobio si  <B>%s</B>. Pronađi to u svom <B>%s</B>."
 		},
 		storage = {
 			empty_f = "Tvoj frižider je prazan! :(",
@@ -933,7 +938,7 @@ local translation = setmetatable({
 		animal_ingred = "Dobio si aliment... <B>%s</B>!",
 		oven_assemble = "Ne možeš napraviti još jednu picu dok koristiš pećnicu!",
 		insufficient_cash = "Nemaš dovoljno para da to uradiš!",
-		welcome = "Mamma mia! Šef Remy te zaposlio da napraviš najukusniju picu ikada! Budi spreman da uzmeš šta želiš od stvari iz ovog mjesta.",
+		welcome = "Mamma mia! Šef Remy te zaposlio da napraviš najukusniju picu ikada! Budi spreman da uzmeš šta želiš od stvari iz ovog mjesta.\n\nPoslije berbe traženog sastojka u datim količinama, idi do valjka za tjesto i napravi picu.\n\nPrati vrijeme pravljenja i količine sastojaka za savršenu picu!",
 	},
 	hu = {
 		event_concluded = "Teljesítetted az eventet! (╯°□°）╯︵ ┻━┻\n\nVarázslat <B>%s</B> által, különleges effektek <B>%s</B> által, és a <B>Nem Hivatalos Fordítók Csapata</B> jóakarata által.\n<font size='9'>Különleges köszönet ezeknek az egereknek: %s, ...</font>",
@@ -1307,7 +1312,8 @@ local translation = setmetatable({
 		},
 		smasher = {
 			smash = "Ubij",
-			not_quantity = "%s może zostać odkryty poprzez ubijanie <B>%d</B> %s."
+			not_quantity = "%s może zostać odkryty poprzez ubijanie <B>%d</B> %s.",
+			get = "Otrzymałeś/-aś <B>%s</B>. Znajdziesz to w <B>%s</B>."
 		},
 		storage = {
 			empty_f = "Twoja lodówka jest pusta! :(",
@@ -1335,7 +1341,7 @@ local translation = setmetatable({
 		animal_ingred = "Otrzymałeś/-aś pokarm... <B>%s</B>!",
 		oven_assemble = "Możesz tylko piec jedną pizzę w jednym momencie!",
 		insufficient_cash = "Nie masz wystarczającej ilości pieniędzy, aby to zrobić!",
-		welcome = "Mamma mia! Szef Remy zatrudnił ciebie abyś stworzył/-a najpyszniejszą pizzę jaka kiedykolwiek powstała! Bądź gotowy/-a i użyj wszystkich surowców, które znajdują się na tej mapie."
+		welcome = "Mamma mia! Szef Remy zatrudnił ciebie abyś stworzył/-a najpyszniejszą pizzę jaka kiedykolwiek powstała! Bądź gotowy/-a i użyj wszystkich surowców, które znajdują się na tej mapie.\n\nPo tym jak zbierzesz wymagane składniki w odpowiedniej ilości, podejdź po wałek do ciasta i przygotuj pizzę.\n\nPamiętaj o przestrzeganiu czasu pieczenia i  ilości składników, aby zrobić idealną pizzę!"
 	},
 	ro = {
 		event_concluded = "Ai completat evenimentul! (╯°□°）╯︵ ┻━┻\n\nMagia de <B>%s</B>, efectele speciale de <B>%s</B>, și bunăvoința <B>Neoficial Echipa de Traducători</B>.\n<font size='9'>Mulțumiri speciale lui %s, ...</font>",
@@ -1405,7 +1411,8 @@ local translation = setmetatable({
 		},
 		smasher = {
 			smash = "Strivește",
-			not_quantity = "%s poate fi obținut prin strivirea <B>%d</B> %s."
+			not_quantity = "%s poate fi obținut prin strivirea <B>%d</B> %s.",
+			get = "Ai primit <B>%s</B>. O poți gasi în <B>%s</B> tău."
 		},
 		storage = {
 			empty_f = "Frigiderul tău e gol! :(",
@@ -1431,7 +1438,7 @@ local translation = setmetatable({
 		animal_ingred = "Ai primit un aliment... <B>%s</B>!",
 		oven_assemble = "Nu poți face o altă pizza în timp ce alta este în cuptor!",
 		insufficient_cash = "Nu ai suficenți bani pentru asta!",
-		welcome = "Mamma mia! Chef Remy te-a angajat ca să faci cea mai delicoasă pizza din lume! Fii pregătit și folosește toate resursele."
+		welcome = "Mamma mia! Chef Remy te-a angajat ca să faci cea mai delicoasă pizza din lume! Fii pregătit și folosește toate resursele.\n\nApoi recoltează  incredientele necesare în cantitățile potrivite, du-te la sucitor și asamblează pizza.\n\nFii atent la timpul de coacere și cantitățile incredientelor pentru o pizza perfectă!"
 	},
 	tr = {
 		event_concluded = "Etkinliği tamamladınız! (╯°□°）╯︵ ┻━┻\n\nSihir, <B>%s</B> tarafından, özel efektler <B>%s</B> tarafından, ve <B>resmi olmayan Çeviri Ekibi</B>'nin yardımlarıyla yapılmıştır.\n<font size='9'>Teşekkürler: %s, ...</font>",
@@ -1918,9 +1925,7 @@ local enumIds = {
 
 local bot = {
 	Chef = {
-		sit = { "164da72ef00" },
-		angry = { "164da70ffe6", "164da7119d5", "164da713247", "164da714a3a", "164da71620e", "164da7179e5", "164da7191a8", "164da71a97c" },
-		clap = { "164da7277ef", "164da728fcb", "164da72a7b1", "164da72bf69", "164da72d73f" },
+		sit = { "164da72ef00" }
 	},
 	-- 1, 2, 7, 8, 9
 	{
@@ -2005,7 +2010,7 @@ local ingredient = {
 			-- banana
 			icon = "1643d9aced6",
 			price = 15,
-			time = 60 * 3,
+			time = 60 * 2.5,
 			plant = { "16432a43a0d", "16432a456e0", "16432a51b95", "16432a53860", "16432a557a1" },
 			axis = { 9, 4 },
 			inCabinet = true,
@@ -2034,18 +2039,18 @@ local ingredient = {
 			-- broccoli
 			icon = "16471174217",
 			price = 8,
-			time = 60 * 2.7,
+			time = 60 * 2.4,
 			plant = { "164377ded45", "164377e0e30", "164377e2b45", "164377e483b" },
 			axis = { 6, 7 },
 			quantity = 2
 		},
 		[5] = {
 			-- cocoa
-			icon = "1643d9b08d5",
+			icon = "16505e5069d",
 			price = 6,
 			time = 60 * 1.5,
 			plant = { "164377e6554", "164377e8275", "164377e9f79", "164377ebc7e", "164377ed97c" },
-			axis = { 19, 4 },
+			axis = { 22, 10 },
 			inCabinet = true,
 			to = 2, -- others
 			smashQuantity = 4,
@@ -2094,7 +2099,7 @@ local ingredient = {
 			-- pineapple
 			icon = "1643d9b7ecb",
 			price = 8,
-			time = 60 * 2.5,
+			time = 60 * 2.2,
 			plant = { "164196bdbb1", "164196bf8cb", "164199bd1e9", "164199beed8", "164199c0bc5" },
 			axis = { 13, 4 },
 			inCabinet = true,
@@ -2127,19 +2132,19 @@ local ingredient = {
 		[1] = {
 			-- bacon
 			icon = "16456ee6607",
-			price = 4,
+			price = 2,
 			axis = { 20, 12 }
 		},
 		[2] = {
 			-- chicken
 			icon = "164577f05ee",
-			price = 5,
+			price = 3,
 			axis = { 1, 8 }
 		},
 		[3] = {
 			-- pepperoni
 			icon = "1648f274f9d",
-			price = 4,
+			price = 2,
 			axis = { 15, 15 }
 		}
 	},
@@ -2147,13 +2152,13 @@ local ingredient = {
 		[1] = {
 			-- cheese
 			icon = "164ad8f92ed",
-			price = 4,
+			price = 2,
 			axis = { 13, 15 }
 		},
 		[2] = { 
 			-- chocolate
 			icon = "164aeae6d11",
-			price = 5,
+			price = 3,
 			axis = { 10, 14 }
 		},
 		[3] = {
@@ -2311,7 +2316,7 @@ local possibilityRates = {
 local limits = {
 	freezer = 6,
 	cabinet = 4,
-	pizzaCycle = 6 -- seconds
+	pizzaCycle = 4 -- seconds
 }
 
 local smasherEnums = {
@@ -2920,7 +2925,7 @@ local order = function(playerName)
 		-- Some pizzas have <4 ingredients
 		if info then
 			local x, y = 310 + ((i % 2) * 85), 202 + ((i > 1 and 1 or 0) * 85)
-			ui.addTextArea(i + 1, "<p align='right'>\n\n\n\nx" .. info.q, playerName, x, y, 70, 70, 0x142A2D, 0x142A2D, 1, true)
+			ui.addTextArea(i + 1, "x" .. info.q, playerName, x, y, 70, 70, 0x142A2D, 0x142A2D, 1, true)
 
 			playerFlashData[playerName].order.images[i + 1] = tfm.exec.addImage(info.i.icon .. ".png", "&1", x + info.i.axis[1], y + info.i.axis[2], playerName)
 		end
@@ -2965,7 +2970,7 @@ local smasher = function(playerName)
 		
 		local id = i * 2
 		playerFlashData[playerName].smasherImgIds[id - 1] = tfm.exec.addImage(o.icon .. ".png", "&1", x + 5, 180 + o.axis[2], playerName)
-		playerFlashData[playerName].smasherImgIds[id] = tfm.exec.addImage(to.icon .. ".png", "&1", x + 70 - to.axis[1] + (i == 1 and -35 or i == 2 and 8 or -4), 180 + to.axis[2] + (i == 1 and 10 or 0), playerName)
+		playerFlashData[playerName].smasherImgIds[id] = tfm.exec.addImage(to.icon .. ".png", "&1", x + 70 - to.axis[1] + (i == 1 and -38 or i == 2 and 8 or -4), 180 + to.axis[2] + (i == 1 and 10 or 0), playerName)
 	end
 
 	ui.button(1, translation().ui.close, "close.smasher", playerName, 284, 265, 235, 20)
@@ -3673,8 +3678,9 @@ eventMouse = function(playerName, x, y)
 	end
 
 	if playerFlashData[playerName].assembling.selected > 0 then
-		x, y = x - 30, y - 30 -- image ~axis
-		if math.pythag(x, y, 650, 425, 120) then
+		if math.pythag(x, y, 655, 435, 120) then
+			x, y = x - 30, y - 30 -- image ~axis
+
 			local stored = playerFlashData[playerName].concatenatedStorage[playerFlashData[playerName].assembling.selected]
 
 			local cat, id = parseId(stored[1])
@@ -4289,6 +4295,9 @@ eventTextAreaCallback = function(id, playerName, cbk, ignore)
 				else
 					removeIngredient(playerName, storage, key, o.smashQuantity)
 					storeIngredient(playerName, to, 1)
+					
+					tfm.exec.chatMessage(string.format(translation().smasher.get, translation().ingredient.others[to.id], translation().ui[storageName]), playerName)
+					
 					return eventTextAreaCallback(nil, playerName, "button.close.smasher", true)
 				end
 			end
