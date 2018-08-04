@@ -1012,7 +1012,8 @@ local translation = setmetatable({
 		},
 		smasher = {
 			smash = "Összenyom",
-			not_quantity = "%s hozzávalót úgy szerezhetsz, hogy összenyomsz <B>%d</B> darab %s növényt."
+			not_quantity = "%s hozzávalót úgy szerezhetsz, hogy összenyomsz <B>%d</B> darab %s növényt.",
+			get = "<B>%s</B> hozzávalót szeresztél. Az alapanyagot keresd a <B>%s</B>ben."
 		},
 		storage = {
 			empty_f = "Üres a hűtő! :(",
@@ -1040,7 +1041,7 @@ local translation = setmetatable({
 		animal_ingred = "Megszerezted a következő táplálékot: <B>%s</B>!",
 		oven_assemble = "Nem tudsz másik pizzát készíteni, amíg a kemence használatban van!",
 		insufficient_cash = "Nincs elég pénzed ehhez!",
-		welcome = "Mamma mia! Remy Séf felvett téged a legfinomabb pizzák elkészítésére! Légy figyelmes és minden forrást használj fel a helyen."
+		welcome = "Mamma mia! Remy Séf felvett téged a legfinomabb pizzák elkészítésére! Légy figyelmes és minden forrást használj fel a helyen.\n\nMiután learattad a megfelelő mennyiségű hozzávalókat amiket a megrendelő kért, menj a sodrófához és rakd össze a pizzát.\n\nTartsd be a sütési időt és a hozzávaló mennyiségeket, hogy tökéletes pizzát készíts!"
 	},
 	it = {
 		event_concluded = "Hai completato l'evento! (╯°□°）╯︵ ┻━┻\n\nMagia da <B>%s</B>, effetti speciali da <B>%s</B>, e buona volontà del <B>Team Dei Traduttori Non-Ufficiale</B>.\n<font size='9'>Ringraziamenti speciali vanno a %s, ...</font>",
@@ -1114,7 +1115,8 @@ local translation = setmetatable({
 		},
 		smasher = {
 			smash = "Trita",
-			not_quantity = "%s può essere ottenuto tritando <B>%d</B> %s."
+			not_quantity = "%s può essere ottenuto tritando <B>%d</B> %s.",
+			get = "Hai ottenuto: <B>%s</B>. Trovalo nel tuo <B>%s</B>."
 		},
 		storage = {
 			empty_f = "Il tuo frigo è vuoto! :(",
@@ -1142,7 +1144,7 @@ local translation = setmetatable({
 		animal_ingred = "Hai ottenuto l'alimento... <B>%s</B>!",
 		oven_assemble = "Non puoi fare un'altra pizza mentre usi il forno!",
 		insufficient_cash = "Non hai abbastanza soldi per farlo!",
-		welcome = "Mamma mia! Lo Chef Remy ti ha ingaggiato per preparare le pizze più deliziose di sempre! Preparati e usa tutte le risorse del posto."
+		welcome = "Mamma mia! Lo Chef Remy ti ha ingaggiato per preparare le pizze più deliziose di sempre! Preparati e usa tutte le risorse del posto.\n\nDopo aver raccolto gli ingredienti richiesti nelle loro rispettive quantità, vai a rullare la pasta e componi la pizza.\n\nSegui il tempo di cottura e la quantità degli ingredienti per una pizza perfetta!"
 	},
 	lv = {
 		event_concluded = "Jūs pabeidzāt šo notikumu! (╯°□°）╯︵ ┻━┻\n\nMaģija pateicoties <B>%s</B>, specefekti <B>%s</B>, un <B>Neoficiālās Tulkotāju Komamdas</B> labvēlība.\n<font size='9'>Īpašs paldies %s, ...</font>",
