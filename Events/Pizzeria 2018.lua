@@ -107,7 +107,7 @@ local translation = setmetatable({
 				[5] = "Oh, forgot the <B>tomato sauce</B>!" -- Not sweet
 			},
 			no_ingredients = "You do not have ingredients to make a pizza. Plant the necessary ingredients according to the order.",
-			stop = "Press spacebar once you conclude the pizza assembling!",
+			stop = "Press <B>spacebar</B> once you conclude the pizza assembling!",
 		},
 		garbage = "Trash",
 		go_oven = "Take the pizza to the oven.",
@@ -313,7 +313,7 @@ local translation = setmetatable({
 				[5] = "Não se esqueça do <B>molho de tomate</B>!"
 			},
 			no_ingredients = "Você não tem ingredientes para fazer uma pizza deliciosa. Plante os ingredientes necessários de acordo com o pedido.",
-			stop = "Pressione espaço assim que você concluir a montagem da pizza!"
+			stop = "Pressione a <B>barra de espaço</B> assim que você concluir a montagem da pizza!"
 		},
 		garbage = "Lixo",
 		go_oven = "Leve a pizza ao forno.",
@@ -619,7 +619,7 @@ local translation = setmetatable({
 				[5] = "Oh, ¡te has olvidado de la <B>salsa de tomate</B>!"
 			},
 			no_ingredients = "No tienes ingredientes para hacer la pizza. Planta los ingredientes necesarios según el pedido.",
-			stop = "¡Presiona espacio una vez que concluyas el ensamblaje de la pizza!"
+			stop = "¡Presiona la <B>barra espaciadora</B> una vez que concluyas el ensamblaje de la pizza!"
 		},
 		garbage = "Desechar",
 		go_oven = "Lleva la pizza al horno.",
@@ -1214,7 +1214,8 @@ local translation = setmetatable({
 		},
 		smasher = {
 			smash = "Sadauzīt",
-			not_quantity = "%s var tikt iegūti, sadaudzot <B>%d</B> %s."
+			not_quantity = "%s var tikt iegūti, sadaudzot <B>%d</B> %s.",
+			get = "Jūs dabūjāt <B>%s</B>. Atrodiet tās savā <B>%s</B>."
 		},
 		storage = {
 			empty_f = "Jūsu ledusskapis ir tukšs! :(",
@@ -1240,7 +1241,7 @@ local translation = setmetatable({
 		animal_ingred = "Tu dabūji barību... <B>%s</B>!",
 		oven_assemble = "Tu nevari izveidot vēl vienu picu, kamēr tu izmanto krāsni!",
 		insufficient_cash = "Tev nav pietiekami daudz naudas, lai to izdarītu!",
-		welcome = "Mamma mia! Pavārs Remy tevi nolīdza, lai tu izgatavotu visgaršīgākās picas jebkad! Esi gatavs un izmanto visus resursus šajā vietā."
+		welcome = "Mamma mia! Pavārs Remy tevi nolīdza, lai tu izgatavotu visgaršīgākās picas jebkad! Esi gatavs un izmanto visus resursus šajā vietā.\n\nPēc vajadzīgo sastāvdaļu ievākšanas vajadzīgajos daudzumos, dodaties pie mīklas veltņa un sastādiet picu.\n\nSekojiet cepšanas laikam un sastāvdaļu daudzumam priekš izcilas picas!"
 	},
 	pl = {
 		event_concluded = "Ukończyłeś/-aś event! (╯°□°）╯︵ ┻━┻\n\nMagia została stworzona przez <B>%s</B>, specjalne efekty zostały stworzone przez <B>%s</B>, a wszystko dzięki <B>Nieoficjalnej Drużynie Tłumaczy</B>.\n<font size='9'>Specjalne podziękowania dla %s, ...</font>",
@@ -2352,7 +2353,7 @@ local moneyPercentages = {
 do
 	local chatMessage = tfm.exec.chatMessage
 	tfm.exec.chatMessage = function(s, player)
-		chatMessage("<font color='#88CEBF'>[•] " .. s, player)
+		chatMessage("\n<font color='#88CEBF'>[•] " .. s .. "\n", player)
 	end
 end
 
