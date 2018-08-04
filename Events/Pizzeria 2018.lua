@@ -2959,9 +2959,13 @@ local smasher = function(playerName)
 		local x = 282 + ((i - 1) * 84)
 
 		local o = ingredient.plant[smasherEnums[i]]
+		local to = ingredient.others[o.to]
 
 		ui.addTextArea(i, "<p align='center'><a href='event:button.smash." .. smasherEnums[i] .. "'>" .. translation().smasher.smash, playerName, x, 160, 70, 90, 0x142A2D, 0x142A2D, 1, true)
-		playerFlashData[playerName].smasherImgIds[i] = tfm.exec.addImage(o.icon .. ".png", "&1", x + o.axis[1], 180 + o.axis[2], playerName)
+		
+		local id = i * 2
+		playerFlashData[playerName].smasherImgIds[id - 1] = tfm.exec.addImage(o.icon .. ".png", "&1", x + 5, 180 + o.axis[2], playerName)
+		playerFlashData[playerName].smasherImgIds[id] = tfm.exec.addImage(to.icon .. ".png", "&1", x + 70 - to.axis[1] + (i == 1 and -35 or i == 2 and 8 or -4), 180 + to.axis[2] + (i == 1 and 10 or 0), playerName)
 	end
 
 	ui.button(1, translation().ui.close, "close.smasher", playerName, 284, 265, 235, 20)
