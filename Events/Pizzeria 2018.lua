@@ -80,7 +80,7 @@ local translation = setmetatable({
 			}
 		},
 		harvest = {
-			full = "Your %s is full!",
+			full = "Your %s is full! Consider using the garbage to throw some ingredients away!",
 			harvest = "You harvested %s!",
 			cost = "Cost",
 			h_time = "Harvest",
@@ -286,7 +286,7 @@ local translation = setmetatable({
 			}
 		},
 		harvest = {
-			full = "Seu %s está cheio!",
+			full = "Seu %s está cheio! Considere usar o lixo para jogar alguns ingredientes fora!",
 			harvest = "Você colheu %s!",
 			cost = "Custo",
 			h_time = "Colheita",
@@ -2354,7 +2354,17 @@ local moneyPercentages = {
 do
 	local chatMessage = tfm.exec.chatMessage
 	tfm.exec.chatMessage = function(s, player)
-		chatMessage("\n<font color='#88CEBF'>[•] " .. s .. "\n", player)
+		local hasBreakline = string.find(s, "^\n")
+		
+		local text = "<font color='#88CEBF'>[•] "
+		
+		if hasBreakline then
+			text = (hasBreakline and "\n" or "") .. text .. string.sub(s, 2)
+		else
+			text = text .. s
+		end
+	
+		chatMessage(text, player)
 	end
 end
 
@@ -3089,12 +3099,14 @@ local harvest = function(this, playerName, id)
 			if playerData[playerName].spots[id][2] == -1 then
 				local o = ingredient.plant[playerData[playerName].spots[id][1]]
 
+				local storageName = (o.inCabinet and "cabinet" or "freezer")
+				
 				if o.isSpecial then -- wheat only
 					playerData[playerName].storage[3] = playerData[playerName].storage[3] + o.quantity
 					displayWheat(playerName)
 				else
 					if not storeIngredient(playerName, o, o.quantity, true) then
-						tfm.exec.chatMessage(string.format(translation().harvest.full, string.lower(translation().ui[(o.inCabinet and "cabinet" or "freezer")])), playerName)
+						tfm.exec.chatMessage(string.format(translation().harvest.full, string.lower(translation().ui[storageName])), playerName)
 						return
 					end
 				end
@@ -3105,7 +3117,7 @@ local harvest = function(this, playerName, id)
 
 				playerFlashData[playerName].spots[id] = { tfm.exec.addImage("164431b8c1e.png", "?2", 906 + (id * 100), 600, playerName), 0 }
 
-				tfm.exec.chatMessage(string.format(translation().harvest.harvest, translation().ingredient.plant[o.id]), playerName)
+				tfm.exec.chatMessage(string.format(translation().harvest.harvest, translation().ingredient.plant[o.id]) .. (o.isSpecial and "" or "\n~> " .. translation().ui[storageName] .. " ( " .. #playerData[playerName].storage[(o.inCabinet and 2 or 1)] .. " / " .. limits[storageName] .. " )"), playerName)
 
 				if math.random(30) < 6 then
 					tfm.exec.giveConsumables(playerName, 2330, 1)
@@ -3183,7 +3195,7 @@ local destroyOven = function(id, playerName)
 		local pizzaResult = tfm.exec.addImage(pizzas._state[pizzaId] .. ".png", "!30", 250, 150, playerName)
 
 		if level == #pizzas._state then
-			tfm.exec.chatMessage(translation().pizza.burned, playerName)
+			tfm.exec.chatMessage("\n" .. translation().pizza.burned.. "\n", playerName)
 		else
 			for _, ingred in next, playerFlashData[playerName].assembling.ingredients do
 				ingred.id = tfm.exec.addImage(ingred.icon .. ".png", "!40", ingred.x - 245, ingred.y - 135, playerName)
@@ -3199,7 +3211,7 @@ local destroyOven = function(id, playerName)
 
 			if level < #pizzas._state then
 				playerFlashData[playerName].pizzaIcon = tfm.exec.addImage(pizzas._state._icon[pizzaId] .. ".png", "$" .. playerName, -5, -10)
-				tfm.exec.chatMessage(translation().pizza.deliver, playerName)
+				tfm.exec.chatMessage("\n" .. translation().pizza.deliver.. "\n", playerName)
 				playerFlashData[playerName].pizzaLevel = level
 			end
 		end, 4000, false)
@@ -3359,7 +3371,7 @@ local openAssembleUI = function(this, playerName)
 	-- Updating the storage again avoids the abuse of ingredients
 	updateFlashStorage(playerName)
 
-	tfm.exec.chatMessage(translation().assembling.stop, playerName)
+	tfm.exec.chatMessage("\n" .. translation().assembling.stop .. "\n", playerName)
 	
 	assemblePizza(playerName)
 end
@@ -3383,7 +3395,7 @@ local closeAssembleUI = function(playerName)
 		end
 
 		playerFlashData[playerName].pizzaIcon = tfm.exec.addImage(pizzas._state._icon[(playerData[playerName].order.pizza == 2 and -1 or 1)] .. ".png", "$" .. playerName, -5, -10)
-		tfm.exec.chatMessage(translation().go_oven, playerName)
+		tfm.exec.chatMessage("\n" .. translation().go_oven.. "\n", playerName)
 	else
 		playerFlashData[playerName].usedWheats = false
 		playerFlashData[playerName].selectedWheats = playerFlashData[playerName].selectedWheats + ingredient.plant[12].doughQuantity
@@ -3527,7 +3539,7 @@ end
 --[[ Main ]]--
 local triggeredOnce = false
 eventNewGame = function()
-	if triggeredOnce then system.exit() end
+	if triggeredOnce or (tfm.get.room.uniquePlayers < 4 and not string.find(tfm.get.room.name, "^*?#")) then system.exit() end
 	triggeredOnce = true
 
 	tfm.exec.setGameTime(module.time)
@@ -3536,7 +3548,7 @@ eventNewGame = function()
 
 	loadBackground()
 
-	tfm.exec.chatMessage(translation().welcome)
+	tfm.exec.chatMessage("\n" .. translation().welcome .. "\n")
 
 	-- Loading NPC before so it doesn't delay
 	local customerNpc = table.random(bot)
@@ -3733,7 +3745,7 @@ eventKeyboard = function(playerName, key, d, x, y)
 					cat = enum_ingredients[cat]
 
 					storeIngredient(playerName, ingredient[cat][id])
-					tfm.exec.chatMessage(string.format(translation().animal_ingred, translation().ingredient[cat][id]), playerName)
+					tfm.exec.chatMessage(string.format(translation().animal_ingred, translation().ingredient[cat][id]) .. "\n~> " .. translation().ui.freezer .. " ( " .. #playerData[playerName].storage[1] .. " / " .. limits.freezer .. " )", playerName)
 
 					a[5] = a[5] + 1
 
