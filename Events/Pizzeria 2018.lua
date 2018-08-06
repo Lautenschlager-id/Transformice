@@ -529,7 +529,7 @@ local translation = setmetatable({
 		animal_ingred = "Sa said eseme... <B>%s</B>!",
 		oven_assemble = "Sa ei saa teha teist pitsat kui sa kasutad veel ahju!",
 		insufficient_cash = "Sul ei ole piisavalt raha et seda teha!",
-		welcome = "Mamma mia! Pea kokk Remy palkas sinu et teha parimaid pitsasid! Ole valmis kasutama kõiki ressursse siin kohas.\n\nPärast vajalike ainete õiges koguses korjamist, mine taignarulli juurde ja pane kokku pitsa.\n\nJälgie küptsetus aega ja ainete kogust et teha täiuslik pitsa!"
+		welcome = "Mamma mia! Pea kokk Remy palkas sinu et teha parimaid pitsasid! Ole valmis kasutama kõiki ressursse siin kohas.\n\nPärast vajalike ainete õiges koguses korjamist, mine taignarulli juurde ja pane kokku pitsa.\n\nJälgie küpsetus aega ja ainete kogust et teha täiuslik pitsa!"
 	},
 	es = {
 		event_concluded = "¡Has completado el evento! (╯°□°）╯︵ ┻━┻\n\nMagia por <B>%s</B>, efectos especiales por <B>%s</B>, y benevolencia del <B>Equipo de Traductores no oficial</B>.\n<font size='9'>Agradecimientos especiales a %s, ...</font>",
@@ -2844,7 +2844,7 @@ local storeIngredient = function(playerName, ing, quantity, ignoreSave)
 
 	local found, key = table.find(playerData[playerName].storage[bar], id, 1)
 	if not found then
-		if #playerData[playerName].storage[bar] >= (limits[(ing.inCabinet and "cabinet" or "freezer")]) then
+		if #playerData[playerName].storage[bar] >= (playerFlashData[playerName]._limits[(ing.inCabinet and "cabinet" or "freezer")]) then
 			return false
 		end
 
@@ -2874,6 +2874,9 @@ local removeIngredient = function(playerName, storage, index, quantity, ignoreSa
 	elseif playerData[playerName].storage[storage][index][2] == quantity then
 
 		table.remove(playerData[playerName].storage[storage], index)
+		
+		local storageName = (storage == 1 and "freezer" or "cabinet")
+		playerFlashData[playerName]._limits[storageName] = math.max(limits[storageName], #playerData[playerName].storage[storage])
 
 		status = 2
 	end
@@ -3453,7 +3456,7 @@ local animal = function(this, playerName, id)
 	
 	if playerFlashData[playerName].animals[id] then return end
 
-	if #playerData[playerName].storage[1] >= limits.freezer then
+	if #playerData[playerName].storage[1] >= playerFlashData[playerName]._limits.freezer then
 		-- The for allows to add ingredients that are already in the storage
 		for i = 1, math.ceil(#animalEnums[id].id / 2) do -- 0.5 = 1, 4 = 2
 			if not table.find(playerData[playerName].storage[1], animalEnums[id].id[i], 1) then
@@ -3608,7 +3611,11 @@ eventNewGame = function()
 			usedWheats = false,
 			kissed = false,
 			help = false,
-			pizzaLevel = 1
+			pizzaLevel = 1,
+			_limits = {
+				freezer = 0,
+				cabinet = 0
+			}
 		}
 
 		eventNewPlayer(playerName, true)
@@ -4126,6 +4133,11 @@ eventPlayerDataLoaded = function(playerName, data)
 
 	system.bindKeyboard(playerName, 3, true, true)
 	system.bindKeyboard(playerName, 32, true, true)
+
+	-- Limits to fix problem due to animal shits
+	playerFlashData[playerName]._limits.freezer = math.max(limits.freezer, #playerData[playerName].storage[1])
+	-- Prevention
+	playerFlashData[playerName]._limits.cabinet = math.max(limits.cabinet, #playerData[playerName].storage[2])
 end
 
 eventTextAreaCallback = function(id, playerName, cbk, ignore)
@@ -4322,7 +4334,7 @@ eventTextAreaCallback = function(id, playerName, cbk, ignore)
 			if success and playerData[playerName].storage[storage][key][2] >= o.smashQuantity then
 				local storageName = (to.inCabinet and "cabinet" or "freezer")
 				local foo = (to.inCabinet and 2 or 1)
-				if not table.find(playerData[playerName].storage[foo], tonumber(to.cat .. to.id), 1) and #playerData[playerName].storage[foo] >= limits[storageName] then
+				if not table.find(playerData[playerName].storage[foo], tonumber(to.cat .. to.id), 1) and #playerData[playerName].storage[foo] >= playerFlashData[playerName]._limits[storageName] then
 					return tfm.exec.chatMessage(string.format(translation().harvest.full, string.lower(translation().ui[storageName])), playerName)
 				else
 					removeIngredient(playerName, storage, key, o.smashQuantity)
