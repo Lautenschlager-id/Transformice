@@ -184,7 +184,7 @@ local translation = setmetatable({
 			}
 		},
 		harvest = {
-			full = "!لقد امتلئت %s",
+			full = "!لقد امتلئت %s ! فكر في استخدام القمامة لرمي بعض المكونات بعيدا",
 			harvest = "!لقد حصدت %s",
 			cost = "الثمن",
 			h_time = "حصاد",
@@ -389,7 +389,7 @@ local translation = setmetatable({
 			}
 		},
 		harvest = {
-			full = "你的 %s 已经满了!",
+			full = "你的 %s 已经满了! 考虑把多余的食材丢弃在垃圾桶里面!",
 			harvest = "你收割了 %s!",
 			cost = "成本", 
 			h_time = "收成",
@@ -492,7 +492,7 @@ local translation = setmetatable({
 			}
 		},
 		harvest = {
-			full = "Sinu %s on täis!",
+			full = "Sinu %s on täis! Kaaluge prügikasti kasutamist, et visata minema mõned koostisosad!",
 			harvest = "Sa korjasid %s!",
 			cost = "maksab",
 			h_time = "Korja",
@@ -500,7 +500,8 @@ local translation = setmetatable({
 		},
 		smasher = {
 			smash = "Purusta",
-			not_quantity = "%s saab omandada purustades <B>%d</B> %s."
+			not_quantity = "%s saab omandada purustades <B>%d</B> %s.",
+			get = "Sa said <B>%s</B>. Leia see enda <B>%s</B>."
 		},
 		storage = {
 			empty_f = "Sinu külmik on tühi! :(",
@@ -528,7 +529,7 @@ local translation = setmetatable({
 		animal_ingred = "Sa said eseme... <B>%s</B>!",
 		oven_assemble = "Sa ei saa teha teist pitsat kui sa kasutad veel ahju!",
 		insufficient_cash = "Sul ei ole piisavalt raha et seda teha!",
-		welcome = "Mamma mia! Pea kokk Remy palkas sinu et teha parimaid pitsasid! Ole valmis kasutama kõiki ressursse siin kohas."
+		welcome = "Mamma mia! Pea kokk Remy palkas sinu et teha parimaid pitsasid! Ole valmis kasutama kõiki ressursse siin kohas.\n\nPärast vajalike ainete õiges koguses korjamist, mine taignarulli juurde ja pane kokku pitsa.\n\nJälgie küptsetus aega ja ainete kogust et teha täiuslik pitsa!"
 	},
 	es = {
 		event_concluded = "¡Has completado el evento! (╯°□°）╯︵ ┻━┻\n\nMagia por <B>%s</B>, efectos especiales por <B>%s</B>, y benevolencia del <B>Equipo de Traductores no oficial</B>.\n<font size='9'>Agradecimientos especiales a %s, ...</font>",
@@ -696,7 +697,7 @@ local translation = setmetatable({
 			}
 		},
 		harvest = {
-			full = "Ton %s est plein!",
+			full = "Ton %s est plein! Pense à utiliser la poubelle pour jeter des ingrédients!",
 			harvest = "Tu as récolté %s!",
 			cost = "Coût",
 			h_time = "Récolte",
@@ -799,7 +800,7 @@ local translation = setmetatable({
 			}
 		},
 		harvest = {
-			full = "ה- %s שלך מלא!",
+			full = "ה- %s שלך מלא! שקול להשתמש בפח הזבל כדי לזרוק חלק מהמרכיבים!",
 			harvest = "קצרת %s!",
 			cost = "מחיר", 
 			h_time = "יבול",
@@ -902,7 +903,7 @@ local translation = setmetatable({
 			}
 		},
 		harvest = {
-			full = "Tvoj %s je pun!",
+			full = "Tvoj %s je pun! Uzmi u obzir da možeš da koristiš kantu za đubre da baciš neke sastojke!",
 			harvest = "Ubrao si %s!",
 			cost = "Košta",
 			h_time = "Sakupljanje",
@@ -1005,7 +1006,7 @@ local translation = setmetatable({
 			}
 		},
 		harvest = {
-			full = "A %s tele van!",
+			full = "A %s tele van! Próbáld a kukát használni, hogy eldobj pár hozzávalót amire nincs szükséged!",
 			harvest = "Szedtél egy kis %s növényt!",
 			cost = "Ár",
 			h_time = "Termés",
@@ -1014,7 +1015,7 @@ local translation = setmetatable({
 		smasher = {
 			smash = "Összenyom",
 			not_quantity = "%s hozzávalót úgy szerezhetsz, hogy összenyomsz <B>%d</B> darab %s növényt.",
-			get = "<B>%s</B> hozzávalót szeresztél. Az alapanyagot keresd a <B>%s</B>ben."
+			get = "<B>%s</B> hozzávalót készítettél. Az alapanyagot keresd a <B>%s</B>ben."
 		},
 		storage = {
 			empty_f = "Üres a hűtő! :(",
@@ -1108,7 +1109,7 @@ local translation = setmetatable({
 			}
 		},
 		harvest = {
-			full = "Il tuo %s è pieno!",
+			full = "Il tuo %s è pieno! Considera l'uso del cestino per buttare via alcuni ingredienti!",
 			harvest = "Hai raccolto %s!",
 			cost = "Prezzo",
 			h_time = "Raccogli",
@@ -1210,7 +1211,7 @@ local translation = setmetatable({
 			}
 		},
 		harvest = {
-			full = "Jūsu %s ir pilns!",
+			full = "Jūsu %s ir pilns! Apsveriet izmantot atkritumus, lai izmestu dažas sastāvdaļas ārā!",
 			harvest = "Jūs novācāt %s!"
 		},
 		smasher = {
@@ -1308,7 +1309,7 @@ local translation = setmetatable({
 			}
 		},
 		harvest = {
-			full = "Twój %s jest pełen!",
+			full = "Twój %s jest pełen! Rozważ użycie kosza na śmieci, aby wyrzucić niektóre składniki",
 			harvest = "Zebrałeś/-aś %s!",
 			cost = "Cena", 
 			h_time = "Żniwa",
@@ -1410,7 +1411,7 @@ local translation = setmetatable({
 			}
 		},
 		harvest = {
-			full = " %s este plin!",
+			full = " %s este plin! Folosește gunoiul pentru a arunca niște incrediente",
 			harvest = "Ai recoltat %s!"
 		},
 		smasher = {
@@ -1508,7 +1509,7 @@ local translation = setmetatable({
 			}
 		},
 		harvest = {
-			full = "%s doldu!",
+			full = "%s doldu! Bazı malzemeleri çöpe atmayı unutma!",
 			harvest = "%s topladın!",
 			cost = "Fiyat",
 			h_time = "Hasat",
@@ -1516,7 +1517,8 @@ local translation = setmetatable({
 		},
 		smasher = {
 			smash = "Sık",
-			not_quantity = "%s, <B>%d</B> %s sıkarak elde edilebilir."
+			not_quantity = "%s, <B>%d</B> %s sıkarak elde edilebilir.",
+			get = "Bir adet <B>%s</B> elde ettin. Şurada bulabilirsin: <B>%s</B>."
 		},
 		storage = {
 			empty_f = "Derin dondurucun boş! :(",
@@ -1544,7 +1546,7 @@ local translation = setmetatable({
 		animal_ingred = "Bu malzemeyi kazandın: <B>%s</B>!",
 		oven_assemble = "Fırını kullanıyorlarken başka bir pizza yapamazsın!",
 		insufficient_cash = "Bunu yapmak için yeterli paran yok!",
-		welcome = "Mamma mia! Şef Remy seni en lezzetli pizzaları yapman için işe aldı! Hazır ol ve tüm kaynakları yerinde kullan."
+		welcome = "Mamma mia! Şef Remy seni en lezzetli pizzaları yapman için işe aldı! Hazır ol ve tüm kaynakları yerinde kullan.\n\nTalep edinen malzemeleri miktarına göre ayrı ayrı biçtikten sonra oklavanın yanına git ve pizzayı birleştir.\n\nKusursuz bir pizza için pişirme süresini ve malzeme miktarlarını takip et!"
 	}
 },{
 	__call = function(list, flag)
@@ -3410,14 +3412,14 @@ end
 
 local getWater = function(this, playerName) -- Mission 1
 	if not playerFlashData[playerName].doughMission[1] then
-		if not allowCallback(this, playerName, 60) then return end
+		if not allowCallback(this, playerName, 80) then return end
 
 		concludeMission(1, playerName, objects.water .. ".png")
 	end
 end
 
 local getSalt_Sugar = function(this, playerName, id) -- Mission 3
-	if not allowCallback(this, playerName, 30) then return end
+	if not allowCallback(this, playerName, 80) then return end
 
 	id = id - 14
 
@@ -3431,7 +3433,7 @@ local getSalt_Sugar = function(this, playerName, id) -- Mission 3
 end
 
 local getWheat = function(this, playerName) -- Mission 4
-	if not allowCallback(this, playerName, 30) then return end
+	if not allowCallback(this, playerName, 80) then return end
 
 	if playerFlashData[playerName].selectedWheats < (playerData[playerName].storage[3] - (playerFlashData[playerName].usedWheats and ingredient.plant[12].doughQuantity or 0)) then
 		playerFlashData[playerName].selectedWheats = playerFlashData[playerName].selectedWheats + 1
@@ -3445,11 +3447,21 @@ local getWheat = function(this, playerName) -- Mission 4
 end
 
 local animal = function(this, playerName, id)
-	if not allowCallback(this, playerName) or unsafeToNavigate(playerName) then return false end
+	if not allowCallback(this, playerName, 40) or unsafeToNavigate(playerName) then return false end
 
 	id = id - 17
 	
 	if playerFlashData[playerName].animals[id] then return end
+
+	if #playerData[playerName].storage[1] >= limits.freezer then
+		-- The for allows to add ingredients that are already in the storage
+		for i = 1, math.ceil(#animalEnums[id].id / 2) do -- 0.5 = 1, 4 = 2
+			if not table.find(playerData[playerName].storage[1], animalEnums[id].id[i], 1) then
+				tfm.exec.chatMessage(string.format(translation().harvest.full, string.lower(translation().ui.freezer)), playerName)
+				return
+			end
+		end
+	end
 
 	local quantity = id + 3 -- 4, 5, 6
 
@@ -3648,6 +3660,11 @@ eventNewGame = function()
 	callback("cow", 1695, 675, 57, 90):setAction(animal)
 	callback("pig", 1880, 710, 34, 55):setAction(animal)
 	callback("chicken", 1650, 530, 155, 60):setAction(animal)
+	
+	-- Infinite sacks
+	for i = 0, 1 do
+		ui.addTextArea(enumIds.hud + 3 + i, "<font size='20'><p align='center'><B>∞", nil, 370 + (60 * i), 410, 50, nil, 1, 1, 0, false)
+	end
 
 	-- NPC
 	local chair = 45 + math.random(0, 1) * 155
@@ -3900,7 +3917,6 @@ eventKeyboard = function(playerName, key, d, x, y)
 
 							if total == #pizzas then
 								playerData[playerName].completions = 0 -- resets
-							--elseif total >= 3 then
 								system.giveTitle(playerName)
 							end
 							tfm.exec.giveConsumables(playerName, 26, 10)
@@ -4346,8 +4362,8 @@ eventEmotePlayed = function(playerName, emote)
 	if emote == 3 or emote == 5 then
 		local x, y = tfm.get.room.playerList[playerName].x, tfm.get.room.playerList[playerName].y
 		
-		if chef and x >= chef.x and x <= chef.x + chef.w and y < chef.y + chef.h then
-			local foo, bar =  math.random(10), math.random(10)
+		if chef and x >= chef.x - 50 and x <= chef.x + chef.w + 50 and y < chef.y + chef.h then
+			local foo, bar =  math.random(6), math.random(6)
 			if foo == bar then
 				playerFlashData[playerName].kissed = true
 
