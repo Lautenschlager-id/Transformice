@@ -1411,7 +1411,7 @@ local translation = setmetatable({
 			}
 		},
 		harvest = {
-			full = " %s este plin! Folosește gunoiul pentru a arunca niște incrediente",
+			full = "%s este plin! Folosește gunoiul pentru a arunca niște incrediente",
 			harvest = "Ai recoltat %s!"
 		},
 		smasher = {
@@ -2896,6 +2896,16 @@ local unsafeToNavigate = function(playerName)
 	return playerFlashData[playerName].pizzaIcon > -1 or playerFlashData[playerName].usingOven
 end
 
+local countPizzas = function(playerName)
+	local total = 0
+	for i = 1, #pizzas do
+		if bit32.band(2 ^ i, playerData[playerName].completions) > 0 then
+			total = total + 1
+		end
+	end
+	return total
+end
+
 --[[ Variables ]]--
 local chef
 local customer
@@ -3899,30 +3909,26 @@ eventKeyboard = function(playerName, key, d, x, y)
 					points = points - (extra_not_allowed * .5)
 					points = points + (extra_allowed * .4)
 
+					local count = countPizzas(playerName)
+					
 					if points < 1 then
-						tfm.exec.chatMessage(translation().order.delivered[0], playerName)
+						tfm.exec.chatMessage(translation().order.delivered[0] .. " <J>[ " .. count .. " / " .. #pizzas .. " ]", playerName)
 					else
 						local level = (points <= 7.5 and (points <= 5.5 and 1 or 2) or 3)
 
-						local gain = playerFlashData[playerName].order.total * moneyPercentages[level] + (extra_allowed * 3)
+						local gain = playerFlashData[playerName].order.total * moneyPercentages[level] + (extra_allowed * 3) - (extra_not_allowed * 2)
 
 						playerData[playerName].cash = playerData[playerName].cash + gain
 
-						tfm.exec.chatMessage(string.format(translation().order.delivered[level], gain), playerName)
+						count = count + (level > 1 and 1 or 0)
+						tfm.exec.chatMessage(string.format(translation().order.delivered[level], gain) .. " <J>[ " .. count .. " / " .. #pizzas .. " ]", playerName)
 
 						if level > 1 then
 							playerData[playerName].completions = playerData[playerName].completions + (2 ^ playerData[playerName].order.pizza)
 							playerData[playerName].order = nil
 
 							-- Titles
-							local total = 0
-							for i = 1, #pizzas do
-								if bit32.band(2 ^ i, playerData[playerName].completions) > 0 then
-									total = total + 1
-								end
-							end
-
-							if total == #pizzas then
+							if count == #pizzas then
 								playerData[playerName].completions = 0 -- resets
 								system.giveTitle(playerName)
 							end
