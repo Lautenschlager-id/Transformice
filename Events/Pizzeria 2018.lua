@@ -3554,7 +3554,7 @@ end
 --[[ Main ]]--
 local triggeredOnce = false
 eventNewGame = function()
-	if triggeredOnce or (tfm.get.room.uniquePlayers < 4 and not string.find(tfm.get.room.name, "^*?#")) then system.exit() end
+	if triggeredOnce or (tfm.get.room.uniquePlayers < 4 and not string.find(tfm.get.room.name, "^.?.?%-?%*?#")) then system.exit() end
 	triggeredOnce = true
 
 	tfm.exec.setGameTime(module.time)
