@@ -3631,6 +3631,10 @@ eventNewGame = function()
 		eventNewPlayer(playerName, true)
 
 		system.loadPlayerData(playerName)
+		
+		if playerInfo.title == 461 then
+			tfm.exec.setNameColor(playerName, 0xF3D460)
+		end
 	end
 
 	-- Lights
