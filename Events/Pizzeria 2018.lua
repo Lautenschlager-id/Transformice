@@ -2519,9 +2519,12 @@ system.looping = function(f, tick)
 	local s = 1000 / tick
 	local t = { }
 
+	local bar = 0
 	local fooTimer = function()
-		t[#t+1] = system.newTimer(f, 1000, true)
+		bar = bar + 1
+		t[bar] = system.newTimer(f, 1000, true)
 	end
+
 	for timer = 0, 1000 - s, s do
 		system.newTimer(fooTimer, 1000 + timer, false)
 	end
