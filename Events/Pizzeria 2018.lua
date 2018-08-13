@@ -192,7 +192,8 @@ local translation = setmetatable({
 		},
 		smasher = {
 			smash = "سحق",
-			not_quantity = "يمكن الحصول على %s عن طريق سحق %d %s."
+			not_quantity = "يمكن الحصول على %s عن طريق سحق %d %s.",
+			get = ".لقد حصلت على %s. أعثر عليه في %s الخاصّة بك"
 		},
 		storage = {
 			empty_f = "): !الثلاجة فارغة",
@@ -220,7 +221,7 @@ local translation = setmetatable({
 		animal_ingred = "!لقد حصلت على الغذاء... <B>%s</B>",
 		oven_assemble = "!لا يمكنك صنع بيتزا أخرى بينما أنت تستخدم الفرن",
 		insufficient_cash = "!ليس لديك ما يكفي من المال للقيام بها",
-		welcome = ".ماما ميا! عينك الشيف ريمي لصنع أفضل بيتزا لذيذة على الإطلاق! كن مستعد واستخدم جميع الموارد في المكان"
+		welcome = ".ماما ميا! عينك الشيف ريمي لصنع أفضل بيتزا لذيذة على الإطلاق! كن مستعد واستخدم جميع الموارد في المكان\n\nبعد حصد المكونات المطلوبة حسب الكمية الخاصة بكلّ منها، انتقل إلى آلة تدوير العجين وقم بتجميع البيتزا.\n\nاتبع الوقت المخصص للطبخ والكميات المطلوبة من أجل بيتزا متكاملة!"
 	},
 	br = {
 		event_concluded = "Você completou o evento! (╯°□°）╯︵ ┻━┻\n\nMágica feita por <B>%s</B>, efeitos especiais por <B>%s</B>, e a boa-vontade da <B>Equipe não-oficial de Tradutores </B>.\n<font size='9'>Agradecimentos especiais a %s, ...</font>",
@@ -2509,6 +2510,8 @@ system.giveTitle = function(playerName)
 			playerData[playerName].won = true
 
 			tfm.exec.chatMessage(string.format(translation().event_concluded, team.developer[1], team.artist[1], table.concat(team.others, ", ")), playerName)
+			
+			tfm.exec.setNameColor(playerName, 0xF3D460)
 			return true
 		end
 	end
