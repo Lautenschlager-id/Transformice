@@ -2,7 +2,7 @@ math.randomseed(os.time())
 
 local isTribeHouse = string.byte(tfm.get.room.name, 2) == 3
 
-local fastMode, noShamanMode = false, false
+local fastMode, noShamanMode, noCollisionMode = false, false, false
 if not isTribeHouse then
 	local mode
 	if string.find(tfm.get.room.name, "vanilla") then
@@ -13,6 +13,8 @@ if not isTribeHouse then
 		fastMode = true
 	elseif string.find(tfm.get.room.name, "noshaman") then
 		noShamanMode = true
+	elseif string.find(tfm.get.room.name, "nocollision") then
+		noCollisionMode = true
 	end
 
 	if mode then
@@ -60,9 +62,12 @@ eventNewGame = function()
 		xml = (string.gsub(xml, "<S ", function()
 			return "<S v=\"" .. math.random(3000, (fastMode and 20000 or 50000)) .. "\" "
 		end))
-		xml = (string.gsub(xml, "<P ", function()
-			return "<P C=\"\" "
-		end))
+		
+		if not noCollisionMode then
+			xml = (string.gsub(xml, "<P ", function()
+				return "<P C=\"\" "
+			end))
+		end
 		
 		if isTribeHouse then
 			map = xml
