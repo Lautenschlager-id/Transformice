@@ -4221,7 +4221,7 @@ eventPlayerDataLoaded = function(playerName, data)
 				local ingred
 				repeat
 					ingred = table.random(ingredient.extra)
-				until not ingredients[ingred]
+				until not (pizza == 3 and ingred == 2) and not ingredients[ingred] -- Can't be basil if it's Margherita
 				ingredients[ingred] = i
 
 				playerData[playerName].order.ingredients[i] = ingred
@@ -4231,6 +4231,22 @@ eventPlayerDataLoaded = function(playerName, data)
 		playerData[playerName].order.level = table.random(possibilityRates.pizzaTemperature)
 	end
 	local pizza = pizzas[playerData[playerName].order.pizza]
+	
+	-- Fix bug
+	if playerData[playerName].order.pizza == 3 then
+		local update = false
+		for i = 1, #playerData[playerName].order.ingredients do
+			if playerData[playerName].order.ingredients[i] == 2 then -- if is Margherita and basil
+				table.remove(playerData[playerName].order.ingredients, i)
+				update = true
+				break
+			end
+		end
+
+		if update then
+			playerData[playerName]()
+		end
+	end
 
 	local total = 15
 	playerFlashData[playerName].order.ingredients = table.copy(pizza.ingredients)
