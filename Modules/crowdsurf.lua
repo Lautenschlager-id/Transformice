@@ -9,12 +9,16 @@ if not isTribeHouse then
 		mode = "vanilla"
 	elseif string.find(tfm.get.room.name, "village") then
 		mode = "village"
-	elseif string.find(tfm.get.room.name, "fast") then
-		fastMode = true
-	elseif string.find(tfm.get.room.name, "noshaman") then
-		noShamanMode = true
-	elseif string.find(tfm.get.room.name, "nocollision") then
-		noCollisionMode = true
+	else
+		if string.find(tfm.get.room.name, "fast") then
+			fastMode = true
+		end
+		if string.find(tfm.get.room.name, "noshaman") then
+			noShamanMode = true
+		end
+		if string.find(tfm.get.room.name, "nocollision") then
+			noCollisionMode = true
+		end
 	end
 
 	if mode then
