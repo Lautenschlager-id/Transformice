@@ -86,7 +86,7 @@ eventNewGame = function()
 		ui.setMapName("<N>" .. toReload)
 		
 		if shaman then
-			if tfm.get.room.playerList[shaman] then
+			if not noShamanMode and tfm.get.room.playerList[shaman] then
 				tfm.exec.setShaman(shaman)
 			end
 			shaman = nil
@@ -107,7 +107,12 @@ eventPlayerDied = function(playerName)
 		if shaman then
 			if shaman == playerName then
 				tfm.exec.setPlayerScore(shaman, -1, true)
-				tfm.exec.chatMessage("<ROSE>Just kidding, " .. shaman .. " will not be the next shaman :p")
+				
+				if not noShamanMode then
+					tfm.exec.chatMessage("<ROSE>Just kidding, <N>" .. shaman .. "</N> will not be the next shaman :p")
+				else
+					tfm.exec.chatMessage("<ROSE>Ehhh, that was luck. <N>" .. shaman .. "</N> did not survive.")
+				end
 				shaman = nil
 			end
 			return
@@ -132,7 +137,6 @@ eventPlayerDied = function(playerName)
 				tfm.exec.chatMessage("<ROSE>The next shaman will be <N>" .. shaman)
 			else
 				tfm.exec.chatMessage("<N>" .. shaman .. " <ROSE>is the survivor!")
-				shaman = nil
 			end
 		end
 	end
@@ -149,7 +153,6 @@ eventPlayerWon = function(playerName)
 			tfm.exec.chatMessage("<ROSE>The next shaman will be <N>" .. shaman)
 		else
 			tfm.exec.chatMessage("<N>" .. shaman .. " <ROSE>won!")
-			shaman = nil
 		end
 	end
 end
