@@ -4233,7 +4233,7 @@ eventPlayerDataLoaded = function(playerName, data)
 	local pizza = pizzas[playerData[playerName].order.pizza]
 	
 	-- Fix bug
-	if playerData[playerName].order.pizza == 3 then
+	if playerData[playerName].order.pizza == 3 and playerData[playerName].order.ingredients then
 		local update = false
 		for i = 1, #playerData[playerName].order.ingredients do
 			if playerData[playerName].order.ingredients[i] == 2 then -- if is Margherita and basil
