@@ -52,21 +52,41 @@ end
 
 local toReload, map, shaman
 local skip = false
+
+local skipMap = function()
+	toReload = nil
+	map = nil
+
+	tfm.exec.setGameTime(5, true)
+	tfm.exec.newGame(getParam())
+end
+
 eventNewGame = function()
 	if not string.find(tfm.get.room.currentMap, '@') then
-		toReload = nil
-		map = nil
-
-		tfm.exec.newGame(getParam())
+		skipMap()
+		return
+	end
+	
+	local xml = tfm.get.room.xmlMapInfo.xml
+		
+	if string.find(xml, "T=\"9\"") or string.find(xml, "T=\"15\"") then -- water or web doesn't disappear with the attribute v
+		skipMap()
 		return
 	end
 
 	if not toReload then
-		local xml = tfm.get.room.xmlMapInfo.xml
 		xml = (string.gsub(xml, "<S ", function()
 			return "<S v=\"" .. math.random(3000, (fastMode and 20000 or 50000)) .. "\" "
 		end))
-		
+
+		xml = (string.gsub(xml, "defilante=\".-\"", ""))
+		xml = (string.gsub(xml, "mgoc=\".-\"", ""))
+
+		for i = 11, 16 do
+			xml = (string.gsub(xml, "<O .-C=\"" .. i .. "\".->", ""))
+		end
+		xml = (string.gsub(xml, "<O .-C=\"22\".->", ""))
+
 		if not noCollisionMode then
 			xml = (string.gsub(xml, "<P ", function()
 				return "<P C=\"\" "
@@ -93,6 +113,12 @@ eventNewGame = function()
 
 		tfm.exec.setGameTime(63)
 		ui.setMapName("<N>" .. toReload)
+		
+		for playerName in next, tfm.get.room.playerList do
+			if playerName ~= shaman then
+				tfm.exec.giveMeep(playerName)
+			end
+		end
 		
 		if shaman then
 			if not noShamanMode and tfm.get.room.playerList[shaman] then
