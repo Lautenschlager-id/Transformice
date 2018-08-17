@@ -530,7 +530,7 @@ local translation = setmetatable({
 		animal_ingred = "Sa said eseme... <B>%s</B>!",
 		oven_assemble = "Sa ei saa teha teist pitsat kui sa kasutad veel ahju!",
 		insufficient_cash = "Sul ei ole piisavalt raha et seda teha!",
-		welcome = "Mamma mia! Peakokk Remy palkas sinu et teha parimaid pitsasid! Ole valmis kasutama kõiki ressursse siin kohas.\n\nPärast vajalike ainete õiges koguses korjamist, mine taignarulli juurde ja pane kokku pitsa.\n\nJälgie küpsetus aega ja ainete kogust et teha täiuslik pitsa!"
+		welcome = "Mamma mia! Peakokk Remy palkas sinu et teha parimaid pitsasid! Ole valmis kasutama kõiki ressursse siin kohas.\n\nPärast vajalike ainete õiges koguses korjamist, mine taignarulli juurde ja pane kokku pitsa.\n\nJälgige küpsetusaega ja ainete kogust et teha täiuslik pitsa!"
 	},
 	es = {
 		event_concluded = "¡Has completado el evento! (╯°□°）╯︵ ┻━┻\n\nMagia por <B>%s</B>, efectos especiales por <B>%s</B>, y benevolencia del <B>Equipo de Traductores no oficial</B>.\n<font size='9'>Agradecimientos especiales a %s, ...</font>",
@@ -2472,10 +2472,7 @@ do
 	
 		chatMessage(text, player)
 	end
-end
 
-do
-	local remove = table.remove
 	table.remove = function(list, pos)
 		local len, out = #list
 
