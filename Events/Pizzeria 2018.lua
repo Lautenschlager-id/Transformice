@@ -2875,7 +2875,7 @@ do
 end
 
 ui.menu = function(text, playerName, x, y, w, h)
-	id = enumIds.menu - 8
+	local id = enumIds.menu - 8
 
 	x = x + 6
 	y = y + 6
