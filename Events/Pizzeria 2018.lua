@@ -3737,10 +3737,6 @@ eventNewGame = function()
 		eventNewPlayer(playerName, true)
 
 		system.loadPlayerData(playerName)
-		
-		if playerInfo.title == 461 then
-			tfm.exec.setNameColor(playerName, 0xF3D460)
-		end
 	end
 
 	-- Lights
@@ -4270,6 +4266,10 @@ eventPlayerDataLoaded = function(playerName, data)
 	playerFlashData[playerName]._limits.freezer = math.max(limits.freezer, #playerData[playerName].storage[1])
 	-- Prevention
 	playerFlashData[playerName]._limits.cabinet = math.max(limits.cabinet, #playerData[playerName].storage[2])
+	
+	if playerData[playerName].won then
+		tfm.exec.setNameColor(playerName, 0xF3D460)
+	end
 end
 
 eventTextAreaCallback = function(id, playerName, cbk, ignore)
