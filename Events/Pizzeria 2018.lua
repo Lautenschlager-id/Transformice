@@ -4044,6 +4044,8 @@ eventKeyboard = function(playerName, key, d, x, y)
 					playerData[playerName]()
 					
 					displayCash(playerName)
+					
+					updateFlashStorage(playerName)
 
 					-- Resets
 					playerFlashData[playerName].usedWheats = false
