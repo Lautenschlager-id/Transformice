@@ -194,7 +194,7 @@ end
 
 eventChatCommand = function(playerName, command)
 	if command == "help" then
-		tfm.exec.chatMessage("<ROSE>Module rewriten by <N>Bolodefchoco</N> and initially released by <N>Baasbase</N>.\nGame modes: <N>#crowdsurf0fast</N>, <N>#crowdsurf0noshaman</N>, <N>#crowdsurf0nocollision</N>", playerName)
+		tfm.exec.chatMessage("<ROSE>Module rewritten by <N>Bolodefchoco</N> and initially released by <N>Baasbase</N>.\nGame modes: <N>#crowdsurf0fast</N>, <N>#crowdsurf0noshaman</N>, <N>#crowdsurf0nocollision</N>", playerName)
 	end
 end
 system.disableChatCommandDisplay("help", true)
