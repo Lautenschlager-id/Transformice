@@ -42,7 +42,7 @@ end
 local players = 0
 eventNewPlayer = function(playerName)
 	players = players + 1
-	tfm.exec.chatMessage("<N>Welcome to <ROSE>#crowdsurf<N>. Survive or win to become the next shaman!", playerName)
+	tfm.exec.chatMessage("<N>Welcome to <ROSE>#crowdsurf<N>. Survive or win to become the next shaman! Type <ROSE>!help</ROSE> for more info.", playerName)
 end
 table.foreach(tfm.get.room.playerList, eventNewPlayer)
 
@@ -191,6 +191,13 @@ eventPlayerWon = function(playerName)
 		end
 	end
 end
+
+eventChatCommand = function(playerName, command)
+	if command == "help" then
+		tfm.exec.chatMessage("<ROSE>Module rewriten by <N>Bolodefchoco</N> and initially released by <N>Baasbase</N>.\nGame modes: <N>#crowdsurf0fast</N>, <N>#crowdsurf0noshaman</N>, <N>#crowdsurf0nocollision</N>", playerName)
+	end
+end
+system.disableChatCommandDisplay("help", true)
 
 tfm.exec.disableAutoShaman()
 tfm.exec.disableAutoScore()
