@@ -3679,8 +3679,6 @@ eventNewGame = function()
 
 	loadBackground()
 
-	tfm.exec.chatMessage("\n" .. translation().welcome .. "\n")
-
 	-- Loading NPC before so it doesn't delay
 	local customerNpc = table.random(bot)
 	for i = #customerNpc.collection.run, 1, -1 do
@@ -4074,7 +4072,13 @@ event250ms = system.looping(function()
 	end
 end, 4)
 
+local canBreak = 0 -- Skip event in timer glitch
 local event1000ms = system.newTimer(function()
+	if canBreak >= 0 then
+		canBreak = -1
+		tfm.exec.chatMessage("\n" .. translation().welcome .. "\n")
+	end
+
 	for player, data in next, playerData do
 		for id, spot in next, data.spots do
 			if spot then
@@ -4105,6 +4109,17 @@ local event1000ms = system.newTimer(function()
 end, 1000, true)
 
 eventLoop = function(elapsed, remaining)
+	if canBreak >= 0 then
+		canBreak = canBreak + .5
+		
+		if canBreak == 1.5 then
+			tfm.exec.chatMessage("<ROSE>There is a glitch with timers. Sorry for the inconveniece. We are working as soon as possible to fix this :)")
+		elseif canBreak == 2 then
+			system.exit()
+		end
+		return
+	end
+
 	if elapsed < 4000 then return end
 
 	for name, player in next, tfm.get.room.playerList do
