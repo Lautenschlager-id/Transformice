@@ -118,7 +118,7 @@ local translation = setmetatable({
 		oven_assemble = "You can not make another pizza while you use the oven!",
 		insufficient_cash = "You do not have enough money to do it!",
 		welcome = "Mamma mia! Chef Remy hired you to make the most delicious pizzas ever! Be ready and use all the resources in the place.\n\nAfter harvesting the requested ingredients in their respective quantities, go to the dough roller and assemble the pizza.\n\nFollow the cooking time and ingredient quantities for a perfect pizza!",
-		error_timer = "There is a glitch with timers. Sorry for the inconveniece. We are working as soon as possible to fix this :)"
+		error_timer = "There is a glitch with timers. We are working to fix this as soon as possible. Sorry for the inconvenience. :)"
 	},
 
 	ar = {
@@ -326,7 +326,7 @@ local translation = setmetatable({
 		oven_assemble = "Você não pode fazer outra pizza enquanto estiver usando o forno!",
 		insufficient_cash = "Você não tem dinheiro suficiente para isso!",
 		welcome = "Mamma mia! O Chef Remy contratou você para fazer as pizzas mais deliciosas do mundo! Esteja atento e use todos os recursos no local!\n\nDepois de colher os ingredientes pedidos em suas respectivas quantidades, vá para o rolo de massa e monte sua pizza.\n\nSiga o ponto da pizza e a quantidade dos ingredientes para uma pizza perfeita!",
-		error_timer = "Há um problema nos temporizadores. Desculpe pelo inconveniente. Estamos trabalhando para corrigir o problema o mais rápido possível :)"
+		error_timer = "Há um problema nos temporizadores. Estamos trabalhando para corrigir o problema o mais rápido possível. Desculpe pelo inconveniente. :)"
 	},
 	cn = {
 		event_concluded = "你已经完成了活动! (╯°□°）╯︵ ┻━┻\n\n由<B>%s</B>创造魔法, <B>%s</B>制造特别效果,以及<B>非官方的翻译团队</B>亲切提供翻译.\n<font size='9'>特别感谢 %s, ...</font>",
