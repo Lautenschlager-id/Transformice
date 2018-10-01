@@ -75,8 +75,10 @@ eventNewGame = function()
 	end
 
 	if not toReload then
+		local counter = 0
 		xml = (string.gsub(xml, "<S ", function()
-			return "<S v=\"" .. math.random(3000, (fastMode and 20000 or 50000)) .. "\" "
+			counter = counter + 1
+			return "<S v=\"" .. (5000 + counter * (fastMode and 500 or 2000)) .. "\" "
 		end))
 
 		xml = (string.gsub(xml, "defilante=\".-\"", ""))
@@ -194,7 +196,7 @@ end
 
 eventChatCommand = function(playerName, command)
 	if command == "help" then
-		tfm.exec.chatMessage("<ROSE>Module rewritten by <N>Bolodefchoco</N> and initially released by <N>Baasbase</N>.\nGame modes: <N>#crowdsurf0fast</N>, <N>#crowdsurf0noshaman</N>, <N>#crowdsurf0nocollision</N>", playerName)
+		tfm.exec.chatMessage("<ROSE>Module rewritten by <N>Bolodefchoco</N> and initially released by <N>Baasbase#0095</N>.\nGame modes: <N>#crowdsurf0fast</N>, <N>#crowdsurf0noshaman</N>, <N>#crowdsurf0nocollision</N>", playerName)
 	end
 end
 system.disableChatCommandDisplay("help", true)
