@@ -1,3 +1,5 @@
+-- Module [crowdsurf] by Bolodefchoco
+
 math.randomseed(os.time())
 
 local isTribeHouse = string.byte(tfm.get.room.name, 2) == 3
@@ -57,7 +59,7 @@ local skipMap = function()
 	toReload = nil
 	map = nil
 
-	tfm.exec.setGameTime(5, true)
+	tfm.exec.setGameTime(5, false)
 	tfm.exec.newGame(getParam())
 end
 
@@ -105,7 +107,7 @@ eventNewGame = function()
 		skip = true
 	else
 		if tfm.get.room.currentMap ~= "@0" then
-			tfm.exec.setGameTime(6, true)
+			tfm.exec.setGameTime(6, false)
 			skip = true
 			return
 		end
@@ -165,11 +167,13 @@ eventPlayerDied = function(playerName)
 			end
 		end
 		
-		tfm.exec.setGameTime(5, true)
+		tfm.exec.setGameTime(5, false)
 		if survivor and players > 1 then
 			shaman = survivor
 			tfm.exec.setPlayerScore(shaman, 1, true)
-			
+
+			tfm.exec.addShamanObject(30, tfm.get.room.playerList[shaman].x, tfm.get.room.playerList[shaman].y + 30)
+
 			if not noShamanMode then
 				tfm.exec.chatMessage("<ROSE>The next shaman will be <N>" .. shaman)
 			else
@@ -181,7 +185,7 @@ end
 
 eventPlayerWon = function(playerName)
 	if not skip and not shaman then
-		tfm.exec.setGameTime(5, true)
+		tfm.exec.setGameTime(15, false)
 
 		shaman = playerName
 		tfm.exec.setPlayerScore(shaman, 1, true)
