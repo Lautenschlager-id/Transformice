@@ -1,5 +1,3 @@
--- Module [crowdsurf] by Bolodefchoco
-
 math.randomseed(os.time())
 
 local isTribeHouse = string.byte(tfm.get.room.name, 2) == 3
