@@ -3,6 +3,7 @@ math.randomseed(os.time())
 local isTribeHouse = string.byte(tfm.get.room.name, 2) == 3
 
 local fastMode, noShamanMode, noCollisionMode = false, false, false
+local hasMode, hasModeRunning = false, true
 if not isTribeHouse then
 	local mode
 	if string.find(tfm.get.room.name, "vanilla") then
@@ -19,6 +20,8 @@ if not isTribeHouse then
 		if string.find(tfm.get.room.name, "nocollision") then
 			noCollisionMode = true
 		end
+
+		hasMode = fastMode or noShamanMode or noCollisionMode
 	end
 
 	if mode then
@@ -75,6 +78,31 @@ eventNewGame = function()
 	end
 
 	if not toReload then
+		if not hasMode then
+			if hasModeRunning then
+				fastMode = false
+				noShamanMode = false
+				noCollisionMode = false
+			end
+
+			if math.random(1, 8) == math.random(1, 8) then
+				hasModeRunning = true
+				local number = math.random(1, 3)
+
+				local message = "<ROSE>The <N>%s</N> has been activated in this round. You can play more of it at <N>/room #crowdsurf0%s"
+				if number == 1 then
+					fastMode = true
+					tfm.exec.chatMessage(string.format(message, "Fast Mode", "fast"))
+				elseif number == 2 and not shaman then
+					noShamanMode = true
+					tfm.exec.chatMessage(string.format(message, "No Shaman Mode", "noshaman"))
+				elseif number == 3 then
+					noCollisionMode = true
+					tfm.exec.chatMessage(string.format(message, "No Mice Collision Mode", "nocollision"))
+				end
+			end
+		end
+
 		local counter = 0
 		xml = (string.gsub(xml, "<S ", function()
 			counter = counter + 1
