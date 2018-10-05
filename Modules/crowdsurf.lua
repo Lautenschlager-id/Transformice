@@ -58,10 +58,9 @@ local skip = false
 
 local skipMap = function()
 	toReload = nil
-	map = nil
 
 	tfm.exec.setGameTime(5, false)
-	tfm.exec.newGame(getParam())
+	map = getParam()
 end
 
 eventNewGame = function()
