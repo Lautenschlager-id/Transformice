@@ -68,15 +68,15 @@ eventNewGame = function()
 		skipMap()
 		return
 	end
-	
-	local xml = tfm.get.room.xmlMapInfo.xml
-		
-	if string.find(xml, "T=\"9\"") or string.find(xml, "T=\"15\"") then -- water or web doesn't disappear with the attribute v
-		skipMap()
-		return
-	end
 
 	if not toReload then
+		local xml = tfm.get.room.xmlMapInfo.xml
+
+		if string.find(xml, "T=\"9\"") or string.find(xml, "T=\"15\"") then -- water or web doesn't disappear with the attribute v
+			skipMap()
+			return
+		end
+
 		if not hasMode then
 			if hasModeRunning then
 				fastMode = false
@@ -226,12 +226,15 @@ end
 eventChatCommand = function(playerName, command)
 	if command == "help" then
 		tfm.exec.chatMessage("<ROSE>Module rewritten by <N>Bolodefchoco</N> and initially released by <N>Baasbase#0095</N>.\nGame modes: <N>#crowdsurf0fast</N>, <N>#crowdsurf0noshaman</N>, <N>#crowdsurf0nocollision</N>", playerName)
+	elseif command == "mort" then
+		tfm.exec.killPlayer(playerName)
 	end
 end
 system.disableChatCommandDisplay("help", true)
 
 tfm.exec.disableAutoShaman()
 tfm.exec.disableAutoScore()
+tfm.exec.disableMortCommand()
 tfm.exec.disableAllShamanSkills()
 
 tfm.exec.newGame(getParam())
