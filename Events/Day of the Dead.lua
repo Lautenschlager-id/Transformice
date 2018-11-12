@@ -9,7 +9,7 @@ local module = {
 		badge = { "badge_muertos", 2^0 },
 		orb = { "orb_muertos", 2^1 }
 	},
-	time = 1.75 * 60,
+	time = 1.85 * 60,
 	map = '<C><P L="2600" H="800" /><Z><S><S L="822" H="10" X="490" Y="605" T="12" P=",,.3,.2,10,,," /><S L="895" H="10" X="1650" Y="717" T="12" P=",,.3,.2,1,,," /><S L="385" H="10" X="2285" Y="765" T="12" P=",,.3,.2,12,,," /><S L="200" H="10" X="2501" Y="789" T="12" P=",,.3,.2,,,," /><S L="60" H="45" X="2250" Y="660" T="12" P=",,.7,.2,,,," /><S L="115" H="95" X="2360" Y="635" T="12" P=",,.3,.2,,,," /><S L="30" H="80" X="2390" Y="540" T="12" P=",,.3,.2,,,," /><S L="22" X="2390" H="10" Y="450" T="13" P=",,.36,.2,,,," /><S L="15" X="2390" H="10" Y="485" T="13" P=",,.3,.2,,,," /><S L="191" X="2617" H="10" Y="423" T="13" P=",,.3,.2,,,," /><S L="161" H="10" X="2280" Y="298" T="12" P=",,.3,.2,,,," /><S L="95" H="10" X="1953" Y="158" T="12" P=",,.3,.2,,,," /><S L="95" H="10" X="2044" Y="172" T="12" P=",,.3,.2,18,,," /><S L="95" H="10" X="2127" Y="215" T="12" P=",,.3,.2,36,,," /><S L="71" H="10" X="2185" Y="270" T="12" P=",,.3,.2,54,,," /><S L="67" H="10" X="1790" Y="207" T="12" P=",,.3,.2,324,,," /><S L="95" H="10" X="1862" Y="172" T="12" P=",,.3,.2,342,,," /><S L="332" H="10" X="1601" Y="226" T="12" P=",,.3,.2,,,," /><S L="229" H="10" X="1243" Y="155" T="12" P=",,.3,.2,34,,," /><S L="116" H="10" X="1093" Y="92" T="12" P=",,.3,.2,,,," /><S L="325" H="10" X="1417" Y="299" T="12" P=",,.3,.2,,,," /><S L="200" H="10" X="1202" Y="380" T="12" P=",,.3,.2,-56,,," /><S L="130" H="10" X="1663" Y="470" T="12" P=",,.3,.2,,,," /><S L="199" H="10" X="2274" Y="166" T="12" P=",,.3,.2,,,," /><S L="194" H="10" X="1053" Y="461" T="12" P=",,.3,.2,,,," /><S L="10" H="104" X="70" Y="487" T="12" P=",,.3,.2,-20,,," /><S L="10" H="40" X="53" Y="420" T="12" P=",,.3,.2,,,," /><S L="10" H="85" X="69" Y="363" T="12" P=",,,,22,,," /><S L="92" H="10" X="1079" Y="557" T="12" P=",,.3,.2,,,," /><S L="115" H="10" X="1304" Y="494" T="12" P=",,.3,.2,,,," /><S L="118" H="10" X="1455" Y="616" T="12" P=",,.3,.2,,,," /><S L="70" H="10" X="554" Y="529" T="12" P=",,1.2,.2,-35,,," /><S L="156" H="10" X="653" Y="476" T="12" P=",,.3,.2,-25,,," /><S L="156" H="10" X="798" Y="423" T="12" P=",,.3,.2,-15,,," /><S L="87" H="10" X="915" Y="399" T="12" P=",,1,.2,-5,,," /><S L="20" H="53" X="949" Y="319" T="12" P=",,.7,.2,,,," /><S L="10" H="53" X="950" Y="269" T="12" P=",,.3,.2,14,,," /><S L="10" H="53" X="969" Y="222" T="12" P=",,.3,.2,29,,," /><S L="10" H="23" X="990" Y="195" T="12" P=",,.3,.2,61,,," /><S L="176" H="10" X="1081" Y="211" T="12" P=",,.6,.2,14,,," /><S Y="510" L="30" X="1480" H="60" i="-10,-60,1660d7b34f1.png" T="12" P="1,150,.3,.2,,,,25" /><S L="10" H="800" X="2596" Y="394" T="12" P=",,,,,,," /><S L="130" H="10" X="1953" Y="286" T="12" P=",,.3,.2,,,," /><S L="312" X="1048" H="10" Y="693" T="12" P=",,.3,.2,6,,," /><S L="10" X="1431" H="30" Y="237" T="12" P=",,.3,.2,30,,," /></S><D><DS Y="699" X="1729" /></D><O /><L><JR LIM2=".7854" LIM1="-.7854" P1="1480,400" M1="40" /></L></Z></C>',
 	confetti_to_fix_pinata = 50,
 	candies_to_finish_event = 30,
@@ -29,7 +29,7 @@ local translations = {
 			[1] = "Hey there!\nMy name is Mirabella, the ghost of Halloween!\n\nThe Day of the Dead is coming soon and the party will start, but while decorating the city, the Piñata, Sesame, got its paw ripped. I mended it, but all the confetti got scattered across the city. The citizens are searching for them, could you help us?",
 			[2] = "Yaaaaaaaay!!!!\nThank you very much! Sesame is feeling much better now!\n\nIt's time to prepair the sweets and the music!",
 			[3] = "Oh... Hey! It's me again...\n\nI was checking if everything was okay to start the party when I noticed something terrible... SESAME IS EMPTY! THE CANDIES DISAPPEARED!\n\nYour help fixing its paw was great. I wonder if you could help us to find the candies that fell from the paw gap!?",
-			[4] = "Wooooooooow!\n\nThank you very much for your help!\n\nNow we all can relax now and party with the dead!",
+			[4] = "Wooooooooow!\n\nThank you very much for your help!\n\nNow we all can relax and party with the dead!",
 			-- Miguel
 			[5] = "Se-Sesame's paw go-got ripped... :(\n\nPlease he-help him :(",
 			[6] = "Ooooh... Dear citizen...\nI was so worried about Sesame's paw that I totally forgot about my guitar... I think I lost it!\n\nWithout it there won't be music and the festival will be ruined!\nCan you help me to find it? If so, let me show you the lyrics!",
@@ -1069,7 +1069,7 @@ local selectGuitar = function(self, playerName, id)
 
 	playerCache[playerName].remImg.highlightGuitar = tfm.exec.addImage(objects.guitar[id], ":200", 160 + id * 85, 150, playerName)
 	-- Reusing function update
-	playerCache[playerName].guitarTimer = os.time() + 1500
+	playerCache[playerName].guitarTimer = os.time() + 500
 
 	playerCache[playerName].simonSaysSequence.seq[playerCache[playerName].simonSaysSequence.id] = playerCache[playerName].simonSaysSequence.seq[playerCache[playerName].simonSaysSequence.id] == id
 
@@ -1127,6 +1127,7 @@ eventNewGame = function()
 		return system.exit()
 	else
 		time = 0
+		tfm.exec.setGameTime(module.time)
 	end
 
 	-- Set players
@@ -1474,9 +1475,9 @@ eventLoop = function(currentTime, remainingTime)
 			time = 0
 			for playerName, data in next, playerCache do
 				teleportCandies(playerName)
-				if data.displaySimonSays == 2 and tfm.get.room.playerList[playerName].x > 860 then
-					removeGuitars(playerName)
-				end
+				--if data.displaySimonSays == 2 and tfm.get.room.playerList[playerName].x > 860 then
+				--	removeGuitars(playerName)
+				--end
 			end
 
 			-- Two loops so it doesn't interfer in the speed of important stuff
