@@ -66,8 +66,8 @@ local translations = {
 			[7] = "Yuuuupiiii! Você encontrou! Oh meu ratinho, muito obrigado!!!!\n\nAgora todo mundo vai escutar minha ótima música!"
 		},
 		close_dialog = "Aperte a barra de espaço para fechar.",
-		welcome = "Este é o <B>Dia de Los Muertos</B>,onde os mortos e os vivos festejam juntos!\n\n~ ~ ~ Vamos mexer o esqueleto! ~ ~ ~",
-		conclusion = "Wooow! Você é um docinho! Agora os fantasmas podem finalmente festejar e comer muuuito açúcar!!!\n\nObrigado a <B>Mirabella</B> por trazer os mortos ao nosso mundo, <B>%s</B> por codificar toda a mágina e <B>%s</B> por desenhar tudo neste incrível evento!",
+		welcome = "Este é o <B>Dia dos Mortos</B>, onde os mortos e os vivos festejam juntos!\n\n~ ~ ~ Vamos mexer o esqueleto! ~ ~ ~",
+		conclusion = "Wooow! Você é um docinho! Agora os fantasmas podem finalmente festejar e comer muuuitos doces!!!\n\nObrigado a <B>Mirabella</B> por trazer os mortos ao nosso mundo, <B>%s</B> por codificar toda a mágica e <B>%s</B> por desenhar tudo neste incrível evento!",
 		failed_colors = "Não deixem os fantasmas te assustar, preste atenção nas cores e faça a ordem corretamente na próxima vez!",
 	},
 	cn = {
@@ -914,6 +914,19 @@ local getPinataStage = function(score)
 	return len - math.clamp(stage, 1, (len - 1))
 end
 
+local checkForBadge = function(playerName)
+	if not hasConcluded(playerName, "badge") and playerData:get(playerName, "collected") >= module.candies_to_finish_event then
+		system.giveEventGift(playerName, module.prize.badge[1])
+		playerData:set(playerName, "conclusion", playerData:get(playerName, "conclusion") + module.prize.badge[2])
+		tfm.exec.chatMessage("<CE><p align='center'>" .. string.format(translation.conclusion, module.team[1], module.team[2]) .. "</p>", playerName)
+
+		playerCache[playerName].dialog[1] = 4
+		ui.dialog(playerName)
+
+		tfm.exec.giveConsumables(playerName, consumables.pumpkin, 2)
+	end
+end
+
 local pinata = function(self, playerName)
 	if playerCache[playerName].dataLoaded then
 		if playerCache[playerName].collected > 0 then
@@ -943,16 +956,7 @@ local pinata = function(self, playerName)
 					tfm.exec.giveConsumables(playerName, consumables.pumpkin, 2)
 				end
 			else
-				if not hasConcluded(playerName, "badge") and playerData:get(playerName, "collected") >= module.candies_to_finish_event then
-					system.giveEventGift(playerName, module.prize.badge[1])
-					playerData:set(playerName, "conclusion", playerData:get(playerName, "conclusion") + module.prize.badge[2])
-					tfm.exec.chatMessage("<CE><p align='center'>" .. string.format(translation.conclusion, module.team[1], module.team[2]) .. "</p>", playerName)
-
-					playerCache[playerName].dialog[1] = 4
-					ui.dialog(playerName)
-
-					tfm.exec.giveConsumables(playerName, consumables.pumpkin, 2)
-				end
+				checkForBadge(playerName)
 			end
 			playerData:save(playerName)
 		end
@@ -1324,6 +1328,7 @@ eventPlayerDataLoaded = function(playerName, data)
 			bindArrows(playerName, true)
 			eventKeyboard(playerName, keys[(tfm.get.room.playerList[playerName].isFacingRight and "right" or "left")])
 		end
+		checkForBadge(playerName)
 	end
 	ui.displayCollectedItems(playerName)
 
