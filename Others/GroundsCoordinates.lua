@@ -1,4 +1,4 @@
-// Use mapHandler.isGround(x, y)
+-- Use mapHandler.isGround(x, y)
 
 local gmatch, match = string.gmatch, string.match
 local rad, cos, sin, floor = math.rad, math.cos, math.sin, math.floor
