@@ -1,9 +1,9 @@
--- Use mapHandler.isGround(x, y)
+-- Use mapGrid.isGround(x, y)
 
 local gmatch, match = string.gmatch, string.match
 local rad, cos, sin, floor = math.rad, math.cos, math.sin, math.floor
 
-local mapManager = function()
+local groundGridManager = function()
 	local self = { }
 	local map = { }
 	local grounds = { }
@@ -126,9 +126,9 @@ local mapManager = function()
 
 	return self
 end
-local mapHandler = mapManager()
+local mapGrid = groundGridManager()
 eventLoop = function()
-	mapHandler.updateMap()
+	mapGrid.updateMap()
 end
 
 eventNewGame = function()
@@ -138,8 +138,8 @@ eventNewGame = function()
 
 	local xml = tfm.get.room.xmlMapInfo
 	if xml then
-		mapHandler.new(xml.xml)
+		mapGrid.new(xml.xml)
 	else
-		mapHandler.refresh()
+		mapGrid.refresh()
 	end
 end
