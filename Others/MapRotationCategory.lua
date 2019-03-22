@@ -3,7 +3,7 @@ local maps = {
 	queue = { 1, 2, 3, { 1, 2, 3 } },
 
 	[1] = {
-		queue = { }, -- Maps goes here
+		queue = { }, -- Maps goes herem
 		fBefore = function(mapCode)
 			-- Triggered before the map gets started
 		end,
@@ -42,12 +42,12 @@ do
 	for i = 1, #maps do
 		shuffle(maps[i].queue)
 		maps[i] = {
-			next = 1, -- Don't change
+			_next = 1, -- Don't change
 			fBefore = maps[i].fBefore,
 			fAfter = maps[i].fAfter,
 			queue = maps[i].queue,
-			queueLen = #maps[i].queue,
-			hashedQueue = set(maps[i].queue)
+			_queueLen = #maps[i].queue,
+			_hashedQueue = set(maps[i].queue)
 		}
 	end
 
@@ -66,15 +66,15 @@ do
 
 			local map
 			if hasCat then
-				map = this[category].queue[math.random(this[category].queueLen)]
+				map = this[category].queue[math.random(this[category]._queueLen)]
 			else
-				map = this[category].queue[this[category].next]
+				map = this[category].queue[this[category]._next]
 
-				if this[category].next == this[category].queueLen then
+				if this[category]._next == this[category]._queueLen then
 					shuffle(this[category].queue)
-					this[category].next = 1
+					this[category]._next = 1
 				else
-					this[category].next = this[category].next + 1
+					this[category]._next = this[category]._next + 1
 				end
 			end
 
@@ -94,8 +94,8 @@ eventNewGame = function()
 		local category = maps.queue._lastCat
 		if maps[category].fAfter then
 			local currentMap = tonumber(tfm.get.room.currentMap)
-			local isMap = maps[category].hashedQueue[currentMap]
-			isMap = isMap or (tfm.get.room.xmlMapInfo and maps[category].hashedQueue[tfm.get.room.xmlMapInfo.mapCode])
+			local isMap = maps[category]._hashedQueue[currentMap]
+			isMap = isMap or (tfm.get.room.xmlMapInfo and maps[category]._hashedQueue[tfm.get.room.xmlMapInfo.mapCode])
 			if isMap then
 				maps[category].fAfter(currentMap)
 			end
