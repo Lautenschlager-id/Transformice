@@ -95,7 +95,9 @@ eventNewGame = function()
 		if maps[category].fAfter then
 			local currentMap = tonumber(tfm.get.room.currentMap)
 			local isMap = maps[category]._hashedQueue[currentMap]
-			isMap = isMap or (tfm.get.room.xmlMapInfo and maps[category]._hashedQueue[tfm.get.room.xmlMapInfo.mapCode])
+			if not isMap and tfm.get.room.xmlMapInfo then
+				isMap = maps[category]._hashedQueue[tfm.get.room.xmlMapInfo.mapCode] or maps[category]._hashedQueue[tonumber(tfm.get.room.xmlMapInfo.mapCode)]
+			end
 			if isMap then
 				maps[category].fAfter(currentMap)
 			end
