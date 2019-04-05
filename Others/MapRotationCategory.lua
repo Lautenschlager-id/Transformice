@@ -23,9 +23,7 @@ do
 		local index, tmp
 		for i = #list, 1, -1 do
 			index = math.random(i)
-			tmp = list[index]
-			list[index] = list[i]
-			list[i] = tmp
+			list[index], list[i] = list[i], list[index]
 		end
 	end
 	local set = function(list)
