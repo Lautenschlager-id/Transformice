@@ -20,7 +20,7 @@ local maps = {
 }
 do
 	local shuffle = function(list)
-		local index, tmp
+		local index
 		for i = #list, 1, -1 do
 			index = math.random(i)
 			list[index], list[i] = list[i], list[index]
