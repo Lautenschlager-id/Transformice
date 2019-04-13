@@ -159,8 +159,6 @@ eventNewGame = function()
 end
 
 eventLoop = function(currentTime, remainingTime)
-	print("Vamp: " .. tostring(players._vampire._count) .. " Alive: " .. tostring(players._alive._count) .. " | " .. tostring(players._vampire._count and players._vampire._count == 0) .. "," .. tostring(players._alive._count and players._alive._count == 1 and players.__roundTotal and players.__roundTotal > 3) .. "," .. tostring(players._alive._count and players._alive._count > 0 and remainingTime < 1000))
-
 	if newGameTimer then
 		newGameTimer = newGameTimer - .5
 	end
