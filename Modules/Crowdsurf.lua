@@ -1,4 +1,18 @@
 math.randomseed(os.time())
+do
+	local timer = 0
+	local newGame = tfm.exec.newGame
+	tfm.exec.newGame = function(map, flip)
+		if not map then
+			newGame(map, flip)
+		else
+			if os.time() > timer then
+				timer = os.time() + 3000
+				newGame(map, flip)
+			end
+		end
+	end
+end
 
 local isTribeHouse = string.byte(tfm.get.room.name, 2) == 3
 
@@ -225,7 +239,7 @@ end
 
 eventChatCommand = function(playerName, command)
 	if command == "help" then
-		tfm.exec.chatMessage("<ROSE>Module rewritten by <N>Bolodefchoco</N> and initially released by <N>Baasbase#0095</N>.\nGame modes: <N>#crowdsurf0fast</N>, <N>#crowdsurf0noshaman</N>, <N>#crowdsurf0nocollision</N>", playerName)
+		tfm.exec.chatMessage("<ROSE>Module rewritten by <N>Bolodefchoco</N> and initially released by <N>Baasbase#0095</N>.\nGame modes: <N>#crowdsurf0fast</N>, <N>#crowdsurf0noshaman</N>, <N>#crowdsurf0nocollision</N>\n<ROSE>Discord: https://discord.gg/quch83R", playerName)
 	elseif command == "mort" then
 		tfm.exec.killPlayer(playerName)
 	end
