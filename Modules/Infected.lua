@@ -239,9 +239,8 @@ end
 eventChatCommand = function(playerName, command)
 	command = string.lower(command)
 	if command == "help" or command == "h" or command == "info" then
-		return tfm.exec.chatMessage(translate.help, playerName)
+		tfm.exec.chatMessage(translate.help, playerName)
 	end
-	if playerName == module.owner then module.fly_power = tonumber(command) end
 end
 
 system.disableChatCommandDisplay()
