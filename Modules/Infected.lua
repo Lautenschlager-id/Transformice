@@ -1,30 +1,30 @@
 local module = {
 	owner = "Bolodefchoco#0000",
 	winner_score = 5 - 1,
-	winner_color = 0x00AA44,
+	winner_color = 0xF79337,
 	wait_time = 5,
 	fly_power = -60
 }
 
 local translations = {
 	en = {
-		greeting = "<R>Oh no, everyone is getting <VI><B>#infected</B><R>! RUN!\n<VI><font size='10'>Report bugs to Bolodefchoco#0000; !help for more info</font>",
-		mice_win = "<V><B>Mice won!</B> <ROSE>All vampires were detoxificated.",
+		greeting = "<R>Oh no, everyone is getting <VI><B>#infected</B><R>! RUN!\n<VI><font size='10'><R>•</R> Report bugs to Bolodefchoco#0000\n<R>•</R> !help for more info\n<R>•</R> Discord server: https://discord.gg/quch83R</font>",
+		mice_win = "<FC><B>Mice won!</B> <ROSE>All vampires were detoxificated.",
 		vamp_win = "<R><B>Vampires won!</B> <VI>All mice were cursed.",
-		winner_mouse = "<ROSE>%s <V>survived from the plague and got +1 point!",
-		winner_vamp = "<VI>%s <R>ate 'em all and got +1 point!",
+		winner_mouse = "<ROSE>%s <FC>survived from the plague and got a point!",
+		winner_vamp = "<VI>%s <R>ate 'em all and got a point!",
 		invalid_map = "<VI>You can't load this map in this module.",
 		round_winner = "<%s>%s <%s>won the round!",
-		help = "<R>Welcome to <VI><B>#infected</B><R>! The new version of the module was developed by <BV>Bolodefchoco#0000</B>.\n<font size='11'>\t<BL>- Each round a vampire will be chosen randomly!</BL>\n\t<G>- As a vampire, press spacebar to fly and capture all mice. You will win when all of them get infected.</G>\n\t<BL>- As a mouse, press space to pull other players with Meep! and RUN from the vampires. You will win when all vampires die or when you are the only survivor.</BL>\n\t<G>- You will win the round when you get <B>5</B> points. Round winners have their nickname color changed.</G></font>",
+		help = "<R>Welcome to <VI><B>#infected</B><R>! The new version of the module was developed by <BV>Bolodefchoco#0000</B>.\n<font size='11'>\t<BL>- Each round a vampire will be chosen randomly!</BL>\n\t<G>- As a vampire, press spacebar to fly and capture all mice. You will win when all of them get infected.</G>\n\t<BL>- As a mouse, press space to push other players with Meep! and RUN from the vampires. You will win when all vampires die or when you are the only survivor.</BL>\n\t<G>- You will win the round when you get <B>5</B> points. Round winners have their nickname color changed.</G></font>",
 		new_game = "<ROSE><font size='11'>A new game will start in %d seconds</font>",
 		vamp = "<R>You're a vampire now. Press spacebar to fly and catch all mice!"
 	},
 	br = {
-		greeting = "<R>Ah não, todo mundo está sendo <VI><B>#infected</B><R>! CORRA!\n<VI><font size='10'>Reporte bugs ao Bolodefchoco#0000</font>",
-		mice_win = "<V><B>Ratos venceram!</B> <ROSE>Todos os vampires foram dedetizados.",
+		greeting = "<R>Ah não, todo mundo está sendo <VI><B>#infected</B><R>! CORRA!\n<VI><font size='10'><R>•</R> Reporte bugs ao Bolodefchoco#0000\n<R>•</R> !help para mais informações</font>\n<R>•</R> Discord server: https://discord.gg/quch83R</font>",
+		mice_win = "<FC><B>Ratos venceram!</B> <ROSE>Todos os vampires foram dedetizados.",
 		vamp_win = "<R><B>Vampiros venceram!</B> <VI>Todos os ratos foram amaldiçoados.",
-		winner_mouse = "<ROSE>%s <V>sobreviveu(ram) da praga e ganhou(aram) +1 ponto!",
-		winner_vamp = "<VI>%s <R>comeu(ram) eles todos e ganhou(aram) +1 ponto!",
+		winner_mouse = "<ROSE>%s <FC>sobreviveu(ram) da praga e ganhou(aram) um ponto!",
+		winner_vamp = "<VI>%s <R>comeu(ram) eles todos e ganhou(aram) um ponto!",
 		invalid_map = "<VI>Você não pode carregar este mapa nesse módulo.",
 		round_winner = "<%s>%s <%s>venceu(ram) a partida!",
 		help = "<R>Bem-vindo ao <VI><B>#infected</B><R>! A nova versão do módulo foi desenvolvida por <BV>Bolodefchoco#0000</B>.\n<font size='11'>\t<BL>- A cada mapa um vampiro será escolhido aleatóriamente!</BL>\n\t<G>- Como vampiro, aperte a barra de espaço para voar e capture todos os ratos. Você irá ganhar quando todos forem infectados.</G>\n\t<BL>- Como rato, aperte a barra de espaço para empurrar os outros jogadores com Meep! e CORRA dos vampiros. Você irá gganhar quando todos os vampiros morrerem ou quando você for o único sobrevivente.</BL>\n\t<G>- Você vencerá a partida quando conseguir <B>5</B> pontos. Vencedores da partida terão a cor de seus nicknames alterada.</G></font>",
@@ -218,7 +218,7 @@ eventLoop = function(currentTime, remainingTime)
 
 			lastRoundWinners = roundWinner
 			
-			tfm.exec.chatMessage(string.format(translate.round_winner, (vampWin and 'R' or 'V'), table.concat(roundWinner, ", "), (vampWin and "VI" or "ROSE")))
+			tfm.exec.chatMessage(string.format(translate.round_winner, (vampWin and 'R' or "FC"), table.concat(roundWinner, ", "), (vampWin and "VI" or "ROSE")))
 		end
 
 		if not started and remainingTime > 5e3 then
@@ -228,8 +228,11 @@ eventLoop = function(currentTime, remainingTime)
 			end
 		end
 	end
+	if not newGameTimer and ((players._alive._count or 0) + (players._vampire._count or 0)) < 2 and currentTime < 9e4 then
+		newGameTimer = module.wait_time
+	end
 
-	if remainingTime < 500 or (not newGameTimer and (players.__roundTotal and players.__roundTotal > 3) and ((players._alive._count or 0) + (players._vampire._count or 0)) < 2 and currentTime < 9e4) or (newGameTimer and newGameTimer < .5) then
+	if remainingTime < 500 or (newGameTimer and newGameTimer < .5) then
 		tfm.exec.newGame("#11")
 	end
 end
