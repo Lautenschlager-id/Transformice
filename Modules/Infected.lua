@@ -36,8 +36,8 @@ local translate = translations[tfm.get.room.community] or translations.en
 
 do
 	local chatMessage = tfm.exec.chatMessage
-	tfm.exec.chatMessage = function(msg, tgt, ignore)
-		return chatMessage(( ignore and "" or "<BL>[•] " ).. msg, tgt)
+	tfm.exec.chatMessage = function(msg, tgt)
+		return chatMessage("<BL>[•] " .. msg, tgt)
 	end
 end
 
