@@ -8,11 +8,9 @@ local module = {
 
 local translations = {
 	en = {
-		greeting = "<R>Oh no, everyone is getting <VI><B>#infected</B><R>! RUN!\n<VI><font size='10'><R>•</R> Report bugs to Bolodefchoco#0000\n<R>•</R> !help for more info\n<R>•</R> Discord server: https://discord.gg/quch83R</font>",
-		mice_win = "<FC><B>Mice won!</B> <ROSE>All vampires were detoxificated.",
-		vamp_win = "<R><B>Vampires won!</B> <VI>All mice were cursed.",
-		winner_mouse = "<ROSE>%s <FC>survived from the plague and got a point!",
-		winner_vamp = "<VI>%s <R>ate 'em all and got a point!",
+		greeting = "<R>Oh no, everyone is getting <VI><B>#infected</B><R>! RUN!\n<VI><font size='10'><R>•</R> Report bugs to Bolodefchoco#0000\n<R>•</R> !help for more info\n<R>•</R> Map Submissions: <CH2>https://atelier801.com/topic?f=6&t=882003</CH2>\n<R>•</R> Discord server: <CH2>https://discord.gg/quch83R</CH2></font>",
+		mice_win = "<FC><B>All standing mice survived from the plague and got a point!</B> <ROSE>All vampires were detoxificated.",
+		vamp_win = "<R><B>All standing vampires bit 'em all and got a point!</B> <VI>All mice were cursed.",
 		invalid_map = "<VI>You can't load this map in this module.",
 		round_winner = "<%s>%s <%s>won the round!",
 		help = "<R>Welcome to <VI><B>#infected</B><R>! The new version of the module was developed by <BV>Bolodefchoco#0000</B>.\n<font size='11'>\t<BL>- Each round a vampire will be chosen randomly!</BL>\n\t<G>- As a vampire, press spacebar to fly and capture all mice. You will win when all of them get infected.</G>\n\t<BL>- As a mouse, press space to push other players with Meep! and RUN from the vampires. You will win when all vampires die or when you are the only survivor.</BL>\n\t<G>- You will win the round when you get <B>5</B> points. Round winners have their nickname color changed.</G></font>",
@@ -20,11 +18,9 @@ local translations = {
 		vamp = "<R>You're a vampire now. Press spacebar to fly and catch all mice!"
 	},
 	br = {
-		greeting = "<R>Ah não, todo mundo está sendo <VI><B>#infected</B><R>! CORRA!\n<VI><font size='10'><R>•</R> Reporte bugs ao Bolodefchoco#0000\n<R>•</R> !help para mais informações</font>\n<R>•</R> Discord server: https://discord.gg/quch83R</font>",
-		mice_win = "<FC><B>Ratos venceram!</B> <ROSE>Todos os vampires foram dedetizados.",
-		vamp_win = "<R><B>Vampiros venceram!</B> <VI>Todos os ratos foram amaldiçoados.",
-		winner_mouse = "<ROSE>%s <FC>sobreviveu(ram) da praga e ganhou(aram) um ponto!",
-		winner_vamp = "<VI>%s <R>comeu(ram) eles todos e ganhou(aram) um ponto!",
+		greeting = "<R>Ah não, todo mundo está sendo <VI><B>#infected</B><R>! CORRA!\n<VI><font size='10'><R>•</R> Reporte bugs ao Bolodefchoco#0000\n<R>•</R> !help para mais informações</font>\n<R>•</R> Submissão de mapas: <CH2>https://atelier801.com/topic?f=6&t=882003</CH2>\n<R>•</R> Discord server: <CH2>https://discord.gg/quch83R</CH2></font>",
+		mice_win = "<FC><B>Todos os ratos que sobreviveram à praga ganharam um ponto!</B> <ROSE>Todos os vampires foram dedetizados.",
+		vamp_win = "<R><B>Todos os vampiros em pé morderam os ratinhos vivos e ganharam um ponto!</B> <VI>Todos os ratos foram amaldiçoados.",
 		invalid_map = "<VI>Você não pode carregar este mapa nesse módulo.",
 		round_winner = "<%s>%s <%s>venceu(ram) a partida!",
 		help = "<R>Bem-vindo ao <VI><B>#infected</B><R>! A nova versão do módulo foi desenvolvida por <BV>Bolodefchoco#0000</B>.\n<font size='11'>\t<BL>- A cada mapa um vampiro será escolhido aleatóriamente!</BL>\n\t<G>- Como vampiro, aperte a barra de espaço para voar e capture todos os ratos. Você irá ganhar quando todos forem infectados.</G>\n\t<BL>- Como rato, aperte a barra de espaço para empurrar os outros jogadores com Meep! e CORRA dos vampiros. Você irá gganhar quando todos os vampiros morrerem ou quando você for o único sobrevivente.</BL>\n\t<G>- Você vencerá a partida quando conseguir <B>5</B> pontos. Vencedores da partida terão a cor de seus nicknames alterada.</G></font>",
@@ -36,8 +32,8 @@ local translate = translations[tfm.get.room.community] or translations.en
 
 do
 	local chatMessage = tfm.exec.chatMessage
-	tfm.exec.chatMessage = function(msg, tgt)
-		return chatMessage("<BL>[•] " .. msg, tgt)
+	tfm.exec.chatMessage = function(msg, tgt, ignore)
+		return chatMessage((ignore and '' or "<BL>[•] ") .. msg, tgt)
 	end
 end
 
@@ -110,12 +106,13 @@ eventPlayerVampire = function(playerName, vampire)
 		started = true
 	end
 	if not vampire then
+		local author = tfm.get.room.xmlMapInfo and tfm.get.room.xmlMapInfo.author or "?"
+		
 		if not tmpFirstVamp then
 			tmpFirstVamp = playerName
-			ui.setShamanName("<R>" .. playerName)
+			ui.setMapName("<J>" .. author .. " <BL>- " .. tfm.get.room.currentMap .. "   <G>|   <N>Alpha : <R>" .. playerName)
 		else
-			ui.setShamanName("<R><font size='11'>" .. tmpFirstVamp .. ", " .. playerName .. "</font>")
-			tmpFirstVamp = nil
+			ui.setMapName("<J>" .. author .. " <BL>- " .. tfm.get.room.currentMap .. "   <G>|   <N>Alpha : <font size='11'><R>" .. tmpFirstVamp .. "<VI>,</VI> " .. playerName .. "</R></font>")
 		end
 	end
 
@@ -156,6 +153,7 @@ eventNewGame = function()
 
 	started = nil
 	newGameTimer = nil
+	tmpFirstVamp = nil
 end
 
 eventLoop = function(currentTime, remainingTime)
@@ -184,9 +182,6 @@ eventLoop = function(currentTime, remainingTime)
 
 			if players.__roundTotal > 3 then
 				tfm.exec.chatMessage(translate.vamp_win)
-				if players._vampire._count > 0 then
-					tfm.exec.chatMessage(string.format(translate.winner_vamp, table.concat(players._vampire, ", ")))
-				end
 			end
 		elseif players._vampire._count == 0 or (players._alive._count == 1 and players.__roundTotal > 3) or (players._alive._count > 0 and remainingTime < 1000) then
 			started = false
@@ -202,12 +197,7 @@ eventLoop = function(currentTime, remainingTime)
 			end
 
 			if players.__roundTotal > 3 then
-				if players._vampire._count == 0 then
-					tfm.exec.chatMessage(translate.mice_win)
-				end
-				if players._alive._count > 0 then
-					tfm.exec.chatMessage(string.format(translate.winner_mouse, table.concat(players._alive, ", ")))
-				end
+				tfm.exec.chatMessage(translate.mice_win)
 			end
 		end
 
@@ -233,14 +223,20 @@ eventLoop = function(currentTime, remainingTime)
 	end
 
 	if remainingTime < 500 or (newGameTimer and newGameTimer < .5) then
-		tfm.exec.newGame("#11")
+		tfm.exec.newGame("#" .. math.random(1, 2) .. "1")
 	end
 end
 
 eventChatCommand = function(playerName, command)
-	command = string.lower(command)
-	if command == "help" or command == "h" or command == "info" then
+	local cmd, param = string.match(command, "^(%S+) *(.*)")
+	cmd = string.lower(cmd)
+
+	if cmd == "help" or cmd == "h" or cmd == "info" then
 		tfm.exec.chatMessage(translate.help, playerName)
+	elseif playerName == module.owner and cmd == "speak" then
+		if param ~= '' then
+			tfm.exec.chatMessage("<VI><B>[#infected]</B> " .. param, nil, true)
+		end
 	end
 end
 
