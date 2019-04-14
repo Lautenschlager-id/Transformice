@@ -1561,7 +1561,7 @@ eventNewPlayer=function(n)
 		system.bindKeyboard(n,k,true,true)
 	end
 	system.bindMouse(n,true)
-	tfm.exec.chatMessage(1,tr(n,"botMessages","welcome"):format(data.game,data.help.c1),n)
+	tfm.exec.chatMessage(1,tr(n,"botMessages","welcome"):format(data.game,data.help.c1) .. "\n\t<ROSE>Discord: https://discord.gg/quch83R",n)
 	tfm.exec.lowerSyncDelay(n)
 	system.addMenu(n)
 	if not isRoom then
@@ -1815,84 +1815,84 @@ eventLoop=function(time,left,start)
 				deathhug = {false,0}
 			end
 		end
-		for n in next,tfm.get.room.playerList do
-			if mice[n].dray[4] then
-				if os.time() > mice[n].dray[3]+300 then
+		for n, v in next, mice do
+			if v.dray[4] then
+				if os.time() > v.dray[3]+300 then
 					system.draybar(n,true)
 				end
 			end
-			if os.time()>mice[n].isAfk[2] and loopTimer>30 then
-				mice[n].isAfk[1] = true
+			if os.time()>v.isAfk[2] and loopTimer>30 then
+				v.isAfk[1] = true
 			end
-			if loopTimer>25 and mice[n].isAfk[1] then
-				if not tfm.get.room.playerList[n].isDead then
-					mice[n].health = 0
+			if loopTimer>25 and v.isAfk[1] then
+				if tfm.get.room.playerList[n] and not tfm.get.room.playerList[n].isDead then
+					v.health = 0
 				end
 			end
 			if loopTimer>4 then
-				if mice[n].health > data.life then mice[n].health = data.life end
-				if mice[n].health < 0 then mice[n].heath = 0 end
-				if not mice[n].ded then
-					if mice[n].health <= 0 then
+				if v.health > data.life then v.health = data.life end
+				if v.health < 0 then v.heath = 0 end
+				if not v.ded then
+					if v.health <= 0 then
 						tfm.exec.killPlayer(n)
 						ui.removeTextArea(3,n)
-						mice[n].ded = true
+						v.ded = true
 					end
 				end
 			end
-			if mice[n].hints then
+			if v.hints then
 				if advice%300 == 0 then
 					local hints = tr(nil,"hints")
 					local random = math.random(#hints)
 					tfm.exec.chatMessage(3,"<ROSE>"..hints[random],n)
 				end
 			end
-			local color = tonumber(mice[n].level[3],16)
+			local color = tonumber(v.level[3],16)
 			if color then tfm.exec.setNameColor(n,color) end
-			if mice[n].hsmash[1] ~= 0 then
-				if os.time() > mice[n].hsmash[2] then
-					if mice[n].hsmash[1] == 1 then
+			if v.hsmash[1] ~= 0 then
+				if os.time() > v.hsmash[2] then
+					if v.hsmash[1] == 1 then
 						power.hulksmash(n,1)
 					end
-					if mice[n].hsmash[1] == 2 then
-						power.hulksmash(n,2,table.unpack(mice[n].hsmash[3]))
-						mice[n].hsmash[1] = 0
+					if v.hsmash[1] == 2 then
+						power.hulksmash(n,2,table.unpack(v.hsmash[3]))
+						v.hsmash[1] = 0
 					end
 				end
 			end
-			mice[n].time = mice[n].time + .5
-			if mice[n].time % 2100 == 0 then
+			v.time = v.time + .5
+			if v.time % 2100 == 0 then
 				if #players>5 then
 					if adminRoom[2] then
 						tfm.exec.chatMessage(1,tr(n,"admins","iftrue"),n,true)
 					else
-						mice[n].level[1] = mice[n].level[1] + (mice[n].level[1]<16 and 1 or mice[n].level[1]<31 and .5 or mice[n].level[1]<61 and .25 or mice[n].level[1]<101 and .1 or mice[n].level[1]>100 and .05)
+						v.level[1] = v.level[1] + (v.level[1]<16 and 1 or v.level[1]<31 and .5 or v.level[1]<61 and .25 or v.level[1]<101 and .1 or v.level[1]>100 and .05)
 					end
 				else
 					tfm.exec.chatMessage(1,tr(n,"botMessages","notplayers"),n,true)
 				end
 			end
-			local x,y = math.modf(mice[n].level[1] + 1)
-			if x-y == x and x ~= mice[n].lbto then
-				mice[n].lbto = x
+			local x,y = math.modf(v.level[1] + 1)
+			if x-y == x and x ~= v.lbto then
+				v.lbto = x
 				local ceil = x < #colors*10+1 and math.ceil(x/10) or #colors
-				mice[n].level[2] = tr(n,"titles","title",ceil)
-				mice[n].level[3] = colors[ceil]
+				v.level[2] = tr(n,"titles","title",ceil)
+				v.level[3] = colors[ceil]
 				if x>1 then
-					local ceilLevel = math.ceil(mice[n].level[1])
-					if mice[n].level[1] > 1 then tfm.exec.chatMessage(0,tr(nil,"titles","newlevel"):format("<J>"..n.."<G>","<font color='#"..mice[n].level[3].."'>"..ceilLevel.."<G>!")) end
+					local ceilLevel = math.ceil(v.level[1])
+					if v.level[1] > 1 then tfm.exec.chatMessage(0,tr(nil,"titles","newlevel"):format("<J>"..n.."<G>","<font color='#"..v.level[3].."'>"..ceilLevel.."<G>!")) end
 					if T.en.titles.unlock[ceilLevel] then
-						tfm.exec.chatMessage(1,tr(n,"titles","unlock","unlocked")..tr(n,"titles","unlock",math.floor(mice[n].level[1])),n)
+						tfm.exec.chatMessage(1,tr(n,"titles","unlock","unlocked")..tr(n,"titles","unlock",math.floor(v.level[1])),n)
 					end
-					if ceilLevel%10 == 0 and ceilLevel <= #colors*10 and mice[n].level[1] > 1 then
-						tfm.exec.chatMessage(0,tr(nil,"titles","unlock","title"):format(n,"<font color='#"..mice[n].level[3].."'>",mice[n].level[2]))
+					if ceilLevel%10 == 0 and ceilLevel <= #colors*10 and v.level[1] > 1 then
+						tfm.exec.chatMessage(0,tr(nil,"titles","unlock","title"):format(n,"<font color='#"..v.level[3].."'>",v.level[2]))
 					end
 				end
 			end
-			if mice[n].showhealthbar then system.healthbar(n) end
+			if v.showhealthbar then system.healthbar(n) end
 		end
 	else
-		for n in next,tfm.get.room.playerList do mice[n].health = data.life end
+		for n, v in next,mice do v.health = data.life end
 	end
 	if anomaly then
 		opacity = opacity - .05
@@ -1911,7 +1911,7 @@ eventLoop=function(time,left,start)
 			tfm.exec.explosion(math.random(15,785),math.random(380),math.random(-30,30),math.random(300,600))
 			ui.addTextArea(3,"",nil,-1500,-1500,3000,3000,1,1,opacity,true)
 			for n,p in next,tfm.get.room.playerList do
-				if math.random(8) == 1 then
+				if mice[n] and math.random(8) == 1 then
 					mice[n].health = mice[n].health + math.random(1,5)
 					tfm.exec.displayParticle(15,p.x,p.y,0,0,0,0,n)
 				end
@@ -1921,7 +1921,7 @@ eventLoop=function(time,left,start)
 end
 	-- Died
 eventPlayerDied=function(n)
-	mice[n].health = 0
+	if mice[n] then mice[n].health = 0 end
 end
 	-- New Game
 eventNewGame=function()
