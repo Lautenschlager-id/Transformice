@@ -3,14 +3,15 @@ local module = {
 	winner_score = 5 - 1,
 	winner_color = 0xF79337,
 	wait_time = 5,
-	fly_power = -60
+	fly_power = -60,
+	map_time = 60 * 2.3
 }
 
 local translations = {
 	en = {
 		greeting = "<R>Oh no, everyone is getting <VI><B>#infected</B><R>! RUN!\n<VI><font size='10'><R>•</R> Report bugs to Bolodefchoco#0000\n<R>•</R> !help for more info\n<R>•</R> Map Submissions: <CH2>https://atelier801.com/topic?f=6&t=882003</CH2>\n<R>•</R> Discord server: <CH2>https://discord.gg/quch83R</CH2></font>",
-		mice_win = "<FC><B>All standing mice survived from the plague and got a point!</B> <ROSE>All vampires were detoxificated.",
-		vamp_win = "<R><B>All standing vampires bit 'em all and got a point!</B> <VI>All mice were cursed.",
+		mice_win = "<FC><B>All standing mice survived from the plague and got a point!</B>",
+		vamp_win = "<R><B>All standing vampires bit 'em all and got a point!</B>",
 		invalid_map = "<VI>You can't load this map in this module.",
 		round_winner = "<%s>%s <%s>won the round!",
 		help = "<R>Welcome to <VI><B>#infected</B><R>! The new version of the module was developed by <BV>Bolodefchoco#0000</B>.\n<font size='11'>\t<BL>- Each round a vampire will be chosen randomly!</BL>\n\t<G>- As a vampire, press spacebar to fly and capture all mice. You will win when all of them get infected.</G>\n\t<BL>- As a mouse, press space to push other players with Meep! and RUN from the vampires. You will win when all vampires die or when you are the only survivor.</BL>\n\t<G>- You will win the round when you get <B>5</B> points. Round winners have their nickname color changed.</G></font>",
@@ -19,8 +20,8 @@ local translations = {
 	},
 	br = {
 		greeting = "<R>Ah não, todo mundo está sendo <VI><B>#infected</B><R>! CORRA!\n<VI><font size='10'><R>•</R> Reporte bugs ao Bolodefchoco#0000\n<R>•</R> !help para mais informações</font>\n<R>•</R> Submissão de mapas: <CH2>https://atelier801.com/topic?f=6&t=882003</CH2>\n<R>•</R> Discord server: <CH2>https://discord.gg/quch83R</CH2></font>",
-		mice_win = "<FC><B>Todos os ratos que sobreviveram à praga ganharam um ponto!</B> <ROSE>Todos os vampires foram dedetizados.",
-		vamp_win = "<R><B>Todos os vampiros em pé morderam os ratinhos vivos e ganharam um ponto!</B> <VI>Todos os ratos foram amaldiçoados.",
+		mice_win = "<FC><B>Todos os ratos que sobreviveram à praga ganharam um ponto!</B>",
+		vamp_win = "<R><B>Todos os vampiros em pé morderam os ratinhos vivos e ganharam um ponto!</B>",
 		invalid_map = "<VI>Você não pode carregar este mapa nesse módulo.",
 		round_winner = "<%s>%s <%s>venceu(ram) a partida!",
 		help = "<R>Bem-vindo ao <VI><B>#infected</B><R>! A nova versão do módulo foi desenvolvida por <BV>Bolodefchoco#0000</B>.\n<font size='11'>\t<BL>- A cada mapa um vampiro será escolhido aleatóriamente!</BL>\n\t<G>- Como vampiro, aperte a barra de espaço para voar e capture todos os ratos. Você irá ganhar quando todos forem infectados.</G>\n\t<BL>- Como rato, aperte a barra de espaço para empurrar os outros jogadores com Meep! e CORRA dos vampiros. Você irá gganhar quando todos os vampiros morrerem ou quando você for o único sobrevivente.</BL>\n\t<G>- Você vencerá a partida quando conseguir <B>5</B> pontos. Vencedores da partida terão a cor de seus nicknames alterada.</G></font>",
@@ -143,6 +144,8 @@ eventNewGame = function()
 	players._alive = copy(players._room)
 	players.__roundTotal = players._alive._count
 
+	tfm.exec.setGameTime(module.map_time)
+
 	for playerName in next, tfm.get.room.playerList do
 		tfm.exec.giveMeep(playerName)
 	end
@@ -233,9 +236,13 @@ eventChatCommand = function(playerName, command)
 
 	if cmd == "help" or cmd == "h" or cmd == "info" then
 		tfm.exec.chatMessage(translate.help, playerName)
-	elseif playerName == module.owner and cmd == "speak" then
-		if param ~= '' then
-			tfm.exec.chatMessage("<VI><B>[#infected]</B> " .. param, nil, true)
+	elseif playerName == module.owner then
+		if cmd == "speak" and param then
+			if param ~= '' then
+				tfm.exec.chatMessage("<VI><B>[#infected]</B> " .. param, nil, true)
+			end
+		elseif cmd == "np" and param then
+			tfm.exec.newGame(param)
 		end
 	end
 end
