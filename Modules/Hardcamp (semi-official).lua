@@ -295,7 +295,6 @@ end, 1000, true)
 eventFileLoaded = function(id, data)
 	system.removeTimer(reloader)
 	reloader = nil
-	tfm.exec.setGameTime(5)
 
 	maps = decodeMaps(data)
 	for i = 1, #maps do
@@ -370,6 +369,7 @@ eventFileLoaded = function(id, data)
 		})
 	end
 	tfm.exec.setGameTime(4)
+	eventLoop(0, 0)
 end
 
 -- System
@@ -490,6 +490,15 @@ eventLoop = function(currentTime, leftTime)
 		end
 		tfm.exec.newGame(nextMap)
 	end
+
+	for p, d in next, info do
+		if d.logo then
+			d.logo_timer = d.logo_timer - .5
+			if d.logo_timer <= 0 then
+				tfm.exec.removeImage(d.logo)
+			end
+		end
+	end
 end
 
 eventNewPlayer = function(n)
@@ -503,6 +512,8 @@ eventNewPlayer = function(n)
 				page = 1,
 				timer = 0,
 			},
+			logo = tfm.exec.addImage("15d75ac6aa9.png", "&0", 120, 100, n),
+			logo_timer = 6
 		}
 	end
 
@@ -518,20 +529,24 @@ eventNewPlayer = function(n)
 	end
 
 	tfm.exec.chatMessage("<T>" .. string.format(translation.welcome, n) .. "\n\t<CEP>atelier801.com/topic?f=6&t=850791", n)
-
-	--ui.banner("15d75ac6aa9", 120, 100, n)
 end
 
 eventNewGame = function()
 	if not maps or not maps.queue then return tfm.exec.setGameTime(0) end
 
 	nextMap = nil
-	local isMap = maps[maps.queue._lastCat]._hashedQueue[tfm.get.room.currentMap]
-	if not isMap and tfm.get.room.xmlMapInfo then
-		isMap = maps[maps.queue._lastCat]._hashedQueue[tfm.get.room.xmlMapInfo.mapCode] or maps[maps.queue._lastCat]._hashedQueue[tonumber(tfm.get.room.xmlMapInfo.mapCode)]
-	end
-	if isMap then
-		ui.setMapName("<J>" .. (tfm.get.room.xmlMapInfo and tfm.get.room.xmlMapInfo.author or "?") .. " <BL>- " .. tfm.get.room.currentMap .. "   <G>|<N>   " .. translation.difficulty .. " : <V>" .. maps.queue._lastCat)
+	if tfm.get.room.xmlMapInfo then
+		local code = tonumber(tfm.get.room.xmlMapInfo.mapCode)
+		local diff
+		for j = 1, #maps do
+			if maps[j]._hashedQueue[code] then
+				diff = j
+				break
+			end
+		end
+		if diff then
+			ui.setMapName("<J>" .. (tfm.get.room.xmlMapInfo and tfm.get.room.xmlMapInfo.author or "?") .. " <BL>- " .. tfm.get.room.currentMap .. "   <G>|<N>   " .. translation.difficulty .. " : <V>" .. diff)
+		end
 	end
 
 	mapTimes = { }
