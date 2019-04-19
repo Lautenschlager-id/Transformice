@@ -34,6 +34,19 @@ local translations = {
 		vamp = "<R>Você é um vampiro agora. Aperte a barra de espaço para voar e pegue todos os ratos!",
 		teleport_skill = "<VI><B>Clique no mapa</B> <R>para se teletransportar uma vez!",
 		garlic_skill = "<V><B>Aperte a barra de espaço</B> <FC>para atirar um alho!"
+	},
+	fr = {
+		greeting = "<R>Oh non, tout le monde est en train de devenir <VI><B>#infected</B><R>! COUREZ! <font size='11'>!help pour +info</font>\n<VI>Soumettez vos cartes à l'adresse <CH2>https://atelier801.com/topic?f=6&t=882003</CH2>\n\tSignalez des bugs à Bolodefchoco#0000\n\tServeur: <CH2>https://discord.gg/quch83R</CH2>",
+		mice_win_1 = "<V>%s <FC>a/ont survécu à la peste et a/ont gagné un point!",
+		mice_win_2 = "<FC>Toutes les souris ayant survécu à la peste ont gagné un point!",
+		vamp_win = "<R>Tous les vampires ont mordu les souris et ont gagné un point!",
+		invalid_map = "<VI>Vous ne pouvez pas charger cette map dans ce module.",
+		round_winner = "<%s>%s <%s>a/ont gagné la manche!",
+		help = "<R>Bienvenue dans <VI><B>#infected</B><R>! La nouvelle version du module a été développée par <BV>Bolodefchoco#0000</B>.\n<font size='11'>\t<BL>- Chaque manche, un vampire va être désigné aléatoirement!</BL>\n\t<G>- En tant que vampire, appuyez sur espace pour voler et capturer toutes les souris. Vous gagnerez lorsqu'elles sont toutes infectées.</G>\n\t<BL>- En tant que souris, appuyez sur espace pour écarter les autres joueurs avec le Meep! et ÉCHAPPEZ-vous des vampires. Vous gagnerez lorsque tous les vampires meurent ou lorsque vous êtes le dernier survivant.</BL>\n\t<G>- Vous gagnerez la manche lorsque vous aurez <B>5</B> points. Les gagnants de la manche auront la couleur de leur pseudo changée.</G>\n\t<BL>- Les gagnants de la dernière carte peuvent jeter une gousse d'ail lorsqu'un icone apparaît. (Activé en cliquant dessus)</BL>\n\t<G>- Les vampires Alpha peuvent alors se téléporter une fois, lorsqu'un icone apparaît. (Activé en cliquant dessus)</G></font>",
+		new_game = "<ROSE><font size='11'>Une nouvelle partie va commencer dans %d secondes</font>",
+		vamp = "<R>Vous êtes un vampire. Appuyez sur espace pour voler et essayez d'attraper toutes les souris!",
+		teleport_skill = "<VI><B>Cliquez sur la carte</B> <R>pour vous téléporter!",
+		garlic_skill = "<V><B>Appuyez sur espace</B> <FC>pour jeter une gousse d'ail!"
 	}
 }
 local translate = translations[tfm.get.room.community] or translations.en
