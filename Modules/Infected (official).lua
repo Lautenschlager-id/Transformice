@@ -198,6 +198,7 @@ eventKeyboard = function(playerName, key, _, x, y)
 	end
 end
 
+local timer = 0
 local isTribeHouse = string.byte(tfm.get.room.name, 2) == 3
 eventNewGame = function()
 	if isTribeHouse and (not tfm.get.room.xmlMapInfo or (tfm.get.room.xmlMapInfo.permCode ~= 11 and tfm.get.room.xmlMapInfo.permCode ~= 21)) then
@@ -206,6 +207,7 @@ eventNewGame = function()
 		return
 	end
 
+	timer = 0
 	players._dead = { }
 	players._vampire = { }
 	players._alive = copy(players._room)
@@ -238,6 +240,8 @@ eventNewGame = function()
 end
 
 eventLoop = function(currentTime, remainingTime)
+	timer = timer + .5
+
 	if newGameTimer then
 		newGameTimer = newGameTimer - .5
 	end
@@ -245,62 +249,64 @@ eventLoop = function(currentTime, remainingTime)
 	if started then
 		local roundWinner, counter, vampWin = { }, 0, false
 
-		if players._alive._count == 0 then
-			started = false
+		if timer % 1 == 0 then
+			if players._alive._count == 0 then
+				started = false
 
-			for i = 1, players._vampire._count do
-				if players._vampire[i] and tfm.get.room.playerList[players._vampire[i]] then
-					tfm.exec.setPlayerScore(players._vampire[i], 1, true)
-					if tfm.get.room.playerList[players._vampire[i]].score >= module.winner_score then
-						counter = counter + 1
-						roundWinner[counter] = players._vampire[i]
-						if not vampWin then
-							vampWin = true
+				for i = 1, players._vampire._count do
+					if players._vampire[i] and tfm.get.room.playerList[players._vampire[i]] then
+						tfm.exec.setPlayerScore(players._vampire[i], 1, true)
+						if tfm.get.room.playerList[players._vampire[i]].score >= module.winner_score then
+							counter = counter + 1
+							roundWinner[counter] = players._vampire[i]
+							if not vampWin then
+								vampWin = true
+							end
 						end
 					end
 				end
-			end
 
-			if players.__roundTotal > 3 then
-				lastMapWinners = { }
-				tfm.exec.chatMessage(translate.vamp_win)
-			end
-		elseif players._vampire._count == 0 or (players._alive._count == 1 and players.__roundTotal > 3) or (players._alive._count > 0 and remainingTime < 1000) then
-			started = false
+				if players.__roundTotal > 3 then
+					lastMapWinners = { }
+					tfm.exec.chatMessage(translate.vamp_win)
+				end
+			elseif players._vampire._count == 0 or (players._alive._count == 1 and players.__roundTotal > 3) or (players._alive._count > 0 and remainingTime < 1000) then
+				started = false
 
-			for i = 1, players._alive._count do
-				if players._alive[i] and tfm.get.room.playerList[players._alive[i]] then
-					tfm.exec.setPlayerScore(players._alive[i], 1, true)
-					if tfm.get.room.playerList[players._alive[i]].score >= module.winner_score then
-						counter = counter + 1
-						roundWinner[counter] = players._alive[i]
+				for i = 1, players._alive._count do
+					if players._alive[i] and tfm.get.room.playerList[players._alive[i]] then
+						tfm.exec.setPlayerScore(players._alive[i], 1, true)
+						if tfm.get.room.playerList[players._alive[i]].score >= module.winner_score then
+							counter = counter + 1
+							roundWinner[counter] = players._alive[i]
+						end
+					end
+				end
+
+				if players.__roundTotal > 3 then
+					lastMapWinners = { }
+					for i = 1, module.garlic_winners do
+						if not players._alive[i] then break end
+						lastMapWinners[players._alive[i]] = false
+					end
+
+					if players._alive._count < 3 then
+						tfm.exec.chatMessage(string.format(translate.mice_win_1, table.concat(players._alive, ", ")))
+					else
+						tfm.exec.chatMessage(translate.mice_win_2)
 					end
 				end
 			end
 
-			if players.__roundTotal > 3 then
-				lastMapWinners = { }
-				for i = 1, module.garlic_winners do
-					if not players._alive[i] then break end
-					lastMapWinners[players._alive[i]] = false
+			if counter > 0 then
+				for playerName in next, tfm.get.room.playerList do
+					tfm.exec.setPlayerScore(playerName, 0)
 				end
 
-				if players._alive._count < 3 then
-					tfm.exec.chatMessage(string.format(translate.mice_win_1, table.concat(players._alive, ", ")))
-				else
-					tfm.exec.chatMessage(translate.mice_win_2)
-				end
+				lastRoundWinners = roundWinner
+				
+				tfm.exec.chatMessage(string.format(translate.round_winner, (vampWin and 'R' or "FC"), table.concat(roundWinner, ", "), (vampWin and "VI" or "ROSE")))
 			end
-		end
-
-		if counter > 0 then
-			for playerName in next, tfm.get.room.playerList do
-				tfm.exec.setPlayerScore(playerName, 0)
-			end
-
-			lastRoundWinners = roundWinner
-			
-			tfm.exec.chatMessage(string.format(translate.round_winner, (vampWin and 'R' or "FC"), table.concat(roundWinner, ", "), (vampWin and "VI" or "ROSE")))
 		end
 
 		if not started then
@@ -347,6 +353,7 @@ eventLoop = function(currentTime, remainingTime)
 	end
 end
 
+local onReviewMode = false
 eventChatCommand = function(playerName, command)
 	local cmd, param = string.match(command, "^(%S+) *(.*)")
 	cmd = string.lower(cmd)
@@ -358,8 +365,14 @@ eventChatCommand = function(playerName, command)
 			if param ~= '' then
 				tfm.exec.chatMessage("<VI><B>[#infected]</B> " .. param, nil, true)
 			end
-		elseif cmd == "np" and param then
-			tfm.exec.newGame(param)
+		elseif cmd == "review" then
+			onReviewMode = not onReviewMode
+			tfm.exec.disableAutoShaman(onReviewMode)
+			tfm.exec.chatMessage("<VI><B>[Map review]</B> " .. (onReviewMode and "on" or "off"), nil, true)
+		elseif onReviewMode then
+			if cmd == "np" and param then
+				tfm.exec.newGame(param)
+			end
 		end
 	end
 end
