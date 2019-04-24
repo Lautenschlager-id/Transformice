@@ -563,7 +563,7 @@ eventTextAreaCallback = function(i,n,c)
 			result:gsub(".",function(v)
 				out[#out + 1] = v:byte()
 			end)
-			print(tableconcat(out,"."))
+			print(table.concat(out,"."))
 		else
 			print(result)
 		end
