@@ -1,7 +1,7 @@
 local players = {
-	room = { },
-	alive = { },
-	dead = { }
+	room  = { _count = 0 },
+	alive = { _count = 0 },
+	dead  = { _count = 0 }
 }
 
 local copy = function(list)
@@ -14,16 +14,17 @@ end
 
 local insert = function(where, playerName)
 	if not where[playerName] then
-		local len = #where + 1
-		where[len] = playerName
-		where[playerName] = len
+		where._count = where._count + 1
+		where[where._count] = playerName
+		where[playerName] = where._count
 	end
 end
 
 local remove = function(where, playerName)
 	if where[playerName] then
+		where._count = where._count - 1
 		table.remove(where, where[playerName])
-		for i = where[playerName], #where do
+		for i = where[playerName], where._count do
 			where[where[i]] = where[where[i]] - 1
 		end
 		where[playerName] = nil
