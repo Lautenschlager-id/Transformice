@@ -47,7 +47,20 @@ local translations = {
 		vamp = "<R>Vous êtes un vampire. Appuyez sur espace pour voler et essayez d'attraper toutes les souris!",
 		teleport_skill = "<VI><B>Cliquez sur la carte</B> <R>pour vous téléporter!",
 		garlic_skill = "<V><B>Appuyez sur espace</B> <FC>pour jeter une gousse d'ail!"
-	}
+	},
+	tr = {
+		greeting = "<R>Olamaz, Herkes <VI><B>#infected</B><R>! KOŞ! <font size='11'>Bilgi için !help</font>\n<VI>Harita göndermek için <CH2>https://atelier801.com/topic?f=6&t=882003</CH2>\n\tHataları Bolodefchoco#0000'a bildirin\n\tDiscord sunucusu: <CH2>https://discord.gg/quch83R</CH2>",
+		mice_win_1 = "<V>%s <FC>Enfeksiyondan kurtuldu ve 1 puan kazandı!",
+		mice_win_2 = "<FC>Enfeksiyondan kurtulup hayatta kalan tüm fareler 1 puan kazandı!",
+		vamp_win = "<R>Hayatta kalan tüm vampirler fareleri ısırarak 1 puan kazandı!",
+		invalid_map = "<VI>Bu haritayı bu modülde açamazsın.",
+		round_winner = "<%s>%s <%s>Turu kazandı!",
+		help = " <VI><B>#infected</B><R><R>'e Hoşgeldin! Bu modülün yeni versiyonu <BV>Bolodefchoco#0000</B> tarafından kodlandı.\n<font size='11'>\t<BL>- Her tur rastgele vampir seçilicek!</BL>\n\t<G>- Vampir olarak, uçmak için boşluk tuşuna basın ve tüm fareleri yakalayın. Hepsini enfekte ettikten sonra kazanıcaksınız.</G>\n\t<BL>- Fare olarak, boşluk tuşuna basarak Meep ile vampirleri itebilirsiniz! ve vampirlerden kaçabilirsiniz. Tüm vampirler öldüğünde ya da hayatta kalan son kişi olduğunuzda kazanırsınız.</BL>\n\t<G>- Oyunu <B>5</B> puan toplayınca kazanıcaksınız. Kazananların isim rengi farklı olacak.</G>\n\t<BL>- Son haritanın kazananları ikon çıkınca sarımsak fırlatabilecek. (İkona basınca aktif olur)</BL>\n\t<G>- Alfa vampirler ikon çıkınca haritada 1 kere ışınlanabilecek. (İkona tıklayınca aktif olur)</G></font>",
+		new_game = "<ROSE><font size='11'>Yeni oyun %d saniye içinde başlayacak</font>",
+		vamp = "<R>Vampir oldunuz. Boşluk tuşuna basarak uçun ve tüm fareleri yakalayın!",
+		teleport_skill = "<R>Işınlanmak için! <VI><B>Haritaya tıklayın</B>",
+		garlic_skill = "<FC>Sarımsak atmak için! <V><B>Boşluk tuşuna basın</B>"
+	},
 }
 local translate = translations[tfm.get.room.community] or translations.en
 
