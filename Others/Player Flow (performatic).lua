@@ -54,6 +54,6 @@ eventPlayerRespawn = function(playerName)
 end
 
 eventNewGame = function()
-	players.dead = { }
+	players.dead = { _count = 0 }
 	players.alive = copy(players.room)
 end
