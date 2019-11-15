@@ -111,6 +111,7 @@ local images = {
 		caldron = "16751bfa8a6.png",
 		gifts = "16751bfeefd.png",
 		fireMachine = "16751bfd789.png",
+		lock = { "16e71438e8a.png", "16e71423da7.png" },
 		snowballs = "16751bfc016.png"
 	}
 }
@@ -197,6 +198,8 @@ loadAllImages = function(playerName, _src)
 end
 
 --[[ Functions ]]--
+local passageBlocks = { }
+
 local setAllPlayerData = function()
 	for name, data in next, tfm.get.room.playerList do
 		playerCache[name] = {
@@ -230,12 +233,50 @@ update = function()
 
 end
 
-local buildMap = function(playerName)
-	tfm.exec.addImage(module.map.background, imageLayers.mapBackground, 0, 0, playerName)
-	tfm.exec.addImage(images.objects.caldron, imageLayers.objectForeground, 746, 487, playerName) -- Should it appear like that in the beginning?
-	tfm.exec.addImage(images.objects.fireMachine, imageLayers.objectForeground, 738, 272, playerName)
-	--tfm.exec.addImage(images.objects.gifts, imageLayers.objectBackground, 560, 270, playerName)
-	--tfm.exec.addImage(images.objects.snowballs, imageLayers.objectBackground, 475, 492, playerName)
+local buildMap
+do
+	local blockLocationX = {
+		[1] = 748,
+		[2] = 290,
+		[3] = 748,
+		[4] = 380,
+		[5] = 754,
+		[6] = 455
+	}
+
+	local blockLocationY = {
+		[1] = 1410,
+		[2] = 1245,
+		[3] = 1080,
+		[4] = 920,
+		[5] = 753,
+		[6] = 596
+	}
+
+	local groundProperty = {
+		type = 12,
+		friction = 0,
+		restitution = 0,
+		miceCollision = true,
+		groundCollision = true,
+		width = 100
+	}
+
+	buildMap = function(playerName)
+		tfm.exec.addImage(module.map.background, imageLayers.mapBackground, 0, 0, playerName)
+		tfm.exec.addImage(images.objects.caldron, imageLayers.objectForeground, 746, 487, playerName) -- Should it appear like that in the beginning?
+		tfm.exec.addImage(images.objects.fireMachine, imageLayers.objectForeground, 738, 272, playerName)
+		--tfm.exec.addImage(images.objects.gifts, imageLayers.objectBackground, 560, 270, playerName)
+		--tfm.exec.addImage(images.objects.snowballs, imageLayers.objectBackground, 475, 492, playerName)
+
+		-- Insert passage blocks
+		for i = 1, #blockLocationX do
+			if not playerName then
+				tfm.exec.addPhysicObject(i, blockLocationX[i], blockLocationY[i], groundProperty)
+			end
+			passageBlocks[i] = tfm.exec.addImage(images.objects.lock[((i % 2) + 1)], imageLayers.objectForeground, blockLocationX[i] - 40, blockLocationY[i] - 6)
+		end
+	end
 end
 
 local getCurrentStage
@@ -250,6 +291,7 @@ do
 		[7] = 380,
 		[8] = 0
 	}
+
 	local xRange = {
 		[1] = 210,
 		[2] = 255,
