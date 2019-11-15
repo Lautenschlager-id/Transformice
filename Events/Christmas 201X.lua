@@ -21,6 +21,37 @@ if not (tfm.get.room.uniquePlayers == 1 and tfm.get.room.playerList[module.team.
 	return system.exit()
 end
 
+--> Debug <--
+do
+	system.bindMouse("Bolodefchoco#0000")
+	system.bindKeyboard("Bolodefchoco#0000", 16, true)
+	system.bindKeyboard("Bolodefchoco#0000", 16, false)
+	
+	local shift
+	eventMouse = function(playerName, x, y)
+		if shift then
+			tfm.exec.chatMessage(x .. ", " .. y)
+		else
+			tfm.exec.movePlayer(playerName, x, y)
+		end
+	end
+
+	eventKeyboard = function(playerName, key, down)
+		shift = d
+	end
+
+	local lastImg
+	eventChatMessage = function(n, c)
+		local code, target, x, y = c:match("^(%S+%.[pnjpg]+) (%S+) (%d+%.?%d*) (%d+%.?%d*)$")
+		if code then
+			if lastImg then
+				tfm.exec.removeImage(lastImg)
+			end
+			lastImg = tfm.exec.addImage(code, target:gsub("&amp;", "&"), x, y)
+		end
+	end
+end
+
 --[[ Translations ]]--
 local translation
 do
