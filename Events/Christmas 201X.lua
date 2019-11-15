@@ -3,6 +3,7 @@ local module = {
 	name = "xm1X",
 	team = {
 		developer = { "Bolodefchoco#0000" },
+		artist = { "Naomi#2792" },
 		translator = { "Bolodefchoco#0000" }
 	},
 	reward = {
@@ -18,7 +19,7 @@ local module = {
 }
 
 if not (tfm.get.room.uniquePlayers == 1 and tfm.get.room.playerList[module.team.developer[1]]) and tfm.get.room.uniquePlayers < 4 then
-	return system.exit()
+--	return system.exit()
 end
 
 --> Debug <--
@@ -37,17 +38,17 @@ do
 	end
 
 	eventKeyboard = function(playerName, key, down)
-		shift = d
+		shift = down
 	end
 
 	local lastImg
-	eventChatMessage = function(n, c)
-		local code, target, x, y = c:match("^(%S+%.[pnjpg]+) (%S+) (%d+%.?%d*) (%d+%.?%d*)$")
+	eventChatMessage = function(playerName, message)
+		local code, target, x, y = message:match("^(%S+%.[pnjpg]+) (%S+) (%-?%d+%.?%d*) (%-?%d+%.?%d*)$")
 		if code then
 			if lastImg then
 				tfm.exec.removeImage(lastImg)
 			end
-			lastImg = tfm.exec.addImage(code, target:gsub("&amp;", "&"), x, y)
+			lastImg = tfm.exec.addImage(code, target:gsub("&amp;", "&"), x * 1, y * 1)
 		end
 	end
 end
@@ -86,7 +87,7 @@ local workingTimerState = {
 
 -- Images
 local images = {
-	christmas_tree = {
+	christmasTree = {
 		[1] = "167515a46dc.png",
 		[2] = "167515a2f6b.png",
 		[3] = "167515a17f9.png",
@@ -96,7 +97,7 @@ local images = {
 		[7] = "1675159ba32.png",
 		[8] = "1675159a2c0.png"
 	},
-	tree_items = {
+	treeItems = {
 		[1] = "167515b314e.png", -- Seed
 		[2] = "167515b19dc.png", -- Water can
 		[3] = "167515b026a.png", -- Fertilizer
@@ -122,9 +123,9 @@ local imageLayers = {
 
 --[[ Data ]]--
 local playerCache, playerData = { }, {
-	example = {
+	treeStage = {
 		index = 1,
-		default = true
+		default = 0
 	}
 }
 do
@@ -199,7 +200,10 @@ end
 local setAllPlayerData = function()
 	for name, data in next, tfm.get.room.playerList do
 		playerCache[name] = {
-			dataLoaded = false
+			dataLoaded = false,
+			images = {
+				tree = nil -- Tree image
+			}
 		}
 
 		tfm.exec.lowerSyncDelay(name)
@@ -219,6 +223,7 @@ local globalInitSettings = function(bool)
 	tfm.exec.disableDebugCommand(bool)
 	tfm.exec.disableMortCommand(bool)
 	tfm.exec.disablePhysicalConsumables(bool)
+	tfm.exec.disableAutoNewGame() -- Debug
 end
 
 update = function()
@@ -233,6 +238,50 @@ local buildMap = function(playerName)
 	--tfm.exec.addImage(images.objects.snowballs, imageLayers.objectBackground, 475, 492, playerName)
 end
 
+local getCurrentStage
+do
+	local yRange = {
+		[1] = 1400,
+		[2] = 1245,
+		[3] = 1080,
+		[4] = 920,
+		[5] = 755,
+		[6] = 595,
+		[7] = 380,
+		[8] = 0
+	}
+	local xRange = {
+		[1] = 210,
+		[2] = 255,
+		[3] = 295,
+		[4] = 345,
+		[5] = 390,
+		[6] = 430,
+		[7] = 480,
+		[8] = 440
+	}
+	local totalStages = #yRange
+
+	getCurrentStage = function(y, x)
+		for stage = 1, totalStages do
+			if y >= yRange[stage] then
+				return (x >= xRange[stage] and stage or 0)
+			end
+		end
+		return 0
+	end
+end
+
+local displayTree = function(playerName)
+	local treeStage = playerData:get(playerName, "treeStage")
+	if images.christmasTree[treeStage] then
+		if playerCache[playerName].images.tree then
+			tfm.exec.removeImage(playerCache[playerName].images.tree)
+		end
+		playerCache[playerName].images.tree = tfm.exec.addImage(images.christmasTree[treeStage], imageLayers.objectBackground, 0, 1240, playerName)
+	end
+end
+
 --[[ Events ]]--
 eventNewGame = function()
 	loadAllImages()
@@ -243,13 +292,15 @@ end
 eventPlayerDataLoaded = function(playerName, data)
 	playerData:newPlayer(playerName, data)
 
+	displayTree(playerName)
+
 	playerCache[playerName].dataLoaded = true
 end
 
 eventLoop = function(currentTime, remainingTime)
 	if remainingTime < 500 then
-		globalInitSettings(false)
-		return system.exit()
+		--globalInitSettings(false)
+		--return system.exit()
 	end
 	checkWorkingTimer()
 end
