@@ -9,7 +9,11 @@ local module = {
 
 	},
 	time = 2 * 60,
-	map = [[]],
+	map = {
+		xml = [[<C><P APS="%s,,170,350,820,1250,," L="1000" H="1600" /><Z><S><S L="160" o="324650" H="17" X="76" Y="1574" T="12" P=",,.3,.2,-12,,," /><S L="115" o="324650" H="17" X="209" Y="1563" T="12" P=",,.3,.2,5,,," /><S L="100" o="324650" H="17" X="297" Y="1559" T="12" P=",,.3,.2,-10,,," /><S L="150" o="324650" H="17" X="417" Y="1560" T="12" P=",,.3,.2,7,,," /><S L="150" o="324650" H="17" X="565" Y="1568" T="12" P=",,.3,.2,-1,,," /><S L="92" o="324650" H="17" X="672" Y="1544" T="12" P=",,.3,.2,-34,,," /><S L="82" o="324650" H="17" X="743" Y="1503" T="12" P=",,.3,.2,-26,,," /><S L="66" o="324650" H="17" X="790" Y="1461" T="12" P=",,.3,.2,-65,,," /><S L="15" o="324650" H="853" X="789" Y="1014" T="12" P=",,.3,.2,,,," /><S L="379" o="324650" H="17" X="533" Y="1408" T="12" P=",,.3,.2,1,,," /><S L="401" o="324650" H="17" X="532" Y="1250" T="12" P=",,.3,.2,1,,," /><S L="442" o="324650" H="17" X="500" Y="1082" T="12" P=",,.3,.2,,,," /><S L="82" o="324650" H="17" X="761" Y="1274" T="12" P=",,.3,.2,32,,," /><S L="167" o="324650" H="17" X="736" Y="1183" T="12" P=",,.3,.2,-52,,," /><S L="99" o="324650" H="17" X="422" Y="1051" T="12" P=",,.3,.2,218,,," /><S L="99" o="324650" H="17" X="356" Y="983" T="12" P=",,.3,.2,235,,," /><S L="339" o="324650" H="17" X="561" Y="921" T="12" P=",,.3,.2,,,," /><S L="92" o="324650" H="17" X="759" Y="949" T="12" P=",,.3,.2,40,,," /><S L="178" o="324650" H="17" X="731" Y="854" T="12" P=",,.3,.2,-49,,," /><S L="350" o="324650" H="17" X="536" Y="754" T="12" P=",,.3,.2,,,," /><S L="28" o="324650" X="500" H="10" Y="730" T="13" P=",,.3,.2,,,," /><S L="124" o="324650" H="17" X="448" Y="677" T="12" P=",,.3,.2,55,,," /><S L="503" o="324650" H="17" X="748" Y="597" T="12" P=",,.3,.2,-1,,," /><S L="14" o="324650" H="211" X="991" Y="487" T="12" P=",,.3,.2,2,,," /><S L="532" o="324650" H="27" X="736" Y="378" T="12" P=",,.3,.2,,,," /><S L="20" o="324650" H="1104" X="326" Y="901" T="12" P=",,.3,.2,15,,," /><S L="26" o="324650" H="394" X="998" Y="173" T="12" P=",,,,,,," /><S L="10" o="324650" H="1596" X="-2" Y="800" T="12" P=",,,,,,," /><S P=",,.3,.2,-115,,," L="10" o="324650" X="788" Y="1444" T="12" H="10" /><S P=",,.3,.2,50,,," L="172" o="324650" X="293" Y="1340" T="12" H="17" /></S><D /><O /></Z></C>]],
+		background = "16e6f4bb3dc.jpg",
+		foreground = "167515a75c9.png"
+	},
 	timerRate = 12
 }
 
@@ -50,12 +54,39 @@ local workingTimerState = {
 }
 
 -- Images
-local map = {
-
+local images = {
+	christmas_tree = {
+		[1] = "167515a46dc.png",
+		[2] = "167515a2f6b.png",
+		[3] = "167515a17f9.png",
+		[4] = "167515a0088.png",
+		[5] = "1675159e916.png",
+		[6] = "1675159d1a5.png",
+		[7] = "1675159ba32.png",
+		[8] = "1675159a2c0.png"
+	},
+	tree_items = {
+		[1] = "167515b314e.png", -- Seed
+		[2] = "167515b19dc.png", -- Water can
+		[3] = "167515b026a.png", -- Fertilizer
+		[4] = "167515aeaf8.png", -- Light
+		[5] = "167515ad387.png", -- Candy cane
+		[6] = "167515abc15.png", -- Bell
+		[7] = "167515aa4a3.png", -- Ball
+		[8] = "167515a8d32.png" -- Star
+	},
+	objects = {
+		caldron = "16751bfa8a6.png",
+		gifts = "16751bfeefd.png",
+		fireMachine = "16751bfd789.png",
+		snowballs = "16751bfc016.png"
+	}
 }
 
-local object = {
-
+local imageLayers = {
+	mapBackground = "?0",
+	objectBackground = "?1",
+	objectForeground = "!1"
 }
 
 --[[ Data ]]--
@@ -101,36 +132,7 @@ local loop = function(f, ticks)
 	return timers
 end
 
---[[ Functions ]]--
-local setAllPlayerData = function()
-	for name, data in next, tfm.get.room.playerList do
-		playerCache[name] = {
-			dataLoaded = false
-		}
-
-		tfm.exec.lowerSyncDelay(name)
-		system.loadPlayerData(name)
-	end
-end
-
-local globalInitInterface = function()
-	-- greeting
-	-- map name
-end
-
-local globalInitSettings = function(bool)
-	tfm.exec.disableAfkDeath(bool)
-	tfm.exec.disableAutoShaman(bool)
-	tfm.exec.disableAutoTimeLeft(bool)
-	tfm.exec.disableDebugCommand(bool)
-	tfm.exec.disableMortCommand(bool)
-	tfm.exec.disablePhysicalConsumables(bool)
-end
-
-local update = function()
-
-end
-
+local update, globalInitInterface
 local checkWorkingTimer = function()
 	if workingTimer == workingTimerState.broken then
 		update()
@@ -151,8 +153,59 @@ local checkWorkingTimer = function()
 	end
 end
 
+local loadAllImages
+loadAllImages = function(playerName, _src)
+	for k, v in next, (_src or images) do
+		if type(v) == "table" then
+			loadAllImages(playerName, v)
+		else
+			tfm.exec.removeImage(tfm.exec.addImage(v, "_0", -10000, -10000, playerName)) -- Caches the image so it doesn't have a delay to load
+		end
+	end
+end
+
+--[[ Functions ]]--
+local setAllPlayerData = function()
+	for name, data in next, tfm.get.room.playerList do
+		playerCache[name] = {
+			dataLoaded = false
+		}
+
+		tfm.exec.lowerSyncDelay(name)
+		system.loadPlayerData(name)
+	end
+end
+
+globalInitInterface = function()
+	-- greeting
+	-- map name
+end
+
+local globalInitSettings = function(bool)
+	tfm.exec.disableAfkDeath(bool)
+	tfm.exec.disableAutoShaman(bool)
+	tfm.exec.disableAutoTimeLeft(bool)
+	tfm.exec.disableDebugCommand(bool)
+	tfm.exec.disableMortCommand(bool)
+	tfm.exec.disablePhysicalConsumables(bool)
+end
+
+update = function()
+
+end
+
+local buildMap = function(playerName)
+	tfm.exec.addImage(module.map.background, imageLayers.mapBackground, 0, 0, playerName)
+	tfm.exec.addImage(images.objects.caldron, imageLayers.objectForeground, 746, 487, playerName) -- Should it appear like that in the beginning?
+	tfm.exec.addImage(images.objects.fireMachine, imageLayers.objectForeground, 738, 272, playerName)
+	--tfm.exec.addImage(images.objects.gifts, imageLayers.objectBackground, 560, 270, playerName)
+	--tfm.exec.addImage(images.objects.snowballs, imageLayers.objectBackground, 475, 492, playerName)
+end
+
 --[[ Events ]]--
 eventNewGame = function()
+	loadAllImages()
+	buildMap()
 	setAllPlayerData()
 end
 
@@ -168,7 +221,11 @@ eventLoop = function(currentTime, remainingTime)
 		return system.exit()
 	end
 	checkWorkingTimer()
+end
 
+eventNewPlayer = function(playerName)
+	loadAllImages(playerName) -- Unsure if this is really necessary
+	buildMap(playerName)
 end
 
 --[[ Init ]]--
@@ -180,4 +237,4 @@ end, 1000, false)
 loop(update, 12)
 
 globalInitSettings(true)
-tfm.exec.newGame(module.map)
+tfm.exec.newGame(string.format(module.map.xml, module.map.foreground))
