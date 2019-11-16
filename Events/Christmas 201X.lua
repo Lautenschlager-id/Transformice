@@ -95,8 +95,8 @@ local monsterType = {
 
 local monsterAxis = {
 	[monsterType.snow] = { -30, -35 },
-	[monsterType.freeze] = { -30, -35 },
 	[monsterType.roar] = { -30, -35 },
+	[monsterType.freeze] = { -30, -35 },
 	[monsterType.magician] = { 0, 0 }
 }
 
@@ -136,17 +136,17 @@ local images = {
 			[3] = "1675aae65ab.png",
 			[4] = "1675aae7d1d.png",
 		},
-		[monsterType.freeze] = {
-			[1] = "1675a9d872b.png",
-			[2] = "1675a9d6fb9.png",
-			[3] = "1675a9dbdde.png",
-			[4] = "1675a9d9e9c.png",
-		},
 		[monsterType.roar] = {
 			[1] = "1675b976856.png",
 			[2] = "1676161df38.png",
 			[3] = "1675b977fc8.png",
 			[4] = "1675b973973.png",
+		},
+		[monsterType.freeze] = {
+			[1] = "1675a9d872b.png",
+			[2] = "1675a9d6fb9.png",
+			[3] = "1675a9dbdde.png",
+			[4] = "1675a9d9e9c.png",
 		},
 		[monsterType.magician] = {
 			[1] = "167515b48bf.png", -- Alive
@@ -247,6 +247,26 @@ loadAllImages = function(playerName, _src)
 end
 
 --[[ Classes ]]--
+local objectManager = {
+	objects = {
+		monster = { _count = 0 }
+	}
+}
+
+objectManager.insert = function( obj)
+	local class = objectManager.objects[obj.class]
+	class._count = class._count + 1
+	class[class._count] = obj
+end
+
+objectManager.loop = function()
+	for _, class in next, objectManager.objects do
+		for o = 1, class._count do
+			class[o]:loop()
+		end
+	end
+end
+
 local monster = { }
 monster.__index = monster
 
@@ -254,11 +274,20 @@ monster.new = function(type, x, y)
 	local object = tfm.exec.addShamanObject(objectId.fish, x, y, 0)
 	local image = tfm.exec.addImage(images.monsters[type][2], "#" .. object, monsterAxis[type][1], monsterAxis[type][2])
 
-	return setmetatable({
+	local self = setmetatable({
+		class = "monster",
 		type = type,
 		object = object,
 		image = image
 	}, monster)
+
+	objectManager.insert(self)
+
+	return self
+end
+
+monster.loop = function(self)
+	tfm.exec.moveObject(self.object, 0, 0, true, math.random(-50, 50), math.random(-50, 50), false)
 end
 
 --[[ Functions ]]--
@@ -416,7 +445,26 @@ do
 		local rawstage = stage
 		stage = stage * 3
 		for x = 1, xRange[stage] do
-			monster.new(1, math.random(xRange[stage - 2], xRange[stage - 1]), yFixedPosition[rawstage])
+			monster.new(math.random(1, 3), math.random(xRange[stage - 2], xRange[stage - 1]), yFixedPosition[rawstage])
+		end
+	end
+end
+
+local checkStageChallege = function()
+	for playerName, data in next, tfm.get.room.playerList do
+		tmpPlayerStage = getCurrentStage(data.y, data.x)
+		if tmpPlayerStage == 8 then
+			if not triggerEnigma then
+				triggerEnigma = true
+				-- final part 2
+			end
+		elseif tmpPlayerStage > lastMountainStage then
+			lastMountainStage = tmpPlayerStage
+			if lastMountainStage == 7 then
+				-- final
+			else
+				spawnYetis(lastMountainStage)
+			end
 		end
 	end
 end
@@ -445,20 +493,8 @@ eventLoop = function(currentTime, remainingTime)
 	checkWorkingTimer()
 	if not canStart then return end
 
-	for playerName, data in next, tfm.get.room.playerList do
-		tmpPlayerStage = getCurrentStage(data.y, data.x)
-		if tmpPlayerStage == 8 then
-			triggerEnigma = true
-			-- final part 2
-		elseif tmpPlayerStage > lastMountainStage then
-			lastMountainStage = tmpPlayerStage
-			if lastMountainStage == 7 then
-				-- final
-			else
-				spawnYetis(lastMountainStage)
-			end
-		end
-	end
+	checkStageChallege()
+	objectManager.loop()
 end
 
 eventNewPlayer = function(playerName)
@@ -476,3 +512,4 @@ loop(update, 12)
 
 globalInitSettings(true)
 tfm.exec.newGame(string.format(module.map.xml, module.map.foreground))
+math.randomseed(os.time())
