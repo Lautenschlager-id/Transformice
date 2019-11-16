@@ -70,11 +70,12 @@ do
 end
 
 -- Enumerations
-local objectIds = {
-
+local objectId = {
+	fish = 6300,
+	snow = 34
 }
 
-local keys = {
+local key = {
 
 }
 
@@ -83,6 +84,20 @@ local workingTimerState = {
 	start = 0,
 	defineAsBroken = 2,
 	broken = 3
+}
+
+local monsterType = {
+	snow = 1,
+	roar = 2,
+	freeze = 3,
+	magician = 4
+}
+
+local monsterAxis = {
+	[monsterType.snow] = { -30, -35 },
+	[monsterType.freeze] = { -30, -35 },
+	[monsterType.roar] = { -30, -35 },
+	[monsterType.magician] = { 0, 0 }
 }
 
 -- Images
@@ -113,10 +128,44 @@ local images = {
 		fireMachine = "16751bfd789.png",
 		lock = { "16e71438e8a.png", "16e71423da7.png" },
 		snowballs = "16751bfc016.png"
+	},
+	monsters = {
+		[monsterType.snow] = { -- ←↑→↓
+			[1] = "1675aae4e38.png",
+			[2] = "1675aae36c8.png",
+			[3] = "1675aae65ab.png",
+			[4] = "1675aae7d1d.png",
+		},
+		[monsterType.freeze] = {
+			[1] = "1675a9d872b.png",
+			[2] = "1675a9d6fb9.png",
+			[3] = "1675a9dbdde.png",
+			[4] = "1675a9d9e9c.png",
+		},
+		[monsterType.roar] = {
+			[1] = "1675b976856.png",
+			[2] = "1676161df38.png",
+			[3] = "1675b977fc8.png",
+			[4] = "1675b973973.png",
+		},
+		[monsterType.magician] = {
+			[1] = "167515b48bf.png", -- Alive
+			[2] = "167515b602f.png" -- Tig
+		},
+		attack = {
+			[monsterType.freeze] = {
+				[1] = "167619344f1.png",
+				[2] = "16761935c62.png"
+			},
+			[monsterType.roar] = {
+				[1] = "1676161f6a9.png",
+				[2] = "16761620e1a.png"
+			}
+		}
 	}
 }
 
-local imageLayers = {
+local imageLayer = {
 	mapBackground = "?0",
 	objectBackground = "?1",
 	objectForeground = "!1"
@@ -197,8 +246,25 @@ loadAllImages = function(playerName, _src)
 	end
 end
 
+--[[ Classes ]]--
+local monster = { }
+monster.__index = monster
+
+monster.new = function(type, x, y)
+	local object = tfm.exec.addShamanObject(objectId.fish, x, y, 0)
+	local image = tfm.exec.addImage(images.monsters[type][2], "#" .. object, monsterAxis[type][1], monsterAxis[type][2])
+
+	return setmetatable({
+		type = type,
+		object = object,
+		image = image
+	}, monster)
+end
+
 --[[ Functions ]]--
 local passageBlocks = { }
+local lastMountainStage = 0
+local triggerEnigma = false
 
 local setAllPlayerData = function()
 	for name, data in next, tfm.get.room.playerList do
@@ -223,7 +289,7 @@ local globalInitSettings = function(bool)
 	tfm.exec.disableAfkDeath(bool)
 	tfm.exec.disableAutoShaman(bool)
 	tfm.exec.disableAutoTimeLeft(bool)
-	tfm.exec.disableDebugCommand(bool)
+	--tfm.exec.disableDebugCommand(bool)
 	tfm.exec.disableMortCommand(bool)
 	tfm.exec.disablePhysicalConsumables(bool)
 	tfm.exec.disableAutoNewGame() -- Debug
@@ -263,18 +329,18 @@ do
 	}
 
 	buildMap = function(playerName)
-		tfm.exec.addImage(module.map.background, imageLayers.mapBackground, 0, 0, playerName)
-		tfm.exec.addImage(images.objects.caldron, imageLayers.objectForeground, 746, 487, playerName) -- Should it appear like that in the beginning?
-		tfm.exec.addImage(images.objects.fireMachine, imageLayers.objectForeground, 738, 272, playerName)
-		--tfm.exec.addImage(images.objects.gifts, imageLayers.objectBackground, 560, 270, playerName)
-		--tfm.exec.addImage(images.objects.snowballs, imageLayers.objectBackground, 475, 492, playerName)
+		tfm.exec.addImage(module.map.background, imageLayer.mapBackground, 0, 0, playerName)
+		tfm.exec.addImage(images.objects.caldron, imageLayer.objectForeground, 746, 487, playerName) -- Should it appear like that in the beginning?
+		tfm.exec.addImage(images.objects.fireMachine, imageLayer.objectForeground, 738, 272, playerName)
+		--tfm.exec.addImage(images.objects.gifts, imageLayer.objectBackground, 560, 270, playerName)
+		--tfm.exec.addImage(images.objects.snowballs, imageLayer.objectBackground, 475, 492, playerName)
 
 		-- Insert passage blocks
 		for i = 1, #blockLocationX do
 			if not playerName then
 				tfm.exec.addPhysicObject(i, blockLocationX[i], blockLocationY[i], groundProperty)
 			end
-			passageBlocks[i] = tfm.exec.addImage(images.objects.lock[((i % 2) + 1)], imageLayers.objectForeground, blockLocationX[i] - 40, blockLocationY[i] - 6)
+			passageBlocks[i] = tfm.exec.addImage(images.objects.lock[((i % 2) + 1)], imageLayer.objectForeground, blockLocationX[i] - 40, blockLocationY[i] - 6)
 		end
 	end
 end
@@ -293,7 +359,7 @@ do
 	}
 
 	local xRange = {
-		[1] = 210,
+		[1] = 170,
 		[2] = 255,
 		[3] = 295,
 		[4] = 345,
@@ -315,12 +381,43 @@ do
 end
 
 local displayTree = function(playerName)
+	if playerCache[playerName].images.tree then
+		tfm.exec.removeImage(playerCache[playerName].images.tree)
+	end
+
 	local treeStage = playerData:get(playerName, "treeStage")
 	if images.christmasTree[treeStage] then
-		if playerCache[playerName].images.tree then
-			tfm.exec.removeImage(playerCache[playerName].images.tree)
+		playerCache[playerName].images.tree = tfm.exec.addImage(images.christmasTree[treeStage], imageLayer.objectBackground, 0, 1240, playerName)
+	end
+end
+
+local spawnYetis
+do
+	local xRange = {
+		-- rangeA, rangeB, quantity
+		230, 700, 5, -- 1
+		340, 700, 4, -- 2
+		330, 680, 3, -- 3
+		470, 700, 2, -- 4
+		420, 670, 2, -- 5
+		490, 700, 1 -- 6
+	}
+
+	local yFixedPosition = {
+		[1] = 1480,
+		[2] = 1360,
+		[3] = 1210,
+		[4] = 1020,
+		[5] = 880,
+		[6] = 700
+	}
+
+	spawnYetis = function(stage)
+		local rawstage = stage
+		stage = stage * 3
+		for x = 1, xRange[stage] do
+			monster.new(1, math.random(xRange[stage - 2], xRange[stage - 1]), yFixedPosition[rawstage])
 		end
-		playerCache[playerName].images.tree = tfm.exec.addImage(images.christmasTree[treeStage], imageLayers.objectBackground, 0, 1240, playerName)
 	end
 end
 
@@ -339,12 +436,29 @@ eventPlayerDataLoaded = function(playerName, data)
 	playerCache[playerName].dataLoaded = true
 end
 
+local tmpPlayerStage
 eventLoop = function(currentTime, remainingTime)
 	if remainingTime < 500 then
 		--globalInitSettings(false)
 		--return system.exit()
 	end
 	checkWorkingTimer()
+	if not canStart then return end
+
+	for playerName, data in next, tfm.get.room.playerList do
+		tmpPlayerStage = getCurrentStage(data.y, data.x)
+		if tmpPlayerStage == 8 then
+			triggerEnigma = true
+			-- final part 2
+		elseif tmpPlayerStage > lastMountainStage then
+			lastMountainStage = tmpPlayerStage
+			if lastMountainStage == 7 then
+				-- final
+			else
+				spawnYetis(lastMountainStage)
+			end
+		end
+	end
 end
 
 eventNewPlayer = function(playerName)
