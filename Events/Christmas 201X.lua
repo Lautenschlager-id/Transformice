@@ -51,6 +51,15 @@ do
 			lastImg = tfm.exec.addImage(code, target:gsub("&amp;", "&"), x * 1, y * 1)
 		end
 	end
+
+	local p = print
+	_G.print = function(...)
+		local args = { ... }
+		for i = 1, select('#', ...) do
+			args[i] = tostring(args[i])
+		end
+		p(table.concat(args, "\t"))
+	end
 end
 
 --[[ Translations ]]--
@@ -58,10 +67,16 @@ local translation
 do
 	local texts = {
 		en = {
-	
+			dialog = {
+				[1] = ''
+			},
+			closeDialog = ''
 		},
 		br = {
-	
+			dialog = {
+				[1] = ''
+			},
+			closeDialog = ''
 		}
 	}
 	texts.pt = texts.br
@@ -75,9 +90,14 @@ local objectId = {
 	snow = 34
 }
 
-local key = {
-
+local interfaceId = {
+	dialog = 100
 }
+
+local keyCode = {
+	space = 32
+}
+
 
 local workingTimerState = {
 	stop = -1,
@@ -162,13 +182,19 @@ local images = {
 				[2] = "16761620e1a.png"
 			}
 		}
+	},
+	dialogNpc = {
+		background = "1666b88049d.png",
+		[1] = ''
 	}
 }
 
 local imageLayer = {
 	mapBackground = "?0",
 	objectBackground = "?1",
-	objectForeground = "!1"
+	objectForeground = "!1",
+	dialogForeground = "&1",
+	dialogBackgroud = ":1"
 }
 
 --[[ Data ]]--
@@ -214,16 +240,16 @@ local clearClassEmptyObjects = function(class)
 end
 
 --[[ Tools ]]--
-local loop = function(f, ticks)
+local loop = function(f, ticks, ...)
 	local timers, index = { }, 0
-	local addTimer = function()
+	local addTimer = function(_, ...)
 		index = index + 1
-		timers[index] = system.newTimer(f, 1000, true)
+		timers[index] = system.newTimer(f, 1000, true, ...)
 	end
 
 	local seconds = 1000 / ticks
 	for timer = 0, 1000 - seconds, seconds do
-		system.newTimer(addTimer, 1000 + timer, false)
+		system.newTimer(addTimer, 1000 + timer, false, ...)
 	end
 
 	return timers
@@ -232,7 +258,7 @@ end
 local update, globalInitInterface
 local checkWorkingTimer = function()
 	if workingTimer == workingTimerState.broken then
-		update()
+		update(6)
 	elseif workingTimer > workingTimerState.stop then
 		if workingTimer < workingTimerState.defineAsBroken then
 			workingTimer = workingTimer + 0.5
@@ -348,22 +374,56 @@ monster.loop = function(self, currentTime, remainingTime)
 	tfm.exec.moveObject(self.object, 0, 0, true, math.random(-50, 50), math.random(-50, 50), false)
 end
 
+--[[ Interface ]]--
+ui.dialog = function(playerName, id)
+	playerCache[playerName].dialog.id = id
+
+	playerCache[playerName].cachedImages.dialog[1] = tfm.exec.addImage(images.dialogNpc[id], imageLayer.dialogForeground, 510, 66, playerName)
+	playerCache[playerName].cachedImages.dialog[2] = tfm.exec.addImage(images.dialogNpc.background, imageLayer.dialogBackgroud, 100, 235, playerName)
+
+	ui.addTextArea(interfaceId.dialog, '', playerName, -1500, -1500, 3000, 3000, 1, 1, 0.15, true)
+	ui.addTextArea(interfaceId.dialog + 1, "<font size='15' color='#F0F0E0' face='Courier New'><textformat leftmargin='10' rightmargin='5'>", playerName, 100, 240, 600, 160, 1, 1, 0, true)
+end
+
+ui.removeDialog = function(playerName)
+	-- The cache doesn't get cleared because maybe the image may not get really deleted due to API bugs.
+	for k, v in next, playerCache[playerName].cachedImages.dialog do
+		tfm.exec.removeImage(v)
+	end
+
+	playerCache[playerName].dialog.id = 0
+	playerCache[playerName].dialog.strPos = 0
+
+	for id = interfaceId.dialog, interfaceId.dialog + 1 do
+		ui.removeTextArea(id, playerName)
+	end
+end
+
 --[[ Functions ]]--
 local passageBlocks = { }
 local lastMountainStage = 0
 local triggerEnigma = false
 
 local setAllPlayerData = function()
-	for name, data in next, tfm.get.room.playerList do
-		playerCache[name] = {
+	for playerName, data in next, tfm.get.room.playerList do
+		playerCache[playerName] = {
 			dataLoaded = false,
-			images = {
-				tree = nil -- Tree image
+			dialog = {
+				id = 0,
+				strPos = 0
+			},
+			cachedImages = {
+				tree = nil, -- Tree image
+				dialog = { }
 			}
 		}
 
-		tfm.exec.lowerSyncDelay(name)
-		system.loadPlayerData(name)
+		tfm.exec.lowerSyncDelay(playerName)
+		system.loadPlayerData(playerName)
+
+		for _, code in next, keyCode do
+			system.bindKeyboard(playerName, code, true, true)
+		end
 	end
 end
 
@@ -382,8 +442,25 @@ local globalInitSettings = function(bool)
 	tfm.exec.disableAutoNewGame() -- Debug
 end
 
-update = function()
+local updateDialog = function(playerName, data, addChar)
+	local str = translation.dialog[data.dialog.id]
+	data.dialog.strPos = data.dialog.strPos + addChar
 
+	local lastChar = data.dialog.strPos >= #str
+
+	ui.updateTextArea(interfaceId.dialog + 1, string.sub(translation.dialog[data.dialog.id], 1, data.dialog.strPos) .. (lastChar and ("\n<ROSE>" .. translation.closeDialog) or "|"), playerName)
+
+	if lastChar then
+		data.dialog.id = -1
+	end
+end
+
+update = function(_, addChar)
+	for playerName, data in next, playerCache do
+		if data.dataLoaded and data.dialog.id > 0 then
+			updateDialog(playerName, data, addChar)
+		end
+	end
 end
 
 local buildMap
@@ -468,13 +545,13 @@ do
 end
 
 local displayTree = function(playerName)
-	if playerCache[playerName].images.tree then
-		tfm.exec.removeImage(playerCache[playerName].images.tree)
+	if playerCache[playerName].cachedImages.tree then
+		tfm.exec.removeImage(playerCache[playerName].cachedImages.tree)
 	end
 
 	local treeStage = playerData:get(playerName, "treeStage")
 	if images.christmasTree[treeStage] then
-		playerCache[playerName].images.tree = tfm.exec.addImage(images.christmasTree[treeStage], imageLayer.objectBackground, 0, 1240, playerName)
+		playerCache[playerName].cachedImages.tree = tfm.exec.addImage(images.christmasTree[treeStage], imageLayer.objectBackground, 0, 1240, playerName)
 	end
 end
 
@@ -571,6 +648,24 @@ eventLoop = function(currentTime, remainingTime)
 	checkPassages()
 end
 
+eventKeyboard = function(playerName, key)
+	if not canStart then return end
+
+	if key == keyCode.space then
+		if playerCache[playerName].dialog.id == 0 then
+			ui.dialog(playerName, 1)
+		else
+			-- Is seeing a dialog
+			if playerCache[playerName].dialog.id == -1 then
+				ui.removeDialog(playerName)
+			else
+				-- Skips to the last character
+				playerCache[playerName].dialog.strPos = 9999
+			end
+		end
+	end
+end
+
 eventNewPlayer = function(playerName)
 	loadAllImages(playerName) -- Unsure if this is really necessary
 	buildMap(playerName)
@@ -582,7 +677,7 @@ system.newTimer(function()
 	canStart = true
 end, 1000, false)
 
-loop(update, 12)
+loop(update, 12, 1)
 
 globalInitSettings(true)
 tfm.exec.newGame(string.format(module.map.xml, module.map.foreground))
