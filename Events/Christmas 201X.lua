@@ -270,7 +270,8 @@ local objectManager = {
 				_count = 0
 			}
 		}
-	}
+	},
+	stageCount = { }
 }
 
 objectManager.insert = function(obj)
@@ -286,11 +287,12 @@ objectManager.delete = function(obj)
 
 	bin._count = bin._count + 1
 	bin[bin._count] = obj._id
+
+	objectManager.stageCount[obj.stage] = objectManager.stageCount[obj.stage] - 1
 end
 
 objectManager.clear = function()
 	local rawcount
-
 	for className, class in next, objectManager.objects do
 		if class._bin._count > 0 then
 			rawcount = class._count - class._bin._count
@@ -303,7 +305,6 @@ objectManager.clear = function()
 			class = objectManager.objects[className]
 			class._count = rawcount
 			class._bin = { _count = 0 }
-			print(rawcount .. " " .. table.tostring(objectManager.objects[className], false, true))
 		end
 	end
 end
@@ -320,13 +321,14 @@ end
 local monster = { }
 monster.__index = monster
 
-monster.new = function(type, x, y)
+monster.new = function(type, x, y, stage)
 	local object = tfm.exec.addShamanObject(objectId.fish, x, y, 0)
 	local image = tfm.exec.addImage(images.monsters[type][2], "#" .. object, monsterAxis[type][1], monsterAxis[type][2])
 
 	local self = setmetatable({
 		class = "monster",
 		type = type,
+		stage = stage,
 		object = object,
 		image = image
 	}, monster)
@@ -500,8 +502,11 @@ do
 	spawnYetis = function(stage)
 		local rawstage = stage
 		stage = stage * 3
+
+		objectManager.stageCount[rawstage] = xRange[stage]
+
 		for x = 1, xRange[stage] do
-			monster.new(math.random(1, 3), math.random(xRange[stage - 2], xRange[stage - 1]), yFixedPosition[rawstage])
+			monster.new(math.random(1, 3), math.random(xRange[stage - 2], xRange[stage - 1]), yFixedPosition[rawstage], rawstage)
 		end
 	end
 end
@@ -523,6 +528,18 @@ local checkStageChallege = function()
 				spawnYetis(lastMountainStage)
 			end
 		end
+	end
+end
+
+local unblockPassage = function(stage)
+	tfm.exec.removeImage(passageBlocks[stage])
+	tfm.exec.removePhysicObject(stage)
+end
+
+local checkPassages = function()
+	if objectManager.stageCount[lastMountainStage] == 0 then
+		objectManager.stageCount[lastMountainStage] = nil
+		unblockPassage(lastMountainStage)
 	end
 end
 
@@ -551,6 +568,7 @@ eventLoop = function(currentTime, remainingTime)
 
 	checkStageChallege()
 	objectManager.loop(currentTime, remainingTime)
+	checkPassages()
 end
 
 eventNewPlayer = function(playerName)
