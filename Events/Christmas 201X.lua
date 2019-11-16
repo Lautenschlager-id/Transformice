@@ -198,6 +198,21 @@ end
 local canStart = false
 local workingTimer = workingTimerState.start
 
+--[[ Utils ]]--
+local clearClassEmptyObjects = function(class)
+	local out, index = { }, 0
+
+	for i = 1, class._count do
+		if class[i] then
+			index = index + 1
+			class[i]._id = index
+			out[index] = class[i]
+		end
+	end
+
+	return out
+end
+
 --[[ Tools ]]--
 local loop = function(f, ticks)
 	local timers, index = { }, 0
@@ -249,22 +264,57 @@ end
 --[[ Classes ]]--
 local objectManager = {
 	objects = {
-		monster = { _count = 0 }
+		monster = {
+			_count = 0,
+			_bin = {
+				_count = 0
+			}
+		}
 	}
 }
 
-objectManager.insert = function( obj)
+objectManager.insert = function(obj)
 	local class = objectManager.objects[obj.class]
 	class._count = class._count + 1
+
+	obj._id = class._count
 	class[class._count] = obj
 end
 
-objectManager.loop = function()
-	for _, class in next, objectManager.objects do
-		for o = 1, class._count do
-			class[o]:loop()
+objectManager.delete = function(obj)
+	local bin = objectManager.objects[obj.class]._bin
+
+	bin._count = bin._count + 1
+	bin[bin._count] = obj._id
+end
+
+objectManager.clear = function()
+	local rawcount
+
+	for className, class in next, objectManager.objects do
+		if class._bin._count > 0 then
+			rawcount = class._count - class._bin._count
+
+			for o = 1, class._bin._count do
+				class[class._bin[o]] = nil
+			end
+
+			objectManager.objects[className] = clearClassEmptyObjects(class)
+			class = objectManager.objects[className]
+			class._count = rawcount
+			class._bin = { _count = 0 }
+			print(rawcount .. " " .. table.tostring(objectManager.objects[className], false, true))
 		end
 	end
+end
+
+objectManager.loop = function(currentTime, remainingTime)
+	for _, class in next, objectManager.objects do
+		for o = 1, class._count do
+			class[o]:loop(currentTime, remainingTime)
+		end
+	end
+	objectManager.clear()
 end
 
 local monster = { }
@@ -286,7 +336,13 @@ monster.new = function(type, x, y)
 	return self
 end
 
-monster.loop = function(self)
+monster.destroy = function(self)
+	tfm.exec.removeObject(self.object)
+	tfm.exec.removeImage(self.image)
+	objectManager.delete(self)
+end
+
+monster.loop = function(self, currentTime, remainingTime)
 	tfm.exec.moveObject(self.object, 0, 0, true, math.random(-50, 50), math.random(-50, 50), false)
 end
 
@@ -451,6 +507,7 @@ do
 end
 
 local checkStageChallege = function()
+	local tmpPlayerStage
 	for playerName, data in next, tfm.get.room.playerList do
 		tmpPlayerStage = getCurrentStage(data.y, data.x)
 		if tmpPlayerStage == 8 then
@@ -484,7 +541,6 @@ eventPlayerDataLoaded = function(playerName, data)
 	playerCache[playerName].dataLoaded = true
 end
 
-local tmpPlayerStage
 eventLoop = function(currentTime, remainingTime)
 	if remainingTime < 500 then
 		--globalInitSettings(false)
@@ -494,7 +550,7 @@ eventLoop = function(currentTime, remainingTime)
 	if not canStart then return end
 
 	checkStageChallege()
-	objectManager.loop()
+	objectManager.loop(currentTime, remainingTime)
 end
 
 eventNewPlayer = function(playerName)
