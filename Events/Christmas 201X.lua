@@ -238,16 +238,17 @@ local getAngle = function(x1, y1, x2, y2)
 	return math.atan2(y2 - y1, x2 - x1)
 end
 
-local getAccelerationDirection = function(angle)
+local getAcceleration = function(angle)
 	return math.cos(angle), math.sin(angle)
 end
 
 local getPlayersInStage = function(stage)
-	local list, index = { }, 0
+	local list, index, playerListData = { }, 0
 	for playerName, data in next, playerCache do
-		if data.currentStage == stage then
+		playerListData = tfm.get.room.playerList[playerName]
+		if not playerListData.isDead and data.currentStage == stage then
 			index = index + 1
-			list[index] = tfm.get.room.playerList[playerName]
+			list[index] = playerListData
 		end
 	end
 	return list
@@ -386,8 +387,7 @@ monster.new = function(type, x, y, stage)
 		object = object,
 		image = image,
 		frameId = 2,
-		x = 0,
-		y = 0
+		objectList = tfm.get.room.objectList[object]
 	}, monster)
 
 	objectManager.insert(self)
@@ -402,9 +402,6 @@ monster.destroy = function(self)
 end
 
 monster.loop = function(self, currentTime, remainingTime)
-	local obj = tfm.get.room.objectList[self.object]
-	self.x, self.y = obj.x, obj.y
-
 	--tfm.exec.moveObject(self.object, 0, 0, true, math.random(-50, 50), math.random(-50, 50), false)
 	self:throwSnowball()
 end
@@ -421,15 +418,17 @@ monster.throwSnowball = function(self)
 	local player = table.random(getPlayersInStage(self.stage))
 	if not player then return end
 
-	local angle = getAngle(self.x, self.y, player.x, player.y)
-	local directionX, directionY = getAccelerationDirection(angle)
+	local angle = getAngle(self.objectList.x, self.objectList.y, player.x, player.y)
+	local directionX, directionY = getAcceleration(angle)
 
-	if directionX > 0 then -- left / right
-		self:frame(self.frameId + 2)
+	if self.objectList.x > player.x then
+		self:frame(1)
+	else
+		self:frame(3)
 	end
 
 	for _ = 1, monsterData.snowballQuantity do
-		tfm.exec.addShamanObject(objectId.snowball, self.x + (directionX * 20), self.y - 15, angle, (directionX * monsterData.snowballForce), (directionY * monsterData.snowballForce))
+		tfm.exec.addShamanObject(objectId.snowball, self.objectList.x + (directionX * 20), self.objectList.y - 15, angle, (directionX * monsterData.snowballForce), (directionY * monsterData.snowballForce))
 	end
 end
 
@@ -619,7 +618,7 @@ local spawnYetis
 do
 	local xRange = {
 		-- rangeA, rangeB, quantity
-		230, 700, 1, -- 1
+		230, 700, 5, -- 1
 		340, 700, 4, -- 2
 		330, 680, 3, -- 3
 		470, 700, 2, -- 4
@@ -651,21 +650,23 @@ end
 local checkStageChallege = function()
 	local tmpCurrentStage
 	for playerName, data in next, tfm.get.room.playerList do
-		tmpCurrentStage = getCurrentStage(data.y, data.x)
-		if tmpCurrentStage == 8 then
-			if not triggerEnigma then
-				triggerEnigma = true
-				-- final part 2
+		if not data.isDead then
+			tmpCurrentStage = getCurrentStage(data.y, data.x)
+			if tmpCurrentStage == 8 then
+				if not triggerEnigma then
+					triggerEnigma = true
+					-- final part 2
+				end
+			elseif tmpCurrentStage > lastMountainStage then
+				lastMountainStage = tmpCurrentStage
+				if lastMountainStage == 7 then
+					-- final
+				else
+					spawnYetis(lastMountainStage)
+				end
 			end
-		elseif tmpCurrentStage > lastMountainStage then
-			lastMountainStage = tmpCurrentStage
-			if lastMountainStage == 7 then
-				-- final
-			else
-				spawnYetis(lastMountainStage)
-			end
+			playerCache[playerName].currentStage = tmpCurrentStage
 		end
-		playerCache[playerName].currentStage = tmpCurrentStage
 	end
 end
 
