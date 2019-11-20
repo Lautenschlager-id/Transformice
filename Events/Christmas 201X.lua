@@ -2,7 +2,7 @@
 local module = {
 	name = "xm1X",
 	team = {
-		developer = { "Bolodefchoco#0000" },
+		developer = { "Bolodefchoco#0000", "Tocutoeltuco#0000" },
 		artist = { "Naomi#2792" },
 		translator = { "Bolodefchoco#0000" }
 	},
@@ -24,10 +24,12 @@ end
 
 --> Debug <--
 do
-	system.bindMouse("Bolodefchoco#0000")
-	system.bindKeyboard("Bolodefchoco#0000", 16, true)
-	system.bindKeyboard("Bolodefchoco#0000", 16, false)
-	
+	for _, dev in next, module.team.developer do
+		system.bindMouse(dev)
+		system.bindKeyboard(dev, 16, true)
+		system.bindKeyboard(dev, 16, false)
+	end
+
 	local shift
 	eventMouse = function(playerName, x, y)
 		if shift then
@@ -229,6 +231,8 @@ end
 local canStart = false
 local workingTimer = workingTimerState.start
 
+local playerStage = { }
+
 --[[ Utils ]]--
 table.random = function(tbl)
 	return tbl[math.random(#tbl)]
@@ -243,15 +247,21 @@ local getAcceleration = function(angle)
 end
 
 local getPlayersInStage = function(stage)
-	local list, index, playerListData = { }, 0
-	for playerName, data in next, playerCache do
-		playerListData = tfm.get.room.playerList[playerName]
-		if not playerListData.isDead and data.currentStage == stage then
-			index = index + 1
-			list[index] = playerListData
+	if not playerStage[stage] then return end
+
+	if playerStage[stage]._intern._update then
+		local list, index = { }, 0
+		for playerName, isBool in next, playerStage[stage] do
+			if isBool == true then
+				index = index + 1
+				list[index] = playerName
+			end
 		end
+
+		playerStage[stage]._intern._keys = (index > 0 and list)
+		playerStage[stage]._intern._update = false
 	end
-	return list
+	return playerStage[stage]._intern._keys
 end
 
 local clearClassEmptyObjects = function(class)
@@ -415,8 +425,9 @@ monster.frame = function(self, id)
 end
 
 monster.throwSnowball = function(self)
-	local player = table.random(getPlayersInStage(self.stage))
+	local player = getPlayersInStage(self.stage)
 	if not player then return end
+	player = tfm.get.room.playerList[table.random(player)]
 
 	local angle = getAngle(self.objectList.x, self.objectList.y, player.x, player.y)
 	local directionX, directionY = getAcceleration(angle)
@@ -647,6 +658,33 @@ do
 	end
 end
 
+local removePlayerFromStages = function(playerName)
+	for _, stage in next, playerStage do
+		if stage[playerName] then
+			stage[playerName] = nil
+			stage._intern._update = true
+		end
+	end
+	playerCache[playerName].currentStage = 0
+end
+
+local insertPlayerIntoStage = function(playerName, stage)
+	if not playerStage[stage] then
+		playerStage[stage] = {
+			_intern = {
+				_keys = nil,
+				_update = true
+			}
+		}
+	end
+
+	removePlayerFromStages(playerName)
+
+	playerStage[stage]._intern._update = true
+	playerStage[stage][playerName] = true
+	playerCache[playerName].currentStage = stage
+end
+
 local checkStageChallege = function()
 	local tmpCurrentStage
 	for playerName, data in next, tfm.get.room.playerList do
@@ -665,7 +703,10 @@ local checkStageChallege = function()
 					spawnYetis(lastMountainStage)
 				end
 			end
-			playerCache[playerName].currentStage = tmpCurrentStage
+
+			if playerCache[playerName].currentStage ~= tmpCurrentStage then
+				insertPlayerIntoStage(playerName, tmpCurrentStage)
+			end
 		end
 	end
 end
@@ -732,6 +773,10 @@ eventNewPlayer = function(playerName)
 	loadAllImages(playerName) -- Unsure if this is really necessary
 	buildMap(playerName)
 end
+
+eventPlayerDied = removePlayerFromStages
+
+eventPlayerLeft = removePlayerFromStages
 
 --[[ Init ]]--
 system.newTimer(function()
