@@ -124,7 +124,9 @@ local monsterAxis = {
 
 local monsterData = {
 	snowballForce = 50,
-	snowballQuantity = 2
+	snowballQuantity = 2,
+
+	freezeRadius = 40,
 }
 
 -- Images
@@ -182,11 +184,11 @@ local images = {
 		attack = {
 			[monsterType.freeze] = {
 				[1] = "167619344f1.png",
-				[2] = "16761935c62.png"
+				[3] = "16761935c62.png"
 			},
 			[monsterType.roar] = {
 				[1] = "1676161f6a9.png",
-				[2] = "16761620e1a.png"
+				[3] = "16761620e1a.png"
 			}
 		}
 	},
@@ -234,8 +236,12 @@ local workingTimer = workingTimerState.start
 local playerStage = { }
 
 --[[ Utils ]]--
-table.random = function(tbl)
+local getRandomValue = function(tbl)
 	return tbl[math.random(#tbl)]
+end
+
+local pythagoras = function(x1, y1, x2, y2, radius)
+	return (((x1 - x2) ^ 2) + ((y1 - y2) ^ 2)) <= (radius ^ 2) 
 end
 
 local getAngle = function(x1, y1, x2, y2)
@@ -262,6 +268,18 @@ local getPlayersInStage = function(stage)
 		playerStage[stage]._intern._update = false
 	end
 	return playerStage[stage]._intern._keys
+end
+
+local getNearPlayers = function(stagePlayers, x, y, radius)
+	local list, index = { }, 0
+	for _, playerName in next, stagePlayers do
+		playerName = tfm.get.room.playerList[playerName]
+		if pythagoras(playerName.x, playerName.y, x, y, radius) then
+			index = index + 1
+			list[index] = playerName.playerName
+		end
+	end
+	return list
 end
 
 local clearClassEmptyObjects = function(class)
@@ -412,34 +430,47 @@ monster.destroy = function(self)
 end
 
 monster.loop = function(self, currentTime, remainingTime)
-	--tfm.exec.moveObject(self.object, 0, 0, true, math.random(-50, 50), math.random(-50, 50), false)
-	self:throwSnowball()
+	if self.type == monsterType.snow then
+		self:throwSnowball()
+	elseif self.type == monsterType.freeze then
+		self:freezeAround()
+	end
 end
 
-monster.frame = function(self, id)
+monster.frame = function(self, id, isAttack)
 	if self.frameId == id then return end
 
 	tfm.exec.removeImage(self.image)
-	self.image = tfm.exec.addImage(images.monsters[self.type][id], "#" .. self.object, monsterAxis[self.type][1], monsterAxis[self.type][2])
+	self.image = tfm.exec.addImage((isAttack and images.monsters.attack[self.type][id] or images.monsters[self.type][id]), "#" .. self.object, monsterAxis[self.type][1], monsterAxis[self.type][2])
 	self.frameId = id
 end
 
 monster.throwSnowball = function(self)
 	local player = getPlayersInStage(self.stage)
 	if not player then return end
-	player = tfm.get.room.playerList[table.random(player)]
+	player = tfm.get.room.playerList[getRandomValue(player)]
 
 	local angle = getAngle(self.objectList.x, self.objectList.y, player.x, player.y)
 	local directionX, directionY = getAcceleration(angle)
 
-	if self.objectList.x > player.x then
-		self:frame(1)
-	else
-		self:frame(3)
-	end
+	self:frame(((self.objectList.x > player.x) and 1 or 3))
 
 	for _ = 1, monsterData.snowballQuantity do
 		tfm.exec.addShamanObject(objectId.snowball, self.objectList.x + (directionX * 20), self.objectList.y - 15, angle, (directionX * monsterData.snowballForce), (directionY * monsterData.snowballForce))
+	end
+end
+
+monster.freezeAround = function(self)
+	local players = getPlayersInStage(self.stage)
+	if not players then return end
+
+	self:frame(getRandomValue({ 1, 3 }), true) -- tmp
+
+	for _, playerName in next, getNearPlayers(players, self.objectList.x, self.objectList.y, monsterData.freezeRadius) do
+		if math.random(0, 3000) < 500 then -- 1/6 
+			--tfm.exec.freezeMouse(playerName, 3500)
+			tfm.exec.chatMessage("<CH>Freeze = " .. playerName .. ".")--tmp <
+		end
 	end
 end
 
