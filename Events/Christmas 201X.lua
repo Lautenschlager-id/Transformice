@@ -345,6 +345,52 @@ loadAllImages = function(playerName, _src)
 end
 
 --[[ Classes ]]--
+local timer = {
+	_timers = {
+		_count = 0
+	}
+}
+
+timer.start = function(callback, ms, times, ...)
+	local t = timer._timers
+	t._count = t._count + 1
+
+	t[t._count] = {
+		id = t._count,
+		callback = callback,
+		args = { ... },
+		defaultMilliseconds = ms,
+		milliseconds = ms,
+		times = times
+	}
+
+	return t._count
+end
+
+timer.delete = function(id)
+	timer._timers[id] = nil
+end
+
+timer.loop = function()
+	local t
+	for i = 1, timer._timers._count do
+		t = timer._timers[i]
+		if t then
+			t.milliseconds = t.milliseconds - 500
+			if t.milliseconds <= 0 then
+				t.milliseconds = t.defaultMilliseconds
+				t.times = t.times - 1
+
+				t.callback(t.times, table.unpack(t.args))
+
+				if t.times == 0 then
+					timer.delete(i)
+				end
+			end
+		end
+	end
+end
+
 local objectManager = {
 	objects = {
 		monster = {
@@ -468,8 +514,7 @@ monster.freezeAround = function(self)
 
 	for _, playerName in next, getNearPlayers(players, self.objectList.x, self.objectList.y, monsterData.freezeRadius) do
 		if math.random(0, 3000) < 500 then -- 1/6 
-			--tfm.exec.freezeMouse(playerName, 3500)
-			tfm.exec.chatMessage("<CH>Freeze = " .. playerName .. ".")--tmp <
+			tfm.exec.freezePlayer(playerName, true)
 		end
 	end
 end
@@ -780,6 +825,7 @@ eventLoop = function(currentTime, remainingTime)
 	checkStageChallege()
 	objectManager.loop(currentTime, remainingTime)
 	checkPassages()
+	timer.loop()
 end
 
 eventKeyboard = function(playerName, key)
