@@ -528,20 +528,21 @@ monster.moveAround = function(self, movement, dontMoveWith, radius)
 	if movement == movementType.biggerGroup then
 		local playersOnLeft, playersOnRight = 0, 0
 		local leftDifference, rightDifference = 1000000, 1000000
+		local data, diff
 
 		for _, playerName in next, players do
-			local data = tfm.get.room.playerList[playerName]
+			data = tfm.get.room.playerList[playerName]
 
 			if data.x <= self.objectList.x then
 				playersOnLeft = playersOnLeft + 1
-				local diff = self.objectList.x - data.x
+				diff = self.objectList.x - data.x
 
 				if diff < leftDifference then
 					leftDifference = diff
 				end
 			else
 				playersOnRight = playersOnRight + 1
-				local diff = data.x - self.objectList.x
+				diff = data.x - self.objectList.x
 
 				if diff < rightDifference then
 					rightDifference = diff
@@ -556,10 +557,11 @@ monster.moveAround = function(self, movement, dontMoveWith, radius)
 		end
 	elseif movement == movementType.nearestPlayer then
 		local left, difference = false, 1000000
+		local data, diff
 
 		for _, playerName in next, players do
-			local data = tfm.get.room.playerList[playerName]
-			local diff = math.abs(data.x - self.objectList.x)
+			data = tfm.get.room.playerList[playerName]
+			diff = math.abs(data.x - self.objectList.x)
 
 			if diff < difference then
 				if data.x <= self.objectList.x then
