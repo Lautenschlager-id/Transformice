@@ -475,8 +475,7 @@ monster.new = function(type, x, y, stage)
 		object = object,
 		image = image,
 		frameId = 2,
-		objectList = tfm.get.room.objectList[object],
-		stageLimits = getStageLimits(stage) -- stores X limit only
+		objectList = tfm.get.room.objectList[object]
 	}, monster)
 
 	objectManager.insert(self)
@@ -511,12 +510,6 @@ monster.frame = function(self, id, isAttack)
 end
 
 monster.moveAround = function(self, movement, dontMoveWith, radius)
-	if self.objectList.x < self.stageLimits then
-		-- if the the monster is out of the stage, it needs to come back
-		return tfm.exec.moveObject(self.objectList.id, 0, 0, true, getNeededXSpeed(1600), -10, false)
-		-- Gives the needed speed to travel 1600 pixels so it can push other monsters too, if needed.
-	end
-
 	local players = getPlayersInStage(self.stage)
 	if not players then return end
 
@@ -750,7 +743,6 @@ do
 end
 
 local getCurrentStage
--- getStageLimits is not allocated here since it is needed on an upper function
 do
 	local yRange = {
 		[1] = 1400,
@@ -782,11 +774,6 @@ do
 			end
 		end
 		return 0
-	end
-
-	getStageLimits = function(stage)
-		-- leftX, topY, bottomY
-		return xRange[stage], yRange[stage], yRange[stage - 1] or 1600
 	end
 end
 
