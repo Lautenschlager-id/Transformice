@@ -11,19 +11,16 @@ local module = {
 	},
 	time = 2 * 60,
 	map = {
-		xml = [[<C><P APS="%s,,170,350,820,1250,," L="1000" H="1600" /><Z><S><S L="160" o="324650" H="17" X="76" Y="1574" T="12" P=",,.3,.2,-12,,," /><S L="115" o="324650" H="17" X="209" Y="1563" T="12" P=",,.3,.2,5,,," /><S L="100" o="324650" H="17" X="297" Y="1559" T="12" P=",,.3,.2,-10,,," /><S L="150" o="324650" H="17" X="417" Y="1560" T="12" P=",,.3,.2,7,,," /><S L="150" o="324650" H="17" X="565" Y="1568" T="12" P=",,.3,.2,-1,,," /><S L="92" o="324650" H="17" X="672" Y="1544" T="12" P=",,.3,.2,-34,,," /><S L="82" o="324650" H="17" X="743" Y="1503" T="12" P=",,.3,.2,-26,,," /><S L="66" o="324650" H="17" X="790" Y="1461" T="12" P=",,.3,.2,-65,,," /><S L="15" o="324650" H="853" X="789" Y="1014" T="12" P=",,.3,.2,,,," /><S L="379" o="324650" H="17" X="533" Y="1408" T="12" P=",,.3,.2,1,,," /><S L="401" o="324650" H="17" X="532" Y="1250" T="12" P=",,.3,.2,1,,," /><S L="442" o="324650" H="17" X="500" Y="1082" T="12" P=",,.3,.2,,,," /><S L="82" o="324650" H="17" X="761" Y="1274" T="12" P=",,.3,.2,32,,," /><S L="167" o="324650" H="17" X="736" Y="1183" T="12" P=",,.3,.2,-52,,," /><S L="99" o="324650" H="17" X="422" Y="1051" T="12" P=",,.3,.2,218,,," /><S L="99" o="324650" H="17" X="356" Y="983" T="12" P=",,.3,.2,235,,," /><S L="339" o="324650" H="17" X="561" Y="921" T="12" P=",,.3,.2,,,," /><S L="92" o="324650" H="17" X="759" Y="949" T="12" P=",,.3,.2,40,,," /><S L="178" o="324650" H="17" X="731" Y="854" T="12" P=",,.3,.2,-49,,," /><S L="350" o="324650" H="17" X="536" Y="754" T="12" P=",,.3,.2,,,," /><S L="28" o="324650" X="500" H="10" Y="730" T="13" P=",,.3,.2,,,," /><S L="124" o="324650" H="17" X="448" Y="677" T="12" P=",,.3,.2,55,,," /><S L="503" o="324650" H="17" X="748" Y="597" T="12" P=",,.3,.2,-1,,," /><S L="14" o="324650" H="211" X="991" Y="487" T="12" P=",,.3,.2,2,,," /><S L="532" o="324650" H="27" X="736" Y="378" T="12" P=",,.3,.2,,,," /><S L="20" o="324650" H="1104" X="326" Y="901" T="12" P=",,.3,.2,15,,," /><S L="26" o="324650" H="394" X="998" Y="173" T="12" P=",,,,,,," /><S L="10" o="324650" H="1596" X="-2" Y="800" T="12" P=",,,,,,," /><S P=",,.3,.2,-115,,," L="10" o="324650" X="788" Y="1444" T="12" H="10" /><S P=",,.3,.2,50,,," L="172" o="324650" X="293" Y="1340" T="12" H="17" /></S><D /><O /></Z></C>]],
+		xml = [[<C><P APS="%s,,170,350,820,1250,," L="1000" H="1600" /><Z><S><S L="160" o="324650" H="17" X="76" Y="1574" T="12" P=",,.3,.2,-12,,," /><S L="115" o="324650" H="17" X="209" Y="1563" T="12" P=",,.3,.2,5,,," /><S L="100" o="324650" H="17" X="297" Y="1559" T="12" P=",,.3,.2,-10,,," /><S L="150" o="324650" H="17" X="417" Y="1560" T="12" P=",,.3,.2,7,,," /><S L="150" o="324650" H="17" X="565" Y="1568" T="12" P=",,.3,.2,-1,,," /><S L="92" o="324650" H="17" X="672" Y="1544" T="12" P=",,.3,.2,-34,,," /><S L="82" o="324650" H="17" X="743" Y="1503" T="12" P=",,.3,.2,-26,,," /><S L="66" o="324650" H="17" X="790" Y="1461" T="12" P=",,.3,.2,-65,,," /><S L="15" o="324650" H="853" X="789" Y="1014" T="12" P=",,.3,.2,,,," /><S L="530" o="324650" H="17" X="457" Y="1408" T="12" P=",,.3,.2,1,,," /><S L="401" o="324650" H="17" X="532" Y="1250" T="12" P=",,.3,.2,1,,," /><S L="442" o="324650" H="17" X="500" Y="1082" T="12" P=",,.3,.2,,,," /><S L="82" o="324650" H="17" X="761" Y="1274" T="12" P=",,.3,.2,32,,," /><S L="167" o="324650" H="17" X="736" Y="1183" T="12" P=",,.3,.2,-52,,," /><S L="99" o="324650" H="17" X="422" Y="1051" T="12" P=",,.3,.2,218,,," /><S L="99" o="324650" H="17" X="356" Y="983" T="12" P=",,.3,.2,235,,," /><S L="339" o="324650" H="17" X="561" Y="921" T="12" P=",,.3,.2,,,," /><S L="92" o="324650" H="17" X="759" Y="949" T="12" P=",,.3,.2,40,,," /><S L="178" o="324650" H="17" X="731" Y="854" T="12" P=",,.3,.2,-49,,," /><S L="350" o="324650" H="17" X="536" Y="754" T="12" P=",,.3,.2,,,," /><S L="28" o="324650" X="500" H="10" Y="730" T="13" P=",,.3,.2,,,," /><S L="124" o="324650" H="17" X="448" Y="677" T="12" P=",,.3,.2,55,,," /><S L="503" o="324650" H="17" X="748" Y="597" T="12" P=",,.3,.2,-1,,," /><S L="14" o="324650" H="211" X="991" Y="487" T="12" P=",,.3,.2,2,,," /><S L="532" o="324650" H="27" X="736" Y="378" T="12" P=",,.3,.2,,,," /><S L="20" o="324650" H="1104" X="326" Y="901" T="12" P=",,.3,.2,15,,," /><S L="26" o="324650" H="394" X="998" Y="173" T="12" P=",,,,,,," /><S L="10" o="324650" H="1596" X="-2" Y="800" T="12" P=",,,,,,," /><S P=",,.3,.2,-115,,," L="10" o="324650" X="788" Y="1444" T="12" H="10" /><S P=",,.3,.2,50,,," L="172" o="324650" X="293" Y="1340" T="12" H="17" /><S L="100" o="324650" c="2" H="10" X="748" Y="1410" T="12" P=",,,,,,," /><S L="100" o="324650" c="2" H="10" X="290" Y="1245" T="12" P=",,,,,,," /><S L="100" o="324650" c="2" H="10" X="748" Y="1080" T="12" P=",,,,,,," /><S L="100" o="324650" c="2" H="10" X="380" Y="920" T="12" P=",,,,,,," /><S L="100" o="324650" c="2" H="10" X="754" Y="753" T="12" P=",,,,,,," /><S L="100" o="324650" c="2" H="10" X="455" Y="596" T="12" P=",,,,,,," /><S P="0,0,,,,0,0,0" L="10" o="324650" H="394" c="2" Y="173" T="12" X="465" /><S P="0,0,,,,0,0,0" L="10" o="324650" X="183" c="2" Y="1493" T="12" H="150" /></S><D /><O /></Z></C>]],
 		background = "16e6f4bb3dc.jpg",
 		foreground = "167515a75c9.png"
 	},
 	timerRate = 12
 }
 
-if not (tfm.get.room.uniquePlayers == 1 and tfm.get.room.playerList[module.team.developer[1]]) and tfm.get.room.uniquePlayers < 4 then
---	return system.exit()
-end
-
 --> Debug <--
-do
+local DEBUG, _eventKeyboard = true
+if DEBUG then
 	for _, dev in next, module.team.developer do
 		system.bindMouse(dev)
 		system.bindKeyboard(dev, 16, true)
@@ -39,8 +36,10 @@ do
 		end
 	end
 
-	eventKeyboard = function(playerName, key, down)
-		shift = down
+	_eventKeyboard = function(playerName, key, down)
+		if key == 16 then
+			shift = down
+		end
 	end
 
 	local lastImg
@@ -62,6 +61,10 @@ do
 		end
 		p(table.concat(args, "\t"))
 	end
+end
+
+if not DEBUG and (not (tfm.get.room.uniquePlayers == 1 and tfm.get.room.playerList[module.team.developer[1]]) and tfm.get.room.uniquePlayers < 4) then
+	return system.exit()
 end
 
 --[[ Translations ]]--
@@ -100,7 +103,6 @@ local keyCode = {
 	space = 32
 }
 
-
 local workingTimerState = {
 	stop = -1,
 	start = 0,
@@ -131,7 +133,8 @@ local monsterData = {
 	snowballForce = 50,
 	snowballQuantity = 2,
 
-	freezeRadius = 40,
+	freezeRadius = 80,
+	freezeTime = 3500
 }
 
 -- Images
@@ -188,8 +191,8 @@ local images = {
 		},
 		attack = {
 			[monsterType.freeze] = {
-				[1] = "167619344f1.png",
-				[3] = "16761935c62.png"
+				[1] = "16761935c62.png",
+				[3] = "167619344f1.png"
 			},
 			[monsterType.roar] = {
 				[1] = "1676161f6a9.png",
@@ -481,7 +484,7 @@ timer.loop = function()
 				t.milliseconds = t.defaultMilliseconds
 				t.times = t.times - 1
 
-				t.callback(t.times, table.unpack(t.args))
+				t.callback(table.unpack(t.args))
 
 				if t.times == 0 then
 					timer.delete(i)
@@ -582,6 +585,9 @@ monster.loop = function(self, currentTime, remainingTime)
 	if self.type == monsterType.snow then
 		self:throwSnowball()
 	elseif self.type == monsterType.freeze then
+		if self.frameId % 2 ~= 0 then
+			self:frame(2)
+		end
 		self:freezeAround()
 	end
 end
@@ -685,11 +691,20 @@ monster.freezeAround = function(self)
 	local players = getPlayersInStage(self.stage)
 	if not players then return end
 
-	self:frame(getRandomValue({ 1, 3 }), true) -- tmp
+	if math.random(1, 100) < 50 then
+		for _, playerName in next, getNearPlayers(players, self.objectList.x, self.objectList.y, monsterData.freezeRadius) do
+			if math.random(1, 3000) < 500 then -- 1/6 
+				self:frame((tfm.get.room.playerList[playerName].x > self.objectList.x and 1 or 3), true) -- tmp
 
+<<<<<<< HEAD
 	for _, playerName in next, getNearPlayers(players, self.objectList.x, self.objectList.y, monsterData.freezeRadius) do
 		if math.random(0, 3000) < 500 then -- 1/6
 			tfm.exec.freezePlayer(playerName, true)
+=======
+				tfm.exec.freezePlayer(playerName, true)
+				timer.start(tfm.exec.freezePlayer, monsterData.freezeTime, 1, playerName, false)
+			end
+>>>>>>> master
 		end
 	end
 end
@@ -757,10 +772,10 @@ local globalInitSettings = function(bool)
 	tfm.exec.disableAfkDeath(bool)
 	tfm.exec.disableAutoShaman(bool)
 	tfm.exec.disableAutoTimeLeft(bool)
-	--tfm.exec.disableDebugCommand(bool)
+	tfm.exec.disableDebugCommand(not DEBUG)
 	tfm.exec.disableMortCommand(bool)
 	tfm.exec.disablePhysicalConsumables(bool)
-	tfm.exec.disableAutoNewGame() -- Debug
+	tfm.exec.disableAutoNewGame(DEBUG)
 end
 
 local updateDialog = function(playerName, data, addChar)
@@ -980,6 +995,15 @@ local checkPassages = function()
 	end
 end
 
+local dialogAction = function(playerName)
+	if playerCache[playerName].dialog.id == -1 then
+		ui.removeDialog(playerName)
+	else
+		-- Skips to the last character
+		playerCache[playerName].dialog.strPos = 9999
+	end
+end
+
 --[[ Events ]]--
 eventNewGame = function()
 	loadAllImages()
@@ -996,9 +1020,9 @@ eventPlayerDataLoaded = function(playerName, data)
 end
 
 eventLoop = function(currentTime, remainingTime)
-	if remainingTime < 500 then
-		--globalInitSettings(false)
-		--return system.exit()
+	if remainingTime < 500 and not DEBUG then
+		globalInitSettings(false)
+		return system.exit()
 	end
 	checkWorkingTimer()
 	if not canStart then return end
@@ -1009,20 +1033,19 @@ eventLoop = function(currentTime, remainingTime)
 	timer.loop()
 end
 
-eventKeyboard = function(playerName, key)
+eventKeyboard = function(playerName, key, holding, x, y)
+	if DEBUG then
+		_eventKeyboard(playerName, key, holding, x, y)
+	end
 	if not canStart then return end
 
 	if key == keyCode.space then
 		if playerCache[playerName].dialog.id == 0 then
-			ui.dialog(playerName, 1)
+			-- Is not seeing a dialog
+
 		else
 			-- Is seeing a dialog
-			if playerCache[playerName].dialog.id == -1 then
-				ui.removeDialog(playerName)
-			else
-				-- Skips to the last character
-				playerCache[playerName].dialog.strPos = 9999
-			end
+			dialogAction(playerName)
 		end
 	end
 end
