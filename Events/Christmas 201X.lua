@@ -693,18 +693,12 @@ monster.freezeAround = function(self)
 
 	if math.random(1, 100) < 50 then
 		for _, playerName in next, getNearPlayers(players, self.objectList.x, self.objectList.y, monsterData.freezeRadius) do
-			if math.random(1, 3000) < 500 then -- 1/6 
+			if math.random(1, 3000) < 500 then -- 1/6
 				self:frame((tfm.get.room.playerList[playerName].x > self.objectList.x and 1 or 3), true) -- tmp
 
-<<<<<<< HEAD
-	for _, playerName in next, getNearPlayers(players, self.objectList.x, self.objectList.y, monsterData.freezeRadius) do
-		if math.random(0, 3000) < 500 then -- 1/6
-			tfm.exec.freezePlayer(playerName, true)
-=======
 				tfm.exec.freezePlayer(playerName, true)
 				timer.start(tfm.exec.freezePlayer, monsterData.freezeTime, 1, playerName, false)
 			end
->>>>>>> master
 		end
 	end
 end
