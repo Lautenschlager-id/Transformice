@@ -508,16 +508,16 @@ monster.frame = function(self, id, isAttack)
 	self.frameId = id
 end
 
-monster.moveAround = function(self, movement, dontMoveWith, radius)
+monster.moveAround = function(self, movement, maximumMice, radius)
 	--[[Moves the monster around.
 	'movement' is a value from movementTypes,
-	'dontMoveWith' and 'radius' are the needed players in the given radius to make the monster not move.
-	dontMoveWith=1 and radius=50 will check if there is at least 1 player in a radius of 50px, if so, there will not be any movement.
+	'maximumMice' and 'radius' are the needed players in the given radius to make the monster not move.
+	maximumMice=1 and radius=50 will check if there is at least 1 player in a radius of 50px, if so, there will not be any movement.
 	]]
 	local players = getPlayersInStage(self.stage)
 	if not players then return end
 
-	if #getNearPlayers(players, self.objectList.x, self.objectList.y, radius) >= dontMoveWith then
+	if #getNearPlayers(players, self.objectList.x, self.objectList.y, radius) >= maximumMice then
 		return
 	end
 
