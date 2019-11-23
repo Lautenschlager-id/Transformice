@@ -18,12 +18,9 @@ local module = {
 	timerRate = 12
 }
 
-if not (tfm.get.room.uniquePlayers == 1 and tfm.get.room.playerList[module.team.developer[1]]) and tfm.get.room.uniquePlayers < 4 then
---	return system.exit()
-end
-
 --> Debug <--
-do
+local DEBUG = true
+if DEBUG then
 	for _, dev in next, module.team.developer do
 		system.bindMouse(dev)
 		system.bindKeyboard(dev, 16, true)
@@ -64,6 +61,10 @@ do
 	end
 end
 
+if not DEBUG and (not (tfm.get.room.uniquePlayers == 1 and tfm.get.room.playerList[module.team.developer[1]]) and tfm.get.room.uniquePlayers < 4) then
+	return system.exit()
+end
+
 --[[ Translations ]]--
 local translation
 do
@@ -99,7 +100,6 @@ local interfaceId = {
 local keyCode = {
 	space = 32
 }
-
 
 local workingTimerState = {
 	stop = -1,
@@ -515,6 +515,7 @@ monster.freezeAround = function(self)
 	for _, playerName in next, getNearPlayers(players, self.objectList.x, self.objectList.y, monsterData.freezeRadius) do
 		if math.random(0, 3000) < 500 then -- 1/6 
 			tfm.exec.freezePlayer(playerName, true)
+			timer.start(tfm.exec.freezePlayer, 3500, 1, playerName, false)
 		end
 	end
 end
@@ -582,10 +583,10 @@ local globalInitSettings = function(bool)
 	tfm.exec.disableAfkDeath(bool)
 	tfm.exec.disableAutoShaman(bool)
 	tfm.exec.disableAutoTimeLeft(bool)
-	--tfm.exec.disableDebugCommand(bool)
+	tfm.exec.disableDebugCommand(not DEBUG)
 	tfm.exec.disableMortCommand(bool)
 	tfm.exec.disablePhysicalConsumables(bool)
-	tfm.exec.disableAutoNewGame() -- Debug
+	tfm.exec.disableAutoNewGame(DEBUG)
 end
 
 local updateDialog = function(playerName, data, addChar)
@@ -799,6 +800,15 @@ local checkPassages = function()
 	end
 end
 
+local dialogAction = function(playerName)
+	if playerCache[playerName].dialog.id == -1 then
+		ui.removeDialog(playerName)
+	else
+		-- Skips to the last character
+		playerCache[playerName].dialog.strPos = 9999
+	end
+end
+
 --[[ Events ]]--
 eventNewGame = function()
 	loadAllImages()
@@ -815,9 +825,9 @@ eventPlayerDataLoaded = function(playerName, data)
 end
 
 eventLoop = function(currentTime, remainingTime)
-	if remainingTime < 500 then
-		--globalInitSettings(false)
-		--return system.exit()
+	if remainingTime < 500 and not DEBUG then
+		globalInitSettings(false)
+		return system.exit()
 	end
 	checkWorkingTimer()
 	if not canStart then return end
@@ -828,20 +838,16 @@ eventLoop = function(currentTime, remainingTime)
 	timer.loop()
 end
 
-eventKeyboard = function(playerName, key)
+eventKeyboard = function(playerName, key, holding, x, y)
 	if not canStart then return end
 
 	if key == keyCode.space then
 		if playerCache[playerName].dialog.id == 0 then
-			ui.dialog(playerName, 1)
+			-- Is not seeing a dialog
+
 		else
 			-- Is seeing a dialog
-			if playerCache[playerName].dialog.id == -1 then
-				ui.removeDialog(playerName)
-			else
-				-- Skips to the last character
-				playerCache[playerName].dialog.strPos = 9999
-			end
+			dialogAction(playerName)
 		end
 	end
 end
