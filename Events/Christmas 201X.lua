@@ -1,5 +1,3 @@
-local getStageLimits -- this is allocated here, see below (at local getCurrentStage)
-
 --[[ Module Info ]]--
 local module = {
 	name = "xm1X",
@@ -549,6 +547,7 @@ objectManager.loop = function(currentTime, remainingTime)
 	objectManager.clear()
 end
 
+local getStageLimits -- this is allocated here, see below (at local getCurrentStage)
 local monster = { }
 monster.__index = monster
 
