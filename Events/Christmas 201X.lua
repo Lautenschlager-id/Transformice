@@ -583,7 +583,7 @@ monster.loop = function(self, currentTime, remainingTime)
 	if self.type == monsterType.snow then
 		self:throwSnowball()
 	elseif self.type == monsterType.freeze then
-		--self:freezeAround()
+		self:freezeAround()
 	end
 end
 
