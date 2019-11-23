@@ -261,7 +261,7 @@ local getAcceleration = function(angle)
 end
 
 local getNeededXSpeed = function(distance)
-	-- Returns the needed xSpeed to cover distance with the given friction over a 0° ground.
+	-- Returns the needed xSpeed to cover distance over a 0° ground of 0.3 friction.
 	return math.floor(distance ^ .5 + 0.5)
 end
 
@@ -460,7 +460,6 @@ objectManager.loop = function(currentTime, remainingTime)
 	objectManager.clear()
 end
 
-local getStageLimits -- this is allocated here, see below (at local getCurrentStage)
 local monster = { }
 monster.__index = monster
 
@@ -510,6 +509,11 @@ monster.frame = function(self, id, isAttack)
 end
 
 monster.moveAround = function(self, movement, dontMoveWith, radius)
+	--[[Moves the monster around.
+	'movement' is a value from movementTypes,
+	'dontMoveWith' and 'radius' are the needed players in the given radius to make the monster not move.
+	dontMoveWith=1 and radius=50 will check if there is at least 1 player in a radius of 50px, if so, there will not be any movement.
+	]]
 	local players = getPlayersInStage(self.stage)
 	if not players then return end
 
@@ -557,11 +561,7 @@ monster.moveAround = function(self, movement, dontMoveWith, radius)
 			diff = math.abs(data.x - self.objectList.x)
 
 			if diff < difference then
-				if data.x <= self.objectList.x then
-					left = true
-				else
-					left = false
-				end
+				left = (data.x <= self.objectList.x)
 				difference = diff
 			end
 		end
