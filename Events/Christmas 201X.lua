@@ -381,7 +381,7 @@ timer.loop = function()
 				t.milliseconds = t.defaultMilliseconds
 				t.times = t.times - 1
 
-				t.callback(t.times, table.unpack(t.args))
+				t.callback(table.unpack(t.args))
 
 				if t.times == 0 then
 					timer.delete(i)
@@ -513,6 +513,7 @@ monster.freezeAround = function(self)
 	self:frame(getRandomValue({ 1, 3 }), true) -- tmp
 
 	for _, playerName in next, getNearPlayers(players, self.objectList.x, self.objectList.y, monsterData.freezeRadius) do
+		canFreeze = true
 		if math.random(0, 3000) < 500 then -- 1/6 
 			tfm.exec.freezePlayer(playerName, true)
 			timer.start(tfm.exec.freezePlayer, 3500, 1, playerName, false)
