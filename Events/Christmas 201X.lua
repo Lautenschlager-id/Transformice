@@ -1,3 +1,5 @@
+local getStageLimits -- this is allocated here, see below (at local getCurrentStage)
+
 --[[ Module Info ]]--
 local module = {
 	name = "xm1X",
@@ -113,6 +115,11 @@ local monsterType = {
 	roar = 2,
 	freeze = 3,
 	magician = 4
+}
+
+local movementType = {
+	biggerGroup = 1,
+	nearestPlayer = 2
 }
 
 local monsterAxis = {
@@ -241,7 +248,7 @@ local getRandomValue = function(tbl)
 end
 
 local pythagoras = function(x1, y1, x2, y2, radius)
-	return (((x1 - x2) ^ 2) + ((y1 - y2) ^ 2)) <= (radius ^ 2) 
+	return (((x1 - x2) ^ 2) + ((y1 - y2) ^ 2)) <= (radius ^ 2)
 end
 
 local getAngle = function(x1, y1, x2, y2)
@@ -250,6 +257,101 @@ end
 
 local getAcceleration = function(angle)
 	return math.cos(angle), math.sin(angle)
+end
+
+local getNeededXSpeed = function(distance)
+	-- Returns the needed xSpeed to cover distance with the given friction over a 0° ground.
+	return math.floor(distance ^ .5 + 0.5)
+	--[[ Explanation:
+
+	V_0 = initial velocity (px/f (pixels / frame))
+	V_f = final velocity (px/f)
+	d = distance (px (pixels))
+	a = acceleration (px/f² (pixels / frame²))
+	t = time (frame)
+
+	d = V_0 * t + 1/2 * a * t²
+	a = (V_f - V_0) / t
+
+	Since we've got a friction, there is a counter force applied over the object that we're
+	trying to move, and hence, a counter acceleration. We do know distance, final velocity
+	(which should be 0), but we don't know the time, acceleration nor initial velocity.
+	We've got only two equations with 3 unknown values!
+
+	Doing some tests, we can get the time it takes and the acceleration it has like this:
+
+	V_0 = some value (1, 2, 3, 4...)
+	V_f = 0
+	d = total distance after the test
+	a = ?
+	t = ?
+
+	d = V_0 * t + 1/2 * (-V_0 / t) * t²
+	d = V_0 * t - 1/2 * V_0 * t
+	d = 1/2 * V_0 * t
+	(2 * d) / V_0 = t
+	a = -V_0 / t
+
+	Note that these formulas are from a constant accelerated/deceletared movement.
+	A friction does not apply a constant acceleration/deceleration, but this seems to work
+	pretty nice. Acceleration seems to converge to about -0.115 with a ground friction of 0.3
+	and a fish object (id 6300). Our event cases are not a huge list of cases, so this will
+	work like a charm. So then, we've got acceleration value. We've got only two
+	unknown values: time and initial speed!
+
+	V_0 = ? px/f
+	V_f = 0 px/f
+	d = N px
+	a = -0.115 px/f²
+	t = ? f
+
+	d = V_0 * t + 1/2 * a * t²
+	a = (V_f - V_0) / t
+
+	Both equations have two unknown values, we can use a equation moving an unknown value
+	to a free side, and replacing that value with the equivalent. See:
+	We could use the second equation like this:
+	t = (V_f - V_0) / a
+	and then replace every time variable on the first equation with this value
+
+	d = V_0 * ((V_f - V_0) / a) + 1/2 * a * ((V_f - V_0) / a)²
+	See? Only one unknown value: V_0.
+
+	Clearing a bit the equation it gives us this:
+	d = (V_f * V_0 - V_0²) / a + (V_f - V_0)² / (2 * a)
+	It is a simple fraction addition. We can easily simplify it!
+
+	d = (2 * (V_f * V_0 - V_0²) + (V_f - V_0)²) / (2 * a)
+	Apply distributive property and it gives us this:
+	d = (2 * V_f * V_0 - 2 * V_0² + (V_f - V_0) * (V_f - V_0)) / (2 * a)
+	Keep applying distributive property on (V_f - V_0) * (V_f - V_0).
+	It gives us V_f² - V_f * V_0 - V_0 * V_f + V_0². simplify it: V_f² - 2 * V_f * V_0 + V_0²
+	d = (2 * V_f * V_0 - 2 * V_0² + V_f² - 2 * V_f * V_0 + V_0²) / (2 * a)
+	There is a positive 2 * V_f * V_0 and a negative one. We can delete them.
+	There are two negative V_0² and a positive one. We can leave a single negative one.
+	d = (-V_0² + V_f²) / (2 * a)
+	Multiply both sides by 2 * a:
+	2 * d * a = -V_0² + V_f²
+	Substract V_f² to both sides:
+	2 * d * a - V_f² = -V_0²
+	And then make it a square root.
+	±sqrt(-2 * d * a - V_f²) = V_0
+	It can be either positive or negative. Now, we know that V_f is 0. We can remove it from our equation:
+	±sqrt(-2 * d * a) = V_0
+	Know that -2 and a being negative gives us a positive value.
+
+	Our units are px for distance, px/f for velocity and px/f² for acceleration. The -2 doesn't have any unit.
+	sqrt(px * px/f²) gives us sqrt(px²/f²). We apply distributive property to sqrt(px²)/sqrt(f²) and then cancel
+	squares with roots. It gives us px/f. A velocity unit. Seems like we're going for the right way.
+
+	(-2 * d * -0.115) ^ .5 would do the job. We can also remove the - symbols and turn constants into a single value.
+
+	So, since our formula is not 100% corrent and has a fail rate, we need to round the value!
+	math.floor((d * 0.23) ^ .5 + .5) is all that we need.
+	On the event, this speed seems to be a bit low because of ground rotations.
+	We can fix that by just setting the constant to a bit more. 1 is a good value, so
+	math.floor(d ^ .5 + .5) works just nice!
+	]]
 end
 
 local getPlayersInStage = function(stage)
@@ -326,7 +428,7 @@ local checkWorkingTimer = function()
 				return
 			end
 		end
-	
+
 		if workingTimer > workingTimerState.defineAsBroken then
 			globalInitInterface()
 		end
@@ -461,7 +563,8 @@ monster.new = function(type, x, y, stage)
 		object = object,
 		image = image,
 		frameId = 2,
-		objectList = tfm.get.room.objectList[object]
+		objectList = tfm.get.room.objectList[object],
+		stageLimits = getStageLimits(stage) -- stores X limit only
 	}, monster)
 
 	objectManager.insert(self)
@@ -476,10 +579,11 @@ monster.destroy = function(self)
 end
 
 monster.loop = function(self, currentTime, remainingTime)
+	self:moveAround(movementType.nearestPlayer, 1, 50)
 	if self.type == monsterType.snow then
 		self:throwSnowball()
 	elseif self.type == monsterType.freeze then
-		self:freezeAround()
+		--self:freezeAround()
 	end
 end
 
@@ -489,6 +593,78 @@ monster.frame = function(self, id, isAttack)
 	tfm.exec.removeImage(self.image)
 	self.image = tfm.exec.addImage((isAttack and images.monsters.attack[self.type][id] or images.monsters[self.type][id]), "#" .. self.object, monsterAxis[self.type][1], monsterAxis[self.type][2])
 	self.frameId = id
+end
+
+monster.moveAround = function(self, movement, dontMoveWith, radius)
+	if self.objectList.x < self.stageLimits then
+		-- if the the monster is out of the stage, it needs to come back
+		return tfm.exec.moveObject(self.objectList.id, 0, 0, true, getNeededXSpeed(1600), -10, false)
+		-- Gives the needed speed to travel 1600 pixels so it can push other monsters too, if needed.
+	end
+
+	local players = getPlayersInStage(self.stage)
+	if not players then return end
+
+	if #getNearPlayers(players, self.objectList.x, self.objectList.y, radius) >= dontMoveWith then
+		return
+	end
+
+	local xSpeed
+	if movement == movementType.biggerGroup then
+		-- If you don't understand this movement, I'd recommend to read nearestPlayer first.
+		-- Since this one is about the same concept but focusing on more players.
+		local playersOnLeft, playersOnRight = 0, 0
+		local leftDifference, rightDifference = 1000000, 1000000
+
+		for _, playerName in next, players do
+			local data = tfm.get.room.playerList[playerName]
+
+			if data.x <= self.objectList.x then
+				playersOnLeft = playersOnLeft + 1
+				local diff = self.objectList.x - data.x
+
+				if diff < leftDifference then
+					leftDifference = diff
+				end
+			else
+				playersOnRight = playersOnRight + 1
+				local diff = data.x - self.objectList.x
+
+				if diff < rightDifference then
+					rightDifference = diff
+				end
+			end
+		end
+
+		if playersOnLeft >= playersOnRight then
+			xSpeed = -getNeededXSpeed(leftDifference)
+		else
+			xSpeed = getNeededXSpeed(rightDifference)
+		end
+	elseif movement == movementType.nearestPlayer then
+		local left, difference = false, 1000000
+
+		for _, playerName in next, players do
+			local data = tfm.get.room.playerList[playerName]
+			local diff = math.abs(data.x - self.objectList.x)
+
+			if diff < difference then
+				if data.x <= self.objectList.x then
+					left = true
+				else
+					left = false
+				end
+				difference = diff
+			end
+		end
+
+		if left then
+			xSpeed = -getNeededXSpeed(difference)
+		else
+			xSpeed = getNeededXSpeed(difference)
+		end
+	end
+	tfm.exec.moveObject(self.objectList.id, 0, 0, true, xSpeed, -10, false)
 end
 
 monster.throwSnowball = function(self)
@@ -513,7 +689,7 @@ monster.freezeAround = function(self)
 	self:frame(getRandomValue({ 1, 3 }), true) -- tmp
 
 	for _, playerName in next, getNearPlayers(players, self.objectList.x, self.objectList.y, monsterData.freezeRadius) do
-		if math.random(0, 3000) < 500 then -- 1/6 
+		if math.random(0, 3000) < 500 then -- 1/6
 			tfm.exec.freezePlayer(playerName, true)
 		end
 	end
@@ -656,6 +832,7 @@ do
 end
 
 local getCurrentStage
+-- getStageLimits is not allocated here since it is needed on an upper function
 do
 	local yRange = {
 		[1] = 1400,
@@ -687,6 +864,11 @@ do
 			end
 		end
 		return 0
+	end
+
+	getStageLimits = function(stage)
+		-- leftX, topY, bottomY
+		return xRange[stage], yRange[stage], yRange[stage - 1] or 1600
 	end
 end
 
