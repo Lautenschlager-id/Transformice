@@ -15,7 +15,8 @@ local module = {
 		background = "16e6f4bb3dc.jpg",
 		foreground = "167515a75c9.png"
 	},
-	timerRate = 12
+	timerRate = 12,
+	callbackTimer = 2500
 }
 
 --> Debug <--
@@ -31,9 +32,9 @@ do
 	local texts = {
 		en = {
 			dialog = {
-				[1] = ''
+				[1] = "intro"
 			},
-			closeDialog = ''
+			closeDialog = "Press spacebar to close the dialog."
 		},
 		br = {
 			dialog = {
@@ -182,7 +183,10 @@ local images = {
 	},
 	dialogNpc = {
 		background = "1666b88049d.png",
-		[1] = ''
+		[1] = "16e9fa1be16.png"
+	},
+	npc = {
+		elf = "16e9f879365.png"
 	}
 }
 
@@ -478,9 +482,9 @@ do
 		return self
 	end
 
-	callback.setClickableRange = function(self, addToBorder)
-		if addToBorder then
-			self.borderRange = addToBorder
+	callback.setClickable = function(self, borderRange)
+		if borderRange then
+			self.borderRange = borderRange
 		end
 		self.hasRange = true
 
@@ -813,7 +817,8 @@ local setAllPlayerData = function()
 			isFrozen = false,
 			treeItem = nil, -- The id of the item to be collected
 			hasItem = false, -- If the player is carrying the item
-			placedItem = false -- If the player has placed the item
+			placedItem = false, -- If the player has placed the item
+			callbackAction = 0
 		}
 
 		tfm.exec.lowerSyncDelay(playerName)
@@ -846,7 +851,7 @@ local updateDialog = function(playerName, data, addChar)
 
 	local lastChar = data.dialog.strPos >= #str
 
-	ui.updateTextArea(interfaceId.dialog + 1, string.sub(translation.dialog[data.dialog.id], 1, data.dialog.strPos) .. (lastChar and ("\n<ROSE>" .. translation.closeDialog) or "|"), playerName)
+	ui.updateTextArea(interfaceId.dialog + 1, string.sub(translation.dialog[data.dialog.id], 1, data.dialog.strPos) .. (lastChar and ("\n<PT>" .. translation.closeDialog) or "|"), playerName)
 
 	if lastChar then
 		data.dialog.id = -1
@@ -1069,9 +1074,8 @@ local dialogAction = function(playerName)
 	end
 end
 
-local tryCollectItem = function(cbk, playerName, x, y)
-	print(1)
-	if playerCache[playerName].treeItem and (playerCache[playerName].hasItem or playerCache[playerName].placedItem) then return end
+local collectItem = function(cbk, playerName)
+	if not playerCache[playerName].treeItem or (playerCache[playerName].hasItem or playerCache[playerName].placedItem) then return end
 	playerCache[playerName].hasItem = true
 
 	cbk:remove(playerName)
@@ -1080,8 +1084,8 @@ local tryCollectItem = function(cbk, playerName, x, y)
 	playerCache[playerName].cachedImages.treeItem = tfm.exec.addImage(images.treeItems[playerCache[playerName].treeItem], imageLayer.playerAttachment .. playerName, -20, -70)
 end
 
-local tryPlaceItem = function(cbk, playerName, x, y)
-	if playerCache[playerName].treeItem and (not playerCache[playerName].hasItem or playerCache[playerName].placedItem) then return end
+local placeItem = function(cbk, playerName)
+	if not playerCache[playerName].treeItem or (not playerCache[playerName].hasItem or playerCache[playerName].placedItem) then return end
 	playerCache[playerName].hasItem = false
 	playerCache[playerName].placedItem = true
 
@@ -1092,16 +1096,38 @@ local tryPlaceItem = function(cbk, playerName, x, y)
 	displayTree(playerName, true)
 end
 
+local startIntro = function(cbk, playerName)
+	ui.dialog(playerName, 1)
+end
+
 local makeCallbacks = function()
 	-- Collect item
-	callback.new("placeItem", 915, 530, 50, 50):setClickableRange(10):setAction(tryCollectItem)
+	callback.new("placeItem", 915, 530, 50, 50):setClickable(10):setAction(collectItem)
 
 	-- Place collected item in the tree spot
-	callback.new("collectItem", 0, 1430, 160, 170):setClickableRange():setAction(tryPlaceItem)
+	callback.new("collectItem", 0, 1430, 160, 170):setClickable():setAction(placeItem)
+
+	-- Tree NPC
+	tfm.exec.addImage(images.npc.elf, imageLayer.objectForeground, -18, 1542)
+	callback.new("npc", 0, 1545, 35, 45):setClickable():setAction(startIntro)
+end
+
+local canTriggerCallbacks = function(playerName)
+	local time = os.time()
+	if playerCache[playerName].callbackAction > time then return end
+	playerCache[playerName].callbackAction = time + module.callbackTimer
+	return true
 end
 
 --[[ Events ]]--
+local newGame = false
 eventNewGame = function()
+	if newGame then
+		-- Bug fix
+		return system.exit()
+	end
+	newGame = true
+
 	loadAllImages()
 	buildMap()
 	setAllPlayerData()
@@ -1139,6 +1165,7 @@ eventKeyboard = function(playerName, key, holding, x, y)
 	if key == keyCode.space then
 		if playerCache[playerName].dialog.id == 0 then
 			-- Is not seeing a dialog
+			if not canTriggerCallbacks(playerName) then return end
 
 			-- Checks all ranges of callbacks and, if matched, its action is performed
 			for _, cbk in callback.__iter() do
@@ -1153,6 +1180,7 @@ end
 
 eventTextAreaCallback = function(id, playerName, eventName)
 	if not canStart or not playerCache[playerName] or not playerCache[playerName].dataLoaded then return end
+	if not canTriggerCallbacks(playerName) then return end
 
 	if string.find(eventName, "callback.", 1, true) then
 		local data = tfm.get.room.playerList[playerName]
@@ -1192,7 +1220,7 @@ if DEBUG then
 			shift = down
 		elseif key == string.byte('P') then
 			print(system.savePlayerData(playerName, (playerData:dumpPlayer(playerName):gsub(module.name .. "={.-},?", ''))))
-			system.exit()
+			return system.exit()
 		end
 	end
 
