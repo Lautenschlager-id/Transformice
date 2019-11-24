@@ -76,9 +76,9 @@ do
 		return self
 	end
 
-	callback.setClickableRange = function(self, addToBorder)
-		if addToBorder then
-			self.borderRange = addToBorder
+	callback.setClickable = function(self, borderRange)
+		if borderRange then
+			self.borderRange = borderRange
 		end
 		self.hasRange = true
 
