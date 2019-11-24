@@ -54,7 +54,8 @@ local objectId = {
 }
 
 local interfaceId = {
-	dialog = 100
+	dialog = 100,
+	callback = 200
 }
 
 local keyCode = {
@@ -350,271 +351,419 @@ loadAllImages = function(playerName, _src)
 end
 
 --[[ Classes ]]--
-local timer = {
-	_timers = {
-		_count = 0
-	}
-}
-
-timer.start = function(callback, ms, times, ...)
-	local t = timer._timers
-	t._count = t._count + 1
-
-	t[t._count] = {
-		id = t._count,
-		callback = callback,
-		args = { ... },
-		defaultMilliseconds = ms,
-		milliseconds = ms,
-		times = times
-	}
-
-	return t._count
-end
-
-timer.delete = function(id)
-	timer._timers[id] = nil
-end
-
-timer.loop = function()
-	local t
-	for i = 1, timer._timers._count do
-		t = timer._timers[i]
-		if t then
-			t.milliseconds = t.milliseconds - 500
-			if t.milliseconds <= 0 then
-				t.milliseconds = t.defaultMilliseconds
-				t.times = t.times - 1
-
-				t.callback(table.unpack(t.args))
-
-				if t.times == 0 then
-					timer.delete(i)
-				end
-			end
-		end
-	end
-end
-
-local objectManager = {
-	objects = {
-		monster = {
-			_count = 0,
-			_bin = {
-				_count = 0
-			}
+local timer
+do
+	timer = {
+		_timers = {
+			_count = 0
 		}
-	},
-	stageCount = { }
-}
+	}
 
-objectManager.insert = function(obj)
-	local class = objectManager.objects[obj.class]
-	class._count = class._count + 1
+	timer.start = function(callback, ms, times, ...)
+		local t = timer._timers
+		t._count = t._count + 1
 
-	obj._id = class._count
-	class[class._count] = obj
+		t[t._count] = {
+			id = t._count,
+			callback = callback,
+			args = { ... },
+			defaultMilliseconds = ms,
+			milliseconds = ms,
+			times = times
+		}
+
+		return t._count
+	end
+
+	timer.delete = function(id)
+		timer._timers[id] = nil
+	end
+
+	timer.loop = function()
+		local t
+		for i = 1, timer._timers._count do
+			t = timer._timers[i]
+			if t then
+				t.milliseconds = t.milliseconds - 500
+				if t.milliseconds <= 0 then
+					t.milliseconds = t.defaultMilliseconds
+					t.times = t.times - 1
+
+					t.callback(table.unpack(t.args))
+
+					if t.times == 0 then
+						timer.delete(i)
+					end
+				end
+			end
+		end
+	end
 end
 
-objectManager.delete = function(obj)
-	local bin = objectManager.objects[obj.class]._bin
+local callback
+do
+	local id = interfaceId.callback - 1
 
-	bin._count = bin._count + 1
-	bin[bin._count] = obj._id
+	callback = {
+		_instance = {
+			_count = 0
+		}
+	}
+	callback.__index = callback
+	callback.__iter = function()
+		return ipairs(callback._instance)
+	end
+	callback.__get = function(eventName)
+		return callback._instance[callback._instance[eventName]]
+	end
 
-	objectManager.stageCount[obj.stage] = objectManager.stageCount[obj.stage] - 1
+	callback.new = function(eventName, x, y, width, height, hideCallback)
+		id = id + 1
+
+		local self = setmetatable({
+			id = id,
+			eventName = eventName,
+			x = x,
+			y = y,
+			width = width,
+			height = height,
+			isFixed = false,
+			hasRange = false,
+			borderRange = 0,
+			action = nil,
+			isActive = false,
+			_blockedPlayers = { }
+		}, callback)
+
+		if not hideCallback then
+			self:display()
+		end
+
+		local instance = callback._instance
+		instance._count = instance._count + 1
+		instance[instance._count] = self
+		instance[eventName] = instance._count
+
+		return self
+	end
+
+	callback.textarea = function(self, playerName)
+		if playerName then
+			self._blockedPlayers[playerName] = false
+		end
+
+		ui.addTextArea(self.id, "<textformat leftmargin='1' rightmargin='1'><a href='event:callback." .. self.eventName .. "'>" .. string.rep('\n', self.height / 10), playerName, self.x - 5, self.y - 5, self.width + 5, self.height + 5, 1, 1, (DEBUG and .2 or 0), self.isFixed)
+
+		return self
+	end
+
+	callback.display = function(self, f)
+		if type(f) ~= "function" then
+			-- Nil, Nickname, ...
+			self:textarea(f)
+		else
+			for playerName, data in next, playerCache do
+				if f(playerName, data) then
+					self:textarea(playerName)
+				end
+			end
+		end
+		self.isActive = true
+
+		return self
+	end
+
+	callback.setFixed = function(self)
+		self.isFixed = true
+		return self
+	end
+
+	callback.setClickableRange = function(self, addToBorder)
+		if addToBorder then
+			self.borderRange = addToBorder
+		end
+		self.hasRange = true
+
+		return self
+	end
+
+	callback.inClickableRange = function(self, playerName, x, y)
+		if not self.isActive or self._blockedPlayers[playerName] then return end
+		if not self.hasRange then
+			-- Can be triggered in any position
+			return true
+		end
+
+		return (
+			(
+				x >= (self.x - self.borderRange) and
+				x <= (self.x + self.width + self.borderRange)
+			) and
+			(
+				y >= (self.y - self.borderRange) and
+				y <= (self.y + self.height + self.borderRange)
+			)
+		)
+	end
+
+	callback.setAction = function(self, action)
+		self.action = action
+		return self
+	end
+
+	callback.performAction = function(self, playerName, x, y, ...)
+		if not self.action then return end
+		if not self:inClickableRange(playerName, x, y) then return end
+
+		return self:action(playerName, x, y, ...) -- self, playerName, x, y, ...
+	end
+
+	callback.remove = function(self, playerName)
+		if not playerName then
+			self.isActive = false
+		else
+			self._blockedPlayers[playerName] = true
+		end
+
+		ui.removeTextArea(self.id, playerName)
+	end
 end
 
-objectManager.clear = function()
-	local rawcount
-	for className, class in next, objectManager.objects do
-		if class._bin._count > 0 then
-			rawcount = class._count - class._bin._count
+local objectManager
+do
+	objectManager = {
+		objects = {
+			monster = {
+				_count = 0,
+				_bin = {
+					_count = 0
+				}
+			}
+		},
+		stageCount = { }
+	}
 
-			for o = 1, class._bin._count do
-				class[class._bin[o]] = nil
+	objectManager.insert = function(obj)
+		local class = objectManager.objects[obj.class]
+		class._count = class._count + 1
+
+		obj._id = class._count
+		class[class._count] = obj
+	end
+
+	objectManager.delete = function(obj)
+		local bin = objectManager.objects[obj.class]._bin
+
+		bin._count = bin._count + 1
+		bin[bin._count] = obj._id
+
+		objectManager.stageCount[obj.stage] = objectManager.stageCount[obj.stage] - 1
+	end
+
+	objectManager.clear = function()
+		local rawcount
+		for className, class in next, objectManager.objects do
+			if class._bin._count > 0 then
+				rawcount = class._count - class._bin._count
+
+				for o = 1, class._bin._count do
+					class[class._bin[o]] = nil
+				end
+
+				objectManager.objects[className] = clearClassEmptyObjects(class)
+				class = objectManager.objects[className]
+				class._count = rawcount
+				class._bin = { _count = 0 }
+			end
+		end
+	end
+
+	objectManager.loop = function(currentTime, remainingTime)
+		for _, class in next, objectManager.objects do
+			for o = 1, class._count do
+				class[o]:loop(currentTime, remainingTime)
+			end
+		end
+		objectManager.clear()
+	end
+end
+
+local monster
+do
+	monster = { }
+	monster.__index = monster
+
+	monster.new = function(type, x, y, stage)
+		local object = tfm.exec.addShamanObject(objectId.fish, x, y, 0)
+
+		local self = setmetatable({
+			class = "monster",
+			type = type,
+			stage = stage,
+			object = object,
+			sprite = tfm.exec.addImage(images.monsters[type][2], "#" .. object, monsterAxis[type][1], monsterAxis[type][2]),
+			spriteId = 2,
+			objectData = tfm.get.room.objectList[object],
+			isAttacking = false
+		}, monster)
+
+		objectManager.insert(self)
+
+		return self
+	end
+
+	monster.destroy = function(self)
+		tfm.exec.removeObject(self.object)
+		tfm.exec.removeImage(self.sprite)
+		objectManager.delete(self)
+	end
+
+	monster.loop = function(self, currentTime, remainingTime)
+		local players = getPlayersInStage(self.stage)
+		if not players then
+			self:setSprite(monsterDirection.front)
+			return
+		end
+
+		if math.random(1, 5) < 4 then
+			self:moveAround(players, monsterData.movementType[self.type], 1, monsterData.distanceRadius[self.type])
+		else
+			if self.type == monsterType.snow then
+				self:throwSnowball(players)
+			elseif self.type == monsterType.freeze then
+				self:freezeAround(players)
+			elseif self.type == monsterType.roar then
+				self:explode(players)
+			end
+		end
+	end
+
+	monster.setSprite = function(self, id, isAttack)
+		if self.spriteId == id and self.isAttacking == isAttack then return end
+		self.isAttacking = isAttack
+
+		tfm.exec.removeImage(self.sprite)
+		self.sprite = tfm.exec.addImage((isAttack and images.monsters.attack[self.type][id] or images.monsters[self.type][id]), "#" .. self.object, monsterAxis[self.type][1], monsterAxis[self.type][2])
+		self.spriteId = id
+
+		return self
+	end
+
+	monster.moveAround = function(self, players, movement, maximumMice, radius)
+		-- Avoids monsters to get too close of the target
+		local _, totalNearPlayers = getNearPlayers(players, self.objectData.x, self.objectData.y, radius)
+		if totalNearPlayers >= maximumMice then return end
+
+		local xSpeed, data, distance
+		if movement == movementType.biggestGroup then
+			-- Aims the biggest group of players
+			local playersOnLeft, playersOnRight = 0, 0
+			local leftDifference, rightDifference = 9999, 9999
+
+			for _, playerName in next, players do
+				data = tfm.get.room.playerList[playerName]
+
+				if data.x <= self.objectData.x then
+					playersOnLeft = playersOnLeft + 1
+					distance = self.objectData.x - data.x
+
+					if distance < leftDifference then
+						leftDifference = distance
+					end
+				else
+					playersOnRight = playersOnRight + 1
+					distance = data.x - self.objectData.x
+
+					if distance < rightDifference then
+						rightDifference = distance
+					end
+				end
 			end
 
-			objectManager.objects[className] = clearClassEmptyObjects(class)
-			class = objectManager.objects[className]
-			class._count = rawcount
-			class._bin = { _count = 0 }
-		end
-	end
-end
-
-objectManager.loop = function(currentTime, remainingTime)
-	for _, class in next, objectManager.objects do
-		for o = 1, class._count do
-			class[o]:loop(currentTime, remainingTime)
-		end
-	end
-	objectManager.clear()
-end
-
-local monster = { }
-monster.__index = monster
-
-monster.new = function(type, x, y, stage)
-	local object = tfm.exec.addShamanObject(objectId.fish, x, y, 0)
-
-	local self = setmetatable({
-		class = "monster",
-		type = type,
-		stage = stage,
-		object = object,
-		sprite = tfm.exec.addImage(images.monsters[type][2], "#" .. object, monsterAxis[type][1], monsterAxis[type][2]),
-		spriteId = 2,
-		objectData = tfm.get.room.objectList[object],
-		isAttacking = false
-	}, monster)
-
-	objectManager.insert(self)
-
-	return self
-end
-
-monster.destroy = function(self)
-	tfm.exec.removeObject(self.object)
-	tfm.exec.removeImage(self.sprite)
-	objectManager.delete(self)
-end
-
-monster.loop = function(self, currentTime, remainingTime)
-	local players = getPlayersInStage(self.stage)
-	if not players then
-		self:setSprite(monsterDirection.front)
-		return
-	end
-
-	if math.random(1, 5) < 4 then
-		self:moveAround(players, monsterData.movementType[self.type], 1, monsterData.distanceRadius[self.type])
-	else
-		if self.type == monsterType.snow then
-			self:throwSnowball(players)
-		elseif self.type == monsterType.freeze then
-			self:freezeAround(players)
-		elseif self.type == monsterType.roar then
-			self:explode(players)
-		end
-	end
-end
-
-monster.setSprite = function(self, id, isAttack)
-	if self.spriteId == id and self.isAttacking == isAttack then return end
-	self.isAttacking = isAttack
-
-	tfm.exec.removeImage(self.sprite)
-	self.sprite = tfm.exec.addImage((isAttack and images.monsters.attack[self.type][id] or images.monsters[self.type][id]), "#" .. self.object, monsterAxis[self.type][1], monsterAxis[self.type][2])
-	self.spriteId = id
-end
-
-monster.moveAround = function(self, players, movement, maximumMice, radius)
-	-- Avoids monsters to get too close of the target
-	local _, totalNearPlayers = getNearPlayers(players, self.objectData.x, self.objectData.y, radius)
-	if totalNearPlayers >= maximumMice then return end
-
-	local xSpeed, data, distance
-	if movement == movementType.biggestGroup then
-		-- Aims the biggest group of players
-		local playersOnLeft, playersOnRight = 0, 0
-		local leftDifference, rightDifference = 9999, 9999
-
-		for _, playerName in next, players do
-			data = tfm.get.room.playerList[playerName]
-
-			if data.x <= self.objectData.x then
-				playersOnLeft = playersOnLeft + 1
-				distance = self.objectData.x - data.x
-
-				if distance < leftDifference then
-					leftDifference = distance
-				end
+			if playersOnLeft >= playersOnRight then
+				xSpeed = -getXSpeed(leftDifference)
 			else
-				playersOnRight = playersOnRight + 1
-				distance = data.x - self.objectData.x
+				xSpeed = getXSpeed(rightDifference)
+			end
+		elseif movement == movementType.nearestPlayer then
+			-- Aims the nearest player
+			local isFacingLeft, difference = false, 9999
 
-				if distance < rightDifference then
-					rightDifference = distance
+			for _, playerName in next, players do
+				data = tfm.get.room.playerList[playerName]
+				distance = math.abs(data.x - self.objectData.x)
+
+				if distance < difference then
+					isFacingLeft = (data.x <= self.objectData.x)
+					difference = distance
 				end
 			end
-		end
 
-		if playersOnLeft >= playersOnRight then
-			xSpeed = -getXSpeed(leftDifference)
-		else
-			xSpeed = getXSpeed(rightDifference)
-		end
-	elseif movement == movementType.nearestPlayer then
-		-- Aims the nearest player
-		local isFacingLeft, difference = false, 9999
-
-		for _, playerName in next, players do
-			data = tfm.get.room.playerList[playerName]
-			distance = math.abs(data.x - self.objectData.x)
-
-			if distance < difference then
-				isFacingLeft = (data.x <= self.objectData.x)
-				difference = distance
+			if isFacingLeft then
+				xSpeed = -getXSpeed(difference)
+			else
+				xSpeed = getXSpeed(difference)
 			end
 		end
 
-		if isFacingLeft then
-			xSpeed = -getXSpeed(difference)
-		else
-			xSpeed = getXSpeed(difference)
+		self:setSprite(((xSpeed < 0) and monsterDirection.left or monsterDirection.right))
+		tfm.exec.moveObject(self.objectData.id, 0, 0, true, xSpeed, -15, false)
+
+		return self
+	end
+
+	monster.throwSnowball = function(self, player)
+		player = tfm.get.room.playerList[getRandomValue(player)]
+
+		local angle = getAngle(self.objectData.x, self.objectData.y, player.x, player.y)
+		local directionX, directionY = getAcceleration(angle)
+
+		self:setSprite(((self.objectData.x > player.x) and monsterDirection.left or monsterDirection.right))
+
+		for _ = 1, monsterData.snowballQuantity do
+			tfm.exec.addShamanObject(objectId.snowball, self.objectData.x + (directionX * 20), self.objectData.y - 15, angle, (directionX * monsterData.snowballForce), (directionY * monsterData.snowballForce))
 		end
+
+		return self
 	end
 
-	self:setSprite(((xSpeed < 0) and monsterDirection.left or monsterDirection.right))
-	tfm.exec.moveObject(self.objectData.id, 0, 0, true, xSpeed, -15, false)
-end
+	monster.freezeAround = function(self, players)
+		players = getNearPlayers(players, self.objectData.x, self.objectData.y, monsterData.freezeRadius)
 
-monster.throwSnowball = function(self, player)
-	player = tfm.get.room.playerList[getRandomValue(player)]
+		local directionRate = 0
+		for _, playerName in next, players do
+			if not playerCache[playerName].isFrozen and math.random(1, 3000) < 2000 then -- 2/3
+				directionRate = directionRate + (self.objectData.x - tfm.get.room.playerList[playerName].x)
 
-	local angle = getAngle(self.objectData.x, self.objectData.y, player.x, player.y)
-	local directionX, directionY = getAcceleration(angle)
+				tfm.exec.freezePlayer(playerName, true)
+				timer.start(tfm.exec.freezePlayer, monsterData.freezeTime, 1, playerName, false)
+			end
+		end
 
-	self:setSprite(((self.objectData.x > player.x) and monsterDirection.left or monsterDirection.right))
+		if directionRate ~= 0 then
+			self:setSprite(((directionRate < 0) and monsterDirection.left or monsterDirection.right), true) -- tmp
+		end
 
-	for _ = 1, monsterData.snowballQuantity do
-		tfm.exec.addShamanObject(objectId.snowball, self.objectData.x + (directionX * 20), self.objectData.y - 15, angle, (directionX * monsterData.snowballForce), (directionY * monsterData.snowballForce))
+		return self
 	end
-end
 
-monster.freezeAround = function(self, players)
-	players = getNearPlayers(players, self.objectData.x, self.objectData.y, monsterData.freezeRadius)
+	monster.explode = function(self, players)
+		local totalPlayers
+		players, totalPlayers = getNearPlayers(players, self.objectData.x, self.objectData.y, monsterData.roarRadius)
+		if totalPlayers == 0 then return end
 
-	local directionRate = 0
-	for _, playerName in next, players do
-		if not playerCache[playerName].isFrozen and math.random(1, 3000) < 2000 then -- 2/3
+		local directionRate = 0
+		for _, playerName in next, players do
 			directionRate = directionRate + (self.objectData.x - tfm.get.room.playerList[playerName].x)
-
-			tfm.exec.freezePlayer(playerName, true)
-			timer.start(tfm.exec.freezePlayer, monsterData.freezeTime, 1, playerName, false)
 		end
+
+		local doorDirection = getStageDoorDirection(self.stage) * (directionRate < 0 and -1 or 1)
+
+		self:setSprite(self.spriteId, true)
+		tfm.exec.explosion(self.objectData.x, self.objectData.y, monsterData.roarPower * doorDirection, monsterData.roarRadius, true)
+
+		return self
 	end
-
-	if directionRate ~= 0 then
-		self:setSprite(((directionRate < 0) and monsterDirection.left or monsterDirection.right), true) -- tmp
-	end
-end
-
-monster.explode = function(self, players)
-	local totalPlayers
-	players, totalPlayers = getNearPlayers(players, self.objectData.x, self.objectData.y, monsterData.roarRadius)
-	if totalPlayers == 0 then return end
-
-	local directionRate = 0
-	for _, playerName in next, players do
-		directionRate = directionRate + (self.objectData.x - tfm.get.room.playerList[playerName].x)
-	end
-
-	local doorDirection = getStageDoorDirection(self.stage) * (directionRate < 0 and -1 or 1)
-
-	self:setSprite(self.spriteId, true)
-	tfm.exec.explosion(self.objectData.x, self.objectData.y, monsterData.roarPower * doorDirection, monsterData.roarRadius, true)
 end
 
 --[[ Interface ]]--
@@ -920,26 +1069,35 @@ local dialogAction = function(playerName)
 	end
 end
 
-local tryCollectItem = function(playerName, x, y)
-	if playerCache[playerName].hasItem or playerCache[playerName].placedItem or not pythagoras(x, y, 915, 530, 50) then return end
-
+local tryCollectItem = function(cbk, playerName, x, y)
+	print(1)
+	if playerCache[playerName].treeItem and (playerCache[playerName].hasItem or playerCache[playerName].placedItem) then return end
 	playerCache[playerName].hasItem = true
+
+	cbk:remove(playerName)
+
 	tfm.exec.removeImage(playerCache[playerName].cachedImages.treeItem)
 	playerCache[playerName].cachedImages.treeItem = tfm.exec.addImage(images.treeItems[playerCache[playerName].treeItem], imageLayer.playerAttachment .. playerName, -20, -70)
-
-	return true
 end
 
-local tryPlaceItem = function(playerName, x, y)
-	if not playerCache[playerName].hasItem or playerCache[playerName].placedItem or (y < 1430 or x > 160) then return end
+local tryPlaceItem = function(cbk, playerName, x, y)
+	if playerCache[playerName].treeItem and (not playerCache[playerName].hasItem or playerCache[playerName].placedItem) then return end
 	playerCache[playerName].hasItem = false
 	playerCache[playerName].placedItem = true
+
+	cbk:remove(playerName)
 
 	playerData:set(playerName, "treeStage", playerData:get(playerName, "treeStage") + 1):save(playerName)
 	tfm.exec.removeImage(playerCache[playerName].cachedImages.treeItem)
 	displayTree(playerName, true)
+end
 
-	return true
+local makeCallbacks = function()
+	-- Collect item
+	callback.new("placeItem", 915, 530, 50, 50):setClickableRange(10):setAction(tryCollectItem)
+
+	-- Place collected item in the tree spot
+	callback.new("collectItem", 0, 1430, 160, 170):setClickableRange():setAction(tryPlaceItem)
 end
 
 --[[ Events ]]--
@@ -947,6 +1105,7 @@ eventNewGame = function()
 	loadAllImages()
 	buildMap()
 	setAllPlayerData()
+	makeCallbacks()
 end
 
 eventPlayerDataLoaded = function(playerName, data)
@@ -975,20 +1134,29 @@ eventKeyboard = function(playerName, key, holding, x, y)
 	if DEBUG then
 		_eventKeyboard(playerName, key, holding, x, y)
 	end
-	if not canStart then return end
+	if not canStart or not playerCache[playerName] or not playerCache[playerName].dataLoaded then return end
 
 	if key == keyCode.space then
 		if playerCache[playerName].dialog.id == 0 then
 			-- Is not seeing a dialog
-			if playerCache[playerName].treeItem then
-				if not tryCollectItem(playerName, x, y) then
-					tryPlaceItem(playerName, x, y)
-				end
+
+			-- Checks all ranges of callbacks and, if matched, its action is performed
+			for _, cbk in callback.__iter() do
+				cbk:performAction(playerName, x, y)
 			end
 		else
 			-- Is seeing a dialog
 			dialogAction(playerName)
 		end
+	end
+end
+
+eventTextAreaCallback = function(id, playerName, eventName)
+	if not canStart or not playerCache[playerName] or not playerCache[playerName].dataLoaded then return end
+
+	if string.find(eventName, "callback.", 1, true) then
+		local data = tfm.get.room.playerList[playerName]
+		callback.__get(string.sub(eventName, 10)):performAction(playerName, data.x, data.y)
 	end
 end
 
