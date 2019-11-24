@@ -20,48 +20,6 @@ local module = {
 
 --> Debug <--
 local DEBUG, _eventKeyboard = true
-if DEBUG then
-	for _, dev in next, module.team.developer do
-		system.bindMouse(dev)
-		system.bindKeyboard(dev, 16, true)
-		system.bindKeyboard(dev, 16, false)
-	end
-
-	local shift
-	eventMouse = function(playerName, x, y)
-		if shift then
-			tfm.exec.chatMessage(x .. ", " .. y)
-		else
-			tfm.exec.movePlayer(playerName, x, y)
-		end
-	end
-
-	_eventKeyboard = function(playerName, key, down)
-		if key == 16 then
-			shift = down
-		end
-	end
-
-	local lastImg
-	eventChatMessage = function(playerName, message)
-		local code, target, x, y = message:match("^(%S+%.[pnjpg]+) (%S+) (%-?%d+%.?%d*) (%-?%d+%.?%d*)$")
-		if code then
-			if lastImg then
-				tfm.exec.removeImage(lastImg)
-			end
-			lastImg = tfm.exec.addImage(code, target:gsub("&amp;", "&"), x * 1, y * 1)
-		end
-	end
-
-	local p = print
-	_G.print = function(...)
-		local args = { ... }
-		for i = 1, select('#', ...) do
-			args[i] = tostring(args[i])
-		end
-		p(table.concat(args, "\t"))
-	end
-end
 
 if not DEBUG and (not (tfm.get.room.uniquePlayers == 1 and tfm.get.room.playerList[module.team.developer[1]]) and tfm.get.room.uniquePlayers < 4) then
 	return system.exit()
@@ -151,6 +109,13 @@ local monsterData = {
 	}
 }
 
+local monsterDirection = {
+	left = 1,
+	front = 2,
+	right = 3,
+	back = 4
+}
+
 -- Images
 local images = {
 	christmasTree = {
@@ -225,7 +190,8 @@ local imageLayer = {
 	objectBackground = "?1",
 	objectForeground = "!1",
 	dialogForeground = "&1",
-	dialogBackgroud = ":1"
+	dialogBackgroud = ":1",
+	playerAttachment = "$"
 }
 
 --[[ Data ]]--
@@ -516,7 +482,10 @@ end
 
 monster.loop = function(self, currentTime, remainingTime)
 	local players = getPlayersInStage(self.stage)
-	if not players then return end
+	if not players then
+		self:setSprite(monsterDirection.front)
+		return
+	end
 
 	if math.random(1, 5) < 4 then
 		self:moveAround(players, monsterData.movementType[self.type], 1, monsterData.distanceRadius[self.type])
@@ -597,7 +566,7 @@ monster.moveAround = function(self, players, movement, maximumMice, radius)
 		end
 	end
 
-	self:setSprite((xSpeed < 0) and 1 or 3)
+	self:setSprite(((xSpeed < 0) and monsterDirection.left or monsterDirection.right))
 	tfm.exec.moveObject(self.objectData.id, 0, 0, true, xSpeed, -15, false)
 end
 
@@ -607,7 +576,7 @@ monster.throwSnowball = function(self, player)
 	local angle = getAngle(self.objectData.x, self.objectData.y, player.x, player.y)
 	local directionX, directionY = getAcceleration(angle)
 
-	self:setSprite(((self.objectData.x > player.x) and 1 or 3))
+	self:setSprite(((self.objectData.x > player.x) and monsterDirection.left or monsterDirection.right))
 
 	for _ = 1, monsterData.snowballQuantity do
 		tfm.exec.addShamanObject(objectId.snowball, self.objectData.x + (directionX * 20), self.objectData.y - 15, angle, (directionX * monsterData.snowballForce), (directionY * monsterData.snowballForce))
@@ -628,7 +597,7 @@ monster.freezeAround = function(self, players)
 	end
 
 	if directionRate ~= 0 then
-		self:setSprite((directionRate < 0) and 1 or 3, true) -- tmp
+		self:setSprite(((directionRate < 0) and monsterDirection.left or monsterDirection.right), true) -- tmp
 	end
 end
 
@@ -689,9 +658,13 @@ local setAllPlayerData = function()
 			},
 			cachedImages = {
 				tree = nil, -- Tree image
+				treeItem = nil, -- Tree item
 				dialog = { }
 			},
-			isFrozen = false
+			isFrozen = false,
+			treeItem = nil, -- The id of the item to be collected
+			hasItem = false, -- If the player is carrying the item
+			placedItem = false -- If the player has placed the item
 		}
 
 		tfm.exec.lowerSyncDelay(playerName)
@@ -820,14 +793,23 @@ do
 	end
 end
 
-local displayTree = function(playerName)
+local displayTree = function(playerName, ignoreNextItem)
 	if playerCache[playerName].cachedImages.tree then
 		tfm.exec.removeImage(playerCache[playerName].cachedImages.tree)
 	end
 
 	local treeStage = playerData:get(playerName, "treeStage")
+
 	if images.christmasTree[treeStage] then
 		playerCache[playerName].cachedImages.tree = tfm.exec.addImage(images.christmasTree[treeStage], imageLayer.objectBackground, 0, 1240, playerName)
+	end
+
+	if ignoreNextItem then return end
+
+	treeStage = treeStage + 1
+	if images.treeItems[treeStage] then
+		playerCache[playerName].cachedImages.treeItem = tfm.exec.addImage(images.treeItems[treeStage], imageLayer.objectForeground, 915, 530, playerName)
+		playerCache[playerName].treeItem = treeStage
 	end
 end
 
@@ -938,6 +920,28 @@ local dialogAction = function(playerName)
 	end
 end
 
+local tryCollectItem = function(playerName, x, y)
+	if playerCache[playerName].hasItem or playerCache[playerName].placedItem or not pythagoras(x, y, 915, 530, 50) then return end
+
+	playerCache[playerName].hasItem = true
+	tfm.exec.removeImage(playerCache[playerName].cachedImages.treeItem)
+	playerCache[playerName].cachedImages.treeItem = tfm.exec.addImage(images.treeItems[playerCache[playerName].treeItem], imageLayer.playerAttachment .. playerName, -20, -70)
+
+	return true
+end
+
+local tryPlaceItem = function(playerName, x, y)
+	if not playerCache[playerName].hasItem or playerCache[playerName].placedItem or (y < 1430 or x > 160) then return end
+	playerCache[playerName].hasItem = false
+	playerCache[playerName].placedItem = true
+
+	playerData:set(playerName, "treeStage", playerData:get(playerName, "treeStage") + 1):save(playerName)
+	tfm.exec.removeImage(playerCache[playerName].cachedImages.treeItem)
+	displayTree(playerName, true)
+
+	return true
+end
+
 --[[ Events ]]--
 eventNewGame = function()
 	loadAllImages()
@@ -976,7 +980,11 @@ eventKeyboard = function(playerName, key, holding, x, y)
 	if key == keyCode.space then
 		if playerCache[playerName].dialog.id == 0 then
 			-- Is not seeing a dialog
-
+			if playerCache[playerName].treeItem then
+				if not tryCollectItem(playerName, x, y) then
+					tryPlaceItem(playerName, x, y)
+				end
+			end
 		else
 			-- Is seeing a dialog
 			dialogAction(playerName)
@@ -992,6 +1000,54 @@ end
 eventPlayerDied = removePlayerFromStages
 
 eventPlayerLeft = removePlayerFromStages
+
+--[[ Debug ]]--
+if DEBUG then
+	for _, dev in next, module.team.developer do
+		system.bindMouse(dev)
+		system.bindKeyboard(dev, 16, true)
+		system.bindKeyboard(dev, 16, false)
+		system.bindKeyboard(dev, string.byte('P'), true)
+	end
+
+	local shift
+	eventMouse = function(playerName, x, y)
+		if shift then
+			tfm.exec.chatMessage(x .. ", " .. y)
+		else
+			tfm.exec.movePlayer(playerName, x, y)
+		end
+	end
+
+	_eventKeyboard = function(playerName, key, down)
+		if key == 16 then
+			shift = down
+		elseif key == string.byte('P') then
+			print(system.savePlayerData(playerName, (playerData:dumpPlayer(playerName):gsub(module.name .. "={.-},?", ''))))
+			system.exit()
+		end
+	end
+
+	local lastImg
+	eventChatMessage = function(playerName, message)
+		local code, target, x, y = message:match("^(%S+%.[pnjpg]+) (%S+) (%-?%d+%.?%d*) (%-?%d+%.?%d*)$")
+		if code then
+			if lastImg then
+				tfm.exec.removeImage(lastImg)
+			end
+			lastImg = tfm.exec.addImage(code, target:gsub("&amp;", "&"), x, y)
+		end
+	end
+
+	local p = print
+	_G.print = function(...)
+		local args = { ... }
+		for i = 1, select('#', ...) do
+			args[i] = tostring(args[i])
+		end
+		p(table.concat(args, "\t"))
+	end
+end
 
 --[[ Init ]]--
 system.newTimer(function()
