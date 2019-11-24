@@ -258,6 +258,14 @@ local workingTimer = workingTimerState.start
 local playerStage = { }
 
 --[[ Utils ]]--
+do
+	local freezePlayer = tfm.exec.freezePlayer
+	tfm.exec.freezePlayer = function(playerName, freeze)
+		playerCache[playerName].isFrozen = freeze
+		return freezePlayer(playerName, freeze)
+	end
+end
+
 local getRandomValue = function(tbl)
 	return tbl[math.random(#tbl)]
 end
@@ -510,13 +518,13 @@ monster.loop = function(self, currentTime, remainingTime)
 	local players = getPlayersInStage(self.stage)
 	if not players then return end
 
-	if math.random(1, 5) < 5 then
+	if math.random(1, 5) < 4 then
 		self:moveAround(players, monsterData.movementType[self.type], 1, monsterData.distanceRadius[self.type])
 	else
 		if self.type == monsterType.snow then
-	--		self:throwSnowball(players)
+			self:throwSnowball(players)
 		elseif self.type == monsterType.freeze then
-	--		self:freezeAround(players)
+			self:freezeAround(players)
 		elseif self.type == monsterType.roar then
 			self:explode(players)
 		end
@@ -607,9 +615,11 @@ monster.throwSnowball = function(self, player)
 end
 
 monster.freezeAround = function(self, players)
+	players = getNearPlayers(players, self.objectData.x, self.objectData.y, monsterData.freezeRadius)
+
 	local directionRate = 0
-	for _, playerName in next, getNearPlayers(players, self.objectData.x, self.objectData.y, monsterData.freezeRadius) do
-		if math.random(1, 3000) < 500 then -- 1/6
+	for _, playerName in next, players do
+		if not playerCache[playerName].isFrozen and math.random(1, 3000) < 2000 then -- 2/3
 			directionRate = directionRate + (self.objectData.x - tfm.get.room.playerList[playerName].x)
 
 			tfm.exec.freezePlayer(playerName, true)
@@ -680,7 +690,8 @@ local setAllPlayerData = function()
 			cachedImages = {
 				tree = nil, -- Tree image
 				dialog = { }
-			}
+			},
+			isFrozen = false
 		}
 
 		tfm.exec.lowerSyncDelay(playerName)
