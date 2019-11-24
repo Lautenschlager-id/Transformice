@@ -133,6 +133,9 @@ local monsterData = {
 	snowballForce = 50,
 	snowballQuantity = 2,
 
+	roarRadius = 80,
+	roarPower = 30,
+
 	freezeRadius = 80,
 	freezeTime = 3500,
 
@@ -303,7 +306,7 @@ local getNearPlayers = function(stagePlayers, x, y, radius)
 			list[index] = playerName.playerName
 		end
 	end
-	return list
+	return list, index
 end
 
 local clearClassEmptyObjects = function(class)
@@ -318,6 +321,10 @@ local clearClassEmptyObjects = function(class)
 	end
 
 	return out
+end
+
+local getStageDoorDirection = function(stage)
+	return (stage % 2 == 0 and -1 or 1)
 end
 
 --[[ Tools ]]--
@@ -476,16 +483,15 @@ monster.__index = monster
 
 monster.new = function(type, x, y, stage)
 	local object = tfm.exec.addShamanObject(objectId.fish, x, y, 0)
-	local image = tfm.exec.addImage(images.monsters[type][2], "#" .. object, monsterAxis[type][1], monsterAxis[type][2])
 
 	local self = setmetatable({
 		class = "monster",
 		type = type,
 		stage = stage,
 		object = object,
-		image = image,
-		frameId = 2,
-		objectList = tfm.get.room.objectList[object],
+		sprite = tfm.exec.addImage(images.monsters[type][2], "#" .. object, monsterAxis[type][1], monsterAxis[type][2]),
+		spriteId = 2,
+		objectData = tfm.get.room.objectList[object],
 		isAttacking = false
 	}, monster)
 
@@ -496,37 +502,40 @@ end
 
 monster.destroy = function(self)
 	tfm.exec.removeObject(self.object)
-	tfm.exec.removeImage(self.image)
+	tfm.exec.removeImage(self.sprite)
 	objectManager.delete(self)
 end
 
 monster.loop = function(self, currentTime, remainingTime)
+	local players = getPlayersInStage(self.stage)
+	if not players then return end
+
 	if math.random(1, 5) < 5 then
-		self:moveAround(monsterData.movementType[self.type], 1, monsterData.distanceRadius[self.type])
+		self:moveAround(players, monsterData.movementType[self.type], 1, monsterData.distanceRadius[self.type])
 	else
 		if self.type == monsterType.snow then
-			self:throwSnowball()
+	--		self:throwSnowball(players)
 		elseif self.type == monsterType.freeze then
-			self:freezeAround()
+	--		self:freezeAround(players)
+		elseif self.type == monsterType.roar then
+			self:explode(players)
 		end
 	end
 end
 
-monster.frame = function(self, id, isAttack)
-	if self.frameId == id and self.isAttacking == isAttack then return end
+monster.setSprite = function(self, id, isAttack)
+	if self.spriteId == id and self.isAttacking == isAttack then return end
 	self.isAttacking = isAttack
 
-	tfm.exec.removeImage(self.image)
-	self.image = tfm.exec.addImage((isAttack and images.monsters.attack[self.type][id] or images.monsters[self.type][id]), "#" .. self.object, monsterAxis[self.type][1], monsterAxis[self.type][2])
-	self.frameId = id
+	tfm.exec.removeImage(self.sprite)
+	self.sprite = tfm.exec.addImage((isAttack and images.monsters.attack[self.type][id] or images.monsters[self.type][id]), "#" .. self.object, monsterAxis[self.type][1], monsterAxis[self.type][2])
+	self.spriteId = id
 end
 
-monster.moveAround = function(self, movement, maximumMice, radius)
-	local players = getPlayersInStage(self.stage)
-	if not players then return end
-
+monster.moveAround = function(self, players, movement, maximumMice, radius)
 	-- Avoids monsters to get too close of the target
-	if #getNearPlayers(players, self.objectList.x, self.objectList.y, radius) >= maximumMice then return end
+	local _, totalNearPlayers = getNearPlayers(players, self.objectData.x, self.objectData.y, radius)
+	if totalNearPlayers >= maximumMice then return end
 
 	local xSpeed, data, distance
 	if movement == movementType.biggestGroup then
@@ -537,16 +546,16 @@ monster.moveAround = function(self, movement, maximumMice, radius)
 		for _, playerName in next, players do
 			data = tfm.get.room.playerList[playerName]
 
-			if data.x <= self.objectList.x then
+			if data.x <= self.objectData.x then
 				playersOnLeft = playersOnLeft + 1
-				distance = self.objectList.x - data.x
+				distance = self.objectData.x - data.x
 
 				if distance < leftDifference then
 					leftDifference = distance
 				end
 			else
 				playersOnRight = playersOnRight + 1
-				distance = data.x - self.objectList.x
+				distance = data.x - self.objectData.x
 
 				if distance < rightDifference then
 					rightDifference = distance
@@ -565,10 +574,10 @@ monster.moveAround = function(self, movement, maximumMice, radius)
 
 		for _, playerName in next, players do
 			data = tfm.get.room.playerList[playerName]
-			distance = math.abs(data.x - self.objectList.x)
+			distance = math.abs(data.x - self.objectData.x)
 
 			if distance < difference then
-				isFacingLeft = (data.x <= self.objectList.x)
+				isFacingLeft = (data.x <= self.objectData.x)
 				difference = distance
 			end
 		end
@@ -580,33 +589,28 @@ monster.moveAround = function(self, movement, maximumMice, radius)
 		end
 	end
 
-	self:frame((xSpeed < 0) and 1 or 3)
-	tfm.exec.moveObject(self.objectList.id, 0, 0, true, xSpeed, -15, false)
+	self:setSprite((xSpeed < 0) and 1 or 3)
+	tfm.exec.moveObject(self.objectData.id, 0, 0, true, xSpeed, -15, false)
 end
 
-monster.throwSnowball = function(self)
-	local player = getPlayersInStage(self.stage)
-	if not player then return end
+monster.throwSnowball = function(self, player)
 	player = tfm.get.room.playerList[getRandomValue(player)]
 
-	local angle = getAngle(self.objectList.x, self.objectList.y, player.x, player.y)
+	local angle = getAngle(self.objectData.x, self.objectData.y, player.x, player.y)
 	local directionX, directionY = getAcceleration(angle)
 
-	self:frame(((self.objectList.x > player.x) and 1 or 3))
+	self:setSprite(((self.objectData.x > player.x) and 1 or 3))
 
 	for _ = 1, monsterData.snowballQuantity do
-		tfm.exec.addShamanObject(objectId.snowball, self.objectList.x + (directionX * 20), self.objectList.y - 15, angle, (directionX * monsterData.snowballForce), (directionY * monsterData.snowballForce))
+		tfm.exec.addShamanObject(objectId.snowball, self.objectData.x + (directionX * 20), self.objectData.y - 15, angle, (directionX * monsterData.snowballForce), (directionY * monsterData.snowballForce))
 	end
 end
 
-monster.freezeAround = function(self)
-	local players = getPlayersInStage(self.stage)
-	if not players then return end
-
+monster.freezeAround = function(self, players)
 	local directionRate = 0
-	for _, playerName in next, getNearPlayers(players, self.objectList.x, self.objectList.y, monsterData.freezeRadius) do
+	for _, playerName in next, getNearPlayers(players, self.objectData.x, self.objectData.y, monsterData.freezeRadius) do
 		if math.random(1, 3000) < 500 then -- 1/6
-			directionRate = directionRate + (self.objectList.x - tfm.get.room.playerList[playerName].x)
+			directionRate = directionRate + (self.objectData.x - tfm.get.room.playerList[playerName].x)
 
 			tfm.exec.freezePlayer(playerName, true)
 			timer.start(tfm.exec.freezePlayer, monsterData.freezeTime, 1, playerName, false)
@@ -614,8 +618,24 @@ monster.freezeAround = function(self)
 	end
 
 	if directionRate ~= 0 then
-		self:frame((directionRate < 0) and 1 or 3, true) -- tmp
+		self:setSprite((directionRate < 0) and 1 or 3, true) -- tmp
 	end
+end
+
+monster.explode = function(self, players)
+	local totalPlayers
+	players, totalPlayers = getNearPlayers(players, self.objectData.x, self.objectData.y, monsterData.roarRadius)
+	if totalPlayers == 0 then return end
+
+	local directionRate = 0
+	for _, playerName in next, players do
+		directionRate = directionRate + (self.objectData.x - tfm.get.room.playerList[playerName].x)
+	end
+
+	local doorDirection = getStageDoorDirection(self.stage) * (directionRate < 0 and -1 or 1)
+
+	self:setSprite(self.spriteId, true)
+	tfm.exec.explosion(self.objectData.x, self.objectData.y, monsterData.roarPower * doorDirection, monsterData.roarRadius, true)
 end
 
 --[[ Interface ]]--
