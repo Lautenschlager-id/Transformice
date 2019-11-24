@@ -118,7 +118,7 @@ local monsterType = {
 }
 
 local movementType = {
-	biggerGroup = 1,
+	biggestGroup = 1,
 	nearestPlayer = 2
 }
 
@@ -134,7 +134,18 @@ local monsterData = {
 	snowballQuantity = 2,
 
 	freezeRadius = 80,
-	freezeTime = 3500
+	freezeTime = 3500,
+
+	movementType = {
+		[monsterType.snow] = movementType.nearestPlayer,
+		[monsterType.roar] = movementType.biggestGroup,
+		[monsterType.freeze] = movementType.biggestGroup
+	},
+	distanceRadius = {
+		[monsterType.snow] = 100,
+		[monsterType.roar] = 60,
+		[monsterType.freeze] = 60
+	}
 }
 
 -- Images
@@ -260,7 +271,7 @@ local getAcceleration = function(angle)
 	return math.cos(angle), math.sin(angle)
 end
 
-local getNeededXSpeed = function(distance)
+local getXSpeed = function(distance)
 	-- Returns the needed xSpeed to cover distance over a 0° ground of 0.3 friction.
 	return math.floor(distance ^ .5 + 0.5)
 end
@@ -474,7 +485,8 @@ monster.new = function(type, x, y, stage)
 		object = object,
 		image = image,
 		frameId = 2,
-		objectList = tfm.get.room.objectList[object]
+		objectList = tfm.get.room.objectList[object],
+		isAttacking = false
 	}, monster)
 
 	objectManager.insert(self)
@@ -489,19 +501,20 @@ monster.destroy = function(self)
 end
 
 monster.loop = function(self, currentTime, remainingTime)
-	self:moveAround(movementType.nearestPlayer, 1, 50)
-	if self.type == monsterType.snow then
-		self:throwSnowball()
-	elseif self.type == monsterType.freeze then
-		if self.frameId % 2 ~= 0 then
-			self:frame(2)
+	if math.random(1, 5) < 5 then
+		self:moveAround(monsterData.movementType[self.type], 1, monsterData.distanceRadius[self.type])
+	else
+		if self.type == monsterType.snow then
+			self:throwSnowball()
+		elseif self.type == monsterType.freeze then
+			self:freezeAround()
 		end
-		self:freezeAround()
 	end
 end
 
 monster.frame = function(self, id, isAttack)
-	if self.frameId == id then return end
+	if self.frameId == id and self.isAttacking == isAttack then return end
+	self.isAttacking = isAttack
 
 	tfm.exec.removeImage(self.image)
 	self.image = tfm.exec.addImage((isAttack and images.monsters.attack[self.type][id] or images.monsters[self.type][id]), "#" .. self.object, monsterAxis[self.type][1], monsterAxis[self.type][2])
@@ -509,68 +522,66 @@ monster.frame = function(self, id, isAttack)
 end
 
 monster.moveAround = function(self, movement, maximumMice, radius)
-	--[[Moves the monster around.
-	'movement' is a value from movementTypes,
-	'maximumMice' and 'radius' are the needed players in the given radius to make the monster not move.
-	maximumMice=1 and radius=50 will check if there is at least 1 player in a radius of 50px, if so, there will not be any movement.
-	]]
 	local players = getPlayersInStage(self.stage)
 	if not players then return end
 
-	if #getNearPlayers(players, self.objectList.x, self.objectList.y, radius) >= maximumMice then
-		return
-	end
+	-- Avoids monsters to get too close of the target
+	if #getNearPlayers(players, self.objectList.x, self.objectList.y, radius) >= maximumMice then return end
 
-	local xSpeed, data, diff
-	if movement == movementType.biggerGroup then
+	local xSpeed, data, distance
+	if movement == movementType.biggestGroup then
+		-- Aims the biggest group of players
 		local playersOnLeft, playersOnRight = 0, 0
-		local leftDifference, rightDifference = 1000000, 1000000
+		local leftDifference, rightDifference = 9999, 9999
 
 		for _, playerName in next, players do
 			data = tfm.get.room.playerList[playerName]
 
 			if data.x <= self.objectList.x then
 				playersOnLeft = playersOnLeft + 1
-				diff = self.objectList.x - data.x
+				distance = self.objectList.x - data.x
 
-				if diff < leftDifference then
-					leftDifference = diff
+				if distance < leftDifference then
+					leftDifference = distance
 				end
 			else
 				playersOnRight = playersOnRight + 1
-				diff = data.x - self.objectList.x
+				distance = data.x - self.objectList.x
 
-				if diff < rightDifference then
-					rightDifference = diff
+				if distance < rightDifference then
+					rightDifference = distance
 				end
 			end
 		end
 
 		if playersOnLeft >= playersOnRight then
-			xSpeed = -getNeededXSpeed(leftDifference)
+			xSpeed = -getXSpeed(leftDifference)
 		else
-			xSpeed = getNeededXSpeed(rightDifference)
+			xSpeed = getXSpeed(rightDifference)
 		end
 	elseif movement == movementType.nearestPlayer then
-		local left, difference = false, 1000000
+		-- Aims the nearest player
+		local isFacingLeft, difference = false, 9999
 
 		for _, playerName in next, players do
 			data = tfm.get.room.playerList[playerName]
-			diff = math.abs(data.x - self.objectList.x)
+			distance = math.abs(data.x - self.objectList.x)
 
-			if diff < difference then
-				left = (data.x <= self.objectList.x)
-				difference = diff
+			if distance < difference then
+				isFacingLeft = (data.x <= self.objectList.x)
+				difference = distance
 			end
 		end
 
-		if left then
-			xSpeed = -getNeededXSpeed(difference)
+		if isFacingLeft then
+			xSpeed = -getXSpeed(difference)
 		else
-			xSpeed = getNeededXSpeed(difference)
+			xSpeed = getXSpeed(difference)
 		end
 	end
-	tfm.exec.moveObject(self.objectList.id, 0, 0, true, xSpeed, -10, false)
+
+	self:frame((xSpeed < 0) and 1 or 3)
+	tfm.exec.moveObject(self.objectList.id, 0, 0, true, xSpeed, -15, false)
 end
 
 monster.throwSnowball = function(self)
@@ -592,15 +603,18 @@ monster.freezeAround = function(self)
 	local players = getPlayersInStage(self.stage)
 	if not players then return end
 
-	if math.random(1, 100) < 50 then
-		for _, playerName in next, getNearPlayers(players, self.objectList.x, self.objectList.y, monsterData.freezeRadius) do
-			if math.random(1, 3000) < 500 then -- 1/6
-				self:frame((tfm.get.room.playerList[playerName].x > self.objectList.x and 1 or 3), true) -- tmp
+	local directionRate = 0
+	for _, playerName in next, getNearPlayers(players, self.objectList.x, self.objectList.y, monsterData.freezeRadius) do
+		if math.random(1, 3000) < 500 then -- 1/6
+			directionRate = directionRate + (self.objectList.x - tfm.get.room.playerList[playerName].x)
 
-				tfm.exec.freezePlayer(playerName, true)
-				timer.start(tfm.exec.freezePlayer, monsterData.freezeTime, 1, playerName, false)
-			end
+			tfm.exec.freezePlayer(playerName, true)
+			timer.start(tfm.exec.freezePlayer, monsterData.freezeTime, 1, playerName, false)
 		end
+	end
+
+	if directionRate ~= 0 then
+		self:frame((directionRate < 0) and 1 or 3, true) -- tmp
 	end
 end
 
