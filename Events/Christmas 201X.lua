@@ -16,7 +16,8 @@ local module = {
 		foreground = "167515a75c9.png"
 	},
 	timerRate = 12,
-	callbackTimer = 2500
+	callbackTimer = 2500,
+	life = 5
 }
 
 --> Debug <--
@@ -187,6 +188,10 @@ local images = {
 	},
 	npc = {
 		elf = "16e9f879365.png"
+	},
+	others = {
+		redHeart = '',
+		greyHeart = ''
 	}
 }
 
@@ -194,9 +199,10 @@ local imageLayer = {
 	mapBackground = "?0",
 	objectBackground = "?1",
 	objectForeground = "!1",
-	dialogForeground = "&1",
+	dialogForeground = "&2",
 	dialogBackgroud = ":1",
-	playerAttachment = "$"
+	playerAttachment = "$",
+	hudForeground = "&1"
 }
 
 --[[ Data ]]--
@@ -800,6 +806,30 @@ local passageBlocks = { }
 local lastMountainStage = 0
 local triggerEnigma = false
 
+local displayLife = function(playerName)
+	local cache = playerCache[playerName].cachedImages.heart
+
+	for h = 1, playerCache[playerName].life do
+		if cache[h] then
+			tfm.exec.removeImage(cache[h])
+		end
+		cache[h] = tfm.exec.addImage(images.others.redHeart, imageLayer.hudForeground, (h - 1) * 50, 30, playerName)
+	end
+end
+
+local decreaseLife = function(playerName)
+	local currentLife = playerCache[playerName].life
+	if currentLife <= 0 then return end
+
+	tfm.exec.removeImage(playerCache[playerName].cachedImages.heart[currentLife])
+	playerCache[playerName].cachedImages.heart[currentLife] = tfm.exec.addImage(images.others.greyHeart, imageLayer.hudForeground, (currentLife - 1) * 50, 30, playerName)
+
+	playerCache[playerName].life = playerCache[playerName].life - 1
+	if playerCache[playerName].life == 0 then
+		tfm.exec.killPlayer(playerName)
+	end
+end
+
 local setAllPlayerData = function()
 	for playerName, data in next, tfm.get.room.playerList do
 		playerCache[playerName] = {
@@ -812,13 +842,15 @@ local setAllPlayerData = function()
 			cachedImages = {
 				tree = nil, -- Tree image
 				treeItem = nil, -- Tree item
-				dialog = { }
+				dialog = { },
+				heart = { }
 			},
 			isFrozen = false,
 			treeItem = nil, -- The id of the item to be collected
 			hasItem = false, -- If the player is carrying the item
 			placedItem = false, -- If the player has placed the item
-			callbackAction = 0
+			callbackAction = 0,
+			life = module.life
 		}
 
 		tfm.exec.lowerSyncDelay(playerName)
@@ -827,6 +859,8 @@ local setAllPlayerData = function()
 		for _, code in next, keyCode do
 			system.bindKeyboard(playerName, code, true, true)
 		end
+
+		displayLife(playerName)
 	end
 end
 
@@ -1081,7 +1115,9 @@ local collectItem = function(cbk, playerName)
 	cbk:remove(playerName)
 
 	tfm.exec.removeImage(playerCache[playerName].cachedImages.treeItem)
-	playerCache[playerName].cachedImages.treeItem = tfm.exec.addImage(images.treeItems[playerCache[playerName].treeItem], imageLayer.playerAttachment .. playerName, -20, -70)
+	playerCache[playerName].cachedImages.treeItem = tfm.exec.addImage(images.treeItems[playerCache[playerName].treeItem], imageLayer.playerAttachment .. playerName, -25, -70)
+
+	return true
 end
 
 local placeItem = function(cbk, playerName)
@@ -1094,10 +1130,14 @@ local placeItem = function(cbk, playerName)
 	playerData:set(playerName, "treeStage", playerData:get(playerName, "treeStage") + 1):save(playerName)
 	tfm.exec.removeImage(playerCache[playerName].cachedImages.treeItem)
 	displayTree(playerName, true)
+
+	return true
 end
 
 local startIntro = function(cbk, playerName)
 	ui.dialog(playerName, 1)
+
+	return true
 end
 
 local makeCallbacks = function()
@@ -1162,14 +1202,16 @@ eventKeyboard = function(playerName, key, holding, x, y)
 	end
 	if not canStart or not playerCache[playerName] or not playerCache[playerName].dataLoaded then return end
 
-	if key == keyCode.space then
+	if key == keyCode.space then decreaseLife(playerName)
 		if playerCache[playerName].dialog.id == 0 then
 			-- Is not seeing a dialog
 			if not canTriggerCallbacks(playerName) then return end
 
 			-- Checks all ranges of callbacks and, if matched, its action is performed
 			for _, cbk in callback.__iter() do
-				cbk:performAction(playerName, x, y)
+				if cbk:performAction(playerName, x, y) then
+					break
+				end
 			end
 		else
 			-- Is seeing a dialog

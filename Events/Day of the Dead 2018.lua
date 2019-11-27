@@ -635,8 +635,7 @@ local objects = {
 		-- Mirabella
 		"165ed3253ed.png", -- Asking for help (Confetti)
 		"165ed328799.png", -- Finished confetti
-		"165ed3253ed.png", -- Asking for help (Candies)
-		"165ed326c11.png", -- Finished candies
+		"165ed3253ed.png", -- Asking for help (Candies) "165ed326c11.png", -- Finished candies
 		-- Miguel
 		"1664060e191.png", -- Can't start simon says (Crying)
 		"1664060e191.png", -- Start simon says (Show guitars)
