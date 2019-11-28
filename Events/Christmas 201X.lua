@@ -61,7 +61,9 @@ local interfaceId = {
 }
 
 local keyCode = {
-	space = 32
+	space = 32,
+	left = 0,
+	right = 2
 }
 
 local workingTimerState = {
@@ -809,7 +811,8 @@ local triggerEnigma = false
 local displayLife = function(playerName)
 	local cache = playerCache[playerName].cachedImages.heart
 
-	for h = 1, playerCache[playerName].life do
+	playerCache[playerName].life = module.life
+	for h = 1, module.life do
 		if cache[h] then
 			tfm.exec.removeImage(cache[h])
 		end
@@ -850,7 +853,8 @@ local setAllPlayerData = function()
 			hasItem = false, -- If the player is carrying the item
 			placedItem = false, -- If the player has placed the item
 			callbackAction = 0,
-			life = module.life
+			life = module.life,
+			isFacingRight = true
 		}
 
 		tfm.exec.lowerSyncDelay(playerName)
@@ -1075,6 +1079,7 @@ local checkStageChallege = function()
 				lastMountainStage = tmpCurrentStage
 				if lastMountainStage == 7 then
 					-- final
+					displayLife(playerName) -- Player's life gets reset to defeat the boss
 				else
 					spawnYetis(lastMountainStage)
 				end
@@ -1202,7 +1207,7 @@ eventKeyboard = function(playerName, key, holding, x, y)
 	end
 	if not canStart or not playerCache[playerName] or not playerCache[playerName].dataLoaded then return end
 
-	if key == keyCode.space then decreaseLife(playerName)
+	if key == keyCode.space then
 		if playerCache[playerName].dialog.id == 0 then
 			-- Is not seeing a dialog
 			if not canTriggerCallbacks(playerName) then return end
@@ -1217,6 +1222,8 @@ eventKeyboard = function(playerName, key, holding, x, y)
 			-- Is seeing a dialog
 			dialogAction(playerName)
 		end
+	elseif key == keyCode.left or key == keyCode.right then
+		playerCache.isFacingRight = (key == keyCode.right)
 	end
 end
 
