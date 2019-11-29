@@ -52,7 +52,8 @@ end
 -- Enumerations
 local objectId = {
 	fish = 6300,
-	snowball = 34
+	snowball = 34,
+	paperball = 95
 }
 
 local interfaceId = {
@@ -119,6 +120,16 @@ local monsterDirection = {
 	front = 2,
 	right = 3,
 	back = 4
+}
+
+local bulletData = {
+	damageRadius = 50,
+
+	damage = {
+		[monsterType.snow] = 1,
+		[monsterType.roar] = 1,
+		[monsterType.freeze] = 1
+	}
 }
 
 -- Images
@@ -550,9 +561,15 @@ do
 				_bin = {
 					_count = 0
 				}
+			},
+			bullet = {
+				_count = 0,
+				_bin = {
+					_count = 0
+				}
 			}
 		},
-		stageCount = { }
+		stageMonsterCount = { }
 	}
 
 	objectManager.insert = function(obj)
@@ -561,6 +578,8 @@ do
 
 		obj._id = class._count
 		class[class._count] = obj
+
+		return obj
 	end
 
 	objectManager.delete = function(obj)
@@ -569,7 +588,9 @@ do
 		bin._count = bin._count + 1
 		bin[bin._count] = obj._id
 
-		objectManager.stageCount[obj.stage] = objectManager.stageCount[obj.stage] - 1
+		if obj.delete then
+			obj:delete()
+		end
 	end
 
 	objectManager.clear = function()
@@ -602,13 +623,31 @@ end
 
 local monster
 do
-	monster = { }
+	monster = {
+		_perStage = { }
+	}
 	monster.__index = monster
 
-	monster.new = function(type, x, y, stage)
-		local object = tfm.exec.addShamanObject(objectId.fish, x, y, 0)
+	local addToStage = function(obj, stage)
+		if not monster._perStage[stage] then
+			monster._perStage[stage] = {
+				_id = 0,
+				_count = 0
+			}
+		end
 
-		local self = setmetatable({
+		local stage = monster._perStage[stage]
+		stage._id = stage._id + 1
+		stage[stage._id] = obj
+		stage._count = stage._count + 1
+
+		return obj
+	end
+
+	monster.new = function(type, x, y, stage)
+		local object = tfm.exec.addShamanObject(objectId.fish, x, y)
+
+		return objectManager.insert(addToStage(setmetatable({
 			class = "monster",
 			type = type,
 			stage = stage,
@@ -617,16 +656,17 @@ do
 			spriteId = 2,
 			objectData = tfm.get.room.objectList[object],
 			isAttacking = false
-		}, monster)
+		}, monster), stage))
+	end
 
-		objectManager.insert(self)
-
-		return self
+	monster.delete = function(self)
+		local stage = monster._perStage[self.stage]
+		stage._count = stage._count - 1
 	end
 
 	monster.destroy = function(self)
-		tfm.exec.removeObject(self.object)
 		tfm.exec.removeImage(self.sprite)
+		tfm.exec.removeObject(self.object)
 		objectManager.delete(self)
 	end
 
@@ -775,6 +815,39 @@ do
 		tfm.exec.explosion(self.objectData.x, self.objectData.y, monsterData.roarPower * doorDirection, monsterData.roarRadius, true)
 
 		return self
+	end
+end
+
+local bullet
+do
+	bullet = { }
+	bullet.__index = bullet
+
+	bullet.new = function(x, y, xs, ys, stage)
+		local object = tfm.exec.addShamanObject(objectId.paperball, x, y, 0, xs, ys)
+
+		return objectManager.insert(setmetatable({
+			class = "bullet",
+			stage = stage,
+			object = object,
+			--sprite = tfm.exec.addImage('', "#" .. object, 0, 0),
+			objectData = tfm.get.room.objectList[object]
+		}, bullet))
+	end
+
+	bullet.destroy = monster.destroy
+
+	bullet.loop = function(self, currentTime, remainingTime)
+		local monsters, obj = monster._perStage[self.stage]
+		for m = 1, monsters._count do
+			obj = monsters[m]
+
+			if pythagoras(self.objectData.x, self.objectData.y, obj.objectData.x, obj.objectData.y, bulletData.damageRadius) then
+				-- Damage obj
+				-- Destroy bullet
+				self:destroy()
+			end
+		end
 	end
 end
 
@@ -1030,8 +1103,6 @@ do
 		local rawstage = stage
 		stage = stage * 3
 
-		objectManager.stageCount[rawstage] = xRange[stage]
-
 		for x = 1, xRange[stage] do
 			monster.new(math.random(1, 3), math.random(xRange[stage - 2], xRange[stage - 1]), yFixedPosition[rawstage], rawstage)
 		end
@@ -1095,11 +1166,11 @@ end
 local unblockPassage = function(stage)
 	tfm.exec.removeImage(passageBlocks[stage])
 	tfm.exec.removePhysicObject(stage)
+	passageBlocks[stage] = nil
 end
 
 local checkPassages = function()
-	if objectManager.stageCount[lastMountainStage] == 0 then
-		objectManager.stageCount[lastMountainStage] = nil
+	if passageBlocks[lastMountainStage] and monster._perStage[lastMountainStage]._count == 0 then
 		unblockPassage(lastMountainStage)
 	end
 end
@@ -1215,15 +1286,20 @@ eventKeyboard = function(playerName, key, holding, x, y)
 			-- Checks all ranges of callbacks and, if matched, its action is performed
 			for _, cbk in callback.__iter() do
 				if cbk:performAction(playerName, x, y) then
-					break
+					return
 				end
+			end
+
+			-- Throw
+			if playerCache[playerName].currentStage > 0 and not playerCache[playerName].isFrozen then
+				bullet.new(x, y, 20, 0, playerCache[playerName].currentStage)
 			end
 		else
 			-- Is seeing a dialog
 			dialogAction(playerName)
 		end
 	elseif key == keyCode.left or key == keyCode.right then
-		playerCache.isFacingRight = (key == keyCode.right)
+		playerCache[playerName].isFacingRight = (key == keyCode.right)
 	end
 end
 
