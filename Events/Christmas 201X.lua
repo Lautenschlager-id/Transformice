@@ -112,6 +112,11 @@ local monsterData = {
 		[monsterType.snow] = 100,
 		[monsterType.roar] = 60,
 		[monsterType.freeze] = 60
+	},
+	life = {
+		[monsterType.snow] = 5,
+		[monsterType.roar] = 8,
+		[monsterType.freeze] = 7
 	}
 }
 
@@ -124,12 +129,10 @@ local monsterDirection = {
 
 local bulletData = {
 	damageRadius = 50,
+	xSpeed = 20,
+	ySpeed = 0,
 
-	damage = {
-		[monsterType.snow] = 1,
-		[monsterType.roar] = 1,
-		[monsterType.freeze] = 1
-	}
+	damage = 1
 }
 
 -- Images
@@ -568,8 +571,7 @@ do
 					_count = 0
 				}
 			}
-		},
-		stageMonsterCount = { }
+		}
 	}
 
 	objectManager.insert = function(obj)
@@ -583,13 +585,16 @@ do
 	end
 
 	objectManager.delete = function(obj)
+		if obj._toDelete then return end
+		obj._toDelete = true
+
 		local bin = objectManager.objects[obj.class]._bin
 
 		bin._count = bin._count + 1
 		bin[bin._count] = obj._id
 
-		if obj.delete then
-			obj:delete()
+		if obj.remove then
+			obj:remove()
 		end
 	end
 
@@ -655,19 +660,30 @@ do
 			sprite = tfm.exec.addImage(images.monsters[type][2], "#" .. object, monsterAxis[type][1], monsterAxis[type][2]),
 			spriteId = 2,
 			objectData = tfm.get.room.objectList[object],
-			isAttacking = false
+			isAttacking = false,
+			life = monsterData.life[type]
 		}, monster), stage))
 	end
 
-	monster.delete = function(self)
+	monster.remove = function(self)
 		local stage = monster._perStage[self.stage]
 		stage._count = stage._count - 1
+		stage[self._id] = nil
 	end
 
 	monster.destroy = function(self)
 		tfm.exec.removeImage(self.sprite)
 		tfm.exec.removeObject(self.object)
 		objectManager.delete(self)
+	end
+
+	monster.damage = function(self, damage)
+		self.life = self.life - damage
+		if self.life <= 0 then
+			self:destroy()
+			return true
+		end
+		return false
 	end
 
 	monster.loop = function(self, currentTime, remainingTime)
@@ -823,8 +839,8 @@ do
 	bullet = { }
 	bullet.__index = bullet
 
-	bullet.new = function(x, y, xs, ys, stage)
-		local object = tfm.exec.addShamanObject(objectId.paperball, x, y, 0, xs, ys)
+	bullet.new = function(x, y, direction, stage)
+		local object = tfm.exec.addShamanObject(objectId.paperball, x + (20 * direction), y - 15, 0, bulletData.xSpeed * direction, bulletData.ySpeed)
 
 		return objectManager.insert(setmetatable({
 			class = "bullet",
@@ -839,13 +855,13 @@ do
 
 	bullet.loop = function(self, currentTime, remainingTime)
 		local monsters, obj = monster._perStage[self.stage]
-		for m = 1, monsters._count do
-			obj = monsters[m]
+		for m = 1, objectManager.objects.monster._count do
+			obj = objectManager.objects.monster[m]
 
-			if pythagoras(self.objectData.x, self.objectData.y, obj.objectData.x, obj.objectData.y, bulletData.damageRadius) then
-				-- Damage obj
-				-- Destroy bullet
+			if obj and obj.stage == self.stage and pythagoras(self.objectData.x, self.objectData.y, obj.objectData.x, obj.objectData.y, bulletData.damageRadius) then
+				obj:damage(bulletData.damage)
 				self:destroy()
+				break
 			end
 		end
 	end
@@ -1170,7 +1186,7 @@ local unblockPassage = function(stage)
 end
 
 local checkPassages = function()
-	if passageBlocks[lastMountainStage] and monster._perStage[lastMountainStage]._count == 0 then
+	if passageBlocks[lastMountainStage] and monster._perStage[lastMountainStage]._count <= 0 then
 		unblockPassage(lastMountainStage)
 	end
 end
@@ -1281,18 +1297,18 @@ eventKeyboard = function(playerName, key, holding, x, y)
 	if key == keyCode.space then
 		if playerCache[playerName].dialog.id == 0 then
 			-- Is not seeing a dialog
-			if not canTriggerCallbacks(playerName) then return end
-
-			-- Checks all ranges of callbacks and, if matched, its action is performed
-			for _, cbk in callback.__iter() do
-				if cbk:performAction(playerName, x, y) then
-					return
+			if canTriggerCallbacks(playerName) then
+				-- Checks all ranges of callbacks and, if matched, its action is performed
+				for _, cbk in callback.__iter() do
+					if cbk:performAction(playerName, x, y) then
+						return
+					end
 				end
 			end
 
 			-- Throw
 			if playerCache[playerName].currentStage > 0 and not playerCache[playerName].isFrozen then
-				bullet.new(x, y, 20, 0, playerCache[playerName].currentStage)
+				bullet.new(x, y, (playerCache[playerName].isFacingRight and 1 or -1), playerCache[playerName].currentStage)
 			end
 		else
 			-- Is seeing a dialog
