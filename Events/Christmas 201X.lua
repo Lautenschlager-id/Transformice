@@ -131,8 +131,8 @@ local bulletData = {
 	damageRadius = 50,
 	xSpeed = 20,
 	ySpeed = 0,
-
-	damage = 1
+	damage = 1,
+	lifeTime = 1500
 }
 
 -- Images
@@ -207,7 +207,8 @@ local images = {
 	},
 	others = {
 		redHeart = '',
-		greyHeart = ''
+		greyHeart = '',
+		fireball = "16eba44a988.png"
 	}
 }
 
@@ -846,8 +847,9 @@ do
 			class = "bullet",
 			stage = stage,
 			object = object,
-			--sprite = tfm.exec.addImage('', "#" .. object, 0, 0),
-			objectData = tfm.get.room.objectList[object]
+			sprite = tfm.exec.addImage(images.others.fireball, "#" .. object, -6, -6),
+			objectData = tfm.get.room.objectList[object],
+			lifeTime = bulletData.lifeTime
 		}, bullet))
 	end
 
@@ -861,8 +863,13 @@ do
 			if obj and obj.stage == self.stage and pythagoras(self.objectData.x, self.objectData.y, obj.objectData.x, obj.objectData.y, bulletData.damageRadius) then
 				obj:damage(bulletData.damage)
 				self:destroy()
-				break
+				return
 			end
+		end
+
+		self.lifeTime = self.lifeTime - 500
+		if self.lifeTime <= 0 then
+			self:destroy()
 		end
 	end
 end
