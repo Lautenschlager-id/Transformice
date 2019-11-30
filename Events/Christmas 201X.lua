@@ -121,7 +121,7 @@ local monsterData = {
 	damage = {
 		[monsterType.snow] = 0.5,
 		[monsterType.roar] = 0.5,
-		[monsterType.freeze] = .5
+		[monsterType.freeze] = 1
 	}
 }
 
@@ -1027,6 +1027,8 @@ local updateDialog = function(playerName, data, addChar)
 end
 
 update = function(_, addChar)
+	if not canStart then return end
+
 	for playerName, data in next, playerCache do
 		if data.dataLoaded and data.dialog.id > 0 then
 			updateDialog(playerName, data, addChar)
@@ -1144,8 +1146,7 @@ do
 		330, 680, 4, -- 3
 		470, 700, 3, -- 4
 		420, 670, 3, -- 5
-		490, 700, 1 -- 6
---		490, 700, 2 -- 6
+		490, 700, 2 -- 6
 	}
 
 	local yFixedPosition = {
@@ -1162,7 +1163,7 @@ do
 		stage = stage * 3
 
 		for x = 1, xRange[stage] do
-			monster.new(3--[[math.random(1, 3)]], math.random(xRange[stage - 2], xRange[stage - 1]), yFixedPosition[rawstage], rawstage)
+			monster.new(math.random(1, 3), math.random(xRange[stage - 2], xRange[stage - 1]), yFixedPosition[rawstage], rawstage)
 		end
 	end
 end
