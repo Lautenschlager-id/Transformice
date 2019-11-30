@@ -117,6 +117,11 @@ local monsterData = {
 		[monsterType.snow] = 5,
 		[monsterType.roar] = 8,
 		[monsterType.freeze] = 7
+	},
+	damage = {
+		[monsterType.snow] = 0.5,
+		[monsterType.roar] = 0.5,
+		[monsterType.freeze] = .5
 	}
 }
 
@@ -206,8 +211,11 @@ local images = {
 		elf = "16e9f879365.png"
 	},
 	others = {
-		redHeart = '',
-		greyHeart = '',
+		heart = {
+			[1] = "16ebd213f31.png", -- Red
+			[0.5] = "16ebd26dde2.png", -- Half red / Half grey
+			[0] = "16ebd2156a2.png" -- Grey
+		},
 		fireball = "16eba44a988.png"
 	}
 }
@@ -252,14 +260,6 @@ local workingTimer = workingTimerState.start
 local playerStage = { }
 
 --[[ Utils ]]--
-do
-	local freezePlayer = tfm.exec.freezePlayer
-	tfm.exec.freezePlayer = function(playerName, freeze)
-		playerCache[playerName].isFrozen = freeze
-		return freezePlayer(playerName, freeze)
-	end
-end
-
 local getRandomValue = function(tbl)
 	return tbl[math.random(#tbl)]
 end
@@ -330,6 +330,10 @@ local getStageDoorDirection = function(stage)
 end
 
 --[[ Tools ]]--
+local isEventWorkingFor = function(playerName)
+	return canStart and playerCache[playerName] and playerCache[playerName].dataLoaded	
+end
+
 local loop = function(f, ticks, ...)
 	local timers, index = { }, 0
 	local addTimer = function(_, ...)
@@ -376,6 +380,8 @@ loadAllImages = function(playerName, _src)
 		end
 	end
 end
+
+local freezePlayer
 
 --[[ Classes ]]--
 local timer
@@ -804,8 +810,8 @@ do
 			if not playerCache[playerName].isFrozen and math.random(1, 3000) < 2000 then -- 2/3
 				directionRate = directionRate + (self.objectData.x - tfm.get.room.playerList[playerName].x)
 
-				tfm.exec.freezePlayer(playerName, true)
-				timer.start(tfm.exec.freezePlayer, monsterData.freezeTime, 1, playerName, false)
+				freezePlayer(playerName, true)
+				timer.start(freezePlayer, monsterData.freezeTime, 1, playerName, false)
 			end
 		end
 
@@ -904,29 +910,57 @@ local passageBlocks = { }
 local lastMountainStage = 0
 local triggerEnigma = false
 
-local displayLife = function(playerName)
-	local cache = playerCache[playerName].cachedImages.heart
+local displayLife, decreaseLife
+do
+	local updateHeart = function(cache, id, level)
+		cache = cache.cachedImages.heart
 
-	playerCache[playerName].life = module.life
-	for h = 1, module.life do
-		if cache[h] then
-			tfm.exec.removeImage(cache[h])
+		if cache[id] then
+			tfm.exec.removeImage(cache[id])
 		end
-		cache[h] = tfm.exec.addImage(images.others.redHeart, imageLayer.hudForeground, (h - 1) * 50, 30, playerName)
+		cache[id] = tfm.exec.addImage(images.others.heart[level], imageLayer.hudForeground, (id - 1) * 30, 30, playerName)
+	end
+
+	displayLife = function(playerName)
+		local cache = playerCache[playerName]
+
+		playerCache[playerName].life = module.life
+		for heart = 1, module.life do
+			updateHeart(cache, heart, 1)
+		end
+	end
+
+	decreaseLife = function(playerName, level)
+		local cache = playerCache[playerName]
+		if cache.life <= 0 then return end
+
+		local lastHeartLevel = 1 - cache.life % 1
+		local lastHeartFloor = math.ceil(cache.life)
+		cache.life = cache.life - level
+		local currentHeart = math.ceil(cache.life)
+
+		if currentHeart ~= lastHeartFloor then
+			updateHeart(cache, lastHeartFloor, 0)
+			level = (lastHeartLevel + 1) - level
+		end
+		if currentHeart > 0 and level < 1 then
+			updateHeart(cache, currentHeart, level)
+		end
+
+		if cache.life <= 0 then
+			tfm.exec.killPlayer(playerName)
+		end	
 	end
 end
 
-local decreaseLife = function(playerName)
-	local currentLife = playerCache[playerName].life
-	if currentLife <= 0 then return end
+freezePlayer = function(playerName, freeze)
+	playerCache[playerName].isFrozen = freeze
 
-	tfm.exec.removeImage(playerCache[playerName].cachedImages.heart[currentLife])
-	playerCache[playerName].cachedImages.heart[currentLife] = tfm.exec.addImage(images.others.greyHeart, imageLayer.hudForeground, (currentLife - 1) * 50, 30, playerName)
-
-	playerCache[playerName].life = playerCache[playerName].life - 1
-	if playerCache[playerName].life == 0 then
-		tfm.exec.killPlayer(playerName)
+	if freeze then
+		decreaseLife(playerName, monsterData.damage[monsterType.freeze])
 	end
+
+	return tfm.exec.freezePlayer(playerName, freeze)
 end
 
 local setAllPlayerData = function()
@@ -1110,7 +1144,8 @@ do
 		330, 680, 4, -- 3
 		470, 700, 3, -- 4
 		420, 670, 3, -- 5
-		490, 700, 2 -- 6
+		490, 700, 1 -- 6
+--		490, 700, 2 -- 6
 	}
 
 	local yFixedPosition = {
@@ -1127,7 +1162,7 @@ do
 		stage = stage * 3
 
 		for x = 1, xRange[stage] do
-			monster.new(math.random(1, 3), math.random(xRange[stage - 2], xRange[stage - 1]), yFixedPosition[rawstage], rawstage)
+			monster.new(3--[[math.random(1, 3)]], math.random(xRange[stage - 2], xRange[stage - 1]), yFixedPosition[rawstage], rawstage)
 		end
 	end
 end
@@ -1162,7 +1197,7 @@ end
 local checkStageChallege = function()
 	local tmpCurrentStage
 	for playerName, data in next, tfm.get.room.playerList do
-		if not data.isDead then
+		if not data.isDead and playerCache[playerName].dataLoaded then
 			tmpCurrentStage = getCurrentStage(data.y, data.x)
 			if tmpCurrentStage == 8 then
 				if not triggerEnigma then
@@ -1299,7 +1334,7 @@ eventKeyboard = function(playerName, key, holding, x, y)
 	if DEBUG then
 		_eventKeyboard(playerName, key, holding, x, y)
 	end
-	if not canStart or not playerCache[playerName] or not playerCache[playerName].dataLoaded then return end
+	if not isEventWorkingFor(playerName) then return end
 
 	if key == keyCode.space then
 		if playerCache[playerName].dialog.id == 0 then
@@ -1327,7 +1362,7 @@ eventKeyboard = function(playerName, key, holding, x, y)
 end
 
 eventTextAreaCallback = function(id, playerName, eventName)
-	if not canStart or not playerCache[playerName] or not playerCache[playerName].dataLoaded then return end
+	if not isEventWorkingFor(playerName) then return end
 	if not canTriggerCallbacks(playerName) then return end
 
 	if string.find(eventName, "callback.", 1, true) then
@@ -1341,9 +1376,12 @@ eventNewPlayer = function(playerName)
 	buildMap(playerName)
 end
 
-eventPlayerDied = removePlayerFromStages
+eventPlayerDied = function(playerName)
+	if not isEventWorkingFor(playerName) then return end
+	removePlayerFromStages(playerName)
+end
 
-eventPlayerLeft = removePlayerFromStages
+eventPlayerLeft = eventPlayerDied
 
 --[[ Debug ]]--
 if DEBUG then
