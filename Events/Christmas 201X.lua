@@ -23,7 +23,7 @@ local module = {
 --> Debug <--
 local DEBUG, _eventKeyboard = true
 
-if not DEBUG and (not (tfm.get.room.uniquePlayers == 1 and tfm.get.room.playerList[module.team.developer[1]]) and tfm.get.room.uniquePlayers < 4) then
+if not DEBUG and (not (tfm.get.room.uniquePlayers == 1 and tfm.get.room.playerList[module.team.developer[1]]) and tfm.get.room.uniquePlayers < 5) then
 	return system.exit()
 end
 
@@ -53,7 +53,8 @@ end
 local objectId = {
 	fish = 6300,
 	snowball = 34,
-	paperball = 95
+	paperball = 95,
+	icecube = 54
 }
 
 local interfaceId = {
@@ -136,8 +137,10 @@ local bulletData = {
 	damageRadius = 50,
 	xSpeed = 20,
 	ySpeed = 0,
-	damage = 1,
-	lifeTime = 1500
+	lifeTime = 1500,
+	minimumDamage = 0.2,
+	maximumDamage = 2,
+	damage = 0
 }
 
 -- Images
@@ -260,6 +263,18 @@ local workingTimer = workingTimerState.start
 local playerStage = { }
 
 --[[ Utils ]]--
+local percent = function(x, y, p)
+	return x / (p or 100) * y
+end
+
+local clamp = function(value, min, max)
+	return (value < min and min or value > max and max or value)
+end
+
+local getRoomMicePercentage = function(percentage, min, max)
+	return clamp(percent(percentage, tfm.get.room.uniquePlayers), (min or 1), (max or 10))
+end
+
 local getRandomValue = function(tbl)
 	return tbl[math.random(#tbl)]
 end
@@ -382,6 +397,7 @@ loadAllImages = function(playerName, _src)
 end
 
 local freezePlayer
+local decreaseLife
 
 --[[ Classes ]]--
 local timer
@@ -807,7 +823,7 @@ do
 
 		local directionRate = 0
 		for _, playerName in next, players do
-			if not playerCache[playerName].isFrozen and math.random(1, 3000) < 2000 then -- 2/3
+			if not playerCache[playerName].isFrozen and math.random(1, 3000) < 1500 then -- 1/2
 				directionRate = directionRate + (self.objectData.x - tfm.get.room.playerList[playerName].x)
 
 				freezePlayer(playerName, true)
@@ -827,9 +843,17 @@ do
 		players, totalPlayers = getNearPlayers(players, self.objectData.x, self.objectData.y, monsterData.roarRadius)
 		if totalPlayers == 0 then return end
 
-		local directionRate = 0
+		local halfDistance = monsterData.roarRadius / 2
+		local damage = monsterData.damage[monsterType.roar]
+
+		local directionRate, distance = 0
 		for _, playerName in next, players do
-			directionRate = directionRate + (self.objectData.x - tfm.get.room.playerList[playerName].x)
+			distance = (self.objectData.x - tfm.get.room.playerList[playerName].x)
+			directionRate = directionRate + distance
+
+			if math.abs(distance) < halfDistance then -- The ones that are even closer
+				decreaseLife(playerName, damage)
+			end
 		end
 
 		local doorDirection = getStageDoorDirection(self.stage) * (directionRate < 0 and -1 or 1)
@@ -910,7 +934,7 @@ local passageBlocks = { }
 local lastMountainStage = 0
 local triggerEnigma = false
 
-local displayLife, decreaseLife
+local displayLife
 do
 	local updateHeart = function(cache, id, level)
 		cache = cache.cachedImages.heart
@@ -1141,12 +1165,12 @@ local spawnYetis
 do
 	local xRange = {
 		-- rangeA, rangeB, quantity
-		230, 700, 5, -- 1
-		340, 700, 4, -- 2
-		330, 680, 4, -- 3
-		470, 700, 3, -- 4
-		420, 670, 3, -- 5
-		490, 700, 2 -- 6
+		230, 700, getRoomMicePercentage(20, 3, 10), -- 1
+		340, 700, getRoomMicePercentage(16, 2, 8), -- 2
+		330, 680, getRoomMicePercentage(16, 2, 8), -- 3
+		470, 700, getRoomMicePercentage(12, 2, 6), -- 4
+		420, 670, getRoomMicePercentage(12, 2, 6), -- 5
+		490, 700, getRoomMicePercentage(8, 1, 4) -- 6
 	}
 
 	local yFixedPosition = {
@@ -1377,12 +1401,18 @@ eventNewPlayer = function(playerName)
 	buildMap(playerName)
 end
 
-eventPlayerDied = function(playerName)
+eventPlayerLeft = function(playerName)
 	if not isEventWorkingFor(playerName) then return end
 	removePlayerFromStages(playerName)
 end
 
-eventPlayerLeft = eventPlayerDied
+eventPlayerDied = function(playerName)
+	if not isEventWorkingFor(playerName) then return end
+
+	tfm.exec.addShamanObject(objectId.icecube, 900, tfm.get.room.playerList[playerName].y - 50)
+
+	removePlayerFromStages(playerName)
+end
 
 --[[ Debug ]]--
 if DEBUG then
@@ -1440,6 +1470,7 @@ end, 1000, false)
 
 loop(update, 12, 1)
 
+bulletData.damage = clamp((2 - (tfm.get.room.uniquePlayers / 25)), bulletData.minimumDamage, bulletData.maximumDamage)
 globalInitSettings(true)
 tfm.exec.newGame(string.format(module.map.xml, module.map.foreground))
 math.randomseed(os.time())
