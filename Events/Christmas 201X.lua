@@ -57,7 +57,7 @@ local objectId = {
 	paperball = 95,
 	icecube = 54,
 	box = 1,
-	airplane = 80
+	rune = 32
 }
 
 local interfaceId = {
@@ -353,9 +353,11 @@ local getPlayersInStage = function(stage)
 end
 
 local getNearPlayers = function(stagePlayers, x, y, radius)
-	local list, index, data = { }, 0
-	for _, playerName in next, stagePlayers do
+	local list, index, playerName, data = { }, 0
+	for player = 1, #stagePlayers do
+		playerName = stagePlayers[player]
 		data = tfm.get.room.playerList[playerName]
+
 		if pythagoras(data.x, data.y, x, y, radius) then
 			index = index + 1
 			list[index] = playerName
@@ -382,11 +384,15 @@ local getStageDoorDirection = function(stage)
 	return (stage % 2 == 0 and -1 or 1)
 end
 
-local getPlayerAim = function(playerName, obj, xAxis, yAxis)
+local getPlayerAim = function(playerName, obj, xAxis, yAxis, ignoreAcceleration)
 	local player = tfm.get.room.playerList[playerName]
 
-	local angle = getAngle(obj.objectData.x + (xAxis or 0), obj.objectData.y + (yxis or 0), player.x, player.y)
-	local directionX, directionY = getAcceleration(angle)
+	local angle = getAngle(obj.objectData.x + (xAxis or 0), obj.objectData.y + (yAxis or 0), player.x, player.y)
+
+	local directionX, directionY
+	if not ignoreAcceleration then
+		directionX, directionY = getAcceleration(angle)
+	end
 
 	return angle, directionX, directionY, player
 end
@@ -772,6 +778,12 @@ do
 		if self.type == monsterType.magician then
 			if not self.isAttacking and math.random(1, 5) == 5 then
 				self:freezeBreath(players)
+				do return end
+				if math.random(1, 2) == 1 then
+					self:bomber(players)
+				else
+					self:freezeBreath(players)
+				end
 			end
 		else
 			if math.random(1, 5) < 4 then
@@ -810,8 +822,8 @@ do
 			local playersOnLeft, playersOnRight = 0, 0
 			local leftDifference, rightDifference = 9999, 9999
 
-			for _, playerName in next, players do
-				data = tfm.get.room.playerList[playerName]
+			for player = 1, #players do
+				data = tfm.get.room.playerList[players[player]]
 
 				if data.x <= self.objectData.x then
 					playersOnLeft = playersOnLeft + 1
@@ -839,8 +851,8 @@ do
 			-- Aims the nearest player
 			local isFacingLeft, difference = false, 9999
 
-			for _, playerName in next, players do
-				data = tfm.get.room.playerList[playerName]
+			for player = 1, #players do
+				data = tfm.get.room.playerList[players[player]]
 				distance = math.abs(data.x - self.objectData.x)
 
 				if distance < difference then
@@ -874,18 +886,33 @@ do
 		return self
 	end
 
+	local unfreezePlayers = function(players)
+		for player = 1, #players do
+			freezePlayer(players[player], false)
+		end
+	end
+
 	monster.freezeAround = function(self, players)
 		players = getNearPlayers(players, self.objectData.x, self.objectData.y, monsterData.freezeRadius)
 
+		local frozenPlayers, index = { }, 0
+
 		local directionRate = 0
-		for _, playerName in next, players do
+
+		local playerName
+		for player = 1, #players do
+			playerName = players[player]
+
 			if not playerCache[playerName].isFrozen and math.random(1, 3000) < 1500 then -- 1/2
 				directionRate = directionRate + (self.objectData.x - tfm.get.room.playerList[playerName].x)
 
 				freezePlayer(playerName, true)
-				timer.start(freezePlayer, monsterData.freezeTime, 1, playerName, false)
+
+				index = index + 1
+				frozenPlayers[index] = playerName
 			end
 		end
+		timer.start(unfreezePlayers, monsterData.freezeTime, 1, frozenPlayers)
 
 		if directionRate ~= 0 then
 			self:setSprite(((directionRate < 0) and monsterDirection.left or monsterDirection.right), true) -- tmp
@@ -902,8 +929,9 @@ do
 		local halfDistance = monsterData.roarRadius / 2
 		local damage = monsterData.damage.explode
 
-		local directionRate, distance = 0
-		for _, playerName in next, players do
+		local directionRate, distance, playerName = 0
+		for player = 1, #players do
+			playerName = players[player]
 			distance = (self.objectData.x - tfm.get.room.playerList[playerName].x)
 			directionRate = directionRate + distance
 
@@ -925,8 +953,8 @@ do
 		tfm.exec.removeObject(objectData.id)
 
 		players = getNearPlayers(players, objectData.x, objectData.y, monsterData.bombRadius)
-		for _, playerName in next, players do
-			decreaseLife(playerName, monsterData.damage.explode)
+		for player = 1, #players do
+			decreaseLife(players[player], monsterData.damage.explode)
 		end
 
 		tfm.exec.explosion(objectData.x, objectData.y, monsterData.bombPower, monsterData.bombRadius, true)
@@ -957,32 +985,29 @@ do
 		end
 	end
 
-	local unfreezePlayers = function(players, obj)
-		for _, playerName in next, players do
-			freezePlayer(playerName, false)
-		end
-
-		if obj then
-			obj:setSprite(monsterDirection.front, false)
-		end
-	end
-
-	local breathFreeze = function(objectData, players, imageId, obj)
+	local breathFreeze = function(objectData, players, imageId)
 		tfm.exec.removeImage(imageId)
 		tfm.exec.removeObject(objectData.id)
 
 		players = getNearPlayers(players, objectData.x, objectData.y, monsterData.breathRadius)
-		for _, playerName in next, players do
-			freezePlayer(playerName, true)
+		for player = 1, #players do
+			freezePlayer(players[player], true)
 		end
-		timer.start(unfreezePlayers, monsterData.breathUnfreezeTime, 1, players, obj)
+		timer.start(unfreezePlayers, monsterData.breathUnfreezeTime, 1, players)
 	end
 
 	local createBreath = function(obj, players, axis, isAttacking)
-		local object = tfm.exec.addShamanObject(objectId.airplane, obj.objectData.x + axis[1], obj.objectData.y + axis[2], math.random(135, 225))
+		local player = tfm.get.room.playerList[getRandomValue(players)]
+
+		local angleAim = math.deg(getPlayerAim(getRandomValue(players), obj, axis[1], axis[2], true))
+		local object = tfm.exec.addShamanObject(objectId.rune, obj.objectData.x + axis[1], obj.objectData.y + axis[2], angleAim, 0, 0, true)
 		local image = tfm.exec.addImage(images.others.breath, "#" .. object, -25, -25)
 
-		timer.start(breathFreeze, monsterData.breathFreezeTime, 1, tfm.get.room.objectList[object], players, image, obj)
+		timer.start(breathFreeze, monsterData.breathFreezeTime, 1, tfm.get.room.objectList[object], players, image)
+
+		if not isAttacking then
+			obj:setSprite(monsterDirection.front, false)
+		end
 	end
 
 	monster.freezeBreath = function(self, players)
@@ -991,7 +1016,7 @@ do
 		self:setSprite(monsterDirection.right, true)
 
 		for i = 1, monsterData.breathQuantity do
-			createBreath(self, players, axis)
+			timer.start(createBreath, 500 + (i * 500), 1, self, players, axis, i ~= monsterData.breathQuantity)
 		end
 	end
 end
