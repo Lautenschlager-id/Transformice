@@ -55,7 +55,8 @@ local objectId = {
 	fish = 6300,
 	snowball = 34,
 	paperball = 95,
-	icecube = 54
+	icecube = 54,
+	box = 1
 }
 
 local interfaceId = {
@@ -89,7 +90,8 @@ local monsterType = {
 	snow = 1,
 	roar = 2,
 	freeze = 3,
-	magician = 4
+	magician = 4,
+	mutantMagician = 5
 }
 
 local movementType = {
@@ -101,7 +103,8 @@ local monsterAxis = {
 	[monsterType.snow] = { -30, -35 },
 	[monsterType.roar] = { -30, -35 },
 	[monsterType.freeze] = { -30, -35 },
-	[monsterType.magician] = { 0, 0 }
+	[monsterType.magician] = { -105, -20 },
+	[monsterType.mutantMagician] = { 0, 0 }
 }
 
 local monsterData = {
@@ -116,6 +119,11 @@ local monsterData = {
 	freezeRadius = 80,
 	freezeTime = 3500,
 
+	bombForce = 25,
+	bombQuantity = 0,
+	bombRadius = 80,
+	bombPower = 30,
+
 	movementType = {
 		[monsterType.snow] = movementType.nearestPlayer,
 		[monsterType.roar] = movementType.biggestGroup,
@@ -129,12 +137,13 @@ local monsterData = {
 	life = {
 		[monsterType.snow] = 5,
 		[monsterType.roar] = 8,
-		[monsterType.freeze] = 7
+		[monsterType.freeze] = 7,
+		[monsterType.magician] = 50,
+		[monsterType.mutantMagician] = 0
 	},
 	damage = {
-		[monsterType.snow] = 0.5,
-		[monsterType.roar] = 0.5,
-		[monsterType.freeze] = 1
+		explode = 0.5,
+		freezeAround = 1
 	}
 }
 
@@ -204,8 +213,8 @@ local images = {
 			[4] = "1675a9d9e9c.png",
 		},
 		[monsterType.magician] = {
-			[1] = "16ebed2d2d2.png", -- Alive
-			[2] = "167515b602f.png" -- Tig
+			[2] = "16ebed2d2d2.png", -- Alive
+			[-1] = "167515b602f.png" -- Tig
 		},
 		attack = {
 			[monsterType.freeze] = {
@@ -215,6 +224,10 @@ local images = {
 			[monsterType.roar] = {
 				[1] = "1676161f6a9.png",
 				[3] = "16761620e1a.png"
+			},
+			[monsterType.magician] = {
+				[1] = "16ebf9f04cd.png",
+				[3] = "16ebfaa7b32.png"
 			}
 		}
 	},
@@ -231,7 +244,8 @@ local images = {
 			[0.5] = "16ebd26dde2.png", -- Half red / Half grey
 			[0] = "16ebd2156a2.png" -- Grey
 		},
-		fireball = "16eba44a988.png"
+		fireball = "16eba44a988.png",
+		bomb = "16ebf8c6c48.png"
 	}
 }
 
@@ -282,6 +296,10 @@ local clamp = function(value, min, max)
 	return (value < min and min or value > max and max or value)
 end
 
+local round = function(value)
+	return math.floor(value + 0.5)
+end
+
 local getRoomMicePercentage = function(percentage, min, max)
 	return clamp(percent(percentage, tfm.get.room.uniquePlayers), (min or 1), (max or 10))
 end
@@ -326,12 +344,12 @@ local getPlayersInStage = function(stage)
 end
 
 local getNearPlayers = function(stagePlayers, x, y, radius)
-	local list, index = { }, 0
+	local list, index, data = { }, 0
 	for _, playerName in next, stagePlayers do
-		playerName = tfm.get.room.playerList[playerName]
-		if pythagoras(playerName.x, playerName.y, x, y, radius) then
+		data = tfm.get.room.playerList[playerName]
+		if pythagoras(data.x, data.y, x, y, radius) then
 			index = index + 1
-			list[index] = playerName.playerName
+			list[index] = playerName
 		end
 	end
 	return list, index
@@ -353,6 +371,15 @@ end
 
 local getStageDoorDirection = function(stage)
 	return (stage % 2 == 0 and -1 or 1)
+end
+
+local getPlayerAim = function(playerName, obj, xAxis, yAxis)
+	local player = tfm.get.room.playerList[playerName]
+
+	local angle = getAngle(obj.objectData.x + (xAxis or 0), obj.objectData.y + (yxis or 0), player.x, player.y)
+	local directionX, directionY = getAcceleration(angle)
+
+	return angle, directionX, directionY, player
 end
 
 --[[ Tools ]]--
@@ -733,15 +760,21 @@ do
 			return
 		end
 
-		if math.random(1, 5) < 4 then
-			self:moveAround(players, monsterData.movementType[self.type], 1, monsterData.distanceRadius[self.type])
+		if self.type == monsterType.magician then
+			if not self.isAttacking and math.random(1, 5) == 5 then
+				self:bomber(players)
+			end
 		else
-			if self.type == monsterType.snow then
-				self:throwSnowball(players)
-			elseif self.type == monsterType.freeze then
-				self:freezeAround(players)
-			elseif self.type == monsterType.roar then
-				self:explode(players)
+			if math.random(1, 5) < 4 then
+				self:moveAround(players, monsterData.movementType[self.type], 1, monsterData.distanceRadius[self.type])
+			elseif not self.isAttacking then
+				if self.type == monsterType.snow then
+					self:throwSnowball(players)
+				elseif self.type == monsterType.freeze then
+					self:freezeAround(players)
+				elseif self.type == monsterType.roar then
+					self:explode(players)
+				end
 			end
 		end
 	end
@@ -820,11 +853,8 @@ do
 		return self
 	end
 
-	monster.throwSnowball = function(self, player)
-		player = tfm.get.room.playerList[getRandomValue(player)]
-
-		local angle = getAngle(self.objectData.x, self.objectData.y, player.x, player.y)
-		local directionX, directionY = getAcceleration(angle)
+	monster.throwSnowball = function(self, players)
+		local angle, directionX, directionY, player = getPlayerAim(getRandomValue(players), self)
 
 		self:setSprite(((self.objectData.x > player.x) and monsterDirection.left or monsterDirection.right))
 
@@ -861,7 +891,7 @@ do
 		if totalPlayers == 0 then return end
 
 		local halfDistance = monsterData.roarRadius / 2
-		local damage = monsterData.damage[monsterType.roar]
+		local damage = monsterData.damage.explode
 
 		local directionRate, distance = 0
 		for _, playerName in next, players do
@@ -880,6 +910,43 @@ do
 
 		return self
 	end
+
+	local explodeBomb = function(objectData, players, imageId)
+		tfm.exec.removeImage(imageId)
+		tfm.exec.removeObject(objectData.id)
+
+		players = getNearPlayers(players, objectData.x, objectData.y, monsterData.bombRadius)
+		for _, playerName in next, players do
+			decreaseLife(playerName, monsterData.damage.explode)
+		end
+
+		tfm.exec.explosion(objectData.x, objectData.y, monsterData.bombPower, monsterData.bombRadius, true)
+	end
+
+	local createBomb = function(obj, players, axis, isAttacking)
+		local angle, directionX, directionY, player
+		local object
+
+		angle, directionX, directionY, player = getPlayerAim(getRandomValue(players), obj, axis[1], axis[2])
+
+		local object = tfm.exec.addShamanObject(objectId.box, obj.objectData.x + axis[1], obj.objectData.y + axis[2], angle, (directionX * monsterData.bombForce), (directionY * monsterData.bombForce))
+		local image = tfm.exec.addImage(images.others.bomb, "#" .. object, -15, -35)
+		timer.start(explodeBomb, 1000, 1, tfm.get.room.objectList[object], players, image)
+
+		if not isAttacking then
+			obj:setSprite(monsterDirection.front, false)
+		end
+	end
+
+	monster.bomber = function(self, players)
+		local axis = monsterAxis[self.type]
+
+		self:setSprite(monsterDirection.left, true)
+
+		for bomb = 1, monsterData.bombQuantity + (DEBUG and 2 or 0) do
+			timer.start(createBomb, 500 + (bomb * 500), 1, self, players, axis, bomb ~= monsterData.bombQuantity + (DEBUG and 2 or 0))
+		end
+	end
 end
 
 local bullet
@@ -888,7 +955,7 @@ do
 	bullet.__index = bullet
 
 	bullet.new = function(x, y, direction, stage)
-		local object = tfm.exec.addShamanObject(objectId.paperball, x + (2 * direction), y - 15, 0, bulletData.xSpeed * direction, bulletData.ySpeed)
+		local object = tfm.exec.addShamanObject(objectId.paperball, x + (25 * direction), y - 15, 0, bulletData.xSpeed * direction, bulletData.ySpeed)
 
 		return objectManager.insert(setmetatable({
 			class = "bullet",
@@ -998,7 +1065,7 @@ freezePlayer = function(playerName, freeze)
 	playerCache[playerName].isFrozen = freeze
 
 	if freeze then
-		decreaseLife(playerName, monsterData.damage[monsterType.freeze])
+		decreaseLife(playerName, monsterData.damage.freezeAround)
 	end
 
 	return tfm.exec.freezePlayer(playerName, freeze)
@@ -1256,8 +1323,7 @@ local insertPlayerIntoStage = function(playerName, stage)
 end
 
 local spawnMagician = function()
-	local object = tfm.exec.addShamanObject(objectId.fish, 945, 480)
-	local image = tfm.exec.addImage(images.monsters[monsterType.magician][1], "#" .. object, 840 - 945, 460 - 480)
+	monster.new(monsterType.magician, 945, 480, 7)
 	tfm.exec.removeJoint(jointId.blocker)
 end
 
@@ -1458,7 +1524,7 @@ end
 eventPlayerDied = function(playerName)
 	if not isEventWorkingFor(playerName) then return end
 
-	tfm.exec.addShamanObject(objectId.icecube, 900, tfm.get.room.playerList[playerName].y - 50)
+	tfm.exec.addShamanObject(objectId.icecube, 900, clamp(tfm.get.room.playerList[playerName].y - 50, 695, 9999))
 
 	removePlayerFromStages(playerName)
 end
@@ -1519,6 +1585,7 @@ end, 1000, false)
 
 loop(update, 12, 1)
 
+monsterData.bombQuantity = clamp(round(tfm.get.room.uniquePlayers / 10), 1, 5)
 bulletData.damage = clamp((2 - (tfm.get.room.uniquePlayers / 25)), bulletData.minimumDamage, bulletData.maximumDamage)
 globalInitSettings(true)
 tfm.exec.newGame(string.format(module.map.xml, module.map.foreground, groundId.effect))
