@@ -56,7 +56,8 @@ local objectId = {
 	snowball = 34,
 	paperball = 95,
 	icecube = 54,
-	box = 1
+	box = 1,
+	airplane = 80
 }
 
 local interfaceId = {
@@ -123,6 +124,13 @@ local monsterData = {
 	bombQuantity = 0,
 	bombRadius = 80,
 	bombPower = 30,
+	bombExplodeTimer = 1000,
+	bombSpawnTimer = 500,
+
+	breathQuantity = 3,
+	breathRadius = 80,
+	breathFreezeTime = 2500,
+	breathUnfreezeTime = 2500,
 
 	movementType = {
 		[monsterType.snow] = movementType.nearestPlayer,
@@ -143,7 +151,7 @@ local monsterData = {
 	},
 	damage = {
 		explode = 0.5,
-		freezeAround = 1
+		freeze = 1
 	}
 }
 
@@ -245,7 +253,8 @@ local images = {
 			[0] = "16ebd2156a2.png" -- Grey
 		},
 		fireball = "16eba44a988.png",
-		bomb = "16ebf8c6c48.png"
+		bomb = "16ebf8c6c48.png",
+		breath = "16ebfb85efc.png"
 	}
 }
 
@@ -762,7 +771,7 @@ do
 
 		if self.type == monsterType.magician then
 			if not self.isAttacking and math.random(1, 5) == 5 then
-				self:bomber(players)
+				self:freezeBreath(players)
 			end
 		else
 			if math.random(1, 5) < 4 then
@@ -931,7 +940,7 @@ do
 
 		local object = tfm.exec.addShamanObject(objectId.box, obj.objectData.x + axis[1], obj.objectData.y + axis[2], angle, (directionX * monsterData.bombForce), (directionY * monsterData.bombForce))
 		local image = tfm.exec.addImage(images.others.bomb, "#" .. object, -15, -35)
-		timer.start(explodeBomb, 1000, 1, tfm.get.room.objectList[object], players, image)
+		timer.start(explodeBomb, monsterData.bombExplodeTimer, 1, tfm.get.room.objectList[object], players, image)
 
 		if not isAttacking then
 			obj:setSprite(monsterDirection.front, false)
@@ -944,7 +953,45 @@ do
 		self:setSprite(monsterDirection.left, true)
 
 		for bomb = 1, monsterData.bombQuantity + (DEBUG and 2 or 0) do
-			timer.start(createBomb, 500 + (bomb * 500), 1, self, players, axis, bomb ~= monsterData.bombQuantity + (DEBUG and 2 or 0))
+			timer.start(createBomb, monsterData.bombSpawnTimer + (bomb * monsterData.bombSpawnTimer), 1, self, players, axis, bomb ~= monsterData.bombQuantity + (DEBUG and 2 or 0))
+		end
+	end
+
+	local unfreezePlayers = function(players, obj)
+		for _, playerName in next, players do
+			freezePlayer(playerName, false)
+		end
+
+		if obj then
+			obj:setSprite(monsterDirection.front, false)
+		end
+	end
+
+	local breathFreeze = function(objectData, players, imageId, obj)
+		tfm.exec.removeImage(imageId)
+		tfm.exec.removeObject(objectData.id)
+
+		players = getNearPlayers(players, objectData.x, objectData.y, monsterData.breathRadius)
+		for _, playerName in next, players do
+			freezePlayer(playerName, true)
+		end
+		timer.start(unfreezePlayers, monsterData.breathUnfreezeTime, 1, players, obj)
+	end
+
+	local createBreath = function(obj, players, axis, isAttacking)
+		local object = tfm.exec.addShamanObject(objectId.airplane, obj.objectData.x + axis[1], obj.objectData.y + axis[2], math.random(135, 225))
+		local image = tfm.exec.addImage(images.others.breath, "#" .. object, -25, -25)
+
+		timer.start(breathFreeze, monsterData.breathFreezeTime, 1, tfm.get.room.objectList[object], players, image, obj)
+	end
+
+	monster.freezeBreath = function(self, players)
+		local axis = monsterAxis[self.type]
+
+		self:setSprite(monsterDirection.right, true)
+
+		for i = 1, monsterData.breathQuantity do
+			createBreath(self, players, axis)
 		end
 	end
 end
@@ -1062,10 +1109,11 @@ do
 end
 
 freezePlayer = function(playerName, freeze)
+	if playerCache[playerName].isFrozen == freeze then return end
 	playerCache[playerName].isFrozen = freeze
 
 	if freeze then
-		decreaseLife(playerName, monsterData.damage.freezeAround)
+		decreaseLife(playerName, monsterData.damage.freeze)
 	end
 
 	return tfm.exec.freezePlayer(playerName, freeze)
