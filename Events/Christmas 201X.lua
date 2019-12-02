@@ -9,7 +9,7 @@ local module = {
 	reward = {
 
 	},
-	time = 2 * 60,
+	time = 2.5 * 60,
 	map = {
 		xml = [[<C><P L="1000" APS="%s,,170,350,820,1250,," H="1600" /><Z><S><S P=",,.3,.2,-12,,," L="160" o="324650" H="17" Y="1574" T="12" X="76" /><S P=",,.3,.2,5,,," L="115" o="324650" H="17" Y="1563" T="12" X="209" /><S P=",,.3,.2,-10,,," L="100" o="324650" H="17" Y="1559" T="12" X="297" /><S P=",,.3,.2,7,,," L="150" o="324650" H="17" Y="1560" T="12" X="417" /><S P=",,.3,.2,-1,,," L="150" o="324650" H="17" Y="1568" T="12" X="565" /><S P=",,.3,.2,-34,,," L="92" o="324650" H="17" Y="1544" T="12" X="672" /><S P=",,.3,.2,-26,,," L="82" o="324650" H="17" Y="1503" T="12" X="743" /><S P=",,.3,.2,-65,,," L="66" o="324650" H="17" Y="1461" T="12" X="790" /><S P=",,.3,.2,,,," L="15" o="324650" H="853" Y="1014" T="12" X="789" /><S P=",,.3,.2,1,,," L="530" o="324650" H="17" Y="1408" T="12" X="457" /><S P=",,.3,.2,1,,," L="401" o="324650" H="17" Y="1250" T="12" X="532" /><S P=",,.3,.2,,,," L="442" o="324650" H="17" Y="1082" T="12" X="500" /><S P=",,.3,.2,32,,," L="82" o="324650" H="17" Y="1274" T="12" X="761" /><S P=",,.3,.2,-52,,," L="167" o="324650" H="17" Y="1183" T="12" X="736" /><S P=",,.3,.2,218,,," L="99" o="324650" H="17" Y="1051" T="12" X="422" /><S P=",,.3,.2,235,,," L="99" o="324650" H="17" Y="983" T="12" X="356" /><S P=",,.3,.2,,,," L="339" o="324650" H="17" Y="921" T="12" X="561" /><S P=",,.3,.2,40,,," L="92" o="324650" H="17" Y="949" T="12" X="759" /><S P=",,.3,.2,-49,,," L="178" o="324650" H="17" Y="854" T="12" X="731" /><S P=",,.3,.2,,,," L="350" o="324650" H="17" Y="754" T="12" X="536" /><S P=",,.3,.2,55,,," L="124" o="324650" H="17" Y="677" T="12" X="448" /><S P=",,.3,.2,-1,,," L="503" o="324650" H="17" Y="597" T="12" X="748" /><S P=",,.3,.2,2,,," L="14" o="324650" H="211" Y="487" T="12" X="991" /><S P=",,.3,.2,,,," L="532" o="324650" H="27" Y="378" T="12" X="736" /><S P=",,.3,.2,15,,," L="20" o="324650" H="1104" Y="901" T="12" X="326" /><S P=",,,,,,," L="26" o="324650" H="394" Y="173" T="12" X="998" /><S P=",,,,,,," L="10" o="324650" H="1596" Y="800" T="12" X="-2" /><S L="10" o="324650" H="10" X="788" Y="1444" T="12" P=",,.3,.2,-115,,," /><S L="172" o="324650" H="17" X="293" Y="1340" T="12" P=",,.3,.2,50,,," /><S P=",,,,,,," L="100" o="324650" X="748" c="2" Y="1410" T="12" H="10" /><S P=",,,,,,," L="100" o="324650" X="290" c="2" Y="1245" T="12" H="10" /><S P=",,,,,,," L="100" o="324650" X="748" c="2" Y="1080" T="12" H="10" /><S P=",,,,,,," L="100" o="324650" X="380" c="2" Y="920" T="12" H="10" /><S P=",,,,,,," L="100" o="324650" X="754" c="2" Y="753" T="12" H="10" /><S P=",,,,,,," L="100" o="324650" X="455" c="2" Y="596" T="12" H="10" /><S X="465" L="10" o="324650" H="394" c="2" Y="173" T="12" P=",,,,,,," /><S H="150" L="10" o="324650" X="183" c="2" Y="1493" T="12" P=",,,,,,," /><S L="100" o="324650" H="17" X="496" Y="723" T="12" P=",,.3,.2,40,,," /><S P=",,.3,.2,10,,," L="20" o="324650" X="447" Y="433" T="12" H="100" /><S P=",,.3,.2,,,," L="66" o="324650" X="868" Y="568" T="12" H="40" c="3" /><S L="50" o="324650" X="945" H="10" Y="494" T="12" P="1,99999,99999,,,1,," /><S L="10" o="324650" X="945" H="10" Y="-620" T="12" P="1,99999,,,,,," lua="%d" /><S P=",,,,,,," L="10" o="324650" X="906" Y="487" T="12" H="200" lua="%d" /><S L="10" o="324650" X="835" H="200" Y="487" T="12" P=",,,,,,," lua="%d" c="3" /><S P=",,.3,.2,,,," L="10" o="324650" X="940" Y="552" T="12" H="10" c="2" lua="%d" /></S><D /><O /><L><JP AXIS=",1" M1="40" M2="" /><JR M1="41" MV="Infinity,2" P1="945,-625" /><JD M1="40" M2="41" /></L></Z></C>]],
 		background = "16e6f4bb3dc.jpg",
@@ -168,11 +168,13 @@ local monsterDirection = {
 local bulletData = {
 	damageRadius = 50,
 	xSpeed = 20,
-	ySpeed = 0,
+	ySpeed = -2,
 	lifeTime = 1500,
 	minimumDamage = 0.2,
 	maximumDamage = 2,
-	damage = 0
+	damage = 0,
+	xSpeedBoss = 25,
+	ySpeedBoss = 20
 }
 
 -- Images
@@ -258,7 +260,8 @@ local images = {
 		},
 		fireball = "16eba44a988.png",
 		bomb = "16ebf8c6c48.png",
-		breath = "16ebfb85efc.png"
+		breath = "16ebfb85efc.png",
+		snowball = "16ec3bf9538.png"
 	}
 }
 
@@ -388,17 +391,17 @@ local getStageDoorDirection = function(stage)
 	return (stage % 2 == 0 and -1 or 1)
 end
 
-local getPlayerAim = function(playerName, obj, xAxis, yAxis, ignoreAcceleration)
-	local player = tfm.get.room.playerList[playerName]
+local getPlayerAim = function(playerName, obj, ignoreAcceleration, _player)
+	_player = _player or tfm.get.room.playerList[playerName]
 
-	local angle = getAngle(obj.objectData.x + (xAxis or 0), obj.objectData.y + (yAxis or 0), player.x, player.y)
+	local angle = getAngle(obj:getRelativeX(), obj:getRelativeY(), _player.x, _player.y)
 
 	local directionX, directionY
 	if not ignoreAcceleration then
 		directionX, directionY = getAcceleration(angle)
 	end
 
-	return angle, directionX, directionY, player
+	return angle, directionX, directionY, _player
 end
 
 --[[ Tools ]]--
@@ -743,8 +746,22 @@ do
 			isAttacking = false,
 			life = monsterData.life[type],
 			initialTime = monsterData.initialTime,
-			deathCallback = nil
+			deathCallback = nil,
+			isAxisPosition = false
 		}, monster), stage))
+	end
+
+	monster.useAxisPosition = function(self)
+		self.isAxisPosition = true
+		return self
+	end
+
+	monster.getRelativeX = function(self)
+		return self.objectData.x + (self.isAxisPosition and monsterAxis[self.type][1] or 0)
+	end
+	
+	monster.getRelativeY = function(self)
+		return self.objectData.y + (self.isAxisPosition and monsterAxis[self.type][2] or 0)
 	end
 
 	monster.onDeath = function(self, callback)
@@ -976,13 +993,13 @@ do
 		tfm.exec.explosion(objectData.x, objectData.y, monsterData.bombPower, monsterData.bombRadius, true)
 	end
 
-	local createBomb = function(obj, players, axis, isAttacking)
+	local createBomb = function(obj, players, isAttacking)
 		local angle, directionX, directionY, player
 		local object
 
-		angle, directionX, directionY, player = getPlayerAim(getRandomValue(players), obj, axis[1], axis[2])
+		angle, directionX, directionY, player = getPlayerAim(getRandomValue(players), obj)
 
-		local object = tfm.exec.addShamanObject(objectId.box, obj.objectData.x + axis[1], obj.objectData.y + axis[2], angle, (directionX * monsterData.bombForce), (directionY * monsterData.bombForce))
+		local object = tfm.exec.addShamanObject(objectId.box, obj:getRelativeX(), obj:getRelativeY(), angle, (directionX * monsterData.bombForce), (directionY * monsterData.bombForce))
 		local image = tfm.exec.addImage(images.others.bomb, "#" .. object, -15, -35)
 		timer.start(explodeBomb, monsterData.bombExplodeTimer, 1, tfm.get.room.objectList[object], players, image)
 
@@ -992,12 +1009,10 @@ do
 	end
 
 	monster.bomber = function(self, players)
-		local axis = monsterAxis[self.type]
-
 		self:setSprite(monsterDirection.left, true)
 
 		for bomb = 1, monsterData.bombQuantity + (DEBUG and 2 or 0) do
-			timer.start(createBomb, monsterData.bombSpawnTimer + (bomb * monsterData.bombSpawnTimer), 1, self, players, axis, bomb ~= monsterData.bombQuantity + (DEBUG and 2 or 0))
+			timer.start(createBomb, monsterData.bombSpawnTimer + (bomb * monsterData.bombSpawnTimer), 1, self, players, bomb ~= monsterData.bombQuantity + (DEBUG and 2 or 0))
 		end
 	end
 
@@ -1012,11 +1027,11 @@ do
 		timer.start(unfreezePlayers, monsterData.breathUnfreezeTime, 1, players)
 	end
 
-	local createBreath = function(obj, players, axis, isAttacking)
+	local createBreath = function(obj, players, isAttacking)
 		local player = tfm.get.room.playerList[getRandomValue(players)]
 
-		local angleAim = math.deg(getPlayerAim(getRandomValue(players), obj, axis[1], axis[2], true))
-		local object = tfm.exec.addShamanObject(objectId.rune, obj.objectData.x + axis[1], obj.objectData.y + axis[2], angleAim, 0, 0, true)
+		local angleAim = math.deg(getPlayerAim(getRandomValue(players), obj, true))
+		local object = tfm.exec.addShamanObject(objectId.rune, obj:getRelativeX(), obj:getRelativeY(), angleAim, 0, 0, true)
 		local image = tfm.exec.addImage(images.others.breath, "#" .. object, -25, -25)
 
 		timer.start(breathFreeze, monsterData.breathFreezeTime, 1, tfm.get.room.objectList[object], players, image)
@@ -1027,12 +1042,10 @@ do
 	end
 
 	monster.freezeBreath = function(self, players)
-		local axis = monsterAxis[self.type]
-
 		self:setSprite(monsterDirection.right, true)
 
 		for i = 1, monsterData.breathQuantity do
-			timer.start(createBreath, (i * monsterData.breathSpawnTimer), 1, self, players, axis, i ~= monsterData.breathQuantity)
+			timer.start(createBreath, (i * monsterData.breathSpawnTimer), 1, self, players, i ~= monsterData.breathQuantity)
 		end
 	end
 end
@@ -1042,33 +1055,43 @@ do
 	bullet = { }
 	bullet.__index = bullet
 
-	bullet.new = function(x, y, direction, stage)
-		local object = tfm.exec.addShamanObject(objectId.paperball, x + (25 * direction), y - 15, 0, bulletData.xSpeed * direction, bulletData.ySpeed)
+	bullet.new = function(x, y, stage, direction, isBoss)
+		local object, sprite
+		if isBoss then
+			local x, y = (x + 25), (y - 15)
+
+			local boss = monster._perStage[stage][1]
+			local angle, directionX, directionY = getPlayerAim(nil, boss, false, { x = x, y = y })
+
+			object = tfm.exec.addShamanObject(objectId.paperball, x, y, angle, (-directionX * bulletData.xSpeedBoss), (-directionY * bulletData.ySpeedBoss)) -- Using negative because 'boss' was passed first, for the getRelativeN function.
+			sprite = images.others.snowball
+		else
+			object = tfm.exec.addShamanObject(objectId.paperball, x + (25 * direction), y - 15, 0, bulletData.xSpeed * direction, bulletData.ySpeed)
+			sprite = images.others.fireball
+		end
 
 		return objectManager.insert(setmetatable({
 			class = "bullet",
 			stage = stage,
 			object = object,
-			sprite = tfm.exec.addImage(images.others.fireball, "#" .. object, -6, -6),
+			sprite = tfm.exec.addImage(sprite, "#" .. object, -6, -6),
 			objectData = tfm.get.room.objectList[object],
 			lifeTime = bulletData.lifeTime
 		}, bullet))
 	end
 
 	bullet.destroy = function(self)
-		if self.sprite then
-			tfm.exec.removeImage(self.sprite)
-		end
+		tfm.exec.removeImage(self.sprite)
 		tfm.exec.removeObject(self.object)
 		objectManager.delete(self)
 	end
 
 	bullet.loop = function(self, currentTime, remainingTime)
 		local monsters, obj = monster._perStage[self.stage]
-		for m = 1, objectManager.objects.monster._count do
-			obj = objectManager.objects.monster[m]
+		for m = 1, (monsters._count or 0) do
+			obj = monsters[m]
 
-			if obj and obj.stage == self.stage and pythagoras(self.objectData.x, self.objectData.y, obj.objectData.x, obj.objectData.y, bulletData.damageRadius) then
+			if obj and obj.stage == self.stage and pythagoras(self.objectData.x, self.objectData.y, obj:getRelativeX(), obj:getRelativeY(), bulletData.damageRadius) then
 				obj:damage(bulletData.damage)
 				self:destroy()
 				return
@@ -1295,6 +1318,11 @@ do
 		tfm.exec.addJoint(jointId.blocker, groundId.passage + totalBlocks, groundId.effect, blockerJoint)
 	end
 
+	local executeMagicianBaseRemove = function(obj, base)
+		base(obj)
+		tfm.exec.removePhysicObject(groundId.effect + 3)
+	end
+
 	defeatMagician = function(obj, base)
 		obj:setSprite(monsterDirection.back)
 
@@ -1302,8 +1330,7 @@ do
 			tfm.exec.removePhysicObject(g)
 		end
 
-		timer.start(base, monsterData.magicianFallRemoveTimer, 1, obj)
-		timer.start(tfm.exec.removePhysicObject, monsterData.magicianFallRemoveTimer, 1, groundId.effect + 3)
+		timer.start(executeMagicianBaseRemove, monsterData.magicianFallRemoveTimer, 1, obj, base)
 	end
 end
 
@@ -1421,7 +1448,7 @@ local insertPlayerIntoStage = function(playerName, stage)
 end
 
 local spawnMagician = function()
-	monster.new(monsterType.magician, 945, 480, 7):onDeath(defeatMagician)
+	monster.new(monsterType.magician, 945, 480, 7):onDeath(defeatMagician):useAxisPosition()
 	tfm.exec.removeJoint(jointId.blocker)
 end
 
@@ -1588,7 +1615,7 @@ eventKeyboard = function(playerName, key, holding, x, y)
 
 			-- Throw
 			if playerCache[playerName].currentStage > 0 and not playerCache[playerName].isFrozen and canThrowBullet(playerName) then
-				bullet.new(x, y, (playerCache[playerName].isFacingRight and 1 or -1), playerCache[playerName].currentStage)
+				bullet.new(x, y, playerCache[playerName].currentStage, (playerCache[playerName].isFacingRight and 1 or -1), (playerCache[playerName].currentStage > 6))
 			end
 		else
 			-- Is seeing a dialog
