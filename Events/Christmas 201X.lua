@@ -819,21 +819,25 @@ do
 			deathCallback = nil,
 			isAxisPosition = false,
 			isBoss = (stage > 6),
-			destroyed = false
+			destroyed = false,
+			halfWidth = 0,
+			halfHeight = 0
 		}, monster), stage))
 	end
 
-	monster.useAxisPosition = function(self)
+	monster.useAxisPosition = function(self, width, height)
 		self.isAxisPosition = true
+		self.halfWidth = width / 2
+		self.halfHeight = height / 2
 		return self
 	end
 
 	monster.getRelativeX = function(self)
-		return self.objectData.x + (self.isAxisPosition and monsterAxis[self.type][1] or 0)
+		return self.objectData.x + (self.isAxisPosition and (monsterAxis[self.type][1] + self.halfWidth) or 0)
 	end
 	
 	monster.getRelativeY = function(self)
-		return self.objectData.y + (self.isAxisPosition and monsterAxis[self.type][2] or 0)
+		return self.objectData.y + (self.isAxisPosition and (monsterAxis[self.type][2] + self.halfHeight) or 0)
 	end
 
 	monster.onDeath = function(self, callback)
@@ -1178,7 +1182,7 @@ do
 		for m = 1, (monsters._count or 0) do
 			obj = monsters[m]
 
-			if obj and obj.stage == self.stage and pythagoras(self.objectData.x, self.objectData.y, obj:getRelativeX(), obj:getRelativeY(), bulletData.damageRadius) then
+			if obj and pythagoras(self.objectData.x, self.objectData.y, obj:getRelativeX(), obj:getRelativeY(), bulletData.damageRadius) then
 				obj:damage(bulletData.damage)
 				self:destroy()
 
@@ -1426,7 +1430,6 @@ do
 		obj:setSprite(monsterDirection.back)
 
 		tfm.exec.removePhysicObject(groundId.jointEffect + 1)
-
 		for g = groundId.bossBlock, groundId.bossBlock + 1 do
 			tfm.exec.removePhysicObject(g)
 		end
@@ -1549,12 +1552,12 @@ local insertPlayerIntoStage = function(playerName, stage)
 end
 
 local spawnMagician = function()
-	monster.new(monsterType.magician, 945, 470, 7):useAxisPosition():onDeath(defeatMagician)
+	monster.new(monsterType.magician, 945, 470, 7):useAxisPosition(50, 73):onDeath(defeatMagician)
 	tfm.exec.removeJoint(jointId.blocker)
 end
 
 local spawnMutantMagician = function()
-	monster.new(monsterType.mutantMagician, 953, 230, 8):useAxisPosition()
+	monster.new(monsterType.mutantMagician, 953, 230, 8):useAxisPosition(50, 73)
 	tfm.exec.removeJoint(jointId.blocker + 1)
 end
 
@@ -1824,8 +1827,8 @@ loop(update, 12, 1)
 
 globalInitSettings(true)
 tfm.exec.newGame(string.format(module.map.xml, module.map.foreground,
-	groundId.jointEffect, -- [magician] -1 axis
-	groundId.jointEffect + 1, -- [magician] moving ground
+	groundId.jointEffect, -- [magician] moving ground
+	groundId.jointEffect + 1, -- [magician] -1 axis
 	groundId.bossBlock, -- [magician] left block
 	groundId.bossBlock + 1, -- [magician] right block
 	groundId.bossBlock + 2, -- [magician] up/down block
