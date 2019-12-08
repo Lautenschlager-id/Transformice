@@ -861,26 +861,19 @@ do
 		}, monster), stage))
 	end
 
-	monster.setDimension = function(self, width, height)
+	monster.useAxisPosition = function(self, width, height)
 		self.halfWidth = width / 2
 		self.halfHeight = height / 2
-		return self
-	end
-
-	monster.useAxisPosition = function(self, width, height)
 		self.isAxisPosition = true
-		if width and height then
-			self:setDimension(width, height)
-		end
 		return self
 	end
 
 	monster.getRelativeX = function(self)
-		return self.objectData.x + (self.isAxisPosition and monsterAxis[self.type][1] or -self.halfWidth)
+		return self.objectData.x + (self.isAxisPosition and monsterAxis[self.type][1] + self.halfWidth or 0)
 	end
 	
 	monster.getRelativeY = function(self)
-		return self.objectData.y + (self.isAxisPosition and monsterAxis[self.type][2] or -self.halfHeight)
+		return self.objectData.y + (self.isAxisPosition and monsterAxis[self.type][2] + self.halfHeight or 0)
 	end
 
 	monster.onDeath = function(self, callback)
@@ -1622,7 +1615,7 @@ do
 		stage = stage * 3
 
 		for x = 1, xRange[stage] do
-			monster.new(math.random(1, 3), math.random(xRange[stage - 2], xRange[stage - 1]), yFixedPosition[rawstage], rawstage):setDimension(60, 60)
+			monster.new(math.random(1, 3), math.random(xRange[stage - 2], xRange[stage - 1]), yFixedPosition[rawstage], rawstage)
 		end
 	end
 end
