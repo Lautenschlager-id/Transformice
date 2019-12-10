@@ -108,14 +108,6 @@ local movementType = {
 	nearestPlayer = 2
 }
 
-local monsterAxis = {
-	[monsterType.snow] = { -30, -35 },
-	[monsterType.roar] = { -30, -35 },
-	[monsterType.freeze] = { -30, -35 },
-	[monsterType.magician] = { -105, -20 },
-	[monsterType.mutantMagician] = { -155, -32 }
-}
-
 local monsterData = {
 	spawningTime = 1000,
 
@@ -239,49 +231,50 @@ local images = {
 		snowballs = "16751bfc016.png"
 	},
 	monsters = {
-		[monsterType.snow] = { -- ←↑→↓
-			[1] = "1675aae4e38.png",
-			[2] = "1675aae36c8.png",
-			[3] = "1675aae65ab.png",
-			[4] = "1675aae7d1d.png",
+		[monsterType.snow] = { -- ←↑→
+			[1] = { "16eed594e5f.png", -18, -34 },
+			[2] = { "16eed4a26ee.png", -18, -34 },
+			[3] = { "16eed5f5b91.png", -28, -34 }
 		},
 		[monsterType.roar] = {
-			[1] = "1675b976856.png",
-			[2] = "1676161df38.png",
-			[3] = "1675b977fc8.png",
-			[4] = "1675b973973.png",
+			[1] = { "16eed59af54.png", -18, -34 },
+			[2] = { "16eed49b734.png", -18, -34 },
+			[3] = { "16eed5ef27a.png", -42, -34 }
 		},
 		[monsterType.freeze] = {
-			[1] = "1675a9d872b.png",
-			[2] = "1675a9d6fb9.png",
-			[3] = "1675a9dbdde.png",
-			[4] = "1675a9d9e9c.png",
+			[1] = { "16eed599620.png", -18, -34 },
+			[2] = { "16eed4a6380.png", -18, -34 },
+			[3] = { "16eed5f2d70.png", -42, -34 }
 		},
 		[monsterType.magician] = {
-			[2] = "16ebed2d2d2.png", -- Normal
-			[4] = "16ec35ba0f4.png", -- Defeated
-			[-1] = "167515b602f.png"
+			[2] = { "16ebed2d2d2.png", -105, -20 }, -- Normal
+			[4] = { "16ec35ba0f4.png", -105, -20 } --
+			--[-1] = "167515b602f.png"
 		},
 		[monsterType.mutantMagician] = {
-			[2] = "16ebed2d2d2.png", -- 
-			[4] = "16ec35ba0f4.png", -- 
+			[2] = { "16ebed2d2d2.png", -155, -32 }, --
+			[4] = { "16ec35ba0f4.png", -155, -32 } --
 		},
 		attack = {
+			[monsterType.snow] = {
+				[1] = { "16eed720943.png", -28, -34 },
+				[3] = { "16eed72296e.png", -26, -34 }
+			},
 			[monsterType.freeze] = {
-				[1] = "16761935c62.png",
-				[3] = "167619344f1.png"
+				[1] = { "16eed718d77.png", -38, -34 },
+				[3] = { "16eed71dbdc.png", -50, -34 }
 			},
 			[monsterType.roar] = {
-				[1] = "1676161f6a9.png",
-				[3] = "16761620e1a.png"
+				[1] = { "16eed725073.png", -38, -40 },
+				[3] = { "16eed7270f7.png", -32, -40 }
 			},
 			[monsterType.magician] = {
-				[1] = "16ebf9f04cd.png",
-				[3] = "16ebfaa7b32.png"
+				[1] = { "16ebf9f04cd.png", -105, -20 }, --
+				[3] = { "16ebfaa7b32.png", -105, -20 } --
 			},
 			[monsterType.mutantMagician] = {
-				[1] = "16ebf9f04cd.png",
-				[3] = "16ebfaa7b32.png"
+				[1] = { "16ebf9f04cd.png", -155, -32 }, --
+				[3] = { "16ebfaa7b32.png", -155, -32 } --
 			}
 		}
 	},
@@ -542,10 +535,12 @@ end
 
 local loadAllImages
 loadAllImages = function(playerName, _src)
+	local t
 	for k, v in next, (_src or images) do
-		if type(v) == "table" then
+		t = type(v)
+		if t == "table" then
 			loadAllImages(playerName, v)
-		else
+		elseif t == "string" then
 			tfm.exec.removeImage(tfm.exec.addImage(v, "_0", -10000, -10000, playerName)) -- Caches the image so it doesn't have a delay to load
 		end
 	end
@@ -838,6 +833,16 @@ do
 		return obj
 	end
 
+	monster.getAxis = function(type, sprite, isAttack)
+		local axis = images.monsters
+		if isAttack then
+			axis = axis.attack
+		end
+
+		axis = axis[type][sprite]
+		return axis[2], axis[3]
+	end
+
 	monster.new = function(type, x, y, stage)
 		local object = tfm.exec.addShamanObject(objectId.fish, x, y)
 
@@ -846,8 +851,8 @@ do
 			type = type,
 			stage = stage,
 			object = object,
-			sprite = tfm.exec.addImage(images.monsters[type][2], "#" .. object, monsterAxis[type][1], monsterAxis[type][2]),
-			spriteId = 2,
+			sprite = tfm.exec.addImage(images.monsters[type][monsterDirection.front][1], "#" .. object, monster.getAxis(type, monsterDirection.front)),
+			spriteId = monsterDirection.front,
 			objectData = tfm.get.room.objectList[object],
 			isAttacking = false,
 			life = monsterData.life[type],
@@ -869,11 +874,12 @@ do
 	end
 
 	monster.getRelativeX = function(self)
-		return self.objectData.x + (self.isAxisPosition and monsterAxis[self.type][1] + self.halfWidth or 0)
+		return self.objectData.x + (self.isAxisPosition and (monster.getAxis(self.type, self.spriteId, self.isAttacking) + self.halfWidth) or 0)
 	end
 	
 	monster.getRelativeY = function(self)
-		return self.objectData.y + (self.isAxisPosition and monsterAxis[self.type][2] + self.halfHeight or 0)
+		local _, axis = monster.getAxis(self.type, self.spriteId, self.isAttacking)
+		return self.objectData.y + (self.isAxisPosition and (axis + self.halfHeight) or 0)
 	end
 
 	monster.onDeath = function(self, callback)
@@ -926,7 +932,7 @@ do
 
 		local players = getPlayersInStage(self.stage)
 		if not players then
-			self:setSprite(monsterDirection.front)
+			self:setSprite(monsterDirection.front, false)
 			return
 		end
 
@@ -962,8 +968,9 @@ do
 		self.isAttacking = isAttack
 
 		tfm.exec.removeImage(self.sprite)
-		self.sprite = tfm.exec.addImage((isAttack and images.monsters.attack[self.type][id] or images.monsters[self.type][id]), "#" .. self.object, monsterAxis[self.type][1], monsterAxis[self.type][2])
+
 		self.spriteId = id
+		self.sprite = tfm.exec.addImage((isAttack and images.monsters.attack[self.type][id][1] or images.monsters[self.type][id][1]), "#" .. self.object, monster.getAxis(self.type, id, isAttack))
 
 		return self
 	end
@@ -1035,7 +1042,7 @@ do
 	monster.throwSnowball = function(self, players)
 		local angle, directionX, directionY, player = getPlayerAim(getRandomValue(players), self)
 
-		self:setSprite(((self.objectData.x > player.x) and monsterDirection.left or monsterDirection.right))
+		self:setSprite(((self.objectData.x > player.x) and monsterDirection.left or monsterDirection.right), true)
 
 		for _ = 1, monsterData.snowballQuantity do
 			tfm.exec.addShamanObject(objectId.snowball, self.objectData.x + (directionX * 20), self.objectData.y - 15, angle, (directionX * monsterData.snowballForce), (directionY * monsterData.snowballForce))
@@ -1099,10 +1106,11 @@ do
 				decreaseLife(playerName, damage)
 			end
 		end
+		directionRate = (directionRate < 0 and -1 or 1)
 
-		local doorDirection = getStageDoorDirection(self.stage) * (directionRate < 0 and -1 or 1)
+		local doorDirection = getStageDoorDirection(self.stage) * directionRate
 
-		self:setSprite(self.spriteId, true)
+		self:setSprite((directionRate == 1 and monsterDirection.left or monsterDirection.right), true)
 		tfm.exec.explosion(self.objectData.x, self.objectData.y, monsterData.roarPower * doorDirection, monsterData.roarRadius, true)
 
 		return self
@@ -1523,7 +1531,7 @@ do
 	end
 
 	defeatMagician = function(obj, base)
-		obj:setSprite(monsterDirection.back)
+		obj:setSprite(monsterDirection.back, false)
 
 		tfm.exec.removePhysicObject(groundId.jointEffect + 1)
 		for g = groundId.bossBlock, groundId.bossBlock + 1 do
