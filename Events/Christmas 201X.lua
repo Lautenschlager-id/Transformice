@@ -862,7 +862,8 @@ do
 			isBoss = (stage > 6),
 			destroyed = false,
 			halfWidth = 0,
-			halfHeight = 0
+			halfHeight = 0,
+			lastDirection  = monsterDirection.right
 		}, monster), stage))
 	end
 
@@ -976,64 +977,66 @@ do
 	end
 
 	monster.moveAround = function(self, players, movement, maximumMice, radius)
-		-- Avoids monsters to get too close of the target
 		local _, totalNearPlayers = getNearPlayers(players, self.objectData.x, self.objectData.y, radius)
-		if totalNearPlayers >= maximumMice then return end
+		-- Avoids monsters to get too close of the target
+		if totalNearPlayers < maximumMice then
+			local xSpeed, data, distance
+			if movement == movementType.biggestGroup then
+				-- Aims the biggest group of players
+				local playersOnLeft, playersOnRight = 0, 0
+				local leftDifference, rightDifference = 9999, 9999
 
-		local xSpeed, data, distance
-		if movement == movementType.biggestGroup then
-			-- Aims the biggest group of players
-			local playersOnLeft, playersOnRight = 0, 0
-			local leftDifference, rightDifference = 9999, 9999
+				for player = 1, #players do
+					data = tfm.get.room.playerList[players[player]]
 
-			for player = 1, #players do
-				data = tfm.get.room.playerList[players[player]]
+					if data.x <= self.objectData.x then
+						playersOnLeft = playersOnLeft + 1
+						distance = self.objectData.x - data.x
 
-				if data.x <= self.objectData.x then
-					playersOnLeft = playersOnLeft + 1
-					distance = self.objectData.x - data.x
+						if distance < leftDifference then
+							leftDifference = distance
+						end
+					else
+						playersOnRight = playersOnRight + 1
+						distance = data.x - self.objectData.x
 
-					if distance < leftDifference then
-						leftDifference = distance
+						if distance < rightDifference then
+							rightDifference = distance
+						end
 					end
+				end
+
+				if playersOnLeft >= playersOnRight then
+					xSpeed = -getXSpeed(leftDifference)
 				else
-					playersOnRight = playersOnRight + 1
-					distance = data.x - self.objectData.x
+					xSpeed = getXSpeed(rightDifference)
+				end
+			elseif movement == movementType.nearestPlayer then
+				-- Aims the nearest player
+				local isFacingLeft, difference = false, 9999
 
-					if distance < rightDifference then
-						rightDifference = distance
+				for player = 1, #players do
+					data = tfm.get.room.playerList[players[player]]
+					distance = math.abs(data.x - self.objectData.x)
+
+					if distance < difference then
+						isFacingLeft = (data.x <= self.objectData.x)
+						difference = distance
 					end
 				end
-			end
 
-			if playersOnLeft >= playersOnRight then
-				xSpeed = -getXSpeed(leftDifference)
-			else
-				xSpeed = getXSpeed(rightDifference)
-			end
-		elseif movement == movementType.nearestPlayer then
-			-- Aims the nearest player
-			local isFacingLeft, difference = false, 9999
-
-			for player = 1, #players do
-				data = tfm.get.room.playerList[players[player]]
-				distance = math.abs(data.x - self.objectData.x)
-
-				if distance < difference then
-					isFacingLeft = (data.x <= self.objectData.x)
-					difference = distance
+				if isFacingLeft then
+					xSpeed = -getXSpeed(difference)
+				else
+					xSpeed = getXSpeed(difference)
 				end
 			end
 
-			if isFacingLeft then
-				xSpeed = -getXSpeed(difference)
-			else
-				xSpeed = getXSpeed(difference)
-			end
+			self.lastDirection = ((xSpeed < 0) and monsterDirection.left or monsterDirection.right)
+			tfm.exec.moveObject(self.objectData.id, 0, 0, true, xSpeed, -15, false)
 		end
 
-		self:setSprite(((xSpeed < 0) and monsterDirection.left or monsterDirection.right))
-		tfm.exec.moveObject(self.objectData.id, 0, 0, true, xSpeed, -15, false)
+		self:setSprite(self.lastDirection)
 
 		return self
 	end
