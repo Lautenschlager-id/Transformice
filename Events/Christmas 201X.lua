@@ -15,11 +15,13 @@ local module = {
 	},
 	time = 2.5 * 60,
 	map = {
-		xml = [[<C><P L="1000" APS="%s,,170,350,820,1250,,;%s,,,,1000,370,," H="1600" /><Z><S><S L="160" o="324650" X="76" H="17" Y="1574" T="12" P=",,.3,.2,-12,,," /><S L="115" o="324650" X="209" H="17" Y="1563" T="12" P=",,.3,.2,5,,," /><S L="100" o="324650" X="297" H="17" Y="1559" T="12" P=",,.3,.2,-10,,," /><S L="150" o="324650" X="417" H="17" Y="1560" T="12" P=",,.3,.2,7,,," /><S L="150" o="324650" X="565" H="17" Y="1568" T="12" P=",,.3,.2,-1,,," /><S L="92" o="324650" X="672" H="17" Y="1544" T="12" P=",,.3,.2,-34,,," /><S L="82" o="324650" X="743" H="17" Y="1503" T="12" P=",,.3,.2,-26,,," /><S L="66" o="324650" X="790" H="17" Y="1461" T="12" P=",,.3,.2,-65,,," /><S L="15" o="324650" X="789" H="853" Y="1014" T="12" P=",,.3,.2,,,," /><S L="530" o="324650" X="457" H="17" Y="1408" T="12" P=",,.3,.2,1,,," /><S L="401" o="324650" X="532" H="17" Y="1250" T="12" P=",,.3,.2,1,,," /><S L="442" o="324650" X="500" H="17" Y="1082" T="12" P=",,.3,.2,,,," /><S L="82" o="324650" X="761" H="17" Y="1274" T="12" P=",,.3,.2,32,,," /><S L="167" o="324650" X="736" H="17" Y="1183" T="12" P=",,.3,.2,-52,,," /><S L="99" o="324650" X="422" H="17" Y="1051" T="12" P=",,.3,.2,218,,," /><S L="99" o="324650" X="356" H="17" Y="983" T="12" P=",,.3,.2,235,,," /><S L="339" o="324650" X="561" H="17" Y="921" T="12" P=",,.3,.2,,,," /><S L="92" o="324650" X="759" H="17" Y="949" T="12" P=",,.3,.2,40,,," /><S L="178" o="324650" X="731" H="17" Y="854" T="12" P=",,.3,.2,-49,,," /><S L="350" o="324650" X="536" H="17" Y="754" T="12" P=",,.3,.2,,,," /><S L="124" o="324650" X="448" H="17" Y="677" T="12" P=",,.3,.2,55,,," /><S L="503" o="324650" X="748" H="17" Y="597" T="12" P=",,.3,.2,-1,,," /><S L="14" o="324650" X="991" H="211" Y="487" T="12" P=",,.3,.2,2,,," /><S L="532" o="324650" X="736" H="27" Y="378" T="12" P=",,.3,.2,,,," /><S L="20" o="324650" X="326" H="1104" Y="901" T="12" P=",,.3,.2,15,,," /><S L="10" o="324650" X="998" H="500" Y="115" T="12" P=",,,,,,," /><S H="1700" L="10" o="324650" X="-2" c="3" Y="750" T="12" P=",,,,,,," /><S P=",,.3,.2,-115,,," L="10" o="324650" H="10" Y="1444" T="12" X="788" /><S P=",,.3,.2,50,,," L="172" o="324650" H="17" Y="1340" T="12" X="293" /><S H="10" L="100" o="324650" X="748" c="2" Y="1410" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="290" c="2" Y="1245" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="748" c="2" Y="1080" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="380" c="2" Y="920" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="754" c="2" Y="753" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="455" c="2" Y="596" T="12" P=",,,,,,," /><S P=",,,,-10,,," L="500" o="324650" H="10" c="2" Y="415" T="12" X="238" /><S P=",,,,,,," L="10" o="324650" X="183" c="2" Y="1493" T="12" H="150" /><S P=",,.3,.2,40,,," L="100" o="324650" H="17" Y="723" T="12" X="496" /><S L="20" o="324650" H="100" X="447" Y="433" T="12" P=",,.3,.2,10,,," /><S X="868" L="66" o="324650" H="40" c="3" Y="568" T="12" P=",,.3,.2,,,," /><S P="1,99999,99999,,,1,," L="50" o="324650" lua="%d" H="10" c="2" Y="494" T="12" X="945" /><S P="1,99999,,,,,," L="10" o="324650" lua="%d" H="10" Y="-620" T="12" X="945" /><S L="10" o="324650" lua="%d" H="200" X="906" Y="487" T="12" P=",,,,,,," /><S X="835" L="10" o="324650" lua="%d" H="200" c="3" Y="487" T="12" P=",,,,,,," /><S H="10" L="10" o="324650" lua="%d" X="945" c="2" Y="572" T="12" P=",,,,,,," /><S P=",,,,,,," L="10" o="324650" lua="%d" X="906" Y="115" T="12" H="500" /><S P="1,99999,,,,,," L="10" o="324650" lua="%d" X="953" c="4" Y="250" T="13" H="10" /><S X="953" L="50" o="324650" lua="%d" H="10" c="2" Y="260" T="12" P="1,,99999,,,1,," /><S P=",,.3,.2,,,," L="125" o="324650" H="55" c="3" Y="335" T="12" X="820" /></S><D /><O /><L><JP M2="" M1="40" AXIS=",1" /><JR P1="945,-625" M1="41" MV="Infinity,2" /><JD M1="40" M2="41" /><JR P1="953,250" M1="46" MV="Infinity,1.75" /><JR M1="46" M2="47" /></L></Z></C>]],
+		xml = [[<C><P L="1000" APS="%s,,170,350,820,1250,,;%s,,,,1000,370,," H="1600" /><Z><S><S L="160" o="324650" X="76" H="17" Y="1574" T="12" P=",,.3,.2,-12,,," /><S L="115" o="324650" X="209" H="17" Y="1563" T="12" P=",,.3,.2,5,,," /><S L="100" o="324650" X="297" H="17" Y="1559" T="12" P=",,.3,.2,-10,,," /><S L="150" o="324650" X="417" H="17" Y="1560" T="12" P=",,.3,.2,7,,," /><S L="150" o="324650" X="565" H="17" Y="1568" T="12" P=",,.3,.2,-1,,," /><S L="92" o="324650" X="672" H="17" Y="1544" T="12" P=",,.3,.2,-34,,," /><S L="82" o="324650" X="743" H="17" Y="1503" T="12" P=",,.3,.2,-26,,," /><S L="66" o="324650" X="790" H="17" Y="1461" T="12" P=",,.3,.2,-65,,," /><S L="15" o="324650" X="789" H="853" Y="1014" T="12" P=",,.3,.2,,,," /><S L="530" o="324650" X="457" H="17" Y="1408" T="12" P=",,.3,.2,1,,," /><S L="401" o="324650" X="532" H="17" Y="1250" T="12" P=",,.3,.2,1,,," /><S L="442" o="324650" X="500" H="17" Y="1082" T="12" P=",,.3,.2,,,," /><S L="82" o="324650" X="761" H="17" Y="1274" T="12" P=",,.3,.2,32,,," /><S L="167" o="324650" X="736" H="17" Y="1183" T="12" P=",,.3,.2,-52,,," /><S L="99" o="324650" X="422" H="17" Y="1051" T="12" P=",,.3,.2,218,,," /><S L="99" o="324650" X="356" H="17" Y="983" T="12" P=",,.3,.2,235,,," /><S L="339" o="324650" X="561" H="17" Y="921" T="12" P=",,.3,.2,,,," /><S L="92" o="324650" X="759" H="17" Y="949" T="12" P=",,.3,.2,40,,," /><S L="178" o="324650" X="731" H="17" Y="854" T="12" P=",,.3,.2,-49,,," /><S L="350" o="324650" X="536" H="17" Y="754" T="12" P=",,.3,.2,,,," /><S L="124" o="324650" X="448" H="17" Y="677" T="12" P=",,.3,.2,55,,," /><S L="503" o="324650" X="748" H="17" Y="597" T="12" P=",,.3,.2,-1,,," /><S L="14" o="324650" X="991" H="211" Y="487" T="12" P=",,.3,.2,2,,," /><S L="532" o="324650" X="736" H="27" Y="378" T="12" P=",,.3,.2,,,," /><S L="20" o="324650" X="326" H="1104" Y="901" T="12" P=",,.3,.2,15,,," /><S L="10" o="324650" X="998" H="500" Y="115" T="12" P=",,,,,,," /><S H="1700" L="10" o="324650" X="-2" c="3" Y="750" T="12" P=",,,,,,," /><S P=",,.3,.2,-115,,," L="10" o="324650" H="10" Y="1444" T="12" X="788" /><S P=",,.3,.2,50,,," L="172" o="324650" H="17" Y="1340" T="12" X="293" /><S H="10" L="100" o="324650" X="748" c="2" Y="1410" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="290" c="2" Y="1245" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="748" c="2" Y="1080" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="380" c="2" Y="920" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="754" c="2" Y="753" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="455" c="2" Y="596" T="12" P=",,,,,,," /><S P=",,,,-10,,," L="500" o="324650" H="10" c="2" Y="415" T="12" X="238" /><S P=",,,,,,," L="10" o="324650" X="183" c="2" Y="1493" T="12" H="150" /><S P=",,.3,.2,40,,," L="100" o="324650" H="17" Y="723" T="12" X="496" /><S L="20" o="324650" H="100" X="447" Y="433" T="12" P=",,.3,.2,10,,," /><S X="868" L="66" o="324650" H="40" c="3" Y="568" T="12" P=",,.3,.2,,,," /><S P="1,99999,99999,,,1,," L="50" o="324650" lua="%d" H="10" c="2" Y="494" T="12" X="945" /><S P="1,99999,,,,,," L="10" o="324650" lua="%d" H="10" Y="-620" T="12" X="945" /><S L="10" o="324650" lua="%d" H="200" X="906" Y="487" T="12" P=",,,,,,," /><S X="835" L="10" o="324650" lua="%d" H="200" c="3" Y="487" T="12" P=",,,,,,," /><S H="10" L="10" o="324650" lua="%d" X="945" c="2" Y="572" T="12" P=",,,,,,," /><S P=",,,,,,," L="10" o="324650" lua="%d" X="906" Y="115" T="12" H="500" /><S P="1,99999,,,,,," L="10" o="324650" lua="%d" X="953" c="4" Y="250" T="13" H="10" /><S X="953" L="50" o="324650" lua="%d" H="10" c="2" Y="260" T="12" P="1,,99999,,,1,," /><S P=",,.3,.2,,,," L="125" o="324650" H="55" c="3" Y="335" T="12" X="820" /><S H="10" L="40" o="324650" c="2" Y="322" T="12" X="950" P=",,9999,,,,," /></S><D /><O /><L><JP M2="" M1="40" AXIS=",1" /><JR P1="945,-625" M1="41" MV="Infinity,2" /><JD M1="40" M2="41" /><JR P1="953,250" M1="46" MV="Infinity,1.75" /><JR M1="46" M2="47" /></L></Z></C>]],
 		background = "16e6f4bb3dc.jpg",
 		foreground = "167515a75c9.png",
 		backgroundCover = "16ee29f0829.jpg"
 	},
+	minPlayers = 5,
+	maxPlayers = 70,
 	timerTicks = 12,
 	life = 5,
 	rewardMagicianDefeats = 15,
@@ -29,7 +31,7 @@ local module = {
 --> Debug <--
 local DEBUG, _eventKeyboard = true
 
-if not DEBUG and (not (tfm.get.room.uniquePlayers == 1 and tfm.get.room.playerList[module.team.developer[1]]) and tfm.get.room.uniquePlayers < 5) then
+if not DEBUG and (not (tfm.get.room.uniquePlayers == 1 and tfm.get.room.playerList[module.team.developer[1]]) and (tfm.get.room.uniquePlayers < module.minPlayers or tfm.get.room.uniquePlayers > module.maxPlayers)) then
 	return system.exit()
 end
 
@@ -134,6 +136,7 @@ local monsterData = {
 	breathSpawnTimer = 1000,
 
 	magicianFallRemoveTimer = 1500,
+	mutantMagicianFallRemoveTimer = 2000,
 
 	flamingGiftQuantity = 0,
 	flamingGiftSpawnTimer = 500,
@@ -249,7 +252,6 @@ local images = {
 		[monsterType.magician] = {
 			[2] = { "16ef27d5566.png", -95, -20 }, -- Normal
 			[4] = { "16ef28a9a58.png", -105, -20 } -- Defeated
-			--[-1] = "167515b602f.png"
 		},
 		[monsterType.mutantMagician] = {
 			[2] = { "16ef27d5566.png", -145, -32 }, --
@@ -283,8 +285,8 @@ local images = {
 		[1] = "16ebe7952c4.png"
 	},
 	npc = {
-		elf = "16ebe6a1b5b.png",
-		santa = "16ef2d90b06.png"
+		elf = "16ef81709b5.png",--"16ebe6a1b5b.png",
+		santa = "16ef81cda35.png"--"16ef2d90b06.png"
 	},
 	others = {
 		heart = {
@@ -895,9 +897,11 @@ do
 		stage[self._id] = nil
 	end
 
-	local destroy = function(self)
-		tfm.exec.removeImage(self.sprite)
-		tfm.exec.removeObject(self.object)
+	local destroy = function(self, ignoreVisualRemoval)
+		if not ignoreVisualRemoval then
+			tfm.exec.removeImage(self.sprite)
+			tfm.exec.removeObject(self.object)
+		end
 		objectManager.delete(self)
 	end
 
@@ -1215,7 +1219,7 @@ do
 
 	local playerLoop
 	bullet.newFromPlayer = function(x, y, stage, playerName, direction, isBoss)
-		if not monster._perStage[stage] then return end
+		if not monster._perStage[stage] or monster._perStage[stage]._count == 0 then return end
 
 		local object, sprite
 
@@ -1475,7 +1479,7 @@ update = function(_, addChar)
 	end
 end
 
-local buildMap, defeatMagician
+local buildMap, defeatMagician, defeatMutantMagician
 do
 	local blockLocationX = {
 		[1] = 748,
@@ -1547,6 +1551,22 @@ do
 		tfm.exec.removePhysicObject(groundId.jointEffect + 1)
 
 		timer.start(executeMagicianBaseRemove, monsterData.magicianFallRemoveTimer, 1, obj, base)
+	end
+
+	local executeMutantMagicianBaseRemove = function(obj, base)
+		base(obj, true)
+
+		tfm.exec.removePhysicObject(groundId.bossBlock + 3)
+	end
+
+	defeatMutantMagician = function(obj, base)
+		obj:setSprite(monsterDirection.back, false, true)
+
+		for g = groundId.jointEffect + 2, groundId.jointEffect + 3 do
+			tfm.exec.removePhysicObject(g)
+		end
+
+		timer.start(executeMutantMagicianBaseRemove, monsterData.mutantMagicianFallRemoveTimer, 1, obj, base)
 	end
 end
 
@@ -1669,7 +1689,7 @@ local spawnMagician = function()
 end
 
 local spawnMutantMagician = function()
-	monster.new(monsterType.mutantMagician, 953, 230, 8):useAxisPosition(50, 73)
+	monster.new(monsterType.mutantMagician, 953, 230, 8):useAxisPosition(50, 73):onDeath(defeatMutantMagician)
 	tfm.exec.removeJoint(jointId.blocker + 1)
 end
 
@@ -1765,11 +1785,11 @@ local makeCallbacks = function()
 	callback.new("collectItem", 0, 1430, 160, 170):setClickable():setAction(placeItem)
 
 	-- Elf NPC
-	tfm.exec.addImage(images.npc.elf, imageLayer.objectForeground, -18, 1535)
+	tfm.exec.addImage(images.npc.elf, imageLayer.objectForeground, -18, 1515)
 	callback.new("elf", -18, 1535, 63, 63):setClickable():setAction(startIntro)
 
 	-- Santa NPC
-	tfm.exec.addImage(images.npc.santa, imageLayer.objectForeground, 915, 305)
+	tfm.exec.addImage(images.npc.santa, imageLayer.objectForeground, 915, 285)
 	callback.new("santa", 915, 305, 75, 65):setClickable():setAction(print)
 end
 
@@ -1878,7 +1898,10 @@ end
 eventPlayerDied = function(playerName)
 	if not isEventWorkingFor(playerName) then return end
 
-	tfm.exec.addShamanObject(objectId.icecube, 900, clamp(tfm.get.room.playerList[playerName].y - 50, 695, 9999))
+	local currentStage = playerCache[playerName].currentStage
+	if currentStage > 0 and currentStage < 7 then
+		tfm.exec.addShamanObject(objectId.icecube, 900, tfm.get.room.playerList[playerName].y - 50)
+	end
 
 	removePlayerFromStages(playerName)
 end
