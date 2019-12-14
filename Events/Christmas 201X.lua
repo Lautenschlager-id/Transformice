@@ -23,7 +23,7 @@ local module = {
 	minPlayers = 5,
 	maxPlayers = 70,
 	timerTicks = 12,
-	life = 5,
+	life = 6,
 	rewardMagicianDefeats = 15,
 	rewardMutantMagicianDefeats = 3
 }
@@ -152,6 +152,11 @@ local monsterData = {
 	meteorDistantRadius = 150,
 	meteorCloseRadius = 70,
 
+	potionForce = 25,
+	potionRadius = 50,
+	potionSpawnTimer = 1000,
+	breakPotionTimer = 1000,
+
 	movementType = {
 		[monsterType.snow] = movementType.nearestPlayer,
 		[monsterType.roar] = movementType.biggestGroup,
@@ -174,7 +179,8 @@ local monsterData = {
 		freeze = 1,
 		flamingGift = 0.5,
 		meteorClose = 1,
-		meteorDistant = 0.5
+		meteorDistant = 0.5,
+		potion = 0.5
 	}
 }
 
@@ -292,9 +298,9 @@ local images = {
 				[3] = { "16ef2846294.png", -105, -23 } -- Summoning (hands 90deg)
 			},
 			[monsterType.mutantMagician] = {
-				[1] = { "16f01f722f1.png", -154, -32 }, -- Summoning (hands 45deg)
-				[3] = { "16f01f722f1.png", -155, -35 }, --
-				[5] = { "16f05cbe665.png", -149, -44 } -- Summoning (hand2 90deg)
+				[1] = { "16f01f722f1.png", -154, -32 }, -- Summoning (hands 225deg)
+				[3] = { "16f05cbe665.png", -149, -44 }, -- Summoning (hand2 90deg)
+				[5] = { '', -155, -35 } -- Throwing (hands 90deg)
 			}
 		}
 	},
@@ -318,7 +324,8 @@ local images = {
 		breath = "16f053d906e.png",
 		snowball = "16ec3bf9538.png",
 		flamingGift = { "16ee268a853.png", "16ee268db9b.png", "16ee268ed43.png" },
-		meteor = "16f057dc05f.png"
+		meteor = "16f057dc05f.png",
+		potion = ''
 	}
 }
 
@@ -975,7 +982,7 @@ do
 		elseif self.type == monsterType.mutantMagician then
 			if not self.isAttacking and math.random(1, 5) == 5 then
 				--self:throwFlamingGift(players)
-				self:meteor(players)
+				self:invokeMeteor(players)
 			end
 		else
 			if math.random(1, 5) < 4 then
@@ -1171,7 +1178,6 @@ do
 		if boss.destroyed then return end
 
 		local angle, directionX, directionY, player
-		local object
 
 		angle, directionX, directionY, player = getPlayerAim(getRandomValue(players), boss)
 
@@ -1230,6 +1236,8 @@ do
 		yAxis = -26
 	}
 	local createFlamingGift = function(boss, players, self)
+		if boss.destroyed then return end
+
 		flamingGiftData.sprite = getRandomValue(images.others.flamingGift)
 		bullet.newFromMonster(miscData.fireMachineShootSpawn[1], miscData.fireMachineShootSpawn[2], boss.stage, flamingGiftData)
 
@@ -1242,9 +1250,11 @@ do
 		timer.start(createFlamingGift, monsterData.flamingGiftSpawnTimer, monsterData.flamingGiftQuantity, self, players)
 	end
 
-		-- Ultimate
+		-- Strong
 	local meteorLoop = function(self, currentTime, remainingTime)
 		if self.objectData.y < 1 or self.objectData.vy > 0 then return end
+
+		getNearPlayers
 
 		local players, player, data, inRange, distance = getPlayersInStage(self.stage)
 		for p = 1, (players and #players or 0) do
@@ -1254,11 +1264,11 @@ do
 			if data then
 				inRange, distance = pythagoras(self.objectData.x, self.objectData.y, data.x, data.y, monsterData.meteorDistantRadius)
 				if inRange then
-					decreaseLife(player, ((distance < (monsterData.meteorCloseRadius ^ 2)) and monsterData.damage.meteorClose or monsterData.damage.meteorDistant))
+					decreaseLife(player, ((distance <= (monsterData.meteorCloseRadius ^ 2)) and monsterData.damage.meteorClose or monsterData.damage.meteorDistant))
 				end
 			end
 		end
-		tfm.exec.explosion(self.objectData.x, self.objectData.y, monsterData.meteorPower, monsterData.meteorRadius, true)
+		tfm.exec.explosion(self.objectData.x, self.objectData.y, monsterData.meteorPower, monsterData.meteorDistantRadius, true)
 
 		self:destroy()
 	end
@@ -1271,15 +1281,47 @@ do
 		loop = meteorLoop
 	}
 	local createMeteor = function(boss, players, self)
+		if boss.destroyed then return end
+
 		bullet.newFromMonster(math.random(50, 83) * 10, -100, boss.stage, meteorData, true)
 
 		checkBossFinishedAttack(boss, self)
 	end
 
-	monster.meteor = function(self, players)
-		self:setSprite(monsterDirection.ultimateAttack, true)
+	monster.invokeMeteor = function(self, players)
+		self:setSprite(monsterDirection.strongAttack, true)
 
 		timer.start(createMeteor, monsterData.meteorSpawnTimer, monsterData.meteorQuantity, self, players)
+	end
+
+		-- Ultimate
+	local breakPotion = function(objectData, players, imageId)
+		tfm.exec.removeImage(imageId)
+		tfm.exec.removeObject(objectData.id)
+
+		players = getNearPlayers(players, objectData.x, objectData.y, monsterData.potionRadius)
+		for player = 1, #players do
+			decreaseLife(players[player], monsterData.damage.potion)
+		end
+	end
+
+	local createPotion = function(boss, players, self)
+		if boss.destroyed then return end
+
+		local angle, directionX, directionY, player
+
+		angle, directionX, directionY, player = getPlayerAim(getRandomValue(players), boss)
+
+		local object = tfm.exec.addShamanObject(objectId.paperball, boss:getRelativeX(), boss:getRelativeY(), angle, (directionX * monsterData.potionForce), (directionY * monsterData.potionForce))
+		local image = tfm.exec.addImage(images.others.potion, "#" .. object, -15, -15)
+
+		timer.start(breakPotion, monsterData.breakPotionTimer, 1, tfm.get.room.objectList[object], players, image)
+	end
+
+	monster.throwPotion = function(self, players)
+		self:setSprite(monsterDirection.ultimateAttack, true)
+
+		timer.start(createPotion, monsterData.potionSpawnTimer, 0, self, players)
 	end
 end
 
