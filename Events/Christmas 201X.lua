@@ -40,14 +40,18 @@ local translation
 do
 	local texts = {
 		en = {
+			init = "Oh, look! An elf, and... Heey, they are hurt! Go near them and press [space bar] to talk.",
 			dialog = {
-				[1] = " Oh, h-hey! I'm so glad to finally meet someone.\n\n Elves were working on the Christmas organization when an evil wizard showed up and began to control the minds of all yetis of the mountain. H-he also kidnapped Santa...\n He didn't accept the end of halloween and wants to ruin our celebration.\n\n I w-was so scared... I had to find a way out of there, I've been stuck for days. Please, help us!"
+				[1] = " Oh, h-hey! I'm so glad to finally meet someone.\n\n Elves were working on the Christmas organization when an evil wizard showed up and began to control the minds of all yetis of the mountain. H-he also kidnapped Santa...\n He didn't accept the end of halloween and wants to ruin our celebration.\n\n I w-was so scared... I had to find a way out of there, I've been stuck for days. Please, help us!",
+				[2] = ''
 			},
 			closeDialog = "Press spacebar to close the dialog."
 		},
 		br = {
+			init = '',
 			dialog = {
-				[1] = ''
+				[1] = '',
+				[2] = ''
 			},
 			closeDialog = ''
 		}
@@ -286,7 +290,8 @@ local images = {
 	},
 	dialogNpc = {
 		background = "16f02675bf7.png",
-		[1] = "16ebe7952c4.png"
+		[1] = "16ebe7952c4.png", -- elf
+		[2] = "16f02f12dbc.png" -- santa
 	},
 	npc = {
 		elf = "16ef81709b5.png",--"16ebe6a1b5b.png",
@@ -1446,7 +1451,8 @@ globalInitInterface = function()
 	monsterData.bombQuantity = clamp(round(tfm.get.room.uniquePlayers / 10), 1, 5)
 	monsterData.flamingGiftQuantity = clamp(round(tfm.get.room.uniquePlayers / 5), 2, 6)
 	bulletData.damage = clamp((2 - (tfm.get.room.uniquePlayers / 25)), bulletData.minimumDamage, bulletData.maximumDamage)
-	-- greeting
+	-- Greeting
+	tfm.exec.chatMessage("<PT>[•] " .. translation.init)
 	-- map name
 end
 
@@ -1781,6 +1787,12 @@ local startIntro = function(cbk, playerName)
 	return true
 end
 
+local saveSanta = function(cbk, playerName)
+	ui.dialog(playerName, 2)
+
+	return true
+end
+
 local makeCallbacks = function()
 	-- Collect item
 	callback.new("placeItem", 915, 530, 50, 50):setClickable(10):setAction(collectItem)
@@ -1794,7 +1806,7 @@ local makeCallbacks = function()
 
 	-- Santa NPC
 	tfm.exec.addImage(images.npc.santa, imageLayer.objectForeground, 915, 285)
-	callback.new("santa", 915, 305, 75, 65):setClickable():setAction(print)
+	callback.new("santa", 915, 305, 75, 65):setClickable():setAction(saveSanta)
 end
 
 local canTriggerCallbacks = function(playerName)
