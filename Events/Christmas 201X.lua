@@ -15,7 +15,7 @@ local module = {
 	},
 	time = 2.5 * 60,
 	map = {
-		xml = [[<C><P L="1000" APS="%s,,170,350,820,1250,,;%s,,,,1000,370,," H="1600" /><Z><S><S L="160" o="324650" X="76" H="17" Y="1574" T="12" P=",,.3,.2,-12,,," /><S L="115" o="324650" X="209" H="17" Y="1563" T="12" P=",,.3,.2,5,,," /><S L="100" o="324650" X="297" H="17" Y="1559" T="12" P=",,.3,.2,-10,,," /><S L="150" o="324650" X="417" H="17" Y="1560" T="12" P=",,.3,.2,7,,," /><S L="150" o="324650" X="565" H="17" Y="1568" T="12" P=",,.3,.2,-1,,," /><S L="92" o="324650" X="672" H="17" Y="1544" T="12" P=",,.3,.2,-34,,," /><S L="82" o="324650" X="743" H="17" Y="1503" T="12" P=",,.3,.2,-26,,," /><S L="66" o="324650" X="790" H="17" Y="1461" T="12" P=",,.3,.2,-65,,," /><S L="15" o="324650" X="789" H="853" Y="1014" T="12" P=",,.3,.2,,,," /><S L="530" o="324650" X="457" H="17" Y="1408" T="12" P=",,.3,.2,1,,," /><S L="401" o="324650" X="532" H="17" Y="1250" T="12" P=",,.3,.2,1,,," /><S L="442" o="324650" X="500" H="17" Y="1082" T="12" P=",,.3,.2,,,," /><S L="82" o="324650" X="761" H="17" Y="1274" T="12" P=",,.3,.2,32,,," /><S L="167" o="324650" X="736" H="17" Y="1183" T="12" P=",,.3,.2,-52,,," /><S L="99" o="324650" X="422" H="17" Y="1051" T="12" P=",,.3,.2,218,,," /><S L="99" o="324650" X="356" H="17" Y="983" T="12" P=",,.3,.2,235,,," /><S L="339" o="324650" X="561" H="17" Y="921" T="12" P=",,.3,.2,,,," /><S L="92" o="324650" X="759" H="17" Y="949" T="12" P=",,.3,.2,40,,," /><S L="178" o="324650" X="731" H="17" Y="854" T="12" P=",,.3,.2,-49,,," /><S L="350" o="324650" X="536" H="17" Y="754" T="12" P=",,.3,.2,,,," /><S L="124" o="324650" X="448" H="17" Y="677" T="12" P=",,.3,.2,55,,," /><S L="503" o="324650" X="748" H="17" Y="597" T="12" P=",,.3,.2,-1,,," /><S L="14" o="324650" X="991" H="211" Y="487" T="12" P=",,.3,.2,2,,," /><S L="532" o="324650" X="736" H="27" Y="378" T="12" P=",,.3,.2,,,," /><S L="20" o="324650" X="326" H="1104" Y="901" T="12" P=",,.3,.2,15,,," /><S L="10" o="324650" X="998" H="500" Y="115" T="12" P=",,,,,,," /><S H="1700" L="10" o="324650" X="-2" c="3" Y="750" T="12" P=",,,,,,," /><S P=",,.3,.2,-115,,," L="10" o="324650" H="10" Y="1444" T="12" X="788" /><S P=",,.3,.2,50,,," L="172" o="324650" H="17" Y="1340" T="12" X="293" /><S H="10" L="100" o="324650" X="748" c="2" Y="1410" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="290" c="2" Y="1245" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="748" c="2" Y="1080" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="380" c="2" Y="920" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="754" c="2" Y="753" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="455" c="2" Y="596" T="12" P=",,,,,,," /><S P=",,,,-10,,," L="500" o="324650" H="10" c="2" Y="415" T="12" X="238" /><S P=",,,,,,," L="10" o="324650" X="183" c="2" Y="1493" T="12" H="150" /><S P=",,.3,.2,40,,," L="100" o="324650" H="17" Y="723" T="12" X="496" /><S L="20" o="324650" H="100" X="447" Y="433" T="12" P=",,.3,.2,10,,," /><S X="868" L="66" o="324650" H="40" c="3" Y="568" T="12" P=",,.3,.2,,,," /><S P="1,99999,99999,,,1,," L="50" o="324650" lua="%d" H="10" c="2" Y="494" T="12" X="945" /><S P="1,99999,,,,,," L="10" o="324650" lua="%d" H="10" Y="-620" T="12" X="945" /><S L="10" o="324650" lua="%d" H="200" X="906" Y="487" T="12" P=",,,,,,," /><S X="835" L="10" o="324650" lua="%d" H="200" c="3" Y="487" T="12" P=",,,,,,," /><S H="10" L="10" o="324650" lua="%d" X="945" c="2" Y="572" T="12" P=",,,,,,," /><S P=",,,,,,," L="10" o="324650" lua="%d" X="906" Y="115" T="12" H="500" /><S P="1,99999,,,,,," L="10" o="324650" lua="%d" X="953" c="4" Y="250" T="13" H="10" /><S X="953" L="50" o="324650" lua="%d" H="10" c="2" Y="260" T="12" P="1,,99999,,,1,," /><S P=",,.3,.2,,,," L="125" o="324650" H="55" c="3" Y="335" T="12" X="820" /><S H="10" L="40" o="324650" c="2" Y="295" T="12" X="950" P=",,9999,,,,," /></S><D /><O /><L><JP M2="" M1="40" AXIS=",1" /><JR P1="945,-625" M1="41" MV="Infinity,2" /><JD M1="40" M2="41" /><JR P1="953,250" M1="46" MV="Infinity,1.75" /><JR M1="46" M2="47" /></L></Z></C>]],
+		xml = [[<C><P L="1000" APS="%s,,170,350,820,1250,,;%s,,,,1000,370,," H="1600" /><Z><S><S L="160" o="324650" X="76" H="17" Y="1574" T="12" P=",,.3,.2,-12,,," /><S L="115" o="324650" X="209" H="17" Y="1563" T="12" P=",,.3,.2,5,,," /><S L="100" o="324650" X="297" H="17" Y="1559" T="12" P=",,.3,.2,-10,,," /><S L="150" o="324650" X="417" H="17" Y="1560" T="12" P=",,.3,.2,7,,," /><S L="150" o="324650" X="565" H="17" Y="1568" T="12" P=",,.3,.2,-1,,," /><S L="92" o="324650" X="672" H="17" Y="1544" T="12" P=",,.3,.2,-34,,," /><S L="82" o="324650" X="743" H="17" Y="1503" T="12" P=",,.3,.2,-26,,," /><S L="66" o="324650" X="790" H="17" Y="1461" T="12" P=",,.3,.2,-65,,," /><S L="15" o="324650" X="789" H="853" Y="1014" T="12" P=",,.3,.2,,,," /><S L="530" o="324650" X="457" H="17" Y="1408" T="12" P=",,.3,.2,1,,," /><S L="401" o="324650" X="532" H="17" Y="1250" T="12" P=",,.3,.2,1,,," /><S L="442" o="324650" X="500" H="17" Y="1082" T="12" P=",,.3,.2,,,," /><S L="82" o="324650" X="761" H="17" Y="1274" T="12" P=",,.3,.2,32,,," /><S L="167" o="324650" X="736" H="17" Y="1183" T="12" P=",,.3,.2,-52,,," /><S L="99" o="324650" X="422" H="17" Y="1051" T="12" P=",,.3,.2,218,,," /><S L="99" o="324650" X="356" H="17" Y="983" T="12" P=",,.3,.2,235,,," /><S L="339" o="324650" X="561" H="17" Y="921" T="12" P=",,.3,.2,,,," /><S L="92" o="324650" X="759" H="17" Y="949" T="12" P=",,.3,.2,40,,," /><S L="178" o="324650" X="731" H="17" Y="854" T="12" P=",,.3,.2,-49,,," /><S L="350" o="324650" X="536" H="17" Y="754" T="12" P=",,.3,.2,,,," /><S L="124" o="324650" X="448" H="17" Y="677" T="12" P=",,.3,.2,55,,," /><S L="503" o="324650" X="748" H="17" Y="597" T="12" P=",,.3,.2,-1,,," /><S L="14" o="324650" X="991" H="211" Y="487" T="12" P=",,.3,.2,2,,," /><S L="532" o="324650" X="736" H="27" Y="378" T="12" P=",,.3,.2,,,," /><S L="20" o="324650" X="326" H="1104" Y="901" T="12" P=",,.3,.2,15,,," /><S L="10" o="324650" X="998" H="3000" Y="-1130" T="12" P=",,,,,,," /><S H="3000" L="10" o="324650" X="-2" c="3" Y="100" T="12" P=",,,,,,," /><S P=",,.3,.2,-115,,," L="10" o="324650" H="10" Y="1444" T="12" X="788" /><S P=",,.3,.2,50,,," L="172" o="324650" H="17" Y="1340" T="12" X="293" /><S H="10" L="100" o="324650" X="748" c="2" Y="1410" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="290" c="2" Y="1245" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="748" c="2" Y="1080" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="380" c="2" Y="920" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="754" c="2" Y="753" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="455" c="2" Y="596" T="12" P=",,,,,,," /><S P=",,,,-10,,," L="500" o="324650" H="10" c="2" Y="415" T="12" X="238" /><S P=",,,,,,," L="10" o="324650" X="183" c="2" Y="1493" T="12" H="150" /><S P=",,.3,.2,40,,," L="100" o="324650" H="17" Y="723" T="12" X="496" /><S L="20" o="324650" H="100" X="447" Y="433" T="12" P=",,.3,.2,10,,," /><S X="868" L="66" o="324650" H="40" c="3" Y="568" T="12" P=",,.3,.2,,,," /><S P="1,99999,99999,,,1,," L="50" o="324650" lua="%d" H="10" c="2" Y="494" T="12" X="945" /><S P="1,99999,,,,,," L="10" o="324650" lua="%d" H="10" Y="-620" T="12" X="945" /><S L="10" o="324650" lua="%d" H="200" X="906" Y="487" T="12" P=",,,,,,," /><S X="835" L="10" o="324650" lua="%d" H="200" c="3" Y="487" T="12" P=",,,,,,," /><S H="10" L="10" o="324650" lua="%d" X="945" c="2" Y="572" T="12" P=",,,,,,," /><S P=",,,,,,," L="10" o="324650" lua="%d" X="906" Y="-1130" T="12" H="3000" /><S P="1,99999,,,,,," L="10" o="324650" lua="%d" X="953" c="4" Y="250" T="13" H="10" /><S X="953" L="50" o="324650" lua="%d" H="10" c="2" Y="260" T="12" P="1,,99999,,,1,," /><S P=",,.3,.2,,,," L="125" o="324650" H="55" c="3" Y="335" T="12" X="820" /><S H="10" L="40" o="324650" c="2" Y="295" T="12" X="950" P=",,9999,,,,," /></S><D /><O /><L><JP M2="" M1="40" AXIS=",1" /><JR P1="945,-625" M1="41" MV="Infinity,2" /><JD M1="40" M2="41" /><JR P1="953,250" M1="46" MV="Infinity,1.75" /><JR M1="46" M2="47" /></L></Z></C>]],
 		background = "16e6f4bb3dc.jpg",
 		foreground = "167515a75c9.png",
 		backgroundCover = "16ee29f0829.jpg"
@@ -146,6 +146,12 @@ local monsterData = {
 	flamingGiftSpawnTimer = 500,
 	flamingGiftXSpeed = -25,
 
+	meteorQuantity = 3,
+	meteorSpawnTimer = 2000,
+	meteorPower = 70,
+	meteorDistantRadius = 150,
+	meteorCloseRadius = 70,
+
 	movementType = {
 		[monsterType.snow] = movementType.nearestPlayer,
 		[monsterType.roar] = movementType.biggestGroup,
@@ -166,7 +172,9 @@ local monsterData = {
 	damage = {
 		explode = 0.5,
 		freeze = 1,
-		flamingGift = 0.5
+		flamingGift = 0.5,
+		meteorClose = 1,
+		meteorDistant = 0.5
 	}
 }
 
@@ -178,7 +186,8 @@ local monsterDirection = {
 	weakAttack = 1,
 	alive = 2,
 	strongAttack = 3,
-	defeated = 4
+	defeated = 4,
+	ultimateAttack = 5
 }
 
 local bulletData = {
@@ -284,7 +293,8 @@ local images = {
 			},
 			[monsterType.mutantMagician] = {
 				[1] = { "16f01f722f1.png", -154, -32 }, -- Summoning (hands 45deg)
-				[3] = { "16ef2846294.png", -155, -35 } --
+				[3] = { "16f01f722f1.png", -155, -35 }, --
+				[5] = { "16f05cbe665.png", -149, -44 } -- Summoning (hand2 90deg)
 			}
 		}
 	},
@@ -305,9 +315,10 @@ local images = {
 		},
 		fireball = "16eba44a988.png",
 		bomb = "16ebf8c6c48.png",
-		breath = "16f0246f25e.png",
+		breath = "16f053d906e.png",
 		snowball = "16ec3bf9538.png",
-		flamingGift = { "16ee268a853.png", "16ee268db9b.png", "16ee268ed43.png" }
+		flamingGift = { "16ee268a853.png", "16ee268db9b.png", "16ee268ed43.png" },
+		meteor = "16f057dc05f.png"
 	}
 }
 
@@ -316,7 +327,7 @@ local imageLayer = {
 	objectBackground = "?1",
 	objectForeground = "!1",
 	dialogForeground = "&2",
-	dialogBackgroud = ":10",
+	dialogBackgroud = ":20",
 	hudForeground = "&1"
 }
 
@@ -350,9 +361,9 @@ do
 	local checkRewardForPlayer = function(playerName, reward)
 		if hasReward(playerName, reward) then return end
 
-		if reward == rewardId.badge then
+		if reward == rewardId.orb then
 			if playerData:get(playerName, "treeStage") < #images.christmasTree then return end
-		elseif reward == rewardId.orb then
+		elseif reward == rewardId.badge then
 			if playerData:get(playerName, "mutantMagicianDefeats") < module.rewardMutantMagicianDefeats then return end
 		elseif reward == rewardId.old_title then
 			if playerData:get(playerName, "magicianDefeats") < module.rewardMagicianDefeats then return end
@@ -412,7 +423,8 @@ local getRandomValue = function(tbl)
 end
 
 local pythagoras = function(x1, y1, x2, y2, radius)
-	return (((x1 - x2) ^ 2) + ((y1 - y2) ^ 2)) <= (radius ^ 2)
+	local distance = (((x1 - x2) ^ 2) + ((y1 - y2) ^ 2))
+	return distance <= (radius ^ 2), distance
 end
 
 local getAngle = function(x1, y1, x2, y2)
@@ -505,7 +517,7 @@ end
 
 --[[ Tools ]]--
 local isEventWorkingFor = function(playerName)
-	return canStart and playerCache[playerName] and playerCache[playerName].dataLoaded	
+	return canStart and playerCache[playerName] and playerCache[playerName].dataLoaded
 end
 
 local loop = function(f, ticks, ...)
@@ -889,7 +901,7 @@ do
 	monster.getRelativeX = function(self)
 		return self.objectData.x + (self.isAxisPosition and (monster.getAxis(self.type, self.spriteId, self.isAttacking) + self.halfWidth) or 0)
 	end
-	
+
 	monster.getRelativeY = function(self)
 		local _, axis = monster.getAxis(self.type, self.spriteId, self.isAttacking)
 		return self.objectData.y + (self.isAxisPosition and (axis + self.halfHeight) or 0)
@@ -962,7 +974,8 @@ do
 			end
 		elseif self.type == monsterType.mutantMagician then
 			if not self.isAttacking and math.random(1, 5) == 5 then
-				self:throwFlamingGift(players)
+				--self:throwFlamingGift(players)
+				self:meteor(players)
 			end
 		else
 			if math.random(1, 5) < 4 then
@@ -1134,6 +1147,12 @@ do
 		return self
 	end
 
+	local checkBossFinishedAttack = function(boss, timerObj)
+		if timerObj.times == 0 then
+			boss:setSprite(monsterDirection.alive, false)
+		end
+	end
+
 	-- Magician
 		-- Weak
 	local explodeBomb = function(objectData, players, imageId)
@@ -1160,9 +1179,7 @@ do
 		local image = tfm.exec.addImage(images.others.bomb, "#" .. object, -15, -35)
 		timer.start(explodeBomb, monsterData.bombExplodeTimer, 1, tfm.get.room.objectList[object], players, image)
 
-		if self.times == 0 then
-			boss:setSprite(monsterDirection.alive, false)
-		end
+		checkBossFinishedAttack(boss, self)
 	end
 
 	monster.bomber = function(self, players)
@@ -1194,9 +1211,7 @@ do
 
 		timer.start(breathFreeze, monsterData.breathFreezeTime, 1, tfm.get.room.objectList[object], players, image)
 
-		if self.times == 0 then
-			boss:setSprite(monsterDirection.alive, false)
-		end
+		checkBossFinishedAttack(boss, self)
 	end
 
 	monster.freezeBreath = function(self, players)
@@ -1207,18 +1222,64 @@ do
 
 	-- Mutant magician
 		-- Weak
+	local flamingGiftData = {
+		damage = monsterData.damage.flamingGift,
+		object = objectId.box,
+		xSpeed = monsterData.flamingGiftXSpeed,
+		xAxis = -20,
+		yAxis = -26
+	}
 	local createFlamingGift = function(boss, players, self)
-		bullet.newFromMonster(miscData.fireMachineShootSpawn[1], miscData.fireMachineShootSpawn[2], boss.stage, monsterData.damage.flamingGift, objectId.box, monsterData.flamingGiftXSpeed, 0, getRandomValue(images.others.flamingGift), -20, -26)
+		flamingGiftData.sprite = getRandomValue(images.others.flamingGift)
+		bullet.newFromMonster(miscData.fireMachineShootSpawn[1], miscData.fireMachineShootSpawn[2], boss.stage, flamingGiftData)
 
-		if self.times == 0 then
-			boss:setSprite(monsterDirection.alive, false)
-		end
+		checkBossFinishedAttack(boss, self)
 	end
 
 	monster.throwFlamingGift = function(self, players)
 		self:setSprite(monsterDirection.weakAttack, true)
 
 		timer.start(createFlamingGift, monsterData.flamingGiftSpawnTimer, monsterData.flamingGiftQuantity, self, players)
+	end
+
+		-- Ultimate
+	local meteorLoop = function(self, currentTime, remainingTime)
+		if self.objectData.y < 1 or self.objectData.vy > 0 then return end
+
+		local players, player, data, inRange, distance = getPlayersInStage(self.stage)
+		for p = 1, (players and #players or 0) do
+			player = players[p]
+			data = (player and tfm.get.room.playerList[player])
+
+			if data then
+				inRange, distance = pythagoras(self.objectData.x, self.objectData.y, data.x, data.y, monsterData.meteorDistantRadius)
+				if inRange then
+					decreaseLife(player, ((distance < (monsterData.meteorCloseRadius ^ 2)) and monsterData.damage.meteorClose or monsterData.damage.meteorDistant))
+				end
+			end
+		end
+		tfm.exec.explosion(self.objectData.x, self.objectData.y, monsterData.meteorPower, monsterData.meteorRadius, true)
+
+		self:destroy()
+	end
+
+	local meteorData = {
+		object = objectId.fish,
+		sprite = images.others.meteor,
+		xAxis = -25,
+		yAxis = -75,
+		loop = meteorLoop
+	}
+	local createMeteor = function(boss, players, self)
+		bullet.newFromMonster(math.random(50, 83) * 10, -100, boss.stage, meteorData, true)
+
+		checkBossFinishedAttack(boss, self)
+	end
+
+	monster.meteor = function(self, players)
+		self:setSprite(monsterDirection.ultimateAttack, true)
+
+		timer.start(createMeteor, monsterData.meteorSpawnTimer, monsterData.meteorQuantity, self, players)
 	end
 end
 
@@ -1261,18 +1322,27 @@ do
 	end
 
 	local monsterLoop
-	bullet.newFromMonster = function(x, y, stage, damage, object, xSpeed, ySpeed, sprite, xAxis, yAxis)
-		object = tfm.exec.addShamanObject(object, x, y, 0, xSpeed, ySpeed)
+	bullet.newFromMonster = function(x, y, stage, data)
+		data.object = (data.object or objectId.paperball)
+		data.xSpeed = (data.xSpeed or 0)
+		data.ySpeed = (data.ySpeed or 0)
+		data.xAxis = (data.xAxis or 0)
+		data.yAxis = (data.yAxis or 0)
+		data.lifeTime = (data.lifeTime or bulletData.lifeTime)
+		data.loop = (data.loop or monsterLoop)
+		data.damage = (data.damage or bulletData.damage)
+
+		local object = tfm.exec.addShamanObject(data.object, x, y, 0, data.xSpeed, data.ySpeed)
 
 		return objectManager.insert(setmetatable({
 			class = "bullet_monster",
 			stage = stage,
 			object = object,
-			sprite = tfm.exec.addImage(sprite, "#" .. object, xAxis, yAxis),
+			sprite = tfm.exec.addImage(data.sprite, "#" .. object, data.xAxis, data.yAxis),
 			objectData = tfm.get.room.objectList[object],
-			lifeTime = bulletData.lifeTime,
-			loop = monsterLoop,
-			damage = damage
+			lifeTime = data.lifeTime,
+			loop = data.loop,
+			damage = data.damage
 		}, bullet))
 	end
 
@@ -1304,7 +1374,7 @@ do
 				return
 			end
 		end
-	
+
 		self:checkLifeTime()
 	end
 
@@ -1357,7 +1427,7 @@ local mutantMagicianTriggered = false
 
 local displayLife
 do
-	local updateHeart = function(cache, id, level)
+	local updateHeart = function(playerName, cache, id, level)
 		cache = cache.cachedImages.heart
 
 		if cache[id] then
@@ -1369,9 +1439,9 @@ do
 	displayLife = function(playerName)
 		local cache = playerCache[playerName]
 
-		playerCache[playerName].life = module.life
+		cache.life = module.life
 		for heart = 1, module.life do
-			updateHeart(cache, heart, 1)
+			updateHeart(playerName, cache, heart, 1)
 		end
 	end
 
@@ -1385,16 +1455,16 @@ do
 		local currentHeart = math.ceil(cache.life)
 
 		if currentHeart ~= lastHeartFloor then
-			updateHeart(cache, lastHeartFloor, 0)
+			updateHeart(playerName, cache, lastHeartFloor, 0)
 			level = (lastHeartLevel + 1) - level
 		end
 		if currentHeart > 0 and level < 1 then
-			updateHeart(cache, currentHeart, level)
+			updateHeart(playerName, cache, currentHeart, level)
 		end
 
 		if cache.life <= 0 then
 			tfm.exec.killPlayer(playerName)
-		end	
+		end
 	end
 end
 
