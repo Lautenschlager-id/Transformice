@@ -41,7 +41,7 @@ do
 	local texts = {
 		en = {
 			dialog = {
-				[1] = "intro"
+				[1] = " Oh, h-hey! I'm so glad to finally meet someone.\n\n Elves were working on the Christmas organization when an evil wizard showed up and began to control the minds of all yetis of the mountain. H-he also kidnapped Santa...\n He didn't accept the end of halloween and wants to ruin our celebration.\n\n I w-was so scared... I had to find a way out of there, I've been stuck for days. Please, help us!"
 			},
 			closeDialog = "Press spacebar to close the dialog."
 		},
@@ -285,7 +285,7 @@ local images = {
 		}
 	},
 	dialogNpc = {
-		background = "1666b88049d.png",
+		background = "16f02675bf7.png",
 		[1] = "16ebe7952c4.png"
 	},
 	npc = {
@@ -1324,11 +1324,11 @@ end
 ui.dialog = function(playerName, id)
 	playerCache[playerName].dialog.id = id
 
-	playerCache[playerName].cachedImages.dialog[1] = tfm.exec.addImage(images.dialogNpc[id], imageLayer.dialogForeground, 510, 52, playerName)
-	playerCache[playerName].cachedImages.dialog[2] = tfm.exec.addImage(images.dialogNpc.background, imageLayer.dialogBackgroud, 100, 235, playerName)
+	playerCache[playerName].cachedImages.dialog[1] = tfm.exec.addImage(images.dialogNpc[id], imageLayer.dialogForeground, 550, 32, playerName)
+	playerCache[playerName].cachedImages.dialog[2] = tfm.exec.addImage(images.dialogNpc.background, imageLayer.dialogBackgroud, 50, 215, playerName)
 
 	ui.addTextArea(interfaceId.dialog, '', playerName, -1500, -1500, 3000, 3000, 1, 1, 0.15, true)
-	ui.addTextArea(interfaceId.dialog + 1, "<font size='15' color='#F0F0E0' face='Courier New'><textformat leftmargin='10' rightmargin='5'>", playerName, 100, 240, 600, 160, 1, 1, 0, true)
+	ui.addTextArea(interfaceId.dialog + 1, "<font size='15' color='#F0F0E0' face='Courier New'><textformat leftmargin='10' rightmargin='5' leading='-3'>", playerName, 50, 220, 700, 160, 1, 1, 0, true)
 end
 
 ui.removeDialog = function(playerName)
