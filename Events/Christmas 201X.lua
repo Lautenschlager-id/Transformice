@@ -1425,9 +1425,9 @@ local passageBlocks = { }
 local lastMountainStage = 0
 local mutantMagicianTriggered = false
 
-local displayLife
+local updateHeart, displayLife, removePlayerLife
 do
-	local updateHeart = function(playerName, cache, id, level)
+	updateHeart = function(playerName, cache, id, level)
 		cache = cache.cachedImages.heart
 
 		if cache[id] then
@@ -1464,6 +1464,16 @@ do
 
 		if cache.life <= 0 then
 			tfm.exec.killPlayer(playerName)
+		end
+	end
+
+	removePlayerLife = function(playerName, cache)
+		cache = (cache or playerCache[playerName])
+		if cache.life <= 0 then return end
+
+		cache.life = 0
+		for heart = 1, module.life do
+			updateHeart(playerName, cache, heart, 0)
 		end
 	end
 end
@@ -1984,12 +1994,14 @@ end
 eventPlayerDied = function(playerName)
 	if not isEventWorkingFor(playerName) then return end
 
-	local currentStage = playerCache[playerName].currentStage
+	local cache = playerCache[playerName]
+	local currentStage = cache.currentStage
+	removePlayerFromStages(playerName)
+
+	removePlayerLife(playerName, cache)
 	if currentStage > 0 and currentStage < 7 then
 		tfm.exec.addShamanObject(objectId.icecube, 900, tfm.get.room.playerList[playerName].y - 50)
 	end
-
-	removePlayerFromStages(playerName)
 end
 
 --[[ Debug ]]--
