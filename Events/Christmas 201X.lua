@@ -505,7 +505,7 @@ end
 
 --[[ Tools ]]--
 local isEventWorkingFor = function(playerName)
-	return canStart and playerCache[playerName] and playerCache[playerName].dataLoaded	
+	return canStart and playerCache[playerName] and playerCache[playerName].dataLoaded
 end
 
 local loop = function(f, ticks, ...)
@@ -889,7 +889,7 @@ do
 	monster.getRelativeX = function(self)
 		return self.objectData.x + (self.isAxisPosition and (monster.getAxis(self.type, self.spriteId, self.isAttacking) + self.halfWidth) or 0)
 	end
-	
+
 	monster.getRelativeY = function(self)
 		local _, axis = monster.getAxis(self.type, self.spriteId, self.isAttacking)
 		return self.objectData.y + (self.isAxisPosition and (axis + self.halfHeight) or 0)
@@ -1304,7 +1304,7 @@ do
 				return
 			end
 		end
-	
+
 		self:checkLifeTime()
 	end
 
@@ -1356,8 +1356,9 @@ local lastMountainStage = 0
 local mutantMagicianTriggered = false
 
 local displayLife
+local updateHeart
 do
-	local updateHeart = function(cache, id, level)
+	updateHeart = function(playerName, cache, id, level)
 		cache = cache.cachedImages.heart
 
 		if cache[id] then
@@ -1371,7 +1372,7 @@ do
 
 		playerCache[playerName].life = module.life
 		for heart = 1, module.life do
-			updateHeart(cache, heart, 1)
+			updateHeart(playerName, cache, heart, 1)
 		end
 	end
 
@@ -1385,16 +1386,16 @@ do
 		local currentHeart = math.ceil(cache.life)
 
 		if currentHeart ~= lastHeartFloor then
-			updateHeart(cache, lastHeartFloor, 0)
+			updateHeart(playerName, cache, lastHeartFloor, 0)
 			level = (lastHeartLevel + 1) - level
 		end
 		if currentHeart > 0 and level < 1 then
-			updateHeart(cache, currentHeart, level)
+			updateHeart(playerName, cache, currentHeart, level)
 		end
 
 		if cache.life <= 0 then
 			tfm.exec.killPlayer(playerName)
-		end	
+		end
 	end
 end
 
@@ -1914,9 +1915,15 @@ end
 eventPlayerDied = function(playerName)
 	if not isEventWorkingFor(playerName) then return end
 
-	local currentStage = playerCache[playerName].currentStage
+	local cache = playerCache[playerName]
+	local currentStage = cache.currentStage
 	if currentStage > 0 and currentStage < 7 then
 		tfm.exec.addShamanObject(objectId.icecube, 900, tfm.get.room.playerList[playerName].y - 50)
+	end
+
+	cache.life = 0
+	for heart = 1, module.life do
+		updateHeart(playerName, cache, heart, 0)
 	end
 
 	removePlayerFromStages(playerName)
