@@ -151,7 +151,7 @@ local monsterData = {
 	meteorQuantity = 3,
 	meteorSpawnTimer = 2000,
 	meteorPower = 70,
-	meteorDistantRadius = 150,
+	meteorDistantRadius = 130,
 	meteorCloseRadius = 70,
 
 	potionForce = 25,
@@ -249,7 +249,11 @@ local consumableIds = {
 
 local consumableCoordinates = {
 	-- x1 <= x <= x2, y1 <= y <= y2, emoteId
-	microphone = { 440, 500, 0, 370, 0 }
+	firework = { 830, 900, 545, 480, 0 }, -- Caldron
+	paperBall = { 590, 740, 270, 370, 0 }, -- Gift mountain
+	postcard = { 0, 170, 1430, 1600, 0 }, -- Mice spawn
+	microphone = { 440, 500, 0, 370, 0 }, -- Moon corner
+	snowfall = { 500, 660, 540, 600, 0 } -- Snow mountain
 }
 
 -- Images
@@ -499,7 +503,7 @@ local getPlayersInStage = function(stage)
 			end
 		end
 
-		playerStage[stage]._intern._keys = (index > 0 and list)
+		playerStage[stage]._intern._keys = (index > 0 and list or nil)
 		playerStage[stage]._intern._update = false
 	end
 	return playerStage[stage]._intern._keys
@@ -537,8 +541,8 @@ local getStageDoorDirection = function(stage)
 	return (stage % 2 == 0 and -1 or 1)
 end
 
-local getPlayerAim = function(playerName, obj, ignoreAcceleration, _player)
-	_player = _player or tfm.get.room.playerList[playerName]
+local getPlayerAim = function(playerName, obj, ignoreAcceleration, _player, ISISIS)
+	_player = (_player or tfm.get.room.playerList[playerName])
 
 	local angle = getAngle(obj:getRelativeX(), obj:getRelativeY(), _player.x, _player.y)
 
@@ -1011,7 +1015,7 @@ do
 		if self.destroyed then return end
 
 		local players = getPlayersInStage(self.stage)
-		if not players then
+		if (not players or #players == 0) then
 			self:setSprite(monsterDirection.front, false)
 			return
 		end
@@ -1202,10 +1206,13 @@ do
 	end
 
 	local checkBossFinishedAttack = function(boss, timerObj)
-		if timerObj.times <= 0 then
+		if timerObj.times < 0 then
 			if not isMoonStolen then
 				timerObj.times = 0 -- destroys the timer
 			end
+		end
+
+		if timerObj.times == 0 and not isMoonStolen then
 			boss:setSprite(monsterDirection.alive, false)
 		end
 	end
@@ -1259,9 +1266,7 @@ do
 	local createBreath = function(boss, players, self)
 		if boss.destroyed then return end
 
-		local player = tfm.get.room.playerList[getRandomValue(players)]
-
-		local angleAim = math.deg(getPlayerAim(getRandomValue(players), boss, true))
+		local angleAim = math.deg(getPlayerAim(getRandomValue(players), boss, true, nil))
 		local object = tfm.exec.addShamanObject(objectId.rune, boss:getRelativeX(), boss:getRelativeY(), angleAim, 0, 0, true)
 		local image = tfm.exec.addImage(images.throwables.breath, "#" .. object, -25, -15)
 
@@ -1355,6 +1360,8 @@ do
 
 	local createPotion = function(boss, players, self)
 		if boss.destroyed then return end
+		players = (players or getPlayersInStage(boss.stage))
+		if (not players or #players == 0) then return end
 
 		local angle, directionX, directionY, player
 
@@ -1419,12 +1426,11 @@ do
 	monster.beginChaos = function(self, players)
 		if self:stealTheMoon(self, players) then
 			-- Throws until the chaos is gone
-			local randomAttack = math.random(100, 200)
-			if randomAttack <= 100 then
+			if math.random(1, 2) == 1 then
 				monsterData.potionSpawnTimer = monsterData.potionSpawnTimerOnChaos
-				self:throwPotions(players, 0)
+				self:throwPotions(false, 0)
 			else
-				self:invokeMeteor(players, 0)
+				self:invokeMeteor(false, 0)
 			end
 		end
 	end
@@ -2263,7 +2269,7 @@ end, 1000, false)
 loop(update, module.timerTicks, 1)
 
 globalInitSettings(true)
-tfm.exec.newGame(string.format(module.map.xml, module.map.foreground, module.map.backgroundCover,
+tfm.exec.newGame(string.format(module.map.xml, ''--[[module.map.foreground]], module.map.backgroundCover,
 	groundId.jointEffect, -- [magician] moving ground
 	groundId.jointEffect + 1, -- [magician] -1 axis
 	groundId.bossBlock, -- [magician] left block
