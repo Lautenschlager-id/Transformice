@@ -231,6 +231,7 @@ local miscData = {
 	fireMachineShootSpawn = { 740, 320 },
 	bulletReloadTimer = 800,
 	callbackTimer = 2500,
+	consumableTimer = 10000,
 	finalBossSpawn = { 520, 350 }
 }
 
@@ -244,6 +245,11 @@ local consumableIds = {
 	postcard = 30,
 	microphone = 2234,
 	snowfall = 14
+}
+
+local consumableCoordinates = {
+	-- x1 <= x <= x2, y1 <= y <= y2, emoteId
+	microphone = { 440, 500, 0, 370, 0 }
 }
 
 -- Images
@@ -1655,7 +1661,8 @@ local setAllPlayerData = function()
 			--hasHitBoss = { },
 			hasHitBoss = false,
 			onNightMode = false,
-			hasSavedSanta = false
+			hasSavedSanta = false,
+			consumableTimer = 0
 		}
 
 		tfm.exec.lowerSyncDelay(playerName)
@@ -2178,6 +2185,23 @@ eventPlayerDied = function(playerName)
 	removePlayerLife(playerName, cache)
 	if currentStage > 0 and currentStage < 7 then
 		tfm.exec.addShamanObject(objectId.icecube, 900, tfm.get.room.playerList[playerName].y - 50)
+	end
+end
+
+eventEmotePlayed = function(playerName, emote, flag)
+	if not isEventWorkingFor(playerName) then return end
+
+	local time = os.time()
+	if math.random(1, 5) > 3 or playerCache[playerName].consumableTimer > time then return end
+	playerCache[playerName].consumableTimer = time + miscData.consumableTimer
+
+	local data = tfm.get.room.playerList[playerName]
+
+	for consumable, coordinates in next, consumableCoordinates do
+		if coordinates[5] == emote and (inSquare(data.x, data.y, coordinates[1], coordinates[2], coordinates[3], coordinates[4])) then
+			tfm.exec.giveConsumables(playerName, consumableIds[consumable], 1)
+			return
+		end
 	end
 end
 
