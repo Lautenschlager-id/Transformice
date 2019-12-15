@@ -26,7 +26,7 @@ local module = {
 	timerTicks = 12,
 	life = 6,
 	rewardMagicianDefeats = 15,
-	rewardMutantMagicianDefeats = 3
+	rewardSantaClausSaves = 5
 }
 
 --> Debug <--
@@ -66,7 +66,7 @@ end
 local objectId = {
 	fish = 6300,
 	snowball = 34,
-	paperball = 9500,
+	paperBall = 9500,
 	icecube = 54,
 	box = 100,
 	rune = 3200
@@ -74,7 +74,8 @@ local objectId = {
 
 local interfaceId = {
 	dialog = 100,
-	callback = 200
+	callback = 200,
+	nightMode = 300
 }
 
 local keyCode = {
@@ -159,6 +160,13 @@ local monsterData = {
 	breakPotionTimer = 1000,
 	potionQuantity = 3,
 
+	chaosOpacityDecrease = 0.035,
+	chaosOpacityChangeTimer = 500,
+	chaosFirstChangeTimer = 3000,
+
+	potionSpawnTimerOnChaos = 500,
+	defaultPotionSpawnTimer = 0,
+
 	movementType = {
 		[monsterType.snow] = movementType.nearestPlayer,
 		[monsterType.roar] = movementType.biggestGroup,
@@ -222,11 +230,20 @@ local miscData = {
 	miceTeleportSpawn = { 15, 1565 },
 	fireMachineShootSpawn = { 740, 320 },
 	bulletReloadTimer = 800,
-	callbackTimer = 2500
+	callbackTimer = 2500,
+	finalBossSpawn = { 520, 350 }
 }
 
 local emoteIds = {
 	throw = 26
+}
+
+local consumableIds = {
+	firework = 16,
+	paperBall = 26,
+	postcard = 30,
+	microphone = 2234,
+	snowfall = 14
 }
 
 -- Images
@@ -328,8 +345,7 @@ local images = {
 		[1] = "16ebd213f31.png", -- Red
 		[0.5] = "16ebd26dde2.png", -- Half red / Half grey
 		[0] = "16ebd2156a2.png" -- Grey
-	},
-	nightMode = { '' }
+	}
 }
 
 local imageLayer = {
@@ -352,7 +368,7 @@ local playerCache, playerData = { }, {
 		index = 2,
 		default = 0
 	},
-	mutantMagicianDefeats = {
+	santaClausSaves = {
 		index = 3,
 		default = 0
 	},
@@ -375,7 +391,7 @@ do
 		if reward == rewardId.orb then
 			if playerData:get(playerName, "treeStage") < #images.christmasTree then return end
 		elseif reward == rewardId.badge then
-			if playerData:get(playerName, "mutantMagicianDefeats") < module.rewardMutantMagicianDefeats then return end
+			if playerData:get(playerName, "santaClausSaves") < module.rewardSantaClausSaves then return end
 		elseif reward == rewardId.old_title then
 			if playerData:get(playerName, "magicianDefeats") < module.rewardMagicianDefeats then return end
 		elseif reward == rewardId.old_title2 then
@@ -417,7 +433,10 @@ local playerStage = { }
 local passageBlocks = { }
 local lastMountainStage = 0
 local mutantMagicianTriggered = false
+
 local isMoonStolen = false
+local onNightMode = { }
+local nightModeAlpha = 0.95
 
 --[[ Utils ]]--
 local percent = function(x, y, p)
@@ -430,6 +449,10 @@ end
 
 local round = function(value)
 	return math.floor(value + 0.5)
+end
+
+local inSquare = function(x, y, px1, px2, py1, py2)
+	return (py1 <= y and y <= py2) and (px1 <= x and x <= px2)
 end
 
 local getRoomMicePercentage = function(percentage, min, max)
@@ -523,14 +546,19 @@ end
 
 local addMagicianKillForPlayers = function()
 	for playerName, data in next, playerCache do
-		if data.hasHitBoss[7] then
-			data.hasHitBoss[7] = false
+		--if data.hasHitBoss[7] then
+		--	data.hasHitBoss[7] = false
+			data.hasHitBoss = false
 			playerData:set(playerName, "magicianDefeats", playerData:get(playerName, "magicianDefeats") + 1):save(playerName)
-		elseif data.hasHitBoss[8] then
-			data.hasHitBoss[8] = false
-			playerData:set(playerName, "mutantMagicianDefeats", playerData:get(playerName, "mutantMagicianDefeats") + 1):save(playerName)
-		end
+		--elseif data.hasHitBoss[8] then
+		--	data.hasHitBoss[8] = false
+		--	playerData:set(playerName, "mutantMagicianDefeats", playerData:get(playerName, "mutantMagicianDefeats") + 1):save(playerName)
+		--end
 	end
+end
+
+local displayChaosInterface = function(playerName)
+	ui.addTextArea(interfaceId.nightMode, '', playerName, -1500, -1500, 3000, 3000, 1, 1, nightModeAlpha, true)
 end
 
 --[[ Tools ]]--
@@ -1168,7 +1196,10 @@ do
 	end
 
 	local checkBossFinishedAttack = function(boss, timerObj)
-		if timerObj.times == 0 then
+		if timerObj.times <= 0 then
+			if not isMoonStolen then
+				timerObj.times = 0 -- destroys the timer
+			end
 			boss:setSprite(monsterDirection.alive, false)
 		end
 	end
@@ -1299,10 +1330,10 @@ do
 		checkBossFinishedAttack(boss, self)
 	end
 
-	monster.invokeMeteor = function(self, players)
+	monster.invokeMeteor = function(self, players, totalMeteors)
 		self:setSprite(monsterDirection.strongAttack, true)
 
-		timer.start(createMeteor, monsterData.meteorSpawnTimer, monsterData.meteorQuantity, self, players)
+		timer.start(createMeteor, monsterData.meteorSpawnTimer, (totalMeteors or monsterData.meteorQuantity), self, players)
 	end
 
 		-- Ultimate
@@ -1323,23 +1354,47 @@ do
 
 		angle, directionX, directionY, player = getPlayerAim(getRandomValue(players), boss)
 
-		local object = tfm.exec.addShamanObject(objectId.paperball, boss:getRelativeX(), boss:getRelativeY(), angle, (directionX * monsterData.potionForce), (directionY * monsterData.potionForce))
+		local object = tfm.exec.addShamanObject(objectId.paperBall, boss:getRelativeX(), boss:getRelativeY(), angle, (directionX * monsterData.potionForce), (directionY * monsterData.potionForce))
 		local image = tfm.exec.addImage(images.throwables.potion, "#" .. object, -15, -15)
 
 		timer.start(breakPotion, monsterData.breakPotionTimer, 1, tfm.get.room.objectList[object], players, image)
 
-		if self.times <= 0 then
-			if not isMoonStolen then
-				self.times = 0 -- destroys the timer
-			end
-			checkBossFinishedAttack(boss, self)
-		end
+		checkBossFinishedAttack(boss, self)
 	end
 
 	monster.throwPotions = function(self, players, totalPotions)
 		self:setSprite(monsterDirection.ultimateAttack, true)
 
 		timer.start(createPotion, monsterData.potionSpawnTimer, (totalPotions or monsterData.potionQuantity), self, players)
+	end
+
+		-- Chaos
+	monster.endChaos = function(self)
+		isMoonStolen = false
+		for playerName = 1, #onNightMode do
+			removeNightMode(onNightMode[playerName])
+		end
+		onNightMode = { }
+		monsterData.potionSpawnTimer = monsterData.defaultPotionSpawnTimer
+	end
+
+	local displayNightMode = function(boss, _, self)
+		nightModeAlpha = nightModeAlpha - monsterData.chaosOpacityDecrease
+
+		if nightModeAlpha <= 0 then
+			ui.removeTextArea(interfaceId.nightMode)
+			boss:endChaos()
+			nightModeAlpha = 0.95
+			self.times = 0
+		else
+			for playerName = 1, #onNightMode do
+				playerName = onNightMode[playerName]
+				displayChaosInterface(playerName)
+				if playerCache[playerName].currentStage ~= 8 then
+					tfm.exec.movePlayer(playerName, miscData.finalBossSpawn[1], miscData.finalBossSpawn[2])
+				end
+			end
+		end
 	end
 
 	monster.stealTheMoon = function(self, players)
@@ -1350,22 +1405,21 @@ do
 			enableNightMode(players[player])
 		end
 
-		return true
-	end
+		timer.start(timer.start, monsterData.chaosFirstChangeTimer, 1, displayNightMode, monsterData.chaosOpacityChangeTimer, 0, self)
 
-	monster.endChaos = function(self)
-		for playerName, data in next, playerCache do
-			if data.onNightMode then
-				removeNightMode(data)
-			end
-		end
-		isMoonStolen = false
+		return true
 	end
 
 	monster.beginChaos = function(self, players)
 		if self:stealTheMoon(self, players) then
-			self:throwPotions(players, 0) -- Throws until the chaos is gone
-			timer.start(monster.endChaos, 10000, 1, self)
+			-- Throws until the chaos is gone
+			local randomAttack = math.random(100, 200)
+			if randomAttack <= 100 then
+				monsterData.potionSpawnTimer = monsterData.potionSpawnTimerOnChaos
+				self:throwPotions(players, 0)
+			else
+				self:invokeMeteor(players, 0)
+			end
 		end
 	end
 end
@@ -1386,10 +1440,10 @@ do
 
 			local angle, directionX, directionY = getPlayerAim(nil, boss, false, { x = x, y = y })
 
-			object = tfm.exec.addShamanObject(objectId.paperball, x, y, angle, (-directionX * bulletData.xSpeedBoss), (-directionY * bulletData.ySpeedBoss)) -- Using negative because 'boss' was passed first, for the getRelativeN function.
+			object = tfm.exec.addShamanObject(objectId.paperBall, x, y, angle, (-directionX * bulletData.xSpeedBoss), (-directionY * bulletData.ySpeedBoss)) -- Using negative because 'boss' was passed first, for the getRelativeN function.
 			sprite = images.throwables.snowball
 		else
-			object = tfm.exec.addShamanObject(objectId.paperball, x + (25 * direction), y - 15, 0, bulletData.xSpeed * direction, bulletData.ySpeed)
+			object = tfm.exec.addShamanObject(objectId.paperBall, x + (25 * direction), y - 15, 0, bulletData.xSpeed * direction, bulletData.ySpeed)
 			sprite = images.throwables.fireball
 		end
 
@@ -1410,7 +1464,7 @@ do
 
 	local monsterLoop
 	bullet.newFromMonster = function(x, y, stage, data)
-		data.object = (data.object or objectId.paperball)
+		data.object = (data.object or objectId.paperBall)
 		data.xSpeed = (data.xSpeed or 0)
 		data.ySpeed = (data.ySpeed or 0)
 		data.xAxis = (data.xAxis or 0)
@@ -1452,8 +1506,10 @@ do
 			obj = monsters[m]
 
 			if obj and pythagoras(self.objectData.x, self.objectData.y, obj:getRelativeX(), obj:getRelativeY(), bulletData.damageRadiusFromPlayer) then
-				if self.isBoss and not self.shooter.hasHitBoss[self.stage] then
-					self.shooter.hasHitBoss[self.stage] = true
+				--if self.isBoss and not self.shooter.hasHitBoss[self.stage] then
+				if self.isBoss and self.stage == 7 and not self.shooter.hasHitBoss then
+					--self.shooter.hasHitBoss[self.stage] = true
+					self.shooter.hasHitBoss = true
 				end
 
 				obj:damage(bulletData.damage)
@@ -1586,7 +1642,7 @@ local setAllPlayerData = function()
 				treeItem = nil, -- Tree item
 				dialog = { },
 				heart = { },
-				nightMode = { }
+				nightMode = nil -- special background
 			},
 			isFrozen = false,
 			treeItem = nil, -- The id of the item to be collected
@@ -1596,8 +1652,10 @@ local setAllPlayerData = function()
 			bulletAction = 0,
 			life = module.life,
 			isFacingRight = true,
-			hasHitBoss = { },
-			onNightMode = false
+			--hasHitBoss = { },
+			hasHitBoss = false,
+			onNightMode = false,
+			hasSavedSanta = false
 		}
 
 		tfm.exec.lowerSyncDelay(playerName)
@@ -1615,6 +1673,7 @@ globalInitInterface = function()
 	-- Data
 	monsterData.bombQuantity = clamp(round(tfm.get.room.uniquePlayers / 10), 1, 5)
 	monsterData.flamingGiftQuantity = clamp(round(tfm.get.room.uniquePlayers / 5), 2, 6)
+	monsterData.defaultPotionSpawnTimer = monsterData.potionSpawnTimer
 	bulletData.damage = clamp((2 - (tfm.get.room.uniquePlayers / 25)), bulletData.minimumDamage, bulletData.maximumDamage)
 	-- Greeting
 	tfm.exec.chatMessage("<PT>[•] " .. translation.init)
@@ -1864,24 +1923,19 @@ end
 
 enableNightMode = function(playerName)
 	if not isMoonStolen then return end
+	onNightMode[#onNightMode + 1] = playerName
 
 	local cache = playerCache[playerName]
 	cache.onNightMode = true
-	cache = cache.cachedImages.nightMode
 
-	cache[1] = tfm.exec.addImage(module.map.stolenMoonSky, imageLayer.mapBackgroundReplace, 0, 0, playerName)
-	cache[2] = tfm.exec.addImage(images.nightMode[1], "$" .. playerName, -1000, -400, playerName)
+	cache.cachedImages.nightMode = tfm.exec.addImage(module.map.stolenMoonSky, imageLayer.mapBackgroundReplace, 0, 0, playerName)
+	displayChaosInterface(playerName)
 end
 
-removeNightMode = function(data)
-	if not isMoonStolen then return end
-
-	data.onNightMode = false
-	data = data.cachedImages.nightMode
-
-	for i = 1, 2 do
-		tfm.exec.removeImage(data[i])
-	end
+removeNightMode = function(playerName)
+	local cache = playerCache[playerName]
+	cache.onNightMode = false
+	tfm.exec.removeImage(cache.cachedImages.nightMode)
 end
 
 local spawnMagician = function()
@@ -1981,6 +2035,11 @@ local startIntro = function(cbk, playerName)
 end
 
 local saveSanta = function(cbk, playerName)
+	if not playerCache[playerName].hasSavedSanta then
+		playerCache[playerName].hasSavedSanta = true
+		playerData:set(playerName, "santaClausSaves", playerData:get(playerName, "santaClausSaves") + 1):save(playerName)
+	end
+
 	ui.dialog(playerName, 2)
 
 	return true
@@ -2003,16 +2062,22 @@ local makeCallbacks = function()
 end
 
 local canTriggerCallbacks = function(playerName)
+	local cache = playerCache[playerName]
+	if cache.isFrozen or cache.onNightMode then return end
+
 	local time = os.time()
-	if playerCache[playerName].callbackAction > time then return end
-	playerCache[playerName].callbackAction = time + miscData.callbackTimer
+	if cache.callbackAction > time then return end
+	cache.callbackAction = time + miscData.callbackTimer
 	return true
 end
 
 local canThrowBullet = function(playerName)
+	local cache = playerCache[playerName]
+	if cache.currentStage == 0 or cache.isFrozen or cache.onNightMode then return end
+
 	local time = os.time()
-	if playerCache[playerName].bulletAction > time then return end
-	playerCache[playerName].bulletAction = time + miscData.bulletReloadTimer
+	if cache.bulletAction > time then return end
+	cache.bulletAction = time + miscData.bulletReloadTimer
 	return true
 end
 
@@ -2071,7 +2136,7 @@ eventKeyboard = function(playerName, key, holding, x, y)
 			end
 
 			-- Throw
-			if playerCache[playerName].currentStage > 0 and not playerCache[playerName].isFrozen and canThrowBullet(playerName) then
+			if canThrowBullet(playerName) then
 				bullet.newFromPlayer(x, y, playerCache[playerName].currentStage, playerName, (playerCache[playerName].isFacingRight and 1 or -1), (playerCache[playerName].currentStage > 6))
 			end
 		else
