@@ -18,7 +18,8 @@ local module = {
 		xml = [[<C><P L="1000" APS="%s,,170,350,820,1250,,;%s,,,,1000,370,," H="1600" /><Z><S><S L="160" o="324650" X="76" H="17" Y="1574" T="12" P=",,.3,.2,-12,,," /><S L="115" o="324650" X="209" H="17" Y="1563" T="12" P=",,.3,.2,5,,," /><S L="100" o="324650" X="297" H="17" Y="1559" T="12" P=",,.3,.2,-10,,," /><S L="150" o="324650" X="417" H="17" Y="1560" T="12" P=",,.3,.2,7,,," /><S L="150" o="324650" X="565" H="17" Y="1568" T="12" P=",,.3,.2,-1,,," /><S L="92" o="324650" X="672" H="17" Y="1544" T="12" P=",,.3,.2,-34,,," /><S L="82" o="324650" X="743" H="17" Y="1503" T="12" P=",,.3,.2,-26,,," /><S L="66" o="324650" X="790" H="17" Y="1461" T="12" P=",,.3,.2,-65,,," /><S L="15" o="324650" X="789" H="853" Y="1014" T="12" P=",,.3,.2,,,," /><S L="530" o="324650" X="457" H="17" Y="1408" T="12" P=",,.3,.2,1,,," /><S L="401" o="324650" X="532" H="17" Y="1250" T="12" P=",,.3,.2,1,,," /><S L="442" o="324650" X="500" H="17" Y="1082" T="12" P=",,.3,.2,,,," /><S L="82" o="324650" X="761" H="17" Y="1274" T="12" P=",,.3,.2,32,,," /><S L="167" o="324650" X="736" H="17" Y="1183" T="12" P=",,.3,.2,-52,,," /><S L="99" o="324650" X="422" H="17" Y="1051" T="12" P=",,.3,.2,218,,," /><S L="99" o="324650" X="356" H="17" Y="983" T="12" P=",,.3,.2,235,,," /><S L="339" o="324650" X="561" H="17" Y="921" T="12" P=",,.3,.2,,,," /><S L="92" o="324650" X="759" H="17" Y="949" T="12" P=",,.3,.2,40,,," /><S L="178" o="324650" X="731" H="17" Y="854" T="12" P=",,.3,.2,-49,,," /><S L="350" o="324650" X="536" H="17" Y="754" T="12" P=",,.3,.2,,,," /><S L="124" o="324650" X="448" H="17" Y="677" T="12" P=",,.3,.2,55,,," /><S L="503" o="324650" X="748" H="17" Y="597" T="12" P=",,.3,.2,-1,,," /><S L="14" o="324650" X="991" H="211" Y="487" T="12" P=",,.3,.2,2,,," /><S L="532" o="324650" X="736" H="27" Y="378" T="12" P=",,.3,.2,,,," /><S L="20" o="324650" X="326" H="1104" Y="901" T="12" P=",,.3,.2,15,,," /><S L="10" o="324650" X="998" H="3000" Y="-1130" T="12" P=",,,,,,," /><S H="3000" L="10" o="324650" X="-2" c="3" Y="100" T="12" P=",,,,,,," /><S P=",,.3,.2,-115,,," L="10" o="324650" H="10" Y="1444" T="12" X="788" /><S P=",,.3,.2,50,,," L="172" o="324650" H="17" Y="1340" T="12" X="293" /><S H="10" L="100" o="324650" X="748" c="2" Y="1410" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="290" c="2" Y="1245" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="748" c="2" Y="1080" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="380" c="2" Y="920" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="754" c="2" Y="753" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="455" c="2" Y="596" T="12" P=",,,,,,," /><S P=",,,,-10,,," L="500" o="324650" H="10" c="2" Y="415" T="12" X="238" /><S P=",,,,,,," L="10" o="324650" X="183" c="2" Y="1493" T="12" H="150" /><S P=",,.3,.2,40,,," L="100" o="324650" H="17" Y="723" T="12" X="496" /><S L="20" o="324650" H="100" X="447" Y="433" T="12" P=",,.3,.2,10,,," /><S X="868" L="66" o="324650" H="40" c="3" Y="568" T="12" P=",,.3,.2,,,," /><S P="1,99999,99999,,,1,," L="50" o="324650" lua="%d" H="10" c="2" Y="494" T="12" X="945" /><S P="1,99999,,,,,," L="10" o="324650" lua="%d" H="10" Y="-620" T="12" X="945" /><S L="10" o="324650" lua="%d" H="200" X="906" Y="487" T="12" P=",,,,,,," /><S X="835" L="10" o="324650" lua="%d" H="200" c="3" Y="487" T="12" P=",,,,,,," /><S H="10" L="10" o="324650" lua="%d" X="945" c="2" Y="572" T="12" P=",,,,,,," /><S P=",,,,,,," L="10" o="324650" lua="%d" X="906" Y="-1130" T="12" H="3000" /><S P="1,99999,,,,,," L="10" o="324650" lua="%d" X="953" c="4" Y="250" T="13" H="10" /><S X="953" L="50" o="324650" lua="%d" H="10" c="2" Y="260" T="12" P="1,,99999,,,1,," /><S P=",,.3,.2,,,," L="125" o="324650" H="55" c="3" Y="335" T="12" X="820" /><S H="10" L="40" o="324650" c="2" Y="295" T="12" X="950" P=",,9999,,,,," /></S><D /><O /><L><JP M2="" M1="40" AXIS=",1" /><JR P1="945,-625" M1="41" MV="Infinity,2" /><JD M1="40" M2="41" /><JR P1="953,250" M1="46" MV="Infinity,1.75" /><JR M1="46" M2="47" /></L></Z></C>]],
 		background = "16e6f4bb3dc.jpg",
 		foreground = "167515a75c9.png",
-		backgroundCover = "16ee29f0829.jpg"
+		backgroundCover = "16f06c06a3f.png",
+		stolenMoonSky = "16f06b1c601.png"
 	},
 	minPlayers = 5,
 	maxPlayers = 70,
@@ -153,9 +154,10 @@ local monsterData = {
 	meteorCloseRadius = 70,
 
 	potionForce = 25,
-	potionRadius = 50,
+	potionRadius = 80,
 	potionSpawnTimer = 1000,
 	breakPotionTimer = 1000,
+	potionQuantity = 3,
 
 	movementType = {
 		[monsterType.snow] = movementType.nearestPlayer,
@@ -300,7 +302,7 @@ local images = {
 			[monsterType.mutantMagician] = {
 				[1] = { "16f01f722f1.png", -154, -32 }, -- Summoning (hands 225deg)
 				[3] = { "16f05cbe665.png", -149, -44 }, -- Summoning (hand2 90deg)
-				[5] = { '', -155, -35 } -- Throwing (hands 90deg)
+				[5] = { "16f06e99042.png", -143, -60 } -- Throwing (hands 90deg)
 			}
 		}
 	},
@@ -313,24 +315,26 @@ local images = {
 		elf = "16ef81709b5.png",--"16ebe6a1b5b.png",
 		santa = "16ef81cda35.png"--"16ef2d90b06.png"
 	},
-	others = {
-		heart = {
-			[1] = "16ebd213f31.png", -- Red
-			[0.5] = "16ebd26dde2.png", -- Half red / Half grey
-			[0] = "16ebd2156a2.png" -- Grey
-		},
+	throwables = {
 		fireball = "16eba44a988.png",
 		bomb = "16ebf8c6c48.png",
 		breath = "16f053d906e.png",
 		snowball = "16ec3bf9538.png",
 		flamingGift = { "16ee268a853.png", "16ee268db9b.png", "16ee268ed43.png" },
-		meteor = "16f057dc05f.png",
-		potion = ''
-	}
+		meteor = "16f06ee1d5e.png",
+		potion = "16f06b13b74.png"
+	},
+	heart = {
+		[1] = "16ebd213f31.png", -- Red
+		[0.5] = "16ebd26dde2.png", -- Half red / Half grey
+		[0] = "16ebd2156a2.png" -- Grey
+	},
+	nightMode = { '' }
 }
 
 local imageLayer = {
 	mapBackground = "?0",
+	mapBackgroundReplace = "?1",
 	objectBackground = "?1",
 	objectForeground = "!1",
 	dialogForeground = "&2",
@@ -404,9 +408,16 @@ do
 end
 
 local canStart = false
+local newGame = false
+
 local workingTimer = workingTimerState.start
 
 local playerStage = { }
+
+local passageBlocks = { }
+local lastMountainStage = 0
+local mutantMagicianTriggered = false
+local isMoonStolen = false
 
 --[[ Utils ]]--
 local percent = function(x, y, p)
@@ -841,7 +852,7 @@ do
 	end
 end
 
-local monster, bullet
+local monster, bullet, enableNightMode, removeNightMode
 do
 	monster = {
 		_perStage = { }
@@ -982,7 +993,9 @@ do
 		elseif self.type == monsterType.mutantMagician then
 			if not self.isAttacking and math.random(1, 5) == 5 then
 				--self:throwFlamingGift(players)
-				self:invokeMeteor(players)
+				--self:invokeMeteor(players)
+				--self:throwPotions(players)
+				self:beginChaos(players)
 			end
 		else
 			if math.random(1, 5) < 4 then
@@ -1182,7 +1195,7 @@ do
 		angle, directionX, directionY, player = getPlayerAim(getRandomValue(players), boss)
 
 		local object = tfm.exec.addShamanObject(objectId.box, boss:getRelativeX(), boss:getRelativeY(), angle, (directionX * monsterData.bombForce), (directionY * monsterData.bombForce))
-		local image = tfm.exec.addImage(images.others.bomb, "#" .. object, -15, -35)
+		local image = tfm.exec.addImage(images.throwables.bomb, "#" .. object, -15, -35)
 		timer.start(explodeBomb, monsterData.bombExplodeTimer, 1, tfm.get.room.objectList[object], players, image)
 
 		checkBossFinishedAttack(boss, self)
@@ -1213,7 +1226,7 @@ do
 
 		local angleAim = math.deg(getPlayerAim(getRandomValue(players), boss, true))
 		local object = tfm.exec.addShamanObject(objectId.rune, boss:getRelativeX(), boss:getRelativeY(), angleAim, 0, 0, true)
-		local image = tfm.exec.addImage(images.others.breath, "#" .. object, -25, -15)
+		local image = tfm.exec.addImage(images.throwables.breath, "#" .. object, -25, -15)
 
 		timer.start(breathFreeze, monsterData.breathFreezeTime, 1, tfm.get.room.objectList[object], players, image)
 
@@ -1238,7 +1251,7 @@ do
 	local createFlamingGift = function(boss, players, self)
 		if boss.destroyed then return end
 
-		flamingGiftData.sprite = getRandomValue(images.others.flamingGift)
+		flamingGiftData.sprite = getRandomValue(images.throwables.flamingGift)
 		bullet.newFromMonster(miscData.fireMachineShootSpawn[1], miscData.fireMachineShootSpawn[2], boss.stage, flamingGiftData)
 
 		checkBossFinishedAttack(boss, self)
@@ -1253,8 +1266,6 @@ do
 		-- Strong
 	local meteorLoop = function(self, currentTime, remainingTime)
 		if self.objectData.y < 1 or self.objectData.vy > 0 then return end
-
-		getNearPlayers
 
 		local players, player, data, inRange, distance = getPlayersInStage(self.stage)
 		for p = 1, (players and #players or 0) do
@@ -1275,8 +1286,8 @@ do
 
 	local meteorData = {
 		object = objectId.fish,
-		sprite = images.others.meteor,
-		xAxis = -25,
+		sprite = images.throwables.meteor,
+		xAxis = -23,
 		yAxis = -75,
 		loop = meteorLoop
 	}
@@ -1313,15 +1324,49 @@ do
 		angle, directionX, directionY, player = getPlayerAim(getRandomValue(players), boss)
 
 		local object = tfm.exec.addShamanObject(objectId.paperball, boss:getRelativeX(), boss:getRelativeY(), angle, (directionX * monsterData.potionForce), (directionY * monsterData.potionForce))
-		local image = tfm.exec.addImage(images.others.potion, "#" .. object, -15, -15)
+		local image = tfm.exec.addImage(images.throwables.potion, "#" .. object, -15, -15)
 
 		timer.start(breakPotion, monsterData.breakPotionTimer, 1, tfm.get.room.objectList[object], players, image)
+
+		if self.times <= 0 then
+			if not isMoonStolen then
+				self.times = 0 -- destroys the timer
+			end
+			checkBossFinishedAttack(boss, self)
+		end
 	end
 
-	monster.throwPotion = function(self, players)
+	monster.throwPotions = function(self, players, totalPotions)
 		self:setSprite(monsterDirection.ultimateAttack, true)
 
-		timer.start(createPotion, monsterData.potionSpawnTimer, 0, self, players)
+		timer.start(createPotion, monsterData.potionSpawnTimer, (totalPotions or monsterData.potionQuantity), self, players)
+	end
+
+	monster.stealTheMoon = function(self, players)
+		if isMoonStolen then return end
+		isMoonStolen = true
+
+		for player = 1, #players do
+			enableNightMode(players[player])
+		end
+
+		return true
+	end
+
+	monster.endChaos = function(self)
+		for playerName, data in next, playerCache do
+			if data.onNightMode then
+				removeNightMode(data)
+			end
+		end
+		isMoonStolen = false
+	end
+
+	monster.beginChaos = function(self, players)
+		if self:stealTheMoon(self, players) then
+			self:throwPotions(players, 0) -- Throws until the chaos is gone
+			timer.start(monster.endChaos, 10000, 1, self)
+		end
 	end
 end
 
@@ -1342,10 +1387,10 @@ do
 			local angle, directionX, directionY = getPlayerAim(nil, boss, false, { x = x, y = y })
 
 			object = tfm.exec.addShamanObject(objectId.paperball, x, y, angle, (-directionX * bulletData.xSpeedBoss), (-directionY * bulletData.ySpeedBoss)) -- Using negative because 'boss' was passed first, for the getRelativeN function.
-			sprite = images.others.snowball
+			sprite = images.throwables.snowball
 		else
 			object = tfm.exec.addShamanObject(objectId.paperball, x + (25 * direction), y - 15, 0, bulletData.xSpeed * direction, bulletData.ySpeed)
-			sprite = images.others.fireball
+			sprite = images.throwables.fireball
 		end
 
 		tfm.exec.playEmote(playerName, emoteIds.throw)
@@ -1463,10 +1508,6 @@ ui.removeDialog = function(playerName)
 end
 
 --[[ Functions ]]--
-local passageBlocks = { }
-local lastMountainStage = 0
-local mutantMagicianTriggered = false
-
 local updateHeart, displayLife, removePlayerLife
 do
 	updateHeart = function(playerName, cache, id, level)
@@ -1475,7 +1516,7 @@ do
 		if cache[id] then
 			tfm.exec.removeImage(cache[id])
 		end
-		cache[id] = tfm.exec.addImage(images.others.heart[level], imageLayer.hudForeground, (id - 1) * 30, 30, playerName)
+		cache[id] = tfm.exec.addImage(images.heart[level], imageLayer.hudForeground, (id - 1) * 30, 30, playerName)
 	end
 
 	displayLife = function(playerName)
@@ -1544,7 +1585,8 @@ local setAllPlayerData = function()
 				tree = nil, -- Tree image
 				treeItem = nil, -- Tree item
 				dialog = { },
-				heart = { }
+				heart = { },
+				nightMode = { }
 			},
 			isFrozen = false,
 			treeItem = nil, -- The id of the item to be collected
@@ -1554,7 +1596,8 @@ local setAllPlayerData = function()
 			bulletAction = 0,
 			life = module.life,
 			isFacingRight = true,
-			hasHitBoss = { }
+			hasHitBoss = { },
+			onNightMode = false
 		}
 
 		tfm.exec.lowerSyncDelay(playerName)
@@ -1698,6 +1741,10 @@ do
 			tfm.exec.removePhysicObject(g)
 		end
 
+		if isMoonStolen then
+			obj:endChaos()
+		end
+
 		timer.start(executeMutantMagicianBaseRemove, monsterData.mutantMagicianFallRemoveTimer, 1, obj, base)
 	end
 end
@@ -1815,6 +1862,28 @@ local insertPlayerIntoStage = function(playerName, stage)
 	playerCache[playerName].currentStage = stage
 end
 
+enableNightMode = function(playerName)
+	if not isMoonStolen then return end
+
+	local cache = playerCache[playerName]
+	cache.onNightMode = true
+	cache = cache.cachedImages.nightMode
+
+	cache[1] = tfm.exec.addImage(module.map.stolenMoonSky, imageLayer.mapBackgroundReplace, 0, 0, playerName)
+	cache[2] = tfm.exec.addImage(images.nightMode[1], "$" .. playerName, -1000, -400, playerName)
+end
+
+removeNightMode = function(data)
+	if not isMoonStolen then return end
+
+	data.onNightMode = false
+	data = data.cachedImages.nightMode
+
+	for i = 1, 2 do
+		tfm.exec.removeImage(data[i])
+	end
+end
+
 local spawnMagician = function()
 	monster.new(monsterType.magician, 945, 470, 7):useAxisPosition(50, 73):onDeath(defeatMagician)
 	tfm.exec.removeJoint(jointId.blocker)
@@ -1838,6 +1907,8 @@ local checkStageChallege = function()
 				if not mutantMagicianTriggered then
 					mutantMagicianTriggered = true
 					spawnMutantMagician()
+				elseif isMoonStolen and not playerCache[playerName].onNightMode then
+					enableNightMode(playerName)
 				end
 			elseif tmpCurrentStage > lastMountainStage then
 				lastMountainStage = tmpCurrentStage
@@ -1946,7 +2017,6 @@ local canThrowBullet = function(playerName)
 end
 
 --[[ Events ]]--
-local newGame = false
 eventNewGame = function()
 	if newGame then
 		-- Bug fix
