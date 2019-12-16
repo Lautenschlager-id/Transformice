@@ -25,7 +25,7 @@ local module = {
 	maxPlayers = 70,
 	timerTicks = 12,
 	life = 6,
-	rewardMagicianDefeats = 15,
+	rewardWizardDefeats = 15,
 	rewardSantaClausSaves = 5
 }
 
@@ -42,13 +42,18 @@ do
 	local texts = {
 		en = {
 			dialog = {
-				[1] = " Oh, h-hey! I'm so glad to finally find someone.\n\n Elves were working on the christmas decoration when an evil wizard showed up and began to control the yetis of the mountain.\n He didn't accept the end of halloween and wants to ruin our celebration; Our christmas tree has been tore apart and its pieces are somewhere in the mountain... Santa is missing...\n\n I w-was so scared... I ran away before he would take me. Please, help us!",
+				close = "Press spacebar to close the dialog.",
+				[1] = " Oh, h-hey! I'm so glad to finally find someone.\n\n Elves were working on the christmas decoration when an evil wizard showed up and began to control the yetis of the mountain.\n They didn't accept the end of halloween and want to ruin our celebration; Our christmas tree has been tore apart and its pieces are somewhere in the mountain... Santa is missing...\n\n I w-was so scared... I ran away before they would take me. Please, help!",
 				[2] = ''
 			},
-			closeDialog = "Press spacebar to close the dialog.",
 			elfTalkMountain = "Oh, look! An elf, and... Heey, they are hurt! Go near them and press <B>[space bar]</B> to talk.",
 			introduceMountain = "Explore the mountain and find the pieces of the magic christmas tree, or else the event will be ruined forever.",
-			introduceAttack = "Press <B>[space bar]</B> to use the fire power you have obtained to guide you through this adventure!"
+			introduceAttack = "Press <B>[space bar]</B> to use the fire power you have obtained to guide you through this adventure!",
+			introduceWizard = "Oh, look! There is a piece of the tree right there! B-but... the wizard, we need to go through them.",
+			wizardCaldronDefeat = "Noooooooooooooo! My mixtures! My caldron!",
+			placeItem = "Yay! You've found one more piece of the tree! <B>%d</B> item(s) to go and christmas may be saved thanks to you!",
+			treeComplete = '',
+
 		},
 		br = { }
 	}
@@ -107,8 +112,8 @@ local monsterType = {
 	snow = 1,
 	roar = 2,
 	freeze = 3,
-	magician = 4,
-	mutantMagician = 5
+	wizard = 4,
+	mutantWizard = 5
 }
 
 local movementType = {
@@ -141,8 +146,8 @@ local monsterData = {
 	breathUnfreezeTime = 2500,
 	breathSpawnTimer = 1000,
 
-	magicianFallRemoveTimer = 1500,
-	mutantMagicianFallRemoveTimer = 2000,
+	wizardFallRemoveTimer = 1500,
+	mutantWizardFallRemoveTimer = 2000,
 
 	flamingGiftQuantity = 0,
 	flamingGiftSpawnTimer = 500,
@@ -181,8 +186,8 @@ local monsterData = {
 		[monsterType.snow] = 8,
 		[monsterType.roar] = 12,
 		[monsterType.freeze] = 15,
-		[monsterType.magician] = 70,
-		[monsterType.mutantMagician] = 100
+		[monsterType.wizard] = 70,
+		[monsterType.mutantWizard] = 100
 	},
 	damage = {
 		explode = 0.5,
@@ -256,6 +261,16 @@ local consumableCoordinates = {
 	snowfall = { 500, 660, 540, 600, 0 } -- Snow mountain
 }
 
+local npcNames = {
+	elf = "Gerso",
+	wizard = "Wizard"
+}
+
+local npcColors = {
+	elf = "E9E654",
+	wizard = "CB546B"
+}
+
 -- Images
 local images = {
 	christmasTree = {
@@ -301,11 +316,11 @@ local images = {
 			[2] = { "16eed4a6380.png", -18, -34 },
 			[3] = { "16eed5f2d70.png", -42, -34 }
 		},
-		[monsterType.magician] = {
+		[monsterType.wizard] = {
 			[2] = { "16ef27d5566.png", -95, -20 }, -- Normal
 			[4] = { "16ef28a9a58.png", -105, -20 } -- Defeated
 		},
-		[monsterType.mutantMagician] = {
+		[monsterType.mutantWizard] = {
 			[2] = { "16f01ecf9f4.png", -145, -32 }, -- Normal
 			[4] = { "", -145, -32 } -- Defeated
 		},
@@ -322,11 +337,11 @@ local images = {
 				[1] = { "16eed725073.png", -38, -40 },
 				[3] = { "16eed7270f7.png", -32, -40 }
 			},
-			[monsterType.magician] = {
+			[monsterType.wizard] = {
 				[1] = { "16ef2811ccd.png", -105, -20 }, -- Throwing (hands 180deg)
 				[3] = { "16ef2846294.png", -105, -23 } -- Summoning (hands 90deg)
 			},
-			[monsterType.mutantMagician] = {
+			[monsterType.mutantWizard] = {
 				[1] = { "16f01f722f1.png", -154, -32 }, -- Summoning (hands 225deg)
 				[3] = { "16f05cbe665.png", -149, -44 }, -- Summoning (hand2 90deg)
 				[5] = { "16f06e99042.png", -143, -60 } -- Throwing (hands 90deg)
@@ -374,7 +389,7 @@ local playerCache, playerData = { }, {
 		index = 1,
 		default = 0
 	},
-	magicianDefeats = {
+	wizardDefeats = {
 		index = 2,
 		default = 0
 	},
@@ -403,7 +418,7 @@ do
 		elseif reward == rewardId.badge then
 			if playerData:get(playerName, "santaClausSaves") < module.rewardSantaClausSaves then return end
 		elseif reward == rewardId.old_title then
-			if playerData:get(playerName, "magicianDefeats") < module.rewardMagicianDefeats then return end
+			if playerData:get(playerName, "wizardDefeats") < module.rewardWizardDefeats then return end
 		elseif reward == rewardId.old_title2 then
 			return
 		end
@@ -442,7 +457,7 @@ local playerStage = { }
 
 local passageBlocks = { }
 local lastMountainStage = 0
-local mutantMagicianTriggered = false
+local mutantWizardTriggered = false
 
 local isMoonStolen = false
 local onNightMode = { }
@@ -554,15 +569,15 @@ local getPlayerAim = function(playerName, obj, ignoreAcceleration, _player)
 	return angle, directionX, directionY, _player
 end
 
-local addMagicianKillForPlayers = function()
+local addWizardKillForPlayers = function()
 	for playerName, data in next, playerCache do
 		--if data.hasHitBoss[7] then
 		--	data.hasHitBoss[7] = false
 			data.hasHitBoss = false
-			playerData:set(playerName, "magicianDefeats", playerData:get(playerName, "magicianDefeats") + 1):save(playerName)
+			playerData:set(playerName, "wizardDefeats", playerData:get(playerName, "wizardDefeats") + 1):save(playerName)
 		--elseif data.hasHitBoss[8] then
 		--	data.hasHitBoss[8] = false
-		--	playerData:set(playerName, "mutantMagicianDefeats", playerData:get(playerName, "mutantMagicianDefeats") + 1):save(playerName)
+		--	playerData:set(playerName, "mutantWizardDefeats", playerData:get(playerName, "mutantWizardDefeats") + 1):save(playerName)
 		--end
 	end
 end
@@ -571,8 +586,8 @@ local displayChaosInterface = function(playerName)
 	ui.addTextArea(interfaceId.nightMode, '', playerName, -1500, -1500, 3000, 3000, 1, 1, nightModeAlpha, true)
 end
 
-local chatMessage = function(message, playerName)
-	tfm.exec.chatMessage("<PT>[•] " .. message .. "\n", playerName)
+local chatMessage = function(message, playerName, who)
+	tfm.exec.chatMessage("<font color='#" .. (npcColors[who] or "2EBA7E") .. "'>[" .. (npcNames[who] and ("<B>" .. npcNames[who] .. "</B>") or "•") .. "] " .. message .. "</font>\n", playerName)
 end
 
 --[[ Tools ]]--
@@ -997,7 +1012,7 @@ do
 
 		if self.isBoss then
 			-- Adds +1 kill for players
-			addMagicianKillForPlayers()
+			addWizardKillForPlayers()
 		end
 
 		if self.deathCallback then
@@ -1009,7 +1024,6 @@ do
 
 	monster.damage = function(self, damage)
 		self.life = self.life - damage
-		print(self.life)
 		if self.life <= 0 then
 			self:destroy()
 			return true
@@ -1032,7 +1046,7 @@ do
 			return
 		end
 
-		if self.type == monsterType.magician then
+		if self.type == monsterType.wizard then
 			if not self.isAttacking and math.random(1, 5) == 5 then
 				if math.random(1, 2) == 1 then
 					self:bomber(players)
@@ -1040,9 +1054,9 @@ do
 					self:freezeBreath(players)
 				end
 			end
-		elseif self.type == monsterType.mutantMagician then
+		elseif self.type == monsterType.mutantWizard then
 			if not self.isAttacking and not isMoonStolen and math.random(1, 5) == 5 then
-				if self.life < 5 and not self.startedChaos then
+				if self.life < 15 and not self.startedChaos then
 					self.startedChaos = true
 					self:beginChaos(players)
 				else
@@ -1233,7 +1247,7 @@ do
 		end
 	end
 
-	-- Magician
+	-- Wizard
 		-- Weak
 	local explodeBomb = function(objectData, players, imageId)
 		tfm.exec.removeImage(imageId)
@@ -1297,7 +1311,7 @@ do
 		timer.start(createBreath, monsterData.breathSpawnTimer, monsterData.breathQuantity, self, players)
 	end
 
-	-- Mutant magician
+	-- Mutant wizard
 		-- Weak
 	local flamingGiftData = {
 		damage = monsterData.damage.flamingGift,
@@ -1462,7 +1476,7 @@ do
 
 		local object, sprite
 
-		local boss = isBoss and monster._perStage[stage][1] -- isBoss and has a boss
+		local boss = isBoss and monster._perStage[stage]._data[1] -- isBoss and has a boss
 		if boss then
 			local x, y = (x + 25), (y - 15)
 
@@ -1681,7 +1695,9 @@ local setAllPlayerData = function()
 			hasHitBoss = false,
 			onNightMode = false,
 			hasSavedSanta = false,
-			consumableTimer = 0
+			consumableTimer = 0,
+			hasSeenWizard = false,
+			hasSeenMutantWizard = false
 		}
 
 		tfm.exec.lowerSyncDelay(playerName)
@@ -1722,7 +1738,7 @@ local updateDialog = function(playerName, data, addChar)
 
 	local lastChar = data.dialog.strPos >= #str
 
-	ui.updateTextArea(interfaceId.dialog + 1, string.sub(translation.dialog[data.dialog.id], 1, data.dialog.strPos) .. (lastChar and ("\n<PT>" .. translation.closeDialog) or "|"), playerName)
+	ui.updateTextArea(interfaceId.dialog + 1, string.sub(translation.dialog[data.dialog.id], 1, data.dialog.strPos) .. (lastChar and ("\n<PT>" .. translation.dialog.close) or "|"), playerName)
 
 	if lastChar then
 		eventPlayerDialogEnded(playerName, data.dialog.id, data)
@@ -1740,7 +1756,7 @@ update = function(_, addChar)
 	end
 end
 
-local buildMap, defeatMagician, defeatMutantMagician
+local buildMap, defeatWizard, defeatMutantWizard
 do
 	local blockLocationX = {
 		[1] = 748,
@@ -1798,7 +1814,7 @@ do
 		tfm.exec.addJoint(jointId.blocker + 1, totalBlocks, groundId.jointEffect + 2, blockerJoint)
 	end
 
-	local executeMagicianBaseRemove = function(obj, base)
+	local executeWizardBaseRemove = function(obj, base)
 		base(obj)
 		for g = groundId.bossBlock, groundId.bossBlock + 2 do
 			tfm.exec.removePhysicObject(g)
@@ -1806,21 +1822,27 @@ do
 		tfm.exec.removePhysicObject(groundId.jointEffect)
 	end
 
-	defeatMagician = function(obj, base)
+	defeatWizard = function(obj, base)
 		obj:setSprite(monsterDirection.defeated, false, true)
 
 		tfm.exec.removePhysicObject(groundId.jointEffect + 1)
 
-		timer.start(executeMagicianBaseRemove, monsterData.magicianFallRemoveTimer, 1, obj, base)
+		timer.start(executeWizardBaseRemove, monsterData.wizardFallRemoveTimer, 1, obj, base)
+
+		local players = getPlayersInStage(obj.stage)
+		if not players then return end
+		for player = 1, #players do
+			chatMessage(translation.wizardCaldronDefeat, players[player], "wizard")
+		end
 	end
 
-	local executeMutantMagicianBaseRemove = function(obj, base)
+	local executeMutantWizardBaseRemove = function(obj, base)
 		base(obj, true)
 
 		tfm.exec.removePhysicObject(groundId.bossBlock + 3)
 	end
 
-	defeatMutantMagician = function(obj, base)
+	defeatMutantWizard = function(obj, base)
 		obj:setSprite(monsterDirection.defeated, false, true)
 
 		for g = groundId.jointEffect + 2, groundId.jointEffect + 3 do
@@ -1831,7 +1853,7 @@ do
 			obj:endChaos()
 		end
 
-		timer.start(executeMutantMagicianBaseRemove, monsterData.mutantMagicianFallRemoveTimer, 1, obj, base)
+		timer.start(executeMutantWizardBaseRemove, monsterData.mutantWizardFallRemoveTimer, 1, obj, base)
 	end
 end
 
@@ -1965,18 +1987,18 @@ removeNightMode = function(playerName)
 	tfm.exec.removeImage(cache.cachedImages.nightMode)
 end
 
-local spawnMagician = function()
-	monster.new(monsterType.magician, 945, 470, 7):useAxisPosition(50, 73):onDeath(defeatMagician)
+local spawnWizard = function()
+	monster.new(monsterType.wizard, 945, 470, 7):useAxisPosition(50, 73):onDeath(defeatWizard)
 	tfm.exec.removeJoint(jointId.blocker)
 end
 
-local spawnMutantMagician = function()
-	monster.new(monsterType.mutantMagician, 953, 230, 8):useAxisPosition(50, 73):onDeath(defeatMutantMagician)
+local spawnMutantWizard = function()
+	monster.new(monsterType.mutantWizard, 953, 230, 8):useAxisPosition(50, 73):onDeath(defeatMutantWizard)
 	tfm.exec.removeJoint(jointId.blocker + 1)
 end
 
 local checkStageChallege = function()
-	local tmpCurrentStage
+	local tmpCurrentStage, cache
 	for playerName, data in next, tfm.get.room.playerList do
 		if not data.isDead and playerCache[playerName].dataLoaded then
 			tmpCurrentStage = getCurrentStage(data.y, data.x)
@@ -1985,24 +2007,33 @@ local checkStageChallege = function()
 					return tfm.exec.movePlayer(playerName, miscData.miceTeleportSpawn[1], miscData.miceTeleportSpawn[2])
 				end
 
-				if not mutantMagicianTriggered then
-					mutantMagicianTriggered = true
-					spawnMutantMagician()
+				if not mutantWizardTriggered then
+					mutantWizardTriggered = true
+					spawnMutantWizard()
 				elseif isMoonStolen and not playerCache[playerName].onNightMode then
 					enableNightMode(playerName)
 				end
 			elseif tmpCurrentStage > lastMountainStage then
 				lastMountainStage = tmpCurrentStage
 				if lastMountainStage == 7 then
-					spawnMagician()
+					spawnWizard()
 					displayLife(playerName) -- Player's life gets reset to defeat the boss
 				else
 					spawnYetis(lastMountainStage)
 				end
 			end
 
-			if playerCache[playerName].currentStage ~= tmpCurrentStage then
+			cache = playerCache[playerName]
+			if cache.currentStage ~= tmpCurrentStage then
 				insertPlayerIntoStage(playerName, tmpCurrentStage)
+
+				if tmpCurrentStage == 7 and not cache.hasSeenWizard then
+					cache.hasSeenWizard = true
+					chatMessage(translation.introduceWizard, playerName, "elf")
+				elseif tmpCurrentStage == 8 and not cache.hasSeenMutantWizard then
+					cache.hasSeenMutantWizard = true
+					-- TODO
+				end
 			end
 		end
 	end
@@ -2052,6 +2083,12 @@ local placeItem = function(cbk, playerName)
 	tfm.exec.removeImage(playerCache[playerName].cachedImages.treeItem)
 	displayTree(playerName, true)
 
+	local missing = (#images.christmasTree - playerData:get(playerName, "treeStage"))
+	if missing > 0 then
+		chatMessage(string.format(translation.placeItem, missing), playerName, "elf")
+	else
+		chatMessage(translation.treeComplete, playerName, "elf")
+	end
 	return true
 end
 
@@ -2227,7 +2264,7 @@ end
 
 eventPlayerDialogEnded = function(playerName, id, data)
 	if id == dialogId.intro then -- intro
-		chatMessage(translation.introduceMountain, playerName)
+		chatMessage(translation.introduceMountain, playerName, "elf")
 		chatMessage(translation.introduceAttack, playerName)
 	end
 end
@@ -2291,13 +2328,13 @@ loop(update, module.timerTicks, 1)
 
 globalInitSettings(true)
 tfm.exec.newGame(string.format(module.map.xml, module.map.foreground, module.map.backgroundCover,
-	groundId.jointEffect, -- [magician] moving ground
-	groundId.jointEffect + 1, -- [magician] -1 axis
-	groundId.bossBlock, -- [magician] left block
-	groundId.bossBlock + 1, -- [magician] right block
-	groundId.bossBlock + 2, -- [magician] up/down block
-	groundId.bossBlock + 3, -- [mutant magician] block
-	groundId.jointEffect + 2, -- [mutant magician] circle axis
-	groundId.jointEffect + 3 -- [mutant magician] moving ground
+	groundId.jointEffect, -- [wizard] moving ground
+	groundId.jointEffect + 1, -- [wizard] -1 axis
+	groundId.bossBlock, -- [wizard] left block
+	groundId.bossBlock + 1, -- [wizard] right block
+	groundId.bossBlock + 2, -- [wizard] up/down block
+	groundId.bossBlock + 3, -- [mutant wizard] block
+	groundId.jointEffect + 2, -- [mutant wizard] circle axis
+	groundId.jointEffect + 3 -- [mutant wizard] moving ground
 ))
 math.randomseed(os.time())
