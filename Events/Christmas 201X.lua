@@ -208,7 +208,9 @@ local monsterDirection = {
 	alive = 2,
 	strongAttack = 3,
 	defeated = 4,
-	ultimateAttack = 5
+	ultimateAttack = 5,
+
+	suicide = -1
 }
 
 local bulletData = {
@@ -321,8 +323,9 @@ local images = {
 			[4] = { "16ef28a9a58.png", -105, -20 } -- Defeated
 		},
 		[monsterType.mutantWizard] = {
+			[-1] = { "16f024ba73f.png", -145, -32 }, -- Suicide
 			[2] = { "16f01ecf9f4.png", -145, -32 }, -- Normal
-			[4] = { "", -145, -32 } -- Defeated
+			[4] = { "16f023ff22c.png", -145, -32 } -- Defeated
 		},
 		attack = {
 			[monsterType.snow] = {
@@ -572,13 +575,14 @@ end
 local addWizardKillForPlayers = function()
 	for playerName, data in next, playerCache do
 		--if data.hasHitBoss[7] then
+		if data.hasHitBoss then
 		--	data.hasHitBoss[7] = false
 			data.hasHitBoss = false
 			playerData:set(playerName, "wizardDefeats", playerData:get(playerName, "wizardDefeats") + 1):save(playerName)
 		--elseif data.hasHitBoss[8] then
 		--	data.hasHitBoss[8] = false
 		--	playerData:set(playerName, "mutantWizardDefeats", playerData:get(playerName, "mutantWizardDefeats") + 1):save(playerName)
-		--end
+		end
 	end
 end
 
@@ -967,7 +971,8 @@ do
 			halfWidth = 0,
 			halfHeight = 0,
 			lastDirection  = monsterDirection.right,
-			startedChaos = false
+			startedChaos = false,
+			suicide = false
 		}, monster), stage))
 	end
 
@@ -1010,7 +1015,7 @@ do
 		if self.destroyed then return end
 		self.destroyed = true
 
-		if self.isBoss then
+		if self.isBoss and self.stage == 7 then
 			-- Adds +1 kill for players
 			addWizardKillForPlayers()
 		end
@@ -1056,7 +1061,11 @@ do
 			end
 		elseif self.type == monsterType.mutantWizard then
 			if not self.isAttacking and not isMoonStolen and math.random(1, 5) == 5 then
-				if self.life < 15 and not self.startedChaos then
+				if remainingTime <= 10000 and self.life >= 50 and not self.suicide then
+					self.suicide = true
+					self.life = 999 -- can't kill anymore
+					self:destroy()
+				elseif self.life < 15 and not self.startedChaos then
 					self.startedChaos = true
 					self:beginChaos(players)
 				else
@@ -1839,11 +1848,13 @@ do
 	local executeMutantWizardBaseRemove = function(obj, base)
 		base(obj, true)
 
-		tfm.exec.removePhysicObject(groundId.bossBlock + 3)
+		if not obj.suicide then
+			tfm.exec.removePhysicObject(groundId.bossBlock + 3)
+		end
 	end
 
 	defeatMutantWizard = function(obj, base)
-		obj:setSprite(monsterDirection.defeated, false, true)
+		obj:setSprite((obj.suicide and monsterDirection.suicide or monsterDirection.defeated), false, true)
 
 		for g = groundId.jointEffect + 2, groundId.jointEffect + 3 do
 			tfm.exec.removePhysicObject(g)
