@@ -41,21 +41,16 @@ local translation
 do
 	local texts = {
 		en = {
-			init = "Oh, look! An elf, and... Heey, they are hurt! Go near them and press [space bar] to talk.",
 			dialog = {
-				[1] = " Oh, h-hey! I'm so glad to finally meet someone.\n\n Elves were working on the Christmas organization when an evil wizard showed up and began to control the minds of all yetis of the mountain. H-he also kidnapped Santa...\n He didn't accept the end of halloween and wants to ruin our celebration.\n\n I w-was so scared... I had to find a way out of there, I've been stuck for days. Please, help us!",
+				[1] = " Oh, h-hey! I'm so glad to finally find someone.\n\n Elves were working on the christmas decoration when an evil wizard showed up and began to control the yetis of the mountain.\n He didn't accept the end of halloween and wants to ruin our celebration; Our christmas tree has been tore apart and its pieces are somewhere in the mountain... Santa is missing...\n\n I w-was so scared... I ran away before he would take me. Please, help us!",
 				[2] = ''
 			},
-			closeDialog = "Press spacebar to close the dialog."
+			closeDialog = "Press spacebar to close the dialog.",
+			elfTalkMountain = "Oh, look! An elf, and... Heey, they are hurt! Go near them and press <B>[space bar]</B> to talk.",
+			introduceMountain = "Explore the mountain and find the pieces of the magic christmas tree, or else the event will be ruined forever.",
+			introduceAttack = "Press <B>[space bar]</B> to use the fire power you have obtained to guide you through this adventure!"
 		},
-		br = {
-			init = '',
-			dialog = {
-				[1] = '',
-				[2] = ''
-			},
-			closeDialog = ''
-		}
+		br = { }
 	}
 	texts.pt = texts.br
 
@@ -76,6 +71,11 @@ local interfaceId = {
 	dialog = 100,
 	callback = 200,
 	nightMode = 300
+}
+
+local dialogId = {
+	intro = 1,
+	saveSanta = 2
 }
 
 local keyCode = {
@@ -541,7 +541,7 @@ local getStageDoorDirection = function(stage)
 	return (stage % 2 == 0 and -1 or 1)
 end
 
-local getPlayerAim = function(playerName, obj, ignoreAcceleration, _player, ISISIS)
+local getPlayerAim = function(playerName, obj, ignoreAcceleration, _player)
 	_player = (_player or tfm.get.room.playerList[playerName])
 
 	local angle = getAngle(obj:getRelativeX(), obj:getRelativeY(), _player.x, _player.y)
@@ -569,6 +569,10 @@ end
 
 local displayChaosInterface = function(playerName)
 	ui.addTextArea(interfaceId.nightMode, '', playerName, -1500, -1500, 3000, 3000, 1, 1, nightModeAlpha, true)
+end
+
+local chatMessage = function(message, playerName)
+	tfm.exec.chatMessage("<PT>[•] " .. message .. "\n", playerName)
 end
 
 --[[ Tools ]]--
@@ -900,14 +904,18 @@ do
 	local addToStage = function(obj, stage)
 		if not monster._perStage[stage] then
 			monster._perStage[stage] = {
-				_id = 0,
-				_count = 0
+				_id = 0, -- total
+				_count = 0, -- alive
+				_data = { } -- objects to iter
 			}
 		end
 
 		local stage = monster._perStage[stage]
+
 		stage._id = stage._id + 1
-		stage[stage._id] = obj
+		stage._data[stage._id] = obj
+		obj._classId = stage._id
+
 		stage._count = stage._count + 1
 
 		return obj
@@ -943,7 +951,8 @@ do
 			destroyed = false,
 			halfWidth = 0,
 			halfHeight = 0,
-			lastDirection  = monsterDirection.right
+			lastDirection  = monsterDirection.right,
+			startedChaos = false
 		}, monster), stage))
 	end
 
@@ -970,8 +979,8 @@ do
 
 	monster.remove = function(self)
 		local stage = monster._perStage[self.stage]
+		stage._data[self._classId] = nil
 		stage._count = stage._count - 1
-		stage[self._id] = nil
 	end
 
 	local destroy = function(self, ignoreVisualRemoval)
@@ -1000,6 +1009,7 @@ do
 
 	monster.damage = function(self, damage)
 		self.life = self.life - damage
+		print(self.life)
 		if self.life <= 0 then
 			self:destroy()
 			return true
@@ -1016,7 +1026,9 @@ do
 
 		local players = getPlayersInStage(self.stage)
 		if (not players or #players == 0) then
-			self:setSprite(monsterDirection.front, false)
+			if not isMoonStolen then
+				self:setSprite(monsterDirection.front, false)
+			end
 			return
 		end
 
@@ -1029,11 +1041,20 @@ do
 				end
 			end
 		elseif self.type == monsterType.mutantMagician then
-			if not self.isAttacking and math.random(1, 5) == 5 then
-				--self:throwFlamingGift(players)
-				--self:invokeMeteor(players)
-				--self:throwPotions(players)
-				self:beginChaos(players)
+			if not self.isAttacking and not isMoonStolen and math.random(1, 5) == 5 then
+				if self.life < 5 and not self.startedChaos then
+					self.startedChaos = true
+					self:beginChaos(players)
+				else
+					local randomAttack = math.random(1, 3)
+					if randomAttack == 1 then
+						self:throwFlamingGift(players)
+					elseif randomAttack == 2 then
+						self:invokeMeteor(players)
+					elseif randomAttack == 3 then
+						self:throwPotions(players)
+					end
+				end
 			end
 		else
 			if math.random(1, 5) < 4 then
@@ -1206,13 +1227,8 @@ do
 	end
 
 	local checkBossFinishedAttack = function(boss, timerObj)
-		if timerObj.times < 0 then
-			if not isMoonStolen then
-				timerObj.times = 0 -- destroys the timer
-			end
-		end
-
-		if timerObj.times == 0 and not isMoonStolen then
+		if timerObj.times <= 0 and not isMoonStolen then
+			timerObj.times = 0 -- destroys the timer for < 0
 			boss:setSprite(monsterDirection.alive, false)
 		end
 	end
@@ -1513,11 +1529,8 @@ do
 	end
 
 	playerLoop = function(self, currentTime, remainingTime)
-		local monsters, obj = monster._perStage[self.stage]
-		for m = 1, (monsters._count or 0) do
-			obj = monsters[m]
-
-			if obj and pythagoras(self.objectData.x, self.objectData.y, obj:getRelativeX(), obj:getRelativeY(), bulletData.damageRadiusFromPlayer) then
+		for _, obj in next, monster._perStage[self.stage]._data do
+			if pythagoras(self.objectData.x, self.objectData.y, obj:getRelativeX(), obj:getRelativeY(), bulletData.damageRadiusFromPlayer) then
 				--if self.isBoss and not self.shooter.hasHitBoss[self.stage] then
 				if self.isBoss and self.stage == 7 and not self.shooter.hasHitBoss then
 					--self.shooter.hasHitBoss[self.stage] = true
@@ -1558,7 +1571,7 @@ ui.dialog = function(playerName, id)
 	playerCache[playerName].cachedImages.dialog[2] = tfm.exec.addImage(images.dialogNpc.background, imageLayer.dialogBackgroud, 50, 215, playerName)
 
 	ui.addTextArea(interfaceId.dialog, '', playerName, -1500, -1500, 3000, 3000, 1, 1, 0.15, true)
-	ui.addTextArea(interfaceId.dialog + 1, "<font size='15' color='#F0F0E0' face='Courier New'><textformat leftmargin='10' rightmargin='5' leading='-3'>", playerName, 50, 220, 700, 160, 1, 1, 0, true)
+	ui.addTextArea(interfaceId.dialog + 1, "<font size='15' color='#F0F0E0' face='Courier New'><textformat leftmargin='10' rightmargin='5' leading='-3'>", playerName, 50, 220, 700, 190, 1, 1, 0, true)
 end
 
 ui.removeDialog = function(playerName)
@@ -1689,7 +1702,7 @@ globalInitInterface = function()
 	monsterData.defaultPotionSpawnTimer = monsterData.potionSpawnTimer
 	bulletData.damage = clamp((2 - (tfm.get.room.uniquePlayers / 25)), bulletData.minimumDamage, bulletData.maximumDamage)
 	-- Greeting
-	tfm.exec.chatMessage("<PT>[•] " .. translation.init)
+	chatMessage(translation.elfTalkMountain)
 	-- map name
 end
 
@@ -1712,6 +1725,7 @@ local updateDialog = function(playerName, data, addChar)
 	ui.updateTextArea(interfaceId.dialog + 1, string.sub(translation.dialog[data.dialog.id], 1, data.dialog.strPos) .. (lastChar and ("\n<PT>" .. translation.closeDialog) or "|"), playerName)
 
 	if lastChar then
+		eventPlayerDialogEnded(playerName, data.dialog.id, data)
 		data.dialog.id = -1
 	end
 end
@@ -2041,8 +2055,8 @@ local placeItem = function(cbk, playerName)
 	return true
 end
 
-local startIntro = function(cbk, playerName)
-	ui.dialog(playerName, 1)
+local introducePlot = function(cbk, playerName)
+	ui.dialog(playerName, dialogId.intro)
 
 	return true
 end
@@ -2053,7 +2067,7 @@ local saveSanta = function(cbk, playerName)
 		playerData:set(playerName, "santaClausSaves", playerData:get(playerName, "santaClausSaves") + 1):save(playerName)
 	end
 
-	ui.dialog(playerName, 2)
+	ui.dialog(playerName, dialogId.saveSanta)
 
 	return true
 end
@@ -2067,7 +2081,7 @@ local makeCallbacks = function()
 
 	-- Elf NPC
 	tfm.exec.addImage(images.npc.elf, imageLayer.objectForeground, -18, 1515)
-	callback.new("elf", -18, 1535, 63, 63):setClickable():setAction(startIntro)
+	callback.new("elf", -18, 1535, 63, 63):setClickable():setAction(introducePlot)
 
 	-- Santa NPC
 	tfm.exec.addImage(images.npc.santa, imageLayer.objectForeground, 915, 285)
@@ -2211,6 +2225,13 @@ eventEmotePlayed = function(playerName, emote, flag)
 	end
 end
 
+eventPlayerDialogEnded = function(playerName, id, data)
+	if id == dialogId.intro then -- intro
+		chatMessage(translation.introduceMountain, playerName)
+		chatMessage(translation.introduceAttack, playerName)
+	end
+end
+
 --[[ Debug ]]--
 if DEBUG then
 	for _, dev in next, module.team.developer do
@@ -2269,7 +2290,7 @@ end, 1000, false)
 loop(update, module.timerTicks, 1)
 
 globalInitSettings(true)
-tfm.exec.newGame(string.format(module.map.xml, ''--[[module.map.foreground]], module.map.backgroundCover,
+tfm.exec.newGame(string.format(module.map.xml, module.map.foreground, module.map.backgroundCover,
 	groundId.jointEffect, -- [magician] moving ground
 	groundId.jointEffect + 1, -- [magician] -1 axis
 	groundId.bossBlock, -- [magician] left block
