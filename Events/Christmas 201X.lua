@@ -51,12 +51,14 @@ do
 			introduceAttack = "Press <B>[space bar]</B> to use the fire power you have obtained to guide you through this adventure!",
 			introduceWizard = "Oh, look! There is a piece of the tree right there! B-but... the wizard, we need to go through them.",
 			wizardCaldronDefeat = "Noooooooooooooo! My mixtures! My caldron!",
+			collectItem = "Press <B>[space bar]</B> to collect the item. Bring it back to the start point and press the key again to place it!",
 			placeItem = "Yay! You've found one more piece of the tree! <B>%d</B> item(s) to go and christmas may be saved thanks to you!",
 			treeComplete = '',
 
 		},
 		br = { }
 	}
+	texts.br = texts.en
 	texts.pt = texts.br
 
 	translation = texts[tfm.get.room.community] or texts.en
@@ -171,6 +173,9 @@ local monsterData = {
 
 	potionSpawnTimerOnChaos = 500,
 	defaultPotionSpawnTimer = 0,
+
+	mutantWizardSuicideTime = 10000,
+	mutantWizardSuicideLifePercent = 35,
 
 	movementType = {
 		[monsterType.snow] = movementType.nearestPlayer,
@@ -460,6 +465,7 @@ local playerStage = { }
 
 local passageBlocks = { }
 local lastMountainStage = 0
+local isWizardDefeated = false
 local mutantWizardTriggered = false
 
 local isMoonStolen = false
@@ -1061,7 +1067,7 @@ do
 			end
 		elseif self.type == monsterType.mutantWizard then
 			if not self.isAttacking and not isMoonStolen and math.random(1, 5) == 5 then
-				if remainingTime <= 10000 and self.life >= 50 and not self.suicide then
+				if remainingTime <= monsterData.mutantWizardSuicideTime and self.life >= monsterData.mutantWizardSuicideLifePercent and not self.suicide then
 					self.suicide = true
 					self.life = 999 -- can't kill anymore
 					self:destroy()
@@ -1725,6 +1731,7 @@ globalInitInterface = function()
 	monsterData.bombQuantity = clamp(round(tfm.get.room.uniquePlayers / 10), 1, 5)
 	monsterData.flamingGiftQuantity = clamp(round(tfm.get.room.uniquePlayers / 5), 2, 6)
 	monsterData.defaultPotionSpawnTimer = monsterData.potionSpawnTimer
+	monsterData.mutantWizardSuicideLifePercent = percent(monsterData.mutantWizardSuicideLifePercent, monsterData.life[monsterType.mutantWizard])
 	bulletData.damage = clamp((2 - (tfm.get.room.uniquePlayers / 25)), bulletData.minimumDamage, bulletData.maximumDamage)
 	-- Greeting
 	chatMessage(translation.elfTalkMountain)
@@ -1842,7 +1849,10 @@ do
 		if not players then return end
 		for player = 1, #players do
 			chatMessage(translation.wizardCaldronDefeat, players[player], "wizard")
+			chatMessage(translation.collectItem, players[player])
 		end
+
+		isWizardDefeated = true
 	end
 
 	local executeMutantWizardBaseRemove = function(obj, base)
@@ -2040,7 +2050,11 @@ local checkStageChallege = function()
 
 				if tmpCurrentStage == 7 and not cache.hasSeenWizard then
 					cache.hasSeenWizard = true
-					chatMessage(translation.introduceWizard, playerName, "elf")
+					if isWizardDefeated then
+						chatMessage(translation.collectItem, playerName)
+					else
+						chatMessage(translation.introduceWizard, playerName, "elf")
+					end
 				elseif tmpCurrentStage == 8 and not cache.hasSeenMutantWizard then
 					cache.hasSeenMutantWizard = true
 					-- TODO
