@@ -43,8 +43,8 @@ do
 		en = {
 			dialog = {
 				close = "Press spacebar to close the dialog.",
-				[1] = " Oh, h-hey! I'm so glad to finally find someone.\n\n Elves were working on the christmas decoration when an evil wizard showed up and began to control the yetis of the mountain.\n They didn't accept the end of halloween and want to ruin our celebration; Our christmas tree has been tore apart and its pieces are somewhere in the mountain... Santa is missing...\n\n I w-was so scared... I ran away before they would take me. Please, help!",
-				[2] = ''
+				[1] = " Oh, h-hey! I'm so glad to finally find someone.\n\n Elves were working on the christmas decoration when an evil wizard showed up and began to control the yetis of the mountain.\n They didn't accept the end of halloween and want to ruin our celebration; Our christmas tree has been tore apart and its pieces are somewhere in the mountain... Santa is missing...\n\n I w-was so scared... I ran away before they would take me. Please, help!", -- Elf init
+				[2] = " Yaaaaaay!\n\n Thank you, brave little warrior. You have defeated the evil wizard and our tree is complete again, christmas may now happen!\n\n Ugh... I almost forgot about the more serious problem... It is yet to come... <R><B>SANTA IS MISSING!</B><R>", -- Tree complete
 			},
 			elfTalkMountain = "Oh, look! An elf, and... Heey, they are hurt! Go near them and press <B>[space bar]</B> to talk.",
 			introduceMountain = "Explore the mountain and find the pieces of the magic christmas tree, or else the event will be ruined forever.",
@@ -53,8 +53,7 @@ do
 			wizardCaldronDefeat = "Noooooooooooooo! My mixtures! My caldron!",
 			collectItem = "Press <B>[space bar]</B> to collect the item. Bring it back to the start point and press the key again to place it!",
 			placeItem = "Yay! You've found one more piece of the tree! <B>%d</B> item(s) to go and christmas may be saved thanks to you!",
-			treeComplete = '',
-
+			elfTalkSanta = "Oh, no... %s looks terribly worried about something. Go talk to him!"
 		},
 		br = { }
 	}
@@ -82,7 +81,8 @@ local interfaceId = {
 
 local dialogId = {
 	intro = 1,
-	saveSanta = 2
+	findSanta = 2,
+	saveSanta = 3
 }
 
 local keyCode = {
@@ -411,7 +411,7 @@ local playerCache, playerData = { }, {
 	}
 }
 
-local hasReward
+local hasReward, playerHasCompletedFirstStep
 do
 	local addReward = function(playerName, reward)
 		system.giveEventGift(playerName, module.reward[reward])
@@ -422,7 +422,7 @@ do
 		if hasReward(playerName, reward) then return end
 
 		if reward == rewardId.orb then
-			if playerData:get(playerName, "treeStage") < #images.christmasTree then return end
+			if not playerHasCompletedFirstStep(playerName) then return end
 		elseif reward == rewardId.badge then
 			if playerData:get(playerName, "santaClausSaves") < module.rewardSantaClausSaves then return end
 		elseif reward == rewardId.old_title then
@@ -657,6 +657,10 @@ end
 
 hasReward = function(playerName, reward)
 	return bit32.band(reward, playerData:get(playerName, "rewards")) > 0
+end
+
+local playerHasCompletedFirstStep = function(playerName)
+	return playerData:get(playerName, "treeStage") == #images.christmasTree
 end
 
 local freezePlayer
@@ -1733,8 +1737,6 @@ globalInitInterface = function()
 	monsterData.defaultPotionSpawnTimer = monsterData.potionSpawnTimer
 	monsterData.mutantWizardSuicideLifePercent = percent(monsterData.mutantWizardSuicideLifePercent, monsterData.life[monsterType.mutantWizard])
 	bulletData.damage = clamp((2 - (tfm.get.room.uniquePlayers / 25)), bulletData.minimumDamage, bulletData.maximumDamage)
-	-- Greeting
-	chatMessage(translation.elfTalkMountain)
 	-- map name
 end
 
@@ -2112,13 +2114,17 @@ local placeItem = function(cbk, playerName)
 	if missing > 0 then
 		chatMessage(string.format(translation.placeItem, missing), playerName, "elf")
 	else
-		chatMessage(translation.treeComplete, playerName, "elf")
+		ui.dialog(playerName, dialogId.findSanta)
 	end
 	return true
 end
 
-local introducePlot = function(cbk, playerName)
-	ui.dialog(playerName, dialogId.intro)
+local elfDialog = function(cbk, playerName)
+	if playerHasCompletedFirstStep(playerName) then -- Has completed first step
+		ui.dialog(playerName, dialogId.findSanta)
+	else
+		ui.dialog(playerName, dialogId.intro)
+	end
 
 	return true
 end
@@ -2143,7 +2149,7 @@ local makeCallbacks = function()
 
 	-- Elf NPC
 	tfm.exec.addImage(images.npc.elf, imageLayer.objectForeground, -18, 1515)
-	callback.new("elf", -18, 1535, 63, 63):setClickable():setAction(introducePlot)
+	callback.new("elf", -18, 1535, 63, 63):setClickable():setAction(elfDialog)
 
 	-- Santa NPC
 	tfm.exec.addImage(images.npc.santa, imageLayer.objectForeground, 915, 285)
@@ -2188,6 +2194,11 @@ eventPlayerDataLoaded = function(playerName, data)
 	playerData:newPlayer(playerName, data)
 
 	displayTree(playerName)
+	if playerHasCompletedFirstStep(playerName) then
+		chatMessage(string.format(translation.elfTalkSanta, npcNames.elf), playerName)
+	else
+		chatMessage(translation.elfTalkMountain, playerName)
+	end
 
 	playerCache[playerName].dataLoaded = true
 end
