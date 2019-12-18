@@ -3,9 +3,9 @@ local module = {
 	name = "xm19",
 	formalName = "Chaostmas",
 	team = {
-		developer = { "Bolodefchoco#0000", "Tocutoeltuco#0000" },
-		artist = { "Naomi#2792" },
-		translator = { "Bolodefchoco#0000" }
+		developer = "Bolodefchoco#0000",
+		artist = "Naomi#2792",
+		others = { "Tocutoeltuco#0000", "Tini#0015", "Blank#3495", "Dea_bu#0000" }
 	},
 	reward = {
 		[0x01] = "badge_",
@@ -28,11 +28,12 @@ local module = {
 	rewardWizardDefeats = 15,
 	rewardSantaClausSaves = 5
 }
+module.mapName = { module.formalName, module.team.developer, module.formalName, module.team.artist, module.team.developer, module.formalName, module.team.developer, module.team.artist }
 
 --> Debug <--
 local DEBUG, _eventKeyboard = true
 
-if not DEBUG and (not (tfm.get.room.uniquePlayers == 1 and tfm.get.room.playerList[module.team.developer[1]]) and (tfm.get.room.uniquePlayers < module.minPlayers or tfm.get.room.uniquePlayers > module.maxPlayers)) then
+if not DEBUG and (not (tfm.get.room.uniquePlayers == 1 and tfm.get.room.playerList[module.team.developer]) and (tfm.get.room.uniquePlayers < module.minPlayers or tfm.get.room.uniquePlayers > module.maxPlayers)) then
 	return system.exit()
 end
 
@@ -43,24 +44,35 @@ do
 		en = {
 			dialog = {
 				close = "Press spacebar to close the dialog.",
-				[1] = " Oh, h-hey! I'm so glad to finally find someone.\n\n Elves were working on the christmas decoration when an evil wizard showed up and began to control the yetis of the mountain.\n They didn't accept the end of halloween and want to ruin our celebration; Our christmas tree has been tore apart and its pieces are somewhere in the mountain... Santa is missing...\n\n I w-was so scared... I ran away before they would take me. Please, help!", -- Elf init
+				[1] = " Oh, h-hey! I'm so glad to finally find someone.\n\n Elves were working on the christmas decoration when an evil wizard showed up and began to control the yetis of the mountain.\n He didn't accept the end of halloween and want to ruin our celebration; Our christmas tree has been tore apart and its pieces are somewhere in the mountain... Santa is missing...\n\n I w-was so scared... I ran away before he would take me. Please, help!", -- Elf init
 				[2] = " Yaaaaaay!\n\n Thank you, brave little warrior. You have defeated the evil wizard and our tree is complete again, christmas may now happen!\n\n Ugh... I almost forgot about the more serious problem... It is yet to come... <R><B>SANTA IS MISSING!</B><R>", -- Tree complete
+				[3] = " Yupiiiiiiiiii!\n\n Thanks to you, our christmas tree is ready-to-go for tonight and I am now free and able to deliver the gifts to all little mice!\n\n Your gift is going to be the biggest! I can not thank you enough.\n\n Let's take this bad wizard to the authorities." -- Save santa
 			},
-			elfTalkMountain = "Oh, look! An elf, and... Heey, they are hurt! Go near them and press <B>[space bar]</B> to talk.",
+			elfTalkMountain = "Oh, look! An elf, and... Heey, he is hurt! Go near him and press <B>[space bar]</B> to talk.",
 			introduceMountain = "Explore the mountain and find the pieces of the magic christmas tree, or else the event will be ruined forever.",
 			introduceAttack = "Press <B>[space bar]</B> to use the fire power you have obtained to guide you through this adventure!",
-			introduceWizard = "Oh, look! There is a piece of the tree right there! B-but... the wizard, we need to go through them.",
-			wizardCaldronDefeat = "Noooooooooooooo! My mixtures! My caldron!",
+			introduceWizard = "Oh, look! There is a piece of the tree right there! B-but... the wizard, we need to go through him.",
+			wizardDefeat = "Noooooooooooooo! My mixtures! My caldron!",
 			collectItem = "Press <B>[space bar]</B> to collect the item. Bring it back to the start point and press the key again to place it!",
 			placeItem = "Yay! You've found one more piece of the tree! <B>%d</B> item(s) to go and christmas may be saved thanks to you!",
-			elfTalkSanta = "Oh, no... %s looks terribly worried about something. Go talk to him!"
+			elfTalkSanta = "Oh, no... %s looks terribly worried about something. Go talk to him!",
+			findSanta = "Look! It's Santa right there... He's locked! Let's save him!",
+			introduceMutantWizard = "W-what? Is that the evil wizard? We dropped him in the caldron, how can he still be here?",
+			mutantWizardShowUp = "Silly rat, you still do have a lot to learn about the mystic world. My caldron had my most powerful mixture and it turned me into a stronger, smarter and faster being. This is your end.",
+			mutantWizardDefeat  = "Aaaaaaaaaaargh, how could you... My powers...",
+			credit = "Developed by %s.\nArt by %s.\n%s translation by %s.\nSpecial thanks to: %s.",
+			stealMoon = "AAAAH, YOU ALL HAVE BEEN CURSED BY THE LORD OF THE LORDS, THE WIZARD OF THE WIZARDS. THIS IS THE END, AND YOU GOTTA FEEL MY POWER!",
+
+			translator = "Bolodefchoco#0000"
 		},
 		br = { }
 	}
 	texts.br = texts.en
 	texts.pt = texts.br
 
-	translation = texts[tfm.get.room.community] or texts.en
+	local commu = (texts[tfm.get.room.community] and tfm.get.room.community or "en")
+	translation = texts[commu]
+	translation.commu = commu
 end
 
 -- Enumerations
@@ -466,6 +478,7 @@ local playerStage = { }
 local passageBlocks = { }
 local lastMountainStage = 0
 local isWizardDefeated = false
+local isMutantWizardDefeated = false
 local mutantWizardTriggered = false
 
 local isMoonStolen = false
@@ -600,6 +613,14 @@ local chatMessage = function(message, playerName, who)
 	tfm.exec.chatMessage("<font color='#" .. (npcColors[who] or "2EBA7E") .. "'>[" .. (npcNames[who] and ("<B>" .. npcNames[who] .. "</B>") or "•") .. "] " .. message .. "</font>\n", playerName)
 end
 
+local messagePlayersInStage = function(stage, message, name)
+	local players = getPlayersInStage(stage)
+	if not players then return end
+	for player = 1, #players do
+		chatMessage(message, players[player], name)
+	end
+end
+
 --[[ Tools ]]--
 local isEventWorkingFor = function(playerName)
 	return canStart and playerCache[playerName] and playerCache[playerName].dataLoaded
@@ -659,7 +680,7 @@ hasReward = function(playerName, reward)
 	return bit32.band(reward, playerData:get(playerName, "rewards")) > 0
 end
 
-local playerHasCompletedFirstStep = function(playerName)
+playerHasCompletedFirstStep = function(playerName)
 	return playerData:get(playerName, "treeStage") == #images.christmasTree
 end
 
@@ -1469,6 +1490,8 @@ do
 
 		timer.start(timer.start, monsterData.chaosFirstChangeTimer, 1, displayNightMode, monsterData.chaosOpacityChangeTimer, 0, self)
 
+		messagePlayersInStage(self.stage, translation.stealMoon, "wizard")
+
 		return true
 	end
 
@@ -1737,7 +1760,8 @@ globalInitInterface = function()
 	monsterData.defaultPotionSpawnTimer = monsterData.potionSpawnTimer
 	monsterData.mutantWizardSuicideLifePercent = percent(monsterData.mutantWizardSuicideLifePercent, monsterData.life[monsterType.mutantWizard])
 	bulletData.damage = clamp((2 - (tfm.get.room.uniquePlayers / 25)), bulletData.minimumDamage, bulletData.maximumDamage)
-	-- map name
+	-- Map Name
+	ui.setMapName(getRandomValue(module.mapName))
 end
 
 local globalInitSettings = function(bool)
@@ -1847,14 +1871,10 @@ do
 
 		timer.start(executeWizardBaseRemove, monsterData.wizardFallRemoveTimer, 1, obj, base)
 
-		local players = getPlayersInStage(obj.stage)
-		if not players then return end
-		for player = 1, #players do
-			chatMessage(translation.wizardCaldronDefeat, players[player], "wizard")
-			chatMessage(translation.collectItem, players[player])
-		end
-
 		isWizardDefeated = true
+
+		messagePlayersInStage(obj.stage, translation.wizardDefeat, "wizard")
+		messagePlayersInStage(obj.stage, translation.collectItem)
 	end
 
 	local executeMutantWizardBaseRemove = function(obj, base)
@@ -1877,6 +1897,9 @@ do
 		end
 
 		timer.start(executeMutantWizardBaseRemove, monsterData.mutantWizardFallRemoveTimer, 1, obj, base)
+
+		isMutantWizardDefeated = true
+		messagePlayersInStage(obj.stage, translation.mutantWizardDefeat, "wizard")
 	end
 end
 
@@ -2059,7 +2082,13 @@ local checkStageChallege = function()
 					end
 				elseif tmpCurrentStage == 8 and not cache.hasSeenMutantWizard then
 					cache.hasSeenMutantWizard = true
-					-- TODO
+					
+					chatMessage(translation.findSanta, playerName, "elf")
+					if isMutantWizardDefeated then
+						chatMessage(translation.mutantWizardShowUp, playerName, "wizard")
+					else
+						chatMessage(translation.introduceMutantWizard, playerName, "elf")
+					end
 				end
 			end
 		end
@@ -2076,6 +2105,16 @@ local checkPassages = function()
 	if passageBlocks[lastMountainStage] and monster._perStage[lastMountainStage]._count <= 0 then
 		unblockPassage(lastMountainStage)
 	end
+end
+
+local getCredits = function()
+	return string.format(translation.credit,
+		module.team.developer, -- Main dev / owner
+		module.team.artist, -- Main artist
+		translation.commu, -- Community flag
+		translation.translator, -- Community translator
+		table.concat(module.team.others, ", ") -- Others (devs, artists, help)
+	)
 end
 
 local dialogAction = function(playerName)
@@ -2135,6 +2174,7 @@ local saveSanta = function(cbk, playerName)
 		playerData:set(playerName, "santaClausSaves", playerData:get(playerName, "santaClausSaves") + 1):save(playerName)
 	end
 
+	chatMessage(getCredits(), playerName)
 	ui.dialog(playerName, dialogId.saveSanta)
 
 	return true
@@ -2307,7 +2347,7 @@ end
 
 --[[ Debug ]]--
 if DEBUG then
-	for _, dev in next, module.team.developer do
+	for _, dev in next, { module.team.developer } do
 		system.bindMouse(dev)
 		system.bindKeyboard(dev, 16, true)
 		system.bindKeyboard(dev, 16, false)
