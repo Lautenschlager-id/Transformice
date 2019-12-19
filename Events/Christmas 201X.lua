@@ -5,7 +5,13 @@ local module = {
 	team = {
 		developer = "Bolodefchoco#0000",
 		artist = "Naomi#2792",
-		others = { "Tocutoeltuco#0000", "Tini#0015", "Blank#3495", "Dea_bu#0000" }
+		others = { "Tocutoeltuco#0000", "Tini#0015", "Blank#3495", "Dea_bu#0000" },
+		colors = {
+			developer = "8FE2D1",
+			artist = "DD6661",
+			translator = "92CF91",
+			others = "B49AD2"
+		}
 	},
 	reward = {
 		[0x01] = "badge_",
@@ -44,23 +50,24 @@ do
 		en = {
 			dialog = {
 				close = "Press spacebar to close the dialog.",
-				[1] = " Oh, h-hey! I'm so glad to finally find someone.\n\n Elves were working on the christmas decoration when an evil wizard showed up and began to control the yetis of the mountain.\n He didn't accept the end of halloween and want to ruin our celebration; Our christmas tree has been tore apart and its pieces are somewhere in the mountain... Santa is missing...\n\n I w-was so scared... I ran away before he would take me. Please, help!", -- Elf init
-				[2] = " Yaaaaaay!\n\n Thank you, brave little warrior. You have defeated the evil wizard and our tree is complete again, christmas may now happen!\n\n Ugh... I almost forgot about the more serious problem... It is yet to come... <R><B>SANTA IS MISSING!</B><R>", -- Tree complete
-				[3] = " Yupiiiiiiiiii!\n\n Thanks to you, our christmas tree is ready-to-go for tonight and I am now free and able to deliver the gifts to all little mice!\n\n Your gift is going to be the biggest! I can not thank you enough.\n\n Let's take this bad wizard to the authorities." -- Save santa
+				[1] = " Oh, h-hey! I'm so glad I finally found someone.\n\n The elves were working on the christmas decoration when an evil wizard showed up and began to take control of the yetis on the mountain.\n He did not accept the fact that the Halloween has ended and wants to ruin our celebration. Our christmas tree has been torn apart and its pieces are scattered across the mountain... The Santa has gone missing...\n\n I w-was so scared... I ran away before the wizard could take me. Please, help us!", -- Elf init
+				[2] = " Yaaaaaay!\n\n Thank you, brave little warrior. You have defeated the evil wizard and our christmas tree is complete again, we can finally celebrate christmas!\n\n Ugh... I almost forgot about a more serious problem... Which is yet to be taken care of... SANTA IS MISSING!", -- Tree complete
+				[3] = " Yupiiiiiiiiii!\n\n Thanks to you, our christmas tree is ready-to-go for tonight and I am now free and able to deliver the gifts to all the little mice!\n\n Your gift will be the biggest one! I can not thank you enough.\n\n Let's take this bad wizard to the authorities." -- Save santa
 			},
 			elfTalkMountain = "Oh, look! An elf, and... Heey, he is hurt! Go near him and press <B>[space bar]</B> to talk.",
 			introduceMountain = "Explore the mountain and find the pieces of the magic christmas tree, or else the event will be ruined forever.",
 			introduceAttack = "Press <B>[space bar]</B> to use the fire power you have obtained to guide you through this adventure!",
 			introduceWizard = "Oh, look! There is a piece of the tree right there! B-but... the wizard, we need to go through him.",
+			wizardShowUp = "How dare you challenge me, little mouse? Do you think you are brave? Let's see if you're capable of facing my wrath.",
 			wizardDefeat = "Noooooooooooooo! My mixtures! My caldron!",
 			collectItem = "Press <B>[space bar]</B> to collect the item. Bring it back to the start point and press the key again to place it!",
-			placeItem = "Yay! You've found one more piece of the tree! <B>%d</B> item(s) to go and christmas may be saved thanks to you!",
+			placeItem = "Yay! You have found one more piece of the tree! <B>%d</B> item(s) to go and christmas may be saved thanks to you!",
 			elfTalkSanta = "Oh, no... %s looks terribly worried about something. Go talk to him!",
-			findSanta = "Look! It's Santa right there... He's locked! Let's save him!",
+			findSanta = "Look! It is Santa right there... He is locked! Let's save him!",
 			introduceMutantWizard = "W-what? Is that the evil wizard? We dropped him in the caldron, how can he still be here?",
 			mutantWizardShowUp = "Silly rat, you still do have a lot to learn about the mystic world. My caldron had my most powerful mixture and it turned me into a stronger, smarter and faster being. This is your end.",
-			mutantWizardDefeat  = "Aaaaaaaaaaargh, how could you... My powers...",
-			credit = "Developed by %s.\nArt by %s.\n%s translation by %s.\nSpecial thanks to: %s.",
+			mutantWizardDefeat = "Aaaaaaaaaaargh, how could you... My powers...",
+			credit = "<PT>This event most certainly would have been stuck in our minds for the eternity if it was not for the following people;\n\t<font color='#%s'>Code by %s.</font>\n\t<font color='#%s'>Art by %s.</font>\n\t<font color='#%s'>%s translation by %s.</font>\n\t<font color='#%s' size='11'>Special thanks to %s.</font>",
 			stealMoon = "AAAAH, YOU ALL HAVE BEEN CURSED BY THE LORD OF THE LORDS, THE WIZARD OF THE WIZARDS. THIS IS THE END, AND YOU GOTTA FEEL MY POWER!",
 
 			translator = "Bolodefchoco#0000"
@@ -72,7 +79,7 @@ do
 
 	local commu = (texts[tfm.get.room.community] and tfm.get.room.community or "en")
 	translation = texts[commu]
-	translation.commu = commu
+	translation.commu = string.upper(commu)
 end
 
 -- Enumerations
@@ -287,7 +294,7 @@ local npcNames = {
 
 local npcColors = {
 	elf = "E9E654",
-	wizard = "CB546B"
+	wizard = "9773F4"
 }
 
 -- Images
@@ -370,8 +377,9 @@ local images = {
 	},
 	dialogNpc = {
 		background = "16f02675bf7.png",
-		[1] = "16ebe7952c4.png", -- elf
-		[2] = "16f02f12dbc.png" -- santa
+		[1] = "16ebe7952c4.png", -- elf (hurt)
+		[2] = "", -- elf (not hurt)
+		[3] = "16f02f12dbc.png" -- santa
 	},
 	npc = {
 		elf = "16ef81709b5.png",--"16ebe6a1b5b.png",
@@ -456,7 +464,7 @@ do
 	local DataHandler = {}
 	DataHandler.VERSION = '1.4'
 	DataHandler.__index = DataHandler
-	DataHandler.new = function(moduleID, skeleton, otherOptions) local self = setmetatable({}, DataHandler) assert(moduleID, 'Invalid module ID (nil)') assert(moduleID ~= '', 'Invalid module ID (empty text)') assert(skeleton, 'Invalid skeleton (nil)')  for k, v in next, skeleton do v.type = v.type or type(v.default) end self.players = {} self.moduleID = moduleID self.moduleSkeleton = skeleton self.moduleIndexes = {} self.otherOptions = otherOptions self.otherData = {} self.originalStuff = {} for k,v in pairs(skeleton) do self.moduleIndexes[v.index] = k end if self.otherOptions then self.otherModuleIndexes = {} for k,v in pairs(self.otherOptions) do self.otherModuleIndexes[k] = {} for k2,v2 in pairs(v) do v2.type = v2.type or type(v2.default) self.otherModuleIndexes[k][v2.index] = k2 end end end return self end
+	DataHandler.new = function(moduleID, skeleton, otherOptions) local self = setmetatable({}, DataHandler) assert(moduleID, 'Invalid module ID (nil)') assert(moduleID ~= '', 'Invalid module ID (empty text)') assert(skeleton, 'Invalid skeleton (nil)') for k, v in next, skeleton do v.type = v.type or type(v.default) end self.players = {} self.moduleID = moduleID self.moduleSkeleton = skeleton self.moduleIndexes = {} self.otherOptions = otherOptions self.otherData = {} self.originalStuff = {} for k,v in pairs(skeleton) do self.moduleIndexes[v.index] = k end if self.otherOptions then self.otherModuleIndexes = {} for k,v in pairs(self.otherOptions) do self.otherModuleIndexes[k] = {} for k2,v2 in pairs(v) do v2.type = v2.type or type(v2.default) self.otherModuleIndexes[k][v2.index] = k2 end end end return self end
 	DataHandler.newPlayer = function(self, name, dataString) assert(name, 'Invalid player name (nil)') assert(name ~= '', 'Invalid player name (empty text)') self.players[name] = {} self.otherData[name] = {} dataString = dataString or '' local function turnStringToTable(str) local output = {} for data in string.gsub(str, '%b{}', function(b) return b:gsub(',', '\0') end):gmatch('[^,]+') do data = data:gsub('%z', ',') if string.match(data, '^{.-}$') then table.insert(output, turnStringToTable(string.match(data, '^{(.-)}$'))) else table.insert(output, tonumber(data) or data) end end return output end local function getDataIndexName(skeleton, index) for k,v in pairs(skeleton) do if v.index == index then return k end end return 0 end local function getHigherIndex(skeleton) local higher = 0 for k,v in pairs(skeleton) do if v.index > higher then higher = v.index end end return higher end local function handleModuleData(moduleID, skeleton, moduleData, makeTable) local dataIndex = 1 local higherIndex = getHigherIndex(skeleton) moduleID = "__" .. moduleID if makeTable then self.players[name][moduleID] = {} end local setPlayerData = function(data, dataType, dataName, dataDefault) local value if dataType == "number" then value = tonumber(data) or dataDefault elseif dataType == "string" then value = string.match(data or '', "^\"(.-)\"$") or dataDefault elseif dataType == "table" then value = string.match(data or '', "^{(.-)}$") value = value and turnStringToTable(value) or dataDefault elseif dataType == "boolean" then if data then value = data == '1' else value = dataDefault end end if makeTable then self.players[name][moduleID][dataName] = value else self.players[name][dataName] = value end end if #moduleData > 0 then for data in string.gsub(moduleData, '%b{}', function(b) return b:gsub(',', '\0') end):gmatch('[^,]+') do data = data:gsub('%z', ',') local dataName = getDataIndexName(skeleton, dataIndex) local dataType = skeleton[dataName].type local dataDefault = skeleton[dataName].default setPlayerData(data, dataType, dataName, dataDefault) dataIndex = dataIndex + 1 end end if dataIndex <= higherIndex then for i = dataIndex, higherIndex do local dataName = getDataIndexName(skeleton, i) local dataType = skeleton[dataName].type local dataDefault = skeleton[dataName].default setPlayerData(nil, dataType, dataName, dataDefault) end end end local modules, originalStuff = self:getModuleData(dataString) self.originalStuff[name] = originalStuff if not modules[self.moduleID] then modules[self.moduleID] = '{}' end handleModuleData(self.moduleID, self.moduleSkeleton, modules[self.moduleID]:sub(2,-2), false) if self.otherOptions then for moduleID, skeleton in pairs(self.otherOptions) do if not modules[moduleID] then local strBuilder = {} for k,v in pairs(skeleton) do local dataType = v.type or type(v.default) if dataType == 'string' then strBuilder[v.index] = '"'..tostring(v.default)..'"' elseif dataType == 'table' then strBuilder[v.index] = '{}' elseif dataType == 'number' then strBuilder[v.index] = v.default elseif dataType == 'boolean' then strBuilder[v.index] = v.default and '1' or '0' end end modules[moduleID] = '{'..table.concat(strBuilder, ',')..'}' end end end for moduleID, moduleData in pairs(modules) do if moduleID ~= self.moduleID then if self.otherOptions and self.otherOptions[moduleID] then handleModuleData(moduleID, self.otherOptions[moduleID], moduleData:sub(2,-2), true) else self.otherData[name][moduleID] = moduleData end end end checkAllRewardsForPlayer(name) end
 	DataHandler.dumpPlayer = function(self, name) local output = {} local function turnTableToString(tbl) local output = {} for k,v in pairs(tbl) do local valueType = type(v) if valueType == 'table' then output[#output+1] = '{' output[#output+1] = turnTableToString(v) if output[#output]:sub(-1) == ',' then output[#output] = output[#output]:sub(1, -2) end output[#output+1] = '}' output[#output+1] = ',' else if valueType == 'string' then output[#output+1] = '"' output[#output+1] = v output[#output+1] = '"' elseif valueType == 'boolean' then output[#output+1] = v and '1' or '0' else output[#output+1] = v end output[#output+1] = ',' end end if output[#output] == ',' then output[#output] = '' end return table.concat(output) end local function getPlayerDataFrom(name, moduleID) local output = {moduleID, '=', '{'} local player = self.players[name] local moduleIndexes = self.moduleIndexes local moduleSkeleton = self.moduleSkeleton if self.moduleID ~= moduleID then moduleIndexes = self.otherModuleIndexes[moduleID] moduleSkeleton = self.otherOptions[moduleID] moduleID = '__'..moduleID player = self.players[name][moduleID] end if not player then return '' end for i = 1, #moduleIndexes do local dataName = moduleIndexes[i] local dataType = moduleSkeleton[dataName].type if dataType == 'string' then output[#output+1] = '"' output[#output+1] = player[dataName] output[#output+1] = '"' elseif dataType == 'number' then output[#output+1] = player[dataName] elseif dataType == 'boolean' then output[#output+1] = player[dataName] and '1' or '0' elseif dataType == 'table' then output[#output+1] = '{' output[#output+1] = turnTableToString(player[dataName]) output[#output+1] = '}' end output[#output+1] = ',' end if output[#output] == ',' then output[#output] = '}' else output[#output+1] = '}' end return table.concat(output) end output[#output+1] = getPlayerDataFrom(name, self.moduleID) if self.otherOptions then for k,v in pairs(self.otherOptions) do local moduleData = getPlayerDataFrom(name, k) if moduleData ~= '' then output[#output+1] = ',' output[#output+1] = moduleData end end end for k,v in pairs(self.otherData[name]) do output[#output+1] = ',' output[#output+1] = k output[#output+1] = '=' output[#output+1] = v end return table.concat(output)..self.originalStuff[name] end
 	DataHandler.get = function(self, name, dataName, moduleName) if not moduleName then return self.players[name][dataName] else assert(self.players[name]['__'..moduleName], 'Module data not available ('..moduleName..')') return self.players[name]['__'..moduleName][dataName] end end
@@ -1001,7 +1009,7 @@ do
 			destroyed = false,
 			halfWidth = 0,
 			halfHeight = 0,
-			lastDirection  = monsterDirection.right,
+			lastDirection = monsterDirection.right,
 			startedChaos = false,
 			suicide = false
 		}, monster), stage))
@@ -2079,15 +2087,15 @@ local checkStageChallege = function()
 						chatMessage(translation.collectItem, playerName)
 					else
 						chatMessage(translation.introduceWizard, playerName, "elf")
+						chatMessage(translation.wizardShowUp, playerName, "wizard")
 					end
 				elseif tmpCurrentStage == 8 and not cache.hasSeenMutantWizard then
 					cache.hasSeenMutantWizard = true
-					
+
 					chatMessage(translation.findSanta, playerName, "elf")
-					if isMutantWizardDefeated then
-						chatMessage(translation.mutantWizardShowUp, playerName, "wizard")
-					else
+					if not isMutantWizardDefeated then
 						chatMessage(translation.introduceMutantWizard, playerName, "elf")
+						chatMessage(translation.mutantWizardShowUp, playerName, "wizard")
 					end
 				end
 			end
@@ -2107,14 +2115,29 @@ local checkPassages = function()
 	end
 end
 
-local getCredits = function()
-	return string.format(translation.credit,
-		module.team.developer, -- Main dev / owner
-		module.team.artist, -- Main artist
+local getCredits
+do
+	local loweredTag = "%2<G><font size='10'>%1</font></G>"
+	local formatTag = function(str)
+		str = "<B>" .. str .. "</B>"
+		return (string.gsub(str, "(#%d+)(</B>)", loweredTag))
+	end
+
+	local credit = string.format(translation.credit,
+		module.team.colors.developer,
+		formatTag(module.team.developer), -- Main dev / owner
+		module.team.colors.artist,
+		formatTag(module.team.artist), -- Main artist
+		module.team.colors.translator,
 		translation.commu, -- Community flag
-		translation.translator, -- Community translator
-		table.concat(module.team.others, ", ") -- Others (devs, artists, help)
+		formatTag(translation.translator), -- Community translator
+		module.team.colors.others,
+		formatTag(table.concat(module.team.others, "</B>, <B>")) -- Others (devs, artists, help)
 	)
+
+	getCredits = function()
+		return credit
+	end
 end
 
 local dialogAction = function(playerName)
@@ -2172,9 +2195,10 @@ local saveSanta = function(cbk, playerName)
 	if not playerCache[playerName].hasSavedSanta then
 		playerCache[playerName].hasSavedSanta = true
 		playerData:set(playerName, "santaClausSaves", playerData:get(playerName, "santaClausSaves") + 1):save(playerName)
+
+		tfm.exec.chatMessage(getCredits(), playerName)
 	end
 
-	chatMessage(getCredits(), playerName)
 	ui.dialog(playerName, dialogId.saveSanta)
 
 	return true
