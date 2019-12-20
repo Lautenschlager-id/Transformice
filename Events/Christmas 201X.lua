@@ -328,57 +328,57 @@ local images = {
 	},
 	monsters = {
 		[monsterType.snow] = { -- ←↑→
-			[1] = { "16eed594e5f.png", -18, -34 },
-			[2] = { "16eed4a26ee.png", -18, -34 },
-			[3] = { "16eed5f5b91.png", -28, -34 }
+			[monsterDirection.left] = { "16eed594e5f.png", -18, -34 },
+			[monsterDirection.front] = { "16eed4a26ee.png", -18, -34 },
+			[monsterDirection.right] = { "16eed5f5b91.png", -28, -34 }
 		},
 		[monsterType.roar] = {
-			[1] = { "16eed59af54.png", -18, -34 },
-			[2] = { "16eed49b734.png", -18, -34 },
-			[3] = { "16eed5ef27a.png", -42, -34 }
+			[monsterDirection.left] = { "16eed59af54.png", -18, -34 },
+			[monsterDirection.front] = { "16eed49b734.png", -18, -34 },
+			[monsterDirection.right] = { "16eed5ef27a.png", -42, -34 }
 		},
 		[monsterType.freeze] = {
-			[1] = { "16eed599620.png", -18, -34 },
-			[2] = { "16eed4a6380.png", -18, -34 },
-			[3] = { "16eed5f2d70.png", -42, -34 }
+			[monsterDirection.left] = { "16eed599620.png", -18, -34 },
+			[monsterDirection.front] = { "16eed4a6380.png", -18, -34 },
+			[monsterDirection.right] = { "16eed5f2d70.png", -42, -34 }
 		},
 		[monsterType.wizard] = {
-			[2] = { "16ef27d5566.png", -95, -20 }, -- Normal
-			[4] = { "16ef28a9a58.png", -105, -20 } -- Defeated
+			[monsterDirection.alive] = { "16ef27d5566.png", -95, -20 }, -- Normal
+			[monsterDirection.defeated] = { "16ef28a9a58.png", -105, -20 } -- Defeated
 		},
 		[monsterType.mutantWizard] = {
-			[-1] = { "16f024ba73f.png", -145, -32 }, -- Suicide
-			[2] = { "16f01ecf9f4.png", -145, -32 }, -- Normal
-			[4] = { "16f023ff22c.png", -145, -32 } -- Defeated
+			[monsterDirection.suicide] = { "16f024ba73f.png", -145, -32 }, -- Suicide
+			[monsterDirection.alive] = { "16f01ecf9f4.png", -145, -32 }, -- Normal
+			[monsterDirection.defeated] = { "16f023ff22c.png", -145, -32 } -- Defeated
 		},
 		attack = {
 			[monsterType.snow] = {
-				[1] = { "16eed720943.png", -28, -34 },
-				[3] = { "16eed72296e.png", -26, -34 }
+				[monsterDirection.left] = { "16eed720943.png", -28, -34 },
+				[monsterDirection.right] = { "16eed72296e.png", -26, -34 }
 			},
 			[monsterType.freeze] = {
-				[1] = { "16eed718d77.png", -38, -34 },
-				[3] = { "16eed71dbdc.png", -50, -34 }
+				[monsterDirection.left] = { "16eed718d77.png", -38, -34 },
+				[monsterDirection.right] = { "16eed71dbdc.png", -50, -34 }
 			},
 			[monsterType.roar] = {
-				[1] = { "16eed725073.png", -38, -40 },
-				[3] = { "16eed7270f7.png", -32, -40 }
+				[monsterDirection.left] = { "16eed725073.png", -38, -40 },
+				[monsterDirection.right] = { "16eed7270f7.png", -32, -40 }
 			},
 			[monsterType.wizard] = {
-				[1] = { "16ef2811ccd.png", -105, -20 }, -- Throwing (hands 180deg)
-				[3] = { "16ef2846294.png", -105, -23 } -- Summoning (hands 90deg)
+				[monsterDirection.weakAttack] = { "16ef2811ccd.png", -105, -20 }, -- Throwing (hands 180deg)
+				[monsterDirection.strongAttack] = { "16ef2846294.png", -105, -23 } -- Summoning (hands 90deg)
 			},
 			[monsterType.mutantWizard] = {
-				[1] = { "16f01f722f1.png", -154, -32 }, -- Summoning (hands 225deg)
-				[3] = { "16f05cbe665.png", -149, -44 }, -- Summoning (hand2 90deg)
-				[5] = { "16f06e99042.png", -143, -60 } -- Throwing (hands 90deg)
+				[monsterDirection.weakAttack] = { "16f01f722f1.png", -154, -32 }, -- Summoning (hands 225deg)
+				[monsterDirection.strongAttack] = { "16f05cbe665.png", -149, -44 }, -- Summoning (hand2 90deg)
+				[monsterDirection.ultimateAttack] = { "16f06e99042.png", -143, -60 } -- Throwing (hands 90deg)
 			}
 		}
 	},
 	dialogNpc = {
 		background = "16f02675bf7.png",
 		[1] = "16ebe7952c4.png", -- elf (hurt)
-		[2] = "", -- elf (not hurt)
+		[2] = "16f1c4a57d5.png", -- elf (not hurt)
 		[3] = "16f02f12dbc.png" -- santa
 	},
 	npc = {
@@ -627,6 +627,21 @@ local messagePlayersInStage = function(stage, message, name)
 	for player = 1, #players do
 		chatMessage(message, players[player], name)
 	end
+end
+
+local getChance
+getChance = function(weights)
+	local result, sum = math.random(0, 9999), 0
+
+	for i = 1, #weights do
+		sum = sum + weights[i]
+		if sum > result then
+			return i
+		end
+	end
+
+	-- Prevention case if the sum of weights < 100, but the function should never reach here if used correctly
+	return getChance(weights)
 end
 
 --[[ Tools ]]--
@@ -954,6 +969,32 @@ end
 
 local monster, bullet, enableNightMode, removeNightMode
 do
+	local objectChances = {
+		[monsterType.snow] = {
+			[1] = 7000, -- Move
+			[2] = 3000 -- Attack
+		},
+		[monsterType.roar] = {
+			[1] = 7000, -- Move
+			[2] = 3000 -- Atack
+		},
+		[monsterType.freeze] = {
+			[1] = 7200, -- Move
+			[2] = 2800 -- Atack
+		},
+		[monsterType.wizard] = {
+			[1] = 8800, -- Nothing
+			[2] = 700, -- Weak
+			[3] = 400 -- Strong
+		},
+		[monsterType.mutantWizard] = {
+			[1] = 8000, -- Nothing
+			[2] = 650, -- Weak
+			[3] = 350, -- Strong
+			[4] = 500 -- Strong
+		}
+	}
+
 	monster = {
 		_perStage = { }
 	}
@@ -1090,38 +1131,39 @@ do
 			return
 		end
 
+		local chance = getChance(objectChances[self.type])
+
 		if self.type == monsterType.wizard then
-			if not self.isAttacking and math.random(1, 5) == 5 then
-				if math.random(1, 2) == 1 then
+			if not self.isAttacking and chance ~= 1 then
+				if chance == 2 then -- Weak
 					self:bomber(players)
-				else
+				elseif chance == 3 then -- Strong
 					self:freezeBreath(players)
 				end
 			end
 		elseif self.type == monsterType.mutantWizard then
-			if not self.isAttacking and not isMoonStolen and math.random(1, 5) == 5 then
+			if not self.isAttacking and not isMoonStolen and chance ~= 1 then
 				if remainingTime <= monsterData.mutantWizardSuicideTime and self.life >= monsterData.mutantWizardSuicideLifePercent and not self.suicide then
 					self.suicide = true
-					self.life = 999 -- can't kill anymore
+					self.life = 999 -- Can't be killed anymore
 					self:destroy()
 				elseif self.life < 15 and not self.startedChaos then
 					self.startedChaos = true
 					self:beginChaos(players)
 				else
-					local randomAttack = math.random(1, 3)
-					if randomAttack == 1 then
+					if chance == 2 then -- Weak
 						self:throwFlamingGift(players)
-					elseif randomAttack == 2 then
+					elseif chance == 3 then -- Strong
 						self:invokeMeteor(players)
-					elseif randomAttack == 3 then
+					elseif chance == 4 then -- Ultimate
 						self:throwPotions(players)
 					end
 				end
 			end
 		else
-			if math.random(1, 5) < 4 then
+			if chance == 1 then -- Move
 				self:moveAround(players, monsterData.movementType[self.type], 1, monsterData.distanceRadius[self.type])
-			elseif not self.isAttacking then
+			elseif not self.isAttacking and chance == 2 then -- Attack
 				if self.type == monsterType.snow then
 					self:throwSnowball(players)
 				elseif self.type == monsterType.freeze then
