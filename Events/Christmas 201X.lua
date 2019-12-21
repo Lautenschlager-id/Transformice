@@ -21,7 +21,7 @@ local module = {
 	},
 	time = 2.5 * 60,
 	map = {
-		xml = [[<C><P L="1000" APS="%s,,170,350,820,1250,,;%s,,,,1000,370,," H="1600" /><Z><S><S L="160" o="324650" X="76" H="17" Y="1574" T="12" P=",,.3,.2,-12,,," /><S L="115" o="324650" X="209" H="17" Y="1563" T="12" P=",,.3,.2,5,,," /><S L="100" o="324650" X="297" H="17" Y="1559" T="12" P=",,.3,.2,-10,,," /><S L="150" o="324650" X="417" H="17" Y="1560" T="12" P=",,.3,.2,7,,," /><S L="150" o="324650" X="565" H="17" Y="1568" T="12" P=",,.3,.2,-1,,," /><S L="92" o="324650" X="672" H="17" Y="1544" T="12" P=",,.3,.2,-34,,," /><S L="82" o="324650" X="743" H="17" Y="1503" T="12" P=",,.3,.2,-26,,," /><S L="66" o="324650" X="790" H="17" Y="1461" T="12" P=",,.3,.2,-65,,," /><S L="15" o="324650" X="789" H="853" Y="1014" T="12" P=",,.3,.2,,,," /><S L="530" o="324650" X="457" H="17" Y="1408" T="12" P=",,.3,.2,1,,," /><S L="401" o="324650" X="532" H="17" Y="1250" T="12" P=",,.3,.2,1,,," /><S L="442" o="324650" X="500" H="17" Y="1082" T="12" P=",,.3,.2,,,," /><S L="82" o="324650" X="761" H="17" Y="1274" T="12" P=",,.3,.2,32,,," /><S L="167" o="324650" X="736" H="17" Y="1183" T="12" P=",,.3,.2,-52,,," /><S L="99" o="324650" X="422" H="17" Y="1051" T="12" P=",,.3,.2,218,,," /><S L="99" o="324650" X="356" H="17" Y="983" T="12" P=",,.3,.2,235,,," /><S L="339" o="324650" X="561" H="17" Y="921" T="12" P=",,.3,.2,,,," /><S L="92" o="324650" X="759" H="17" Y="949" T="12" P=",,.3,.2,40,,," /><S L="178" o="324650" X="731" H="17" Y="854" T="12" P=",,.3,.2,-49,,," /><S L="350" o="324650" X="536" H="17" Y="754" T="12" P=",,.3,.2,,,," /><S L="124" o="324650" X="448" H="17" Y="677" T="12" P=",,.3,.2,55,,," /><S L="503" o="324650" X="748" H="17" Y="597" T="12" P=",,.3,.2,-1,,," /><S L="14" o="324650" X="991" H="211" Y="487" T="12" P=",,.3,.2,2,,," /><S L="532" o="324650" X="736" H="27" Y="378" T="12" P=",,.3,.2,,,," /><S L="20" o="324650" X="326" H="1104" Y="901" T="12" P=",,.3,.2,15,,," /><S L="10" o="324650" X="998" H="3000" Y="-1130" T="12" P=",,,,,,," /><S H="3000" L="10" o="324650" X="-2" c="3" Y="100" T="12" P=",,,,,,," /><S P=",,.3,.2,-115,,," L="10" o="324650" H="10" Y="1444" T="12" X="788" /><S P=",,.3,.2,50,,," L="172" o="324650" H="17" Y="1340" T="12" X="293" /><S H="10" L="100" o="324650" X="748" c="2" Y="1410" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="290" c="2" Y="1245" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="748" c="2" Y="1080" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="380" c="2" Y="920" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="754" c="2" Y="753" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="455" c="2" Y="596" T="12" P=",,,,,,," /><S P=",,,,-10,,," L="500" o="324650" H="10" c="2" Y="415" T="12" X="238" /><S P=",,,,,,," L="10" o="324650" X="183" c="2" Y="1493" T="12" H="150" /><S P=",,.3,.2,40,,," L="100" o="324650" H="17" Y="723" T="12" X="496" /><S L="20" o="324650" H="100" X="447" Y="433" T="12" P=",,.3,.2,10,,," /><S X="868" L="66" o="324650" H="40" c="3" Y="568" T="12" P=",,.3,.2,,,," /><S P="1,99999,99999,,,1,," L="50" o="324650" lua="%d" H="10" c="2" Y="494" T="12" X="945" /><S P="1,99999,,,,,," L="10" o="324650" lua="%d" H="10" Y="-620" T="12" X="945" /><S L="10" o="324650" lua="%d" H="200" X="906" Y="487" T="12" P=",,,,,,," /><S X="835" L="10" o="324650" lua="%d" H="200" c="3" Y="487" T="12" P=",,,,,,," /><S H="10" L="10" o="324650" lua="%d" X="945" c="2" Y="572" T="12" P=",,,,,,," /><S P=",,,,,,," L="10" o="324650" lua="%d" X="906" Y="-1130" T="12" H="3000" /><S P="1,99999,,,,,," L="10" o="324650" lua="%d" X="953" c="4" Y="250" T="13" H="10" /><S X="953" L="50" o="324650" lua="%d" H="10" c="2" Y="260" T="12" P="1,,99999,,,1,," /><S P=",,.3,.2,,,," L="125" o="324650" H="55" c="3" Y="335" T="12" X="820" /><S H="10" L="40" o="324650" c="2" Y="295" T="12" X="950" P=",,9999,,,,," /></S><D /><O /><L><JP M2="" M1="40" AXIS=",1" /><JR P1="945,-625" M1="41" MV="Infinity,2" /><JD M1="40" M2="41" /><JR P1="953,250" M1="46" MV="Infinity,1.75" /><JR M1="46" M2="47" /></L></Z></C>]],
+		xml = [[<C><P L="1000" APS="%s,,170,350,820,1250,,;%s,,,,1000,370,," H="1600" /><Z><S><S L="160" o="324650" X="76" H="17" Y="1574" T="12" P=",,.3,.2,-12,,," /><S L="115" o="324650" X="209" H="17" Y="1563" T="12" P=",,.3,.2,5,,," /><S L="100" o="324650" X="297" H="17" Y="1559" T="12" P=",,.3,.2,-10,,," /><S L="150" o="324650" X="417" H="17" Y="1560" T="12" P=",,.3,.2,7,,," /><S L="150" o="324650" X="565" H="17" Y="1568" T="12" P=",,.3,.2,-1,,," /><S L="92" o="324650" X="672" H="17" Y="1544" T="12" P=",,.3,.2,-34,,," /><S L="82" o="324650" X="743" H="17" Y="1503" T="12" P=",,.3,.2,-26,,," /><S L="66" o="324650" X="790" H="17" Y="1461" T="12" P=",,.3,.2,-65,,," /><S L="15" o="324650" X="789" H="853" Y="1014" T="12" P=",,.3,.2,,,," /><S L="530" o="324650" X="457" H="17" Y="1408" T="12" P=",,.3,.2,1,,," /><S L="401" o="324650" X="532" H="17" Y="1250" T="12" P=",,.3,.2,1,,," /><S L="442" o="324650" X="500" H="17" Y="1082" T="12" P=",,.3,.2,,,," /><S L="82" o="324650" X="761" H="17" Y="1274" T="12" P=",,.3,.2,32,,," /><S L="167" o="324650" X="736" H="17" Y="1183" T="12" P=",,.3,.2,-52,,," /><S L="99" o="324650" X="422" H="17" Y="1051" T="12" P=",,.3,.2,218,,," /><S L="99" o="324650" X="356" H="17" Y="983" T="12" P=",,.3,.2,235,,," /><S L="339" o="324650" X="561" H="17" Y="921" T="12" P=",,.3,.2,,,," /><S L="92" o="324650" X="759" H="17" Y="949" T="12" P=",,.3,.2,40,,," /><S L="178" o="324650" X="731" H="17" Y="854" T="12" P=",,.3,.2,-49,,," /><S L="350" o="324650" X="536" H="17" Y="754" T="12" P=",,.3,.2,,,," /><S L="124" o="324650" X="448" H="17" Y="677" T="12" P=",,.3,.2,55,,," /><S L="503" o="324650" X="748" H="17" Y="597" T="12" P=",,.3,.2,-1,,," /><S L="14" o="324650" X="991" H="211" Y="487" T="12" P=",,.3,.2,2,,," /><S L="532" o="324650" X="736" H="27" Y="378" T="12" P=",,.3,.2,,,," /><S L="20" o="324650" X="326" H="1104" Y="901" T="12" P=",,.3,.2,15,,," /><S L="10" o="324650" X="998" H="3000" Y="-1130" T="12" P=",,,,,,," /><S H="3000" L="10" o="324650" X="-2" c="3" Y="100" T="12" P=",,,,,,," /><S P=",,.3,.2,-115,,," L="10" o="324650" H="10" Y="1444" T="12" X="788" /><S P=",,.3,.2,50,,," L="172" o="324650" H="17" Y="1340" T="12" X="293" /><S H="10" L="100" o="324650" X="748" c="2" Y="1410" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="290" c="2" Y="1245" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="748" c="2" Y="1080" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="380" c="2" Y="920" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="754" c="2" Y="753" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="455" c="2" Y="596" T="12" P=",,,,,,," /><S P=",,,,-10,,," L="500" o="324650" H="10" c="2" Y="415" T="12" X="238" /><S P=",,,,,,," L="10" o="324650" X="183" c="2" Y="1493" T="12" H="150" /><S P=",,.3,.2,40,,," L="100" o="324650" H="17" Y="723" T="12" X="496" /><S L="20" o="324650" H="100" X="447" Y="433" T="12" P=",,.3,.2,10,,," /><S X="868" L="66" o="324650" H="40" c="3" Y="568" T="12" P=",,.3,.2,,,," /><S P="1,99999,99999,,,1,," L="50" o="324650" lua="%d" H="10" c="2" Y="494" T="12" X="945" /><S P="1,99999,,,,,," L="10" o="324650" lua="%d" H="10" Y="-620" T="12" X="945" /><S L="10" o="324650" lua="%d" H="200" X="906" Y="487" T="12" P=",,,,,,," /><S X="835" L="10" o="324650" lua="%d" H="200" c="3" Y="487" T="12" P=",,,,,,," /><S H="10" L="10" o="324650" lua="%d" X="945" c="2" Y="572" T="12" P=",,,,,,," /><S P=",,,,,,," L="10" o="324650" lua="%d" X="906" Y="-1130" T="12" H="3000" /><S P="1,99999,,,,,," L="10" o="324650" lua="%d" X="953" c="4" Y="250" T="13" H="10" /><S X="953" L="50" o="324650" lua="%d" H="10" c="2" Y="260" T="12" P="1,,99999,,,1,," /><S P=",,.3,.2,,,," L="125" o="324650" H="55" c="3" Y="335" T="12" X="820" /><S H="10" L="40" o="324650" c="2" Y="295" T="12" X="950" P=",,9999,,,,," /></S><D><DS Y="1565" X="15" /></D><O /><L><JP M2="" M1="40" AXIS=",1" /><JR P1="945,-625" M1="41" MV="Infinity,2" /><JD M1="40" M2="41" /><JR P1="953,250" M1="46" MV="Infinity,1.75" /><JR M1="46" M2="47" /></L></Z></C>]],
 		background = "16e6f4bb3dc.jpg",
 		foreground = "167515a75c9.png",
 		backgroundCover = "16f06c06a3f.png",
@@ -32,7 +32,8 @@ local module = {
 	timerTicks = 12,
 	life = 6,
 	rewardWizardDefeats = 15,
-	rewardSantaClausSaves = 5
+	rewardSantaClausSaves = 5,
+	emoteDay = 28
 }
 module.mapName = { module.formalName, module.team.developer, module.formalName, module.team.artist, module.team.developer, module.formalName, module.team.developer, module.team.artist }
 
@@ -72,7 +73,18 @@ do
 
 			translator = "Bolodefchoco#0000"
 		},
-		br = { }
+		br = {
+
+			translator = "Bolodefchoco#0000"
+		},
+		es = {
+
+			translator = "Tocutoeltuco#0000"
+		},
+		pl = {
+
+			translator = "Adriantal#0000"
+		}
 	}
 	texts.br = texts.en
 	texts.pt = texts.br
@@ -156,7 +168,7 @@ local monsterData = {
 
 	bombForce = 25,
 	bombQuantity = 0,
-	bombRadius = 80,
+	bombRadius = 100,
 	bombPower = 30,
 	bombExplodeTimer = 1000,
 	bombSpawnTimer = 500,
@@ -263,7 +275,15 @@ local miscData = {
 	bulletReloadTimer = 800,
 	callbackTimer = 2500,
 	consumableTimer = 10000,
-	finalBossSpawn = { 520, 350 }
+	finalBossSpawn = { 520, 350 },
+	cravedEmotes = {
+		[1] = { 240, 1350 },
+		[2] = { 340, 1030 },
+		[3] = { 750, 888 },
+		[4] = { 930, 540 }
+	},
+	emoteTimer = 1300,
+	emotePx = 0
 }
 
 local emoteIds = {
@@ -272,6 +292,13 @@ local emoteIds = {
 	clap = 5,
 	cry = 2,
 	dance = 0
+}
+
+local emoteSequence = {
+	[1] = 0,
+	[2] = 0,
+	[3] = 0,
+	[4] = 0
 }
 
 local consumableIds = {
@@ -284,7 +311,7 @@ local consumableIds = {
 
 local consumableCoordinates = {
 	-- x1 <= x <= x2, y1 <= y <= y2, emoteId
-	firework = { 830, 900, 545, 480, emoteIds.sit }, -- Caldron
+	firework = { 830, 900, 480, 545, emoteIds.sit }, -- Caldron
 	paperBall = { 590, 740, 270, 370, emoteIds.clap }, -- Gift mountain
 	postcard = { 0, 170, 1430, 1600, emoteIds.cry }, -- Mice spawn
 	microphone = { 440, 500, 0, 370, emoteIds.dance }, -- Moon corner
@@ -401,6 +428,12 @@ local images = {
 		[1] = "16ebd213f31.png", -- Red
 		[0.5] = "16ebd26dde2.png", -- Half red / Half grey
 		[0] = "16ebd2156a2.png" -- Grey
+	},
+	cravedEmotes = {
+		[1] = "16f28b0af35.png",
+		[2] = "16f28b0af35.png",
+		[3] = "16f28b0af35.png",
+		[4] = "16f28b0af35.png"
 	}
 }
 
@@ -411,7 +444,8 @@ local imageLayer = {
 	objectForeground = "!1",
 	dialogForeground = "&2",
 	dialogBackgroud = ":20",
-	hudForeground = "&1"
+	hudForeground = "&1",
+	emote = "?2"
 }
 
 --[[ Data ]]--
@@ -436,12 +470,15 @@ local playerCache, playerData = { }, {
 
 local hasReward, playerHasCompletedFirstStep
 do
-	local addReward = function(playerName, reward)
+	local addReward = function(playerName, reward, save)
 		system.giveEventGift(playerName, module.reward[reward])
 		playerData:set(playerName, "rewards", playerData:get(playerName, "rewards") + reward)
+		if save then
+			playerData:save(playerName, true)
+		end
 	end
 
-	local checkRewardForPlayer = function(playerName, reward)
+	local checkRewardForPlayer = function(playerName, reward, save)
 		if hasReward(playerName, reward) then return end
 
 		if reward == rewardId.orb then
@@ -454,12 +491,12 @@ do
 			return
 		end
 
-		addReward(playerName, reward)
+		addReward(playerName, reward, save)
 	end
 
-	local checkAllRewardsForPlayer = function(playerName)
+	local checkAllRewardsForPlayer = function(playerName, save)
 		for _, reward in next, rewardId do
-			checkRewardForPlayer(playerName, reward)
+			checkRewardForPlayer(playerName, reward, save)
 		end
 	end
 
@@ -468,11 +505,11 @@ do
 	DataHandler.VERSION = '1.4'
 	DataHandler.__index = DataHandler
 	DataHandler.new = function(moduleID, skeleton, otherOptions) local self = setmetatable({}, DataHandler) assert(moduleID, 'Invalid module ID (nil)') assert(moduleID ~= '', 'Invalid module ID (empty text)') assert(skeleton, 'Invalid skeleton (nil)') for k, v in next, skeleton do v.type = v.type or type(v.default) end self.players = {} self.moduleID = moduleID self.moduleSkeleton = skeleton self.moduleIndexes = {} self.otherOptions = otherOptions self.otherData = {} self.originalStuff = {} for k,v in pairs(skeleton) do self.moduleIndexes[v.index] = k end if self.otherOptions then self.otherModuleIndexes = {} for k,v in pairs(self.otherOptions) do self.otherModuleIndexes[k] = {} for k2,v2 in pairs(v) do v2.type = v2.type or type(v2.default) self.otherModuleIndexes[k][v2.index] = k2 end end end return self end
-	DataHandler.newPlayer = function(self, name, dataString) assert(name, 'Invalid player name (nil)') assert(name ~= '', 'Invalid player name (empty text)') self.players[name] = {} self.otherData[name] = {} dataString = dataString or '' local function turnStringToTable(str) local output = {} for data in string.gsub(str, '%b{}', function(b) return b:gsub(',', '\0') end):gmatch('[^,]+') do data = data:gsub('%z', ',') if string.match(data, '^{.-}$') then table.insert(output, turnStringToTable(string.match(data, '^{(.-)}$'))) else table.insert(output, tonumber(data) or data) end end return output end local function getDataIndexName(skeleton, index) for k,v in pairs(skeleton) do if v.index == index then return k end end return 0 end local function getHigherIndex(skeleton) local higher = 0 for k,v in pairs(skeleton) do if v.index > higher then higher = v.index end end return higher end local function handleModuleData(moduleID, skeleton, moduleData, makeTable) local dataIndex = 1 local higherIndex = getHigherIndex(skeleton) moduleID = "__" .. moduleID if makeTable then self.players[name][moduleID] = {} end local setPlayerData = function(data, dataType, dataName, dataDefault) local value if dataType == "number" then value = tonumber(data) or dataDefault elseif dataType == "string" then value = string.match(data or '', "^\"(.-)\"$") or dataDefault elseif dataType == "table" then value = string.match(data or '', "^{(.-)}$") value = value and turnStringToTable(value) or dataDefault elseif dataType == "boolean" then if data then value = data == '1' else value = dataDefault end end if makeTable then self.players[name][moduleID][dataName] = value else self.players[name][dataName] = value end end if #moduleData > 0 then for data in string.gsub(moduleData, '%b{}', function(b) return b:gsub(',', '\0') end):gmatch('[^,]+') do data = data:gsub('%z', ',') local dataName = getDataIndexName(skeleton, dataIndex) local dataType = skeleton[dataName].type local dataDefault = skeleton[dataName].default setPlayerData(data, dataType, dataName, dataDefault) dataIndex = dataIndex + 1 end end if dataIndex <= higherIndex then for i = dataIndex, higherIndex do local dataName = getDataIndexName(skeleton, i) local dataType = skeleton[dataName].type local dataDefault = skeleton[dataName].default setPlayerData(nil, dataType, dataName, dataDefault) end end end local modules, originalStuff = self:getModuleData(dataString) self.originalStuff[name] = originalStuff if not modules[self.moduleID] then modules[self.moduleID] = '{}' end handleModuleData(self.moduleID, self.moduleSkeleton, modules[self.moduleID]:sub(2,-2), false) if self.otherOptions then for moduleID, skeleton in pairs(self.otherOptions) do if not modules[moduleID] then local strBuilder = {} for k,v in pairs(skeleton) do local dataType = v.type or type(v.default) if dataType == 'string' then strBuilder[v.index] = '"'..tostring(v.default)..'"' elseif dataType == 'table' then strBuilder[v.index] = '{}' elseif dataType == 'number' then strBuilder[v.index] = v.default elseif dataType == 'boolean' then strBuilder[v.index] = v.default and '1' or '0' end end modules[moduleID] = '{'..table.concat(strBuilder, ',')..'}' end end end for moduleID, moduleData in pairs(modules) do if moduleID ~= self.moduleID then if self.otherOptions and self.otherOptions[moduleID] then handleModuleData(moduleID, self.otherOptions[moduleID], moduleData:sub(2,-2), true) else self.otherData[name][moduleID] = moduleData end end end checkAllRewardsForPlayer(name) end
+	DataHandler.newPlayer = function(self, name, dataString) assert(name, 'Invalid player name (nil)') assert(name ~= '', 'Invalid player name (empty text)') self.players[name] = {} self.otherData[name] = {} dataString = dataString or '' local function turnStringToTable(str) local output = {} for data in string.gsub(str, '%b{}', function(b) return b:gsub(',', '\0') end):gmatch('[^,]+') do data = data:gsub('%z', ',') if string.match(data, '^{.-}$') then table.insert(output, turnStringToTable(string.match(data, '^{(.-)}$'))) else table.insert(output, tonumber(data) or data) end end return output end local function getDataIndexName(skeleton, index) for k,v in pairs(skeleton) do if v.index == index then return k end end return 0 end local function getHigherIndex(skeleton) local higher = 0 for k,v in pairs(skeleton) do if v.index > higher then higher = v.index end end return higher end local function handleModuleData(moduleID, skeleton, moduleData, makeTable) local dataIndex = 1 local higherIndex = getHigherIndex(skeleton) moduleID = "__" .. moduleID if makeTable then self.players[name][moduleID] = {} end local setPlayerData = function(data, dataType, dataName, dataDefault) local value if dataType == "number" then value = tonumber(data) or dataDefault elseif dataType == "string" then value = string.match(data or '', "^\"(.-)\"$") or dataDefault elseif dataType == "table" then value = string.match(data or '', "^{(.-)}$") value = value and turnStringToTable(value) or dataDefault elseif dataType == "boolean" then if data then value = data == '1' else value = dataDefault end end if makeTable then self.players[name][moduleID][dataName] = value else self.players[name][dataName] = value end end if #moduleData > 0 then for data in string.gsub(moduleData, '%b{}', function(b) return b:gsub(',', '\0') end):gmatch('[^,]+') do data = data:gsub('%z', ',') local dataName = getDataIndexName(skeleton, dataIndex) local dataType = skeleton[dataName].type local dataDefault = skeleton[dataName].default setPlayerData(data, dataType, dataName, dataDefault) dataIndex = dataIndex + 1 end end if dataIndex <= higherIndex then for i = dataIndex, higherIndex do local dataName = getDataIndexName(skeleton, i) local dataType = skeleton[dataName].type local dataDefault = skeleton[dataName].default setPlayerData(nil, dataType, dataName, dataDefault) end end end local modules, originalStuff = self:getModuleData(dataString) self.originalStuff[name] = originalStuff if not modules[self.moduleID] then modules[self.moduleID] = '{}' end handleModuleData(self.moduleID, self.moduleSkeleton, modules[self.moduleID]:sub(2,-2), false) if self.otherOptions then for moduleID, skeleton in pairs(self.otherOptions) do if not modules[moduleID] then local strBuilder = {} for k,v in pairs(skeleton) do local dataType = v.type or type(v.default) if dataType == 'string' then strBuilder[v.index] = '"'..tostring(v.default)..'"' elseif dataType == 'table' then strBuilder[v.index] = '{}' elseif dataType == 'number' then strBuilder[v.index] = v.default elseif dataType == 'boolean' then strBuilder[v.index] = v.default and '1' or '0' end end modules[moduleID] = '{'..table.concat(strBuilder, ',')..'}' end end end for moduleID, moduleData in pairs(modules) do if moduleID ~= self.moduleID then if self.otherOptions and self.otherOptions[moduleID] then handleModuleData(moduleID, self.otherOptions[moduleID], moduleData:sub(2,-2), true) else self.otherData[name][moduleID] = moduleData end end end checkAllRewardsForPlayer(name, true) end
 	DataHandler.dumpPlayer = function(self, name) local output = {} local function turnTableToString(tbl) local output = {} for k,v in pairs(tbl) do local valueType = type(v) if valueType == 'table' then output[#output+1] = '{' output[#output+1] = turnTableToString(v) if output[#output]:sub(-1) == ',' then output[#output] = output[#output]:sub(1, -2) end output[#output+1] = '}' output[#output+1] = ',' else if valueType == 'string' then output[#output+1] = '"' output[#output+1] = v output[#output+1] = '"' elseif valueType == 'boolean' then output[#output+1] = v and '1' or '0' else output[#output+1] = v end output[#output+1] = ',' end end if output[#output] == ',' then output[#output] = '' end return table.concat(output) end local function getPlayerDataFrom(name, moduleID) local output = {moduleID, '=', '{'} local player = self.players[name] local moduleIndexes = self.moduleIndexes local moduleSkeleton = self.moduleSkeleton if self.moduleID ~= moduleID then moduleIndexes = self.otherModuleIndexes[moduleID] moduleSkeleton = self.otherOptions[moduleID] moduleID = '__'..moduleID player = self.players[name][moduleID] end if not player then return '' end for i = 1, #moduleIndexes do local dataName = moduleIndexes[i] local dataType = moduleSkeleton[dataName].type if dataType == 'string' then output[#output+1] = '"' output[#output+1] = player[dataName] output[#output+1] = '"' elseif dataType == 'number' then output[#output+1] = player[dataName] elseif dataType == 'boolean' then output[#output+1] = player[dataName] and '1' or '0' elseif dataType == 'table' then output[#output+1] = '{' output[#output+1] = turnTableToString(player[dataName]) output[#output+1] = '}' end output[#output+1] = ',' end if output[#output] == ',' then output[#output] = '}' else output[#output+1] = '}' end return table.concat(output) end output[#output+1] = getPlayerDataFrom(name, self.moduleID) if self.otherOptions then for k,v in pairs(self.otherOptions) do local moduleData = getPlayerDataFrom(name, k) if moduleData ~= '' then output[#output+1] = ',' output[#output+1] = moduleData end end end for k,v in pairs(self.otherData[name]) do output[#output+1] = ',' output[#output+1] = k output[#output+1] = '=' output[#output+1] = v end return table.concat(output)..self.originalStuff[name] end
 	DataHandler.get = function(self, name, dataName, moduleName) if not moduleName then return self.players[name][dataName] else assert(self.players[name]['__'..moduleName], 'Module data not available ('..moduleName..')') return self.players[name]['__'..moduleName][dataName] end end
 	DataHandler.set = function(self, name, dataName, value, moduleName) if moduleName then self.players[name]['__'..moduleName][dataName] = value else self.players[name][dataName] = value end return self end
-	DataHandler.save = function(self, name) checkAllRewardsForPlayer(name) system.savePlayerData(name, self:dumpPlayer(name)) end
+	DataHandler.save = function(self, name, ignoreSave) if not ignoreSave then checkAllRewardsForPlayer(name) end system.savePlayerData(name, self:dumpPlayer(name)) end
 	DataHandler.removeModuleData = function(self, name, moduleName) assert(moduleName, "Invalid module name (nil)") assert(moduleName ~= '', "Invalid module name (empty text)") assert(moduleName ~= self.moduleID, "Invalid module name (current module data structure)") if self.otherData[name][moduleName] then self.otherData[name][moduleName] = nil return true else if self.otherOptions and self.otherOptions[moduleName] then self.players[name]['__'..moduleName] = nil return true end end return false end
 	DataHandler.getModuleData = function(self, str) local output = {} for moduleID, moduleData in string.gmatch(str, '([0-9A-Za-z_]+)=(%b{})') do output[moduleID] = moduleData end for k,v in pairs(output) do str = str:gsub(k..'='..v:gsub("[%(%)%.%%%+%-%*%?%[%]%^%$]", "%%%0")..',?', '') end return output, str end
 
@@ -621,7 +658,8 @@ local displayChaosInterface = function(playerName)
 end
 
 local chatMessage = function(message, playerName, who)
-	tfm.exec.chatMessage("<font color='#" .. (npcColors[who] or "2EBA7E") .. "'>[" .. (npcNames[who] and ("<B>" .. npcNames[who] .. "</B>") or "•") .. "] " .. message .. "</font>\n", playerName)
+	--tfm.exec.chatMessage("<font color='#" .. (npcColors[who] or "2EBA7E") .. "'>[" .. (npcNames[who] and ("<B>" .. npcNames[who] .. "</B>") or "•") .. "] " .. message .. "</font>\n", playerName)
+	tfm.exec.chatMessage("[" .. (npcNames[who] and ("<B>" .. npcNames[who] .. "</B>") or "•") .. "] " .. message .. "\n", playerName)
 end
 
 local messagePlayersInStage = function(stage, message, name)
@@ -1811,7 +1849,9 @@ local setAllPlayerData = function()
 			hasSavedSanta = false,
 			consumableTimer = 0,
 			hasSeenWizard = false,
-			hasSeenMutantWizard = false
+			hasSeenMutantWizard = false,
+			emoteSequence = 0,
+			emoteTimer = 0
 		}
 
 		tfm.exec.lowerSyncDelay(playerName)
@@ -1832,6 +1872,7 @@ globalInitInterface = function()
 	monsterData.defaultPotionSpawnTimer = monsterData.potionSpawnTimer
 	monsterData.mutantWizardSuicideLifePercent = percent(monsterData.mutantWizardSuicideLifePercent, monsterData.life[monsterType.mutantWizard])
 	bulletData.damage = clamp((2 - (tfm.get.room.uniquePlayers / 25)), bulletData.minimumDamage, bulletData.maximumDamage)
+	miscData.emotePx = -310 / #miscData.cravedEmotes
 	-- Map Name
 	ui.setMapName(getRandomValue(module.mapName))
 end
@@ -1905,12 +1946,16 @@ do
 		point = "0,0"
 	}
 
-	buildMap = function(playerName)
-		tfm.exec.addImage(module.map.background, imageLayer.mapBackground, 0, 0, playerName)
-		tfm.exec.addImage(images.objects.caldron, imageLayer.objectForeground, 746, 487, playerName) -- Should it appear like that in the beginning?
-		tfm.exec.addImage(images.objects.fireMachine, imageLayer.objectForeground, 738, 272, playerName)
+	local insertCravedEmotes = function()
+		local currentMonth, currentDay = tonumber(os.date("%m")), tonumber(os.date("%d"))
+		for emote = 1, #miscData.cravedEmotes do
+			if currentMonth < 12 or currentDay >= (module.emoteDay + (emote - 1)) then
+				tfm.exec.addImage(images.cravedEmotes[emote], imageLayer.emote, miscData.cravedEmotes[emote][1], miscData.cravedEmotes[emote][2])
+			end
+		end
+	end
 
-		-- Insert passage blocks
+	local insertPassageBlocks = function()
 		local totalBlocks = #blockLocationX
 		for i = 1, totalBlocks do
 			if not playerName then
@@ -1924,6 +1969,15 @@ do
 		tfm.exec.addJoint(jointId.blocker, totalBlocks, groundId.jointEffect, blockerJoint)
 		blockerJoint.type = 1
 		tfm.exec.addJoint(jointId.blocker + 1, totalBlocks, groundId.jointEffect + 2, blockerJoint)
+	end
+
+	buildMap = function(playerName)
+		tfm.exec.addImage(module.map.background, imageLayer.mapBackground, 0, 0, playerName)
+		tfm.exec.addImage(images.objects.caldron, imageLayer.objectForeground, 746, 487, playerName) -- Should it appear like that in the beginning?
+		tfm.exec.addImage(images.objects.fireMachine, imageLayer.objectForeground, 738, 272, playerName)
+
+		insertCravedEmotes()
+		insertPassageBlocks()
 	end
 
 	local executeWizardBaseRemove = function(obj, base)
@@ -2302,6 +2356,58 @@ local canThrowBullet = function(playerName)
 	return true
 end
 
+local canGetConsumable = function(playerName)
+	local cache = playerCache[playerName]
+	local time = os.time()
+
+	if math.random(1, 5) > 3 or cache.consumableTimer > time then
+		return false, cache, time
+	end
+
+	cache.consumableTimer = time + miscData.consumableTimer
+	return true, cache, time
+end
+
+local canTriggerSequence = function(cache, time)
+	if (cache.emoteTimer > 0 and cache.emoteTimer < time) then
+		cache.emoteSequence = 0
+		cache.emoteTimer = 0
+
+		return false
+	end
+	return true
+end
+
+local checkEmoteSequence = function(playerName, emote, data, cache, time)
+	if data.x < 150 and data.y > 1100 then -- Near the start point
+		local nextEmote = cache.emoteSequence + 1
+
+		emote = (emote == emoteSequence[nextEmote])
+
+		if not canTriggerSequence(cache, time, emote) or not emote then return end
+
+		local totalCravedEmotes = #miscData.cravedEmotes
+		if cache.emoteSequence < totalCravedEmotes then
+			cache.emoteTimer = time + miscData.emoteTimer
+			tfm.exec.movePlayer(playerName, 0, miscData.emotePx * nextEmote, true)
+			tfm.exec.movePlayer(playerName, 0, 0, false, 0, -10, false) -- Stops the falling
+
+			if nextEmote == totalCravedEmotes then
+				cache.emoteSequence = 0
+				return tfm.exec.movePlayer(playerName, miscData.finalBossSpawn[1], miscData.finalBossSpawn[2])
+			end
+			cache.emoteSequence = nextEmote
+		end
+	end
+end
+
+local checkMoveOnSequence = function(playerName, cache)
+	if canTriggerSequence(cache, os.time()) then
+		if cache.emoteSequence == 0 then return end
+		tfm.exec.movePlayer(playerName, miscData.miceTeleportSpawn[1], miscData.miceTeleportSpawn[2])
+	end
+end
+
 --[[ Events ]]--
 eventNewGame = function()
 	if newGame then
@@ -2349,8 +2455,9 @@ eventKeyboard = function(playerName, key, holding, x, y)
 	end
 	if not isEventWorkingFor(playerName) then return end
 
+	local cache = playerCache[playerName]
 	if key == keyCode.space then
-		if playerCache[playerName].dialog.id == 0 then
+		if cache.dialog.id == 0 then
 			-- Is not seeing a dialog
 			if canTriggerCallbacks(playerName) then
 				-- Checks all ranges of callbacks and, if matched, its action is performed
@@ -2363,14 +2470,15 @@ eventKeyboard = function(playerName, key, holding, x, y)
 
 			-- Throw
 			if canThrowBullet(playerName) then
-				bullet.newFromPlayer(x, y, playerCache[playerName].currentStage, playerName, (playerCache[playerName].isFacingRight and 1 or -1), (playerCache[playerName].currentStage > 6))
+				bullet.newFromPlayer(x, y, cache.currentStage, playerName, (cache.isFacingRight and 1 or -1), (cache.currentStage > 6))
 			end
 		else
 			-- Is seeing a dialog
 			dialogAction(playerName)
 		end
 	elseif key == keyCode.left or key == keyCode.right then
-		playerCache[playerName].isFacingRight = (key == keyCode.right)
+		cache.isFacingRight = (key == keyCode.right)
+		checkMoveOnSequence(playerName, cache)
 	end
 end
 
@@ -2410,18 +2518,19 @@ end
 eventEmotePlayed = function(playerName, emote, flag)
 	if not isEventWorkingFor(playerName) then return end
 
-	local time = os.time()
-	if math.random(1, 5) > 3 or playerCache[playerName].consumableTimer > time then return end
-	playerCache[playerName].consumableTimer = time + miscData.consumableTimer
-
 	local data = tfm.get.room.playerList[playerName]
+	local checkConsumables, cache, time = canGetConsumable(playerName)
 
-	for consumable, coordinates in next, consumableCoordinates do
-		if coordinates[5] == emote and (inSquare(data.x, data.y, coordinates[1], coordinates[2], coordinates[3], coordinates[4])) then
-			tfm.exec.giveConsumables(playerName, consumableIds[consumable], 1)
-			return
+	if checkConsumables then
+		for consumable, coordinates in next, consumableCoordinates do
+			if coordinates[5] == emote and (inSquare(data.x, data.y, coordinates[1], coordinates[2], coordinates[3], coordinates[4])) then
+				tfm.exec.giveConsumables(playerName, consumableIds[consumable], 1)
+				return
+			end
 		end
 	end
+
+	checkEmoteSequence(playerName, emote, data, cache, time)
 end
 
 eventPlayerDialogEnded = function(playerName, id, data)
