@@ -21,7 +21,7 @@ local module = {
 	},
 	time = 2.5 * 60,
 	map = {
-		xml = [[<C><P L="1000" APS="%s,,170,350,820,1250,,;%s,,,,1000,370,," H="1600" /><Z><S><S L="160" o="324650" X="76" H="17" Y="1574" T="12" P=",,.3,.2,-12,,," /><S L="115" o="324650" X="209" H="17" Y="1563" T="12" P=",,.3,.2,5,,," /><S L="100" o="324650" X="297" H="17" Y="1559" T="12" P=",,.3,.2,-10,,," /><S L="150" o="324650" X="417" H="17" Y="1560" T="12" P=",,.3,.2,7,,," /><S L="150" o="324650" X="565" H="17" Y="1568" T="12" P=",,.3,.2,-1,,," /><S L="92" o="324650" X="672" H="17" Y="1544" T="12" P=",,.3,.2,-34,,," /><S L="82" o="324650" X="743" H="17" Y="1503" T="12" P=",,.3,.2,-26,,," /><S L="66" o="324650" X="790" H="17" Y="1461" T="12" P=",,.3,.2,-65,,," /><S L="15" o="324650" X="789" H="853" Y="1014" T="12" P=",,.3,.2,,,," /><S L="530" o="324650" X="457" H="17" Y="1408" T="12" P=",,.3,.2,1,,," /><S L="401" o="324650" X="532" H="17" Y="1250" T="12" P=",,.3,.2,1,,," /><S L="442" o="324650" X="500" H="17" Y="1082" T="12" P=",,.3,.2,,,," /><S L="82" o="324650" X="761" H="17" Y="1274" T="12" P=",,.3,.2,32,,," /><S L="167" o="324650" X="736" H="17" Y="1183" T="12" P=",,.3,.2,-52,,," /><S L="99" o="324650" X="422" H="17" Y="1051" T="12" P=",,.3,.2,218,,," /><S L="99" o="324650" X="356" H="17" Y="983" T="12" P=",,.3,.2,235,,," /><S L="339" o="324650" X="561" H="17" Y="921" T="12" P=",,.3,.2,,,," /><S L="92" o="324650" X="759" H="17" Y="949" T="12" P=",,.3,.2,40,,," /><S L="178" o="324650" X="731" H="17" Y="854" T="12" P=",,.3,.2,-49,,," /><S L="350" o="324650" X="536" H="17" Y="754" T="12" P=",,.3,.2,,,," /><S L="124" o="324650" X="448" H="17" Y="677" T="12" P=",,.3,.2,55,,," /><S L="503" o="324650" X="748" H="17" Y="597" T="12" P=",,.3,.2,-1,,," /><S L="14" o="324650" X="991" H="211" Y="487" T="12" P=",,.3,.2,2,,," /><S L="532" o="324650" X="736" H="27" Y="378" T="12" P=",,.3,.2,,,," /><S L="20" o="324650" X="326" H="1104" Y="901" T="12" P=",,.3,.2,15,,," /><S L="10" o="324650" X="998" H="3000" Y="-1130" T="12" P=",,,,,,," /><S H="3000" L="10" o="324650" X="-2" c="3" Y="100" T="12" P=",,,,,,," /><S P=",,.3,.2,-115,,," L="10" o="324650" H="10" Y="1444" T="12" X="788" /><S P=",,.3,.2,50,,," L="172" o="324650" H="17" Y="1340" T="12" X="293" /><S H="10" L="100" o="324650" X="748" c="2" Y="1410" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="290" c="2" Y="1245" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="748" c="2" Y="1080" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="380" c="2" Y="920" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="754" c="2" Y="753" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="455" c="2" Y="596" T="12" P=",,,,,,," /><S P=",,,,-10,,," L="500" o="324650" H="10" c="2" Y="415" T="12" X="238" /><S P=",,,,,,," L="10" o="324650" X="183" c="2" Y="1493" T="12" H="150" /><S P=",,.3,.2,40,,," L="100" o="324650" H="17" Y="723" T="12" X="496" /><S L="20" o="324650" H="100" X="447" Y="433" T="12" P=",,.3,.2,10,,," /><S X="868" L="66" o="324650" H="40" c="3" Y="568" T="12" P=",,.3,.2,,,," /><S P="1,99999,99999,,,1,," L="50" o="324650" lua="%d" H="10" c="2" Y="494" T="12" X="945" /><S P="1,99999,,,,,," L="10" o="324650" lua="%d" H="10" Y="-620" T="12" X="945" /><S L="10" o="324650" lua="%d" H="200" X="906" Y="487" T="12" P=",,,,,,," /><S X="835" L="10" o="324650" lua="%d" H="200" c="3" Y="487" T="12" P=",,,,,,," /><S H="10" L="10" o="324650" lua="%d" X="945" c="2" Y="572" T="12" P=",,,,,,," /><S P=",,,,,,," L="10" o="324650" lua="%d" X="906" Y="-1130" T="12" H="3000" /><S P="1,99999,,,,,," L="10" o="324650" lua="%d" X="953" c="4" Y="250" T="13" H="10" /><S X="953" L="50" o="324650" lua="%d" H="10" c="2" Y="260" T="12" P="1,,99999,,,1,," /><S P=",,.3,.2,,,," L="125" o="324650" H="55" c="3" Y="335" T="12" X="820" /><S H="10" L="40" o="324650" c="2" Y="295" T="12" X="950" P=",,9999,,,,," /></S><D><DS Y="1565" X="15" /></D><O /><L><JP M2="" M1="40" AXIS=",1" /><JR P1="945,-625" M1="41" MV="Infinity,2" /><JD M1="40" M2="41" /><JR P1="953,250" M1="46" MV="Infinity,1.75" /><JR M1="46" M2="47" /></L></Z></C>]],
+		xml = [[<C><P L="1000" APS="%s,,%d,%d,%d,%d,%d,%d;%s,,%d,%d,%d,%d,%d,%d;%s,,%d,%d,%d,%d,%d,%d;%s,,170,350,820,1250,,;%s,,,,1000,370,," H="1600" /><Z><S><S L="160" o="324650" X="76" H="17" Y="1574" T="12" P=",,.3,.2,-12,,," /><S L="115" o="324650" X="209" H="17" Y="1563" T="12" P=",,.3,.2,5,,," /><S L="100" o="324650" X="297" H="17" Y="1559" T="12" P=",,.3,.2,-10,,," /><S L="150" o="324650" X="417" H="17" Y="1560" T="12" P=",,.3,.2,7,,," /><S L="150" o="324650" X="565" H="17" Y="1568" T="12" P=",,.3,.2,-1,,," /><S L="92" o="324650" X="672" H="17" Y="1544" T="12" P=",,.3,.2,-34,,," /><S L="82" o="324650" X="743" H="17" Y="1503" T="12" P=",,.3,.2,-26,,," /><S L="66" o="324650" X="790" H="17" Y="1461" T="12" P=",,.3,.2,-65,,," /><S L="15" o="324650" X="789" H="853" Y="1014" T="12" P=",,.3,.2,,,," /><S L="530" o="324650" X="457" H="17" Y="1408" T="12" P=",,.3,.2,1,,," /><S L="401" o="324650" X="532" H="17" Y="1250" T="12" P=",,.3,.2,1,,," /><S L="442" o="324650" X="500" H="17" Y="1082" T="12" P=",,.3,.2,,,," /><S L="82" o="324650" X="761" H="17" Y="1274" T="12" P=",,.3,.2,32,,," /><S L="167" o="324650" X="736" H="17" Y="1183" T="12" P=",,.3,.2,-52,,," /><S L="99" o="324650" X="422" H="17" Y="1051" T="12" P=",,.3,.2,218,,," /><S L="99" o="324650" X="356" H="17" Y="983" T="12" P=",,.3,.2,235,,," /><S L="339" o="324650" X="561" H="17" Y="921" T="12" P=",,.3,.2,,,," /><S L="92" o="324650" X="759" H="17" Y="949" T="12" P=",,.3,.2,40,,," /><S L="178" o="324650" X="731" H="17" Y="854" T="12" P=",,.3,.2,-49,,," /><S L="350" o="324650" X="536" H="17" Y="754" T="12" P=",,.3,.2,,,," /><S L="124" o="324650" X="448" H="17" Y="677" T="12" P=",,.3,.2,55,,," /><S L="503" o="324650" X="748" H="17" Y="597" T="12" P=",,.3,.2,-1,,," /><S L="14" o="324650" X="991" H="211" Y="487" T="12" P=",,.3,.2,2,,," /><S L="532" o="324650" X="736" H="27" Y="378" T="12" P=",,.3,.2,,,," /><S L="20" o="324650" X="326" H="1104" Y="901" T="12" P=",,.3,.2,15,,," /><S L="10" o="324650" X="998" H="3000" Y="-1130" T="12" P=",,,,,,," /><S H="3000" L="10" o="324650" X="-2" c="3" Y="100" T="12" P=",,,,,,," /><S P=",,.3,.2,-115,,," L="10" o="324650" H="10" Y="1444" T="12" X="788" /><S P=",,.3,.2,50,,," L="172" o="324650" H="17" Y="1340" T="12" X="293" /><S H="10" L="100" o="324650" X="748" c="2" Y="1410" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="290" c="2" Y="1245" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="748" c="2" Y="1080" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="380" c="2" Y="920" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="754" c="2" Y="753" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="455" c="2" Y="596" T="12" P=",,,,,,," /><S P=",,,,-10,,," L="500" o="324650" H="10" c="2" Y="415" T="12" X="238" /><S P=",,,,,,," L="10" o="324650" X="183" c="2" Y="1493" T="12" H="150" /><S P=",,.3,.2,40,,," L="100" o="324650" H="17" Y="723" T="12" X="496" /><S L="20" o="324650" H="100" X="447" Y="433" T="12" P=",,.3,.2,10,,," /><S X="868" L="66" o="324650" H="40" c="3" Y="568" T="12" P=",,.3,.2,,,," /><S P="1,99999,99999,,,1,," L="50" o="324650" lua="%d" H="10" c="2" Y="494" T="12" X="945" /><S P="1,99999,,,,,," L="10" o="324650" lua="%d" H="10" Y="-620" T="12" X="945" /><S L="10" o="324650" lua="%d" H="200" X="906" Y="487" T="12" P=",,,,,,," /><S X="835" L="10" o="324650" lua="%d" H="200" c="3" Y="487" T="12" P=",,,,,,," /><S H="10" L="10" o="324650" lua="%d" X="945" c="2" Y="572" T="12" P=",,,,,,," /><S P=",,,,,,," L="10" o="324650" lua="%d" X="906" Y="-1130" T="12" H="3000" /><S P="1,99999,,,,,," L="10" o="324650" lua="%d" X="953" c="4" Y="250" T="13" H="10" /><S X="953" L="50" o="324650" lua="%d" H="10" c="2" Y="260" T="12" P="1,,99999,,,1,," /><S P=",,.3,.2,,,," L="125" o="324650" H="55" c="3" Y="335" T="12" X="820" /><S H="10" L="40" o="324650" c="2" Y="295" T="12" X="950" P=",,9999,,,,," /></S><D><DS Y="1565" X="15" /></D><O /><L><JP M2="" M1="40" AXIS=",1" /><JR P1="945,-625" M1="41" MV="Infinity,2" /><JD M1="40" M2="41" /><JR P1="953,250" M1="46" MV="Infinity,1.75" /><JR M1="46" M2="47" /></L></Z></C>]],
 		background = "16e6f4bb3dc.jpg",
 		foreground = "167515a75c9.png",
 		backgroundCover = "16f06c06a3f.png",
@@ -276,11 +276,11 @@ local miscData = {
 	callbackTimer = 2500,
 	consumableTimer = 10000,
 	finalBossSpawn = { 520, 350 },
-	cravedEmotes = {
-		[1] = { 240, 1350 },
-		[2] = { 340, 1030 },
-		[3] = { 750, 888 },
-		[4] = { 930, 540 }
+	sequenceEmotes = {
+		[1] = { -1, -1, -1, -1, -1  },
+		[2] = { -1, -1, -1, -1, -1  },
+		[3] = { -1, -1, -1, -1, -1 },
+		[4] = { -1, -1 }
 	},
 	emoteTimer = 1300,
 	emotePx = 0
@@ -295,10 +295,10 @@ local emoteIds = {
 }
 
 local emoteSequence = {
-	[1] = 0,
-	[2] = 0,
-	[3] = 0,
-	[4] = 0
+	[1] = '',
+	[2] = '',
+	[3] = '',
+	[4] = ''
 }
 
 local consumableIds = {
@@ -429,11 +429,14 @@ local images = {
 		[0.5] = "16ebd26dde2.png", -- Half red / Half grey
 		[0] = "16ebd2156a2.png" -- Grey
 	},
-	cravedEmotes = {
-		[1] = "16f28b0af35.png",
-		[2] = "16f28b0af35.png",
-		[3] = "16f28b0af35.png",
-		[4] = "16f28b0af35.png"
+	sequenceEmotes = {
+		[-1] = '',
+		[-2] = '',
+		[-3] = '',
+		[1] = '',
+		[2] = '',
+		[3] = '',
+		[4] = ''
 	}
 }
 
@@ -1872,7 +1875,7 @@ globalInitInterface = function()
 	monsterData.defaultPotionSpawnTimer = monsterData.potionSpawnTimer
 	monsterData.mutantWizardSuicideLifePercent = percent(monsterData.mutantWizardSuicideLifePercent, monsterData.life[monsterType.mutantWizard])
 	bulletData.damage = clamp((2 - (tfm.get.room.uniquePlayers / 25)), bulletData.minimumDamage, bulletData.maximumDamage)
-	miscData.emotePx = -310 / #miscData.cravedEmotes
+	miscData.emotePx = -310 / #miscData.sequenceEmotes
 	-- Map Name
 	ui.setMapName(getRandomValue(module.mapName))
 end
@@ -1946,11 +1949,11 @@ do
 		point = "0,0"
 	}
 
-	local insertCravedEmotes = function()
+	local insertSequenceEmotes = function()
 		local currentMonth, currentDay = tonumber(os.date("%m")), tonumber(os.date("%d"))
-		for emote = 1, #miscData.cravedEmotes do
+		for emote = 1, #miscData.sequenceEmotes do
 			if currentMonth < 12 or currentDay >= (module.emoteDay + (emote - 1)) then
-				tfm.exec.addImage(images.cravedEmotes[emote], imageLayer.emote, miscData.cravedEmotes[emote][1], miscData.cravedEmotes[emote][2])
+				tfm.exec.addImage(images.sequenceEmotes[emote], imageLayer.emote, miscData.sequenceEmotes[emote][1], miscData.sequenceEmotes[emote][2])
 			end
 		end
 	end
@@ -1976,7 +1979,7 @@ do
 		tfm.exec.addImage(images.objects.caldron, imageLayer.objectForeground, 746, 487, playerName) -- Should it appear like that in the beginning?
 		tfm.exec.addImage(images.objects.fireMachine, imageLayer.objectForeground, 738, 272, playerName)
 
-		insertCravedEmotes()
+		insertSequenceEmotes()
 		insertPassageBlocks()
 	end
 
@@ -2386,13 +2389,13 @@ local checkEmoteSequence = function(playerName, emote, data, cache, time)
 
 		if not canTriggerSequence(cache, time, emote) or not emote then return end
 
-		local totalCravedEmotes = #miscData.cravedEmotes
-		if cache.emoteSequence < totalCravedEmotes then
+		local totalsequenceEmotes = #miscData.sequenceEmotes
+		if cache.emoteSequence < totalsequenceEmotes then
 			cache.emoteTimer = time + miscData.emoteTimer
 			tfm.exec.movePlayer(playerName, 0, miscData.emotePx * nextEmote, true)
 			tfm.exec.movePlayer(playerName, 0, 0, false, 0, -10, false) -- Stops the falling
 
-			if nextEmote == totalCravedEmotes then
+			if nextEmote == totalsequenceEmotes then
 				cache.emoteSequence = 0
 				return tfm.exec.movePlayer(playerName, miscData.finalBossSpawn[1], miscData.finalBossSpawn[2])
 			end
@@ -2598,14 +2601,51 @@ end, 1000, false)
 loop(update, module.timerTicks, 1)
 
 globalInitSettings(true)
-tfm.exec.newGame(string.format(module.map.xml, module.map.foreground, module.map.backgroundCover,
-	groundId.jointEffect, -- [wizard] moving ground
-	groundId.jointEffect + 1, -- [wizard] -1 axis
-	groundId.bossBlock, -- [wizard] left block
-	groundId.bossBlock + 1, -- [wizard] right block
-	groundId.bossBlock + 2, -- [wizard] up/down block
-	groundId.bossBlock + 3, -- [mutant wizard] block
-	groundId.jointEffect + 2, -- [mutant wizard] circle axis
-	groundId.jointEffect + 3 -- [mutant wizard] moving ground
-))
+do
+	local xmlData = {
+		groundId.jointEffect + 3, -- [mutant wizard] moving ground
+		groundId.jointEffect + 2, -- [mutant wizard] circle axis
+		groundId.bossBlock + 3, -- [mutant wizard] block
+		groundId.bossBlock + 2, -- [wizard] up/down block
+		groundId.bossBlock + 1, -- [wizard] right block
+		groundId.bossBlock, -- [wizard] left block
+		groundId.jointEffect + 1, -- [wizard] -1 axis
+		groundId.jointEffect, -- [wizard] moving ground
+		module.map.backgroundCover,
+		module.map.foreground,
+	}
+
+	local counter, img = #xmlData
+	for coord = 1, #miscData.sequenceEmotes do
+		img = images.sequenceEmotes[-coord]
+		if img then
+			-- Boundaries
+			counter = counter + 1
+			xmlData[counter] = miscData.sequenceEmotes[coord][4]
+			counter = counter + 1
+			xmlData[counter] = miscData.sequenceEmotes[coord][3]
+			counter = counter + 1
+			xmlData[counter] = 50
+			counter = counter + 1
+			xmlData[counter] = 160
+			counter = counter + 1
+			xmlData[counter] = miscData.sequenceEmotes[coord][4]
+			counter = counter + 1
+			xmlData[counter] = miscData.sequenceEmotes[coord][3] + (miscData.sequenceEmotes[coord][5] * 160)
+			-- Image
+			counter = counter + 1
+			xmlData[counter] = img
+		end
+	end
+	counter = counter + 1
+
+	-- desc
+	local format = { }
+	for i = 1, counter do
+		format[i] = xmlData[counter - i]
+	end
+
+	tfm.exec.newGame(string.format(module.map.xml, table.unpack(format)))
+end
+
 math.randomseed(os.time())
