@@ -5,7 +5,7 @@ local module = {
 	team = {
 		developer = "Bolodefchoco#0000",
 		artist = "Naomi#2792",
-		others = { "Tocutoeltuco#0000", "Tini#0015", "Blank#3495", "Dea_bu#0000" },
+		others = { "Tocutoeltuco#0000", "Tini#0015", "Dea_bu#0000" },
 		colors = {
 			developer = "8FE2D1",
 			artist = "DD6661",
@@ -67,7 +67,7 @@ do
 			introduceMutantWizard = "W-what? Is that the evil wizard? We dropped him in the caldron, how can he still be here?",
 			mutantWizardShowUp = "Silly rat, you still do have a lot to learn about the mystic world. My caldron had my most powerful mixture and it turned me into a stronger, smarter and faster being. This is your end.",
 			mutantWizardDefeat = "Aaaaaaaaaaargh, how could you... My powers...",
-			credit = "<PT>This event most certainly would have been stuck in our minds for the eternity if it was not for the following people;\n\t<font color='#%s'>Code by %s.</font>\n\t<font color='#%s'>Art by %s.</font>\n\t<font color='#%s'>%s translation by %s.</font>\n\t<font color='#%s' size='11'>Special thanks to %s.</font>",
+			credit = "<PT>This event most certainly would have been stuck in our minds for eternity if it was not for the following people;\n\t<font color='#%s'>Code by %s.</font>\n\t<font color='#%s'>Art by %s.</font>\n\t<font color='#%s'>%s translation by %s.</font>\n\t<font color='#%s' size='11'>Special thanks to %s.</font>",
 			stealMoon = "AAAAH, YOU ALL HAVE BEEN CURSED BY THE LORD OF THE LORDS, THE WIZARD OF THE WIZARDS. THIS IS THE END, AND YOU GOTTA FEEL MY POWER!",
 
 			translator = "Bolodefchoco#0000"
@@ -267,7 +267,11 @@ local miscData = {
 }
 
 local emoteIds = {
-	throw = 26
+	throw = 26,
+	sit = 8,
+	clap = 5,
+	cry = 2,
+	dance = 0
 }
 
 local consumableIds = {
@@ -280,11 +284,11 @@ local consumableIds = {
 
 local consumableCoordinates = {
 	-- x1 <= x <= x2, y1 <= y <= y2, emoteId
-	firework = { 830, 900, 545, 480, 0 }, -- Caldron
-	paperBall = { 590, 740, 270, 370, 0 }, -- Gift mountain
-	postcard = { 0, 170, 1430, 1600, 0 }, -- Mice spawn
-	microphone = { 440, 500, 0, 370, 0 }, -- Moon corner
-	snowfall = { 500, 660, 540, 600, 0 } -- Snow mountain
+	firework = { 830, 900, 545, 480, emoteIds.sit }, -- Caldron
+	paperBall = { 590, 740, 270, 370, emoteIds.clap }, -- Gift mountain
+	postcard = { 0, 170, 1430, 1600, emoteIds.cry }, -- Mice spawn
+	microphone = { 440, 500, 0, 370, emoteIds.dance }, -- Moon corner
+	snowfall = { 500, 660, 540, 600, emoteIds.clap } -- Snow mountain
 }
 
 local npcNames = {
@@ -321,7 +325,6 @@ local images = {
 	},
 	objects = {
 		caldron = "16751bfa8a6.png",
-		gifts = "16751bfeefd.png",
 		fireMachine = "16751bfd789.png",
 		lock = { "16e71438e8a.png", "16e71423da7.png" },
 		snowballs = "16751bfc016.png"
@@ -382,8 +385,8 @@ local images = {
 		[3] = "16f02f12dbc.png" -- santa
 	},
 	npc = {
-		elf = "16ef81709b5.png",--"16ebe6a1b5b.png",
-		santa = "16ef81cda35.png"--"16ef2d90b06.png"
+		elf = "16ef81709b5.png",
+		santa = "16ef81cda35.png"
 	},
 	throwables = {
 		fireball = "16eba44a988.png",
@@ -415,7 +418,7 @@ local imageLayer = {
 local playerCache, playerData = { }, {
 	treeStage = {
 		index = 1,
-		default = 0
+		default = 8
 	},
 	wizardDefeats = {
 		index = 2,
@@ -709,6 +712,7 @@ end
 
 local freezePlayer
 local decreaseLife
+local freezeSanta
 
 --[[ Classes ]]--
 local timer
@@ -793,6 +797,7 @@ do
 			borderRange = 0,
 			action = nil,
 			isActive = false,
+			image = nil,
 			_blockedPlayers = { }
 		}, callback)
 
@@ -879,9 +884,17 @@ do
 		return self:action(playerName, x, y, ...) -- self, playerName, x, y, ...
 	end
 
+	callback.setImage = function(self, imageId)
+		self.image = imageId
+		return self
+	end
+
 	callback.remove = function(self, playerName)
 		if not playerName then
 			self.isActive = false
+			if self.image then
+				tfm.exec.removeImage(self.image)
+			end
 		else
 			self._blockedPlayers[playerName] = true
 		end
@@ -1142,15 +1155,18 @@ do
 				end
 			end
 		elseif self.type == monsterType.mutantWizard then
-			if not self.isAttacking and not isMoonStolen and chance ~= 1 then
+			if not self.isAttacking and not isMoonStolen then
 				if remainingTime <= monsterData.mutantWizardSuicideTime and self.life >= monsterData.mutantWizardSuicideLifePercent and not self.suicide then
 					self.suicide = true
 					self.life = 999 -- Can't be killed anymore
 					self:destroy()
+
+					-- Freezes Santa
+					freezeSanta()
 				elseif self.life < 15 and not self.startedChaos then
 					self.startedChaos = true
 					self:beginChaos(players)
-				else
+				elseif chance ~= 1 then -- Nothing
 					if chance == 2 then -- Weak
 						self:throwFlamingGift(players)
 					elseif chance == 3 then -- Strong
@@ -1759,6 +1775,12 @@ freezePlayer = function(playerName, freeze)
 	return tfm.exec.freezePlayer(playerName, freeze)
 end
 
+freezeSanta = function()
+	local santa = callback.__get("santa")
+	tfm.exec.addShamanObject(objectId.icecube, santa.x + (santa.width / 2), santa.y + (santa.height / 2))
+	santa:remove()
+end
+
 local setAllPlayerData = function()
 	for playerName, data in next, tfm.get.room.playerList do
 		playerCache[playerName] = {
@@ -1887,8 +1909,6 @@ do
 		tfm.exec.addImage(module.map.background, imageLayer.mapBackground, 0, 0, playerName)
 		tfm.exec.addImage(images.objects.caldron, imageLayer.objectForeground, 746, 487, playerName) -- Should it appear like that in the beginning?
 		tfm.exec.addImage(images.objects.fireMachine, imageLayer.objectForeground, 738, 272, playerName)
-		--tfm.exec.addImage(images.objects.gifts, imageLayer.objectBackground, 560, 270, playerName)
-		--tfm.exec.addImage(images.objects.snowballs, imageLayer.objectBackground, 475, 492, playerName)
 
 		-- Insert passage blocks
 		local totalBlocks = #blockLocationX
@@ -1949,7 +1969,9 @@ do
 		timer.start(executeMutantWizardBaseRemove, monsterData.mutantWizardFallRemoveTimer, 1, obj, base)
 
 		isMutantWizardDefeated = true
-		messagePlayersInStage(obj.stage, translation.mutantWizardDefeat, "wizard")
+		if not obj.suicide then
+			messagePlayersInStage(obj.stage, translation.mutantWizardDefeat, "wizard")
+		end
 	end
 end
 
@@ -2254,12 +2276,10 @@ local makeCallbacks = function()
 	callback.new("collectItem", 0, 1430, 160, 170):setClickable():setAction(placeItem)
 
 	-- Elf NPC
-	tfm.exec.addImage(images.npc.elf, imageLayer.objectForeground, -18, 1515)
-	callback.new("elf", -18, 1535, 63, 63):setClickable():setAction(elfDialog)
+	callback.new("elf", -18, 1535, 63, 63):setClickable():setAction(elfDialog):setImage(tfm.exec.addImage(images.npc.elf, imageLayer.objectForeground, -18, 1515))
 
 	-- Santa NPC
-	tfm.exec.addImage(images.npc.santa, imageLayer.objectForeground, 915, 285)
-	callback.new("santa", 915, 305, 75, 65):setClickable():setAction(saveSanta)
+	callback.new("santa", 915, 305, 75, 65):setClickable():setAction(saveSanta):setImage(tfm.exec.addImage(images.npc.santa, imageLayer.objectForeground, 915, 285))
 end
 
 local canTriggerCallbacks = function(playerName)
