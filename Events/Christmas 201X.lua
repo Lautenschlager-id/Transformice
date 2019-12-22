@@ -51,29 +51,52 @@ do
 		en = {
 			dialog = {
 				close = "Press spacebar to close the dialog.",
-				[1] = " Oh, h-hey! I'm so glad I finally found someone.\n\n The elves were working on the christmas decoration when an evil wizard showed up and began to take control of the yetis on the mountain.\n He did not accept the fact that the Halloween has ended and wants to ruin our celebration. Our christmas tree has been torn apart and its pieces are scattered across the mountain... The Santa has gone missing...\n\n I w-was so scared... I ran away before the wizard could take me. Please, help us!", -- Elf init
-				[2] = " Yaaaaaay!\n\n Thank you, brave little warrior. You have defeated the evil wizard and our christmas tree is complete again, we can finally celebrate christmas!\n\n Ugh... I almost forgot about a more serious problem... Which is yet to be taken care of... SANTA IS MISSING!", -- Tree complete
+				[1] = " Oh, h-hey! I'm so glad to finally find someone.\n\n The elves were working on the christmas decoration when an evil wizard showed up and began to take control of the yetis on the mountain.\n He did not accept the fact that the Halloween has ended and wants to ruin our celebration. Our christmas tree has been torn apart and its pieces are scattered across the mountain... The Santa has gone missing...\n\n I w-was so scared... I ran away before the wizard could take me. Please, help us!", -- Elf init
+				[2] = " Yaaaaaay!\n\n Thank you, brave little warrior. You have defeated the evil wizard and our christmas tree is complete again, we can finally celebrate christmas!\n\n Ugh... I almost forgot about a more serious problem - which is yet to be taken care of... SANTA IS MISSING!", -- Tree complete
 				[3] = " Yupiiiiiiiiii!\n\n Thanks to you, our christmas tree is ready-to-go for tonight and I am now free and able to deliver the gifts to all the little mice!\n\n Your gift will be the biggest one! I can not thank you enough.\n\n Let's take this bad wizard to the authorities." -- Save santa
 			},
-			elfTalkMountain = "Oh, look! An elf, and... Heey, he is hurt! Go near him and press <B>[space bar]</B> to talk.",
+			elfTalkMountain = "Oh, look! An elf, and... Heey, he is hurt! Go near him and press <B>[spacebar]</B> to check what happened.",
 			introduceMountain = "Explore the mountain and find the pieces of the magic christmas tree, or else the event will be ruined forever.",
-			introduceAttack = "Press <B>[space bar]</B> to use the fire power you have obtained to guide you through this adventure!",
+			introduceAttack = "Press <B>[spacebar]</B> to use the fire power you have obtained to guide you through this adventure!",
 			introduceWizard = "Oh, look! There is a piece of the tree right there! B-but... the wizard, we need to go through him.",
 			wizardShowUp = "How dare you challenge me, little mouse? Do you think you are brave? Let's see if you're capable of facing my wrath.",
-			wizardDefeat = "Noooooooooooooo! My mixtures! My caldron!",
-			collectItem = "Press <B>[space bar]</B> to collect the item. Bring it back to the start point and press the key again to place it!",
+			wizardDefeat = "Noooooooooooooo! My mixtures! My caldron! Arrrgh, it burns!",
+			collectItem = "Press <B>[spacebar]</B> to collect the item. Bring it back to the start point and press the key again to place it!",
 			placeItem = "Yay! You have found one more piece of the tree! <B>%d</B> item(s) to go and christmas may be saved thanks to you!",
 			elfTalkSanta = "Oh, no... %s looks terribly worried about something. Go talk to him!",
-			findSanta = "Look! It is Santa right there... He is locked! Let's save him!",
+			findSanta = "Look! It is Santa right there... He is chained! Let's save him before he freezes!",
 			introduceMutantWizard = "W-what? Is that the evil wizard? We dropped him in the caldron, how can he still be here?",
 			mutantWizardShowUp = "Silly rat, you still do have a lot to learn about the mystic world. My caldron had my most powerful mixture and it turned me into a stronger, smarter and faster being. This is your end.",
-			mutantWizardDefeat = "Aaaaaaaaaaargh, how could you... My powers...",
-			credit = "<PT>This event most certainly would have been stuck in our minds for eternity if it was not for the following people;\n\t<font color='#%s'>Code by %s.</font>\n\t<font color='#%s'>Art by %s.</font>\n\t<font color='#%s'>%s translation by %s.</font>\n\t<font color='#%s' size='11'>Special thanks to %s.</font>",
-			stealMoon = "AAAAH, YOU ALL HAVE BEEN CURSED BY THE LORD OF THE LORDS, THE WIZARD OF THE WIZARDS. THIS IS THE END, AND YOU GOTTA FEEL MY POWER!",
+			mutantWizardDefeat = "Aaaaaaaaaaargh, how could you... My powers... My head... My hood! Give it back to me! Let me go! Aaaarrgh!",
+			mutantWizardSuicide = "Muhahahahaha, Santa is frozen! Christmas is over!",
+			credit = "<PT>This event most certainly would have been stuck in our minds for eternity if it was not for the following awesome people;\n\t<font color='#%s'>Code by %s.</font>\n\t<font color='#%s'>Art by %s.</font>\n\t<font color='#%s'>%s translation by %s.</font>\n\t<font color='#%s' size='11'>Special thanks to %s.</font>",
+			stealMoon = "AAAAH. I, THE LORD OF THE LORDS, THE WIZARD OF THE WIZARDS, DO CURSE YOU ALL. THIS IS THE END, AND YOU GOTTA FEEL MY POWER!",
 
 			translator = "Bolodefchoco#0000"
 		},
 		br = {
+			dialog = {
+				close = "Pressione a barra de espaço para fechar o diálogo.",
+				[1] = " Ah, o-oi! Estou tão feliz que finalmente encontrei alguém.\n\n Os elfos estavam trabalhando na decoração do natal quando um mago malvado apareceu e começou a controlar todos os yetis na montanha.\n Ele não aceitou o fato de que o Halloween terminou e quer arruinar nossa celebração. Nossa árvore de natal foi despedaçada e suas peças estão espalhadas pela montanha... O Noel sumiu...\n\n E-eu estava tão assutado... Eu corri antes que o mago pudesse me pegar. Por favor, nos ajude!",
+				[2] = " Ebaaaaa!\n\n Obrigado, pequeno e bravo guerreiro. Você derrotou o mago malvado e nossa árvore de natal está completa novamente, nós finalmente podemos celebrar o natal!\n\n Aff... Eu quase me esqueci de um problema ainda mais sério - que ainda deve ser resolvido... O NOEL SUMIU!",
+				[3] = " Uhuuuuuuuuuuu!\n\n Graças a você, nossa árvore de natal está pronta para hoje à noite e agora estou livre e conseguirei entregar os presentes para todos os ratinhos!\n\n Seu presente será o maior! Não posso te agradecer o bastante.\n\n Vamos levar este mago do mau para as autoridades."
+			},
+			elfTalkMountain = "Olha! Um elfo, e... Eiii, ele está machucado! Vá perto dele e aperte a <B>[barra de espaço]</B> para checar o que aconteceu.",
+			introduceMountain = "Explore a montanha e encontre as peças da árvore mágica de natal, senão o evento estará arruinado para sempre.",
+			introduceAttack = "Pressione a <B>[barra de espaço]</B> para usar o poder de fogo que você obteve para lhe guiar nesta aventura!",
+			introduceWizard = "Veja! Tem uma peça da árvore bem ali! M-mas... o mago, temos que passar por ele.",
+			wizardShowUp = "Como ousa me desafiar, pequeno rato? Se acha corajoso? Vejamos se é capaz de encarar minha ira.",
+			wizardDefeat = "Nããããããooooooo! Minhas poções! Meu caldeirão! Aaaaaaaa, isso queima!",
+			collectItem = "Pressione a <B>[barra de espaço]</B> para coletar o item. Leve-o de volta para o ponto de início e pressione a tecla novamente para colocá-lo na árvore",
+			placeItem = "Isso! Você encontrou mais uma peça da árvore! Mais <B>%d</B> item(ns) e o natal poderá ser salvo graças a você!",
+			elfTalkSanta = "Ah, não... %s parece terrivelmente preocupado com algo. Vá falar com ele!",
+			findSanta = "Olha! É o Noel logo ali... Ele está acorrentado! Vamos salvá-lo antes que ele congele!",
+			introduceMutantWizard = "Eita? É o mago do mau? Nós fizemos com que ele caísse no caldeirão, como ele ainda está aqui?",
+			mutantWizardShowUp = "Rato bobo, você ainda tem muito o que aprender sobre o mundo místico. Meu caldeirão tinha minha poção mais poderosa e me transformou num ser mais forte, mais esperto e mais rápido. É o seu fim!",
+			mutantWizardDefeat = "Aaaaaaaaaaa, como você pôde... Meus poderes... Minha cabeça... Meu capuz! Me devolva! Deixe-me ir! Aaaaaaaaaaaaaa!",
+			mutantWizardSuicide = "Muhahahahaha, o velhinho congelou! O natal acabou!",
+			credit = "<PT>Este evento certamente ficaria - pela eternidade - apenas em nossas cabeças se não fossem pelas pessoas maravilhosas a seguir;\n\t<font color='#%s'>Código por %s.</font>\n\t<font color='#%s'>Arte por %s.</font>\n\t<font color='#%s'>Tradução %s por %s.</font>\n\t<font color='#%s' size='11'>Agradecimentos especiais para %s.</font>",
+			stealMoon = "AAAAH. EU, O LORDE DOS LORDES, O MAGO DOS MAGOS, AMALDIÇOO TODOS VOCÊS. ESTE É O FIM, E VOCÊS SENTIRÃO MEU PODER!",
 
 			translator = "Bolodefchoco#0000"
 		},
@@ -86,7 +109,6 @@ do
 			translator = "Adriantal#0000"
 		}
 	}
-	texts.br = texts.en
 	texts.pt = texts.br
 
 	local commu = (texts[tfm.get.room.community] and tfm.get.room.community or "en")
@@ -661,8 +683,7 @@ local displayChaosInterface = function(playerName)
 end
 
 local chatMessage = function(message, playerName, who)
-	--tfm.exec.chatMessage("<font color='#" .. (npcColors[who] or "2EBA7E") .. "'>[" .. (npcNames[who] and ("<B>" .. npcNames[who] .. "</B>") or "•") .. "] " .. message .. "</font>\n", playerName)
-	tfm.exec.chatMessage("[" .. (npcNames[who] and ("<B>" .. npcNames[who] .. "</B>") or "•") .. "] " .. message .. "\n", playerName)
+	tfm.exec.chatMessage("<font color='#" .. (npcColors[who] or "2EBA7E") .. "'>[" .. (npcNames[who] and ("<B>" .. npcNames[who] .. "</B>") or "•") .. "] " .. message .. "</font>\n", playerName)
 end
 
 local messagePlayersInStage = function(stage, message, name)
@@ -2026,7 +2047,9 @@ do
 		timer.start(executeMutantWizardBaseRemove, monsterData.mutantWizardFallRemoveTimer, 1, obj, base)
 
 		isMutantWizardDefeated = true
-		if not obj.suicide then
+		if obj.suicide then
+			messagePlayersInStage(obj.stage, translation.mutantWizardSuicide, "wizard")
+		else
 			messagePlayersInStage(obj.stage, translation.mutantWizardDefeat, "wizard")
 		end
 	end
