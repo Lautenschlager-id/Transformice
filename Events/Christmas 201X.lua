@@ -2210,12 +2210,12 @@ local spawnYetis
 do
 	local xRange = {
 		-- rangeA, rangeB, quantity
-		230, 700, getRoomMicePercentage(20, 3, 10), -- 1
-		340, 700, getRoomMicePercentage(16, 2, 8), -- 2
-		330, 680, getRoomMicePercentage(16, 2, 8), -- 3
-		470, 700, getRoomMicePercentage(12, 2, 6), -- 4
-		420, 670, getRoomMicePercentage(12, 2, 6), -- 5
-		490, 700, getRoomMicePercentage(8, 1, 4) -- 6
+		23, 70, getRoomMicePercentage(20, 3, 10), -- 1
+		34, 70, getRoomMicePercentage(16, 2, 8), -- 2
+		33, 68, getRoomMicePercentage(16, 2, 8), -- 3
+		47, 70, getRoomMicePercentage(12, 2, 6), -- 4
+		42, 67, getRoomMicePercentage(12, 2, 6), -- 5
+		49, 70, getRoomMicePercentage(8, 1, 4) -- 6
 	}
 
 	local yFixedPosition = {
@@ -2227,12 +2227,21 @@ do
 		[6] = 700
 	}
 
+	local yetiChances = {
+		[1] = { 40, 35, 25 },
+		[2] = { 34, 35, 31 },
+		[3] = { 34, 34, 32 },
+		[4] = { 28, 35, 37 },
+		[5] = { 20, 35, 45 },
+		[6] = { 10, 50, 40 }
+	}
+
 	spawnYetis = function(stage)
 		local rawstage = stage
 		stage = stage * 3
 
 		for x = 1, xRange[stage] do
-			monster.new(math.random(1, 3), math.random(xRange[stage - 2], xRange[stage - 1]), yFixedPosition[rawstage], rawstage)
+			monster.new(getChance(yetiChances[rawstage]), math.random(xRange[stage - 2], xRange[stage - 1]) * 10, yFixedPosition[rawstage], rawstage)
 		end
 	end
 end
