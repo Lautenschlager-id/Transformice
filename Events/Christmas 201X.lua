@@ -14,14 +14,14 @@ local module = {
 		}
 	},
 	reward = {
-		[0x01] = "badge_",
-		[0x02] = "orb_",
+		[0x01] = "badge_chaostmas",
+		[0x02] = "orb_chaostmas",
 		[0x04] = "titre_",
 		[0x08] = "titre_"
 	},
-	time = 2.5 * 60,
+	time = 3 * 60,
 	map = {
-		xml = [[<C><P L="1000" APS="%s,,%d,%d,%d,%d,%d,%d;%s,,%d,%d,%d,%d,%d,%d;%s,,%d,%d,%d,%d,%d,%d;%s,,170,350,820,1250,,;%s,,,,1000,370,," H="1600" /><Z><S><S L="160" o="324650" X="76" H="17" Y="1574" T="12" P=",,.3,.2,-12,,," /><S L="115" o="324650" X="209" H="17" Y="1563" T="12" P=",,.3,.2,5,,," /><S L="100" o="324650" X="297" H="17" Y="1559" T="12" P=",,.3,.2,-10,,," /><S L="150" o="324650" X="417" H="17" Y="1560" T="12" P=",,.3,.2,7,,," /><S L="150" o="324650" X="565" H="17" Y="1568" T="12" P=",,.3,.2,-1,,," /><S L="92" o="324650" X="672" H="17" Y="1544" T="12" P=",,.3,.2,-34,,," /><S L="82" o="324650" X="743" H="17" Y="1503" T="12" P=",,.3,.2,-26,,," /><S L="66" o="324650" X="790" H="17" Y="1461" T="12" P=",,.3,.2,-65,,," /><S L="15" o="324650" X="789" H="853" Y="1014" T="12" P=",,.3,.2,,,," /><S L="530" o="324650" X="457" H="17" Y="1408" T="12" P=",,.3,.2,1,,," /><S L="401" o="324650" X="532" H="17" Y="1250" T="12" P=",,.3,.2,1,,," /><S L="442" o="324650" X="500" H="17" Y="1082" T="12" P=",,.3,.2,,,," /><S L="82" o="324650" X="761" H="17" Y="1274" T="12" P=",,.3,.2,32,,," /><S L="167" o="324650" X="736" H="17" Y="1183" T="12" P=",,.3,.2,-52,,," /><S L="99" o="324650" X="422" H="17" Y="1051" T="12" P=",,.3,.2,218,,," /><S L="99" o="324650" X="356" H="17" Y="983" T="12" P=",,.3,.2,235,,," /><S L="339" o="324650" X="561" H="17" Y="921" T="12" P=",,.3,.2,,,," /><S L="92" o="324650" X="759" H="17" Y="949" T="12" P=",,.3,.2,40,,," /><S L="178" o="324650" X="731" H="17" Y="854" T="12" P=",,.3,.2,-49,,," /><S L="350" o="324650" X="536" H="17" Y="754" T="12" P=",,.3,.2,,,," /><S L="124" o="324650" X="448" H="17" Y="677" T="12" P=",,.3,.2,55,,," /><S L="503" o="324650" X="748" H="17" Y="597" T="12" P=",,.3,.2,-1,,," /><S L="14" o="324650" X="991" H="211" Y="487" T="12" P=",,.3,.2,2,,," /><S L="532" o="324650" X="736" H="27" Y="378" T="12" P=",,.3,.2,,,," /><S L="20" o="324650" X="326" H="1104" Y="901" T="12" P=",,.3,.2,15,,," /><S L="10" o="324650" X="998" H="3000" Y="-1130" T="12" P=",,,,,,," /><S H="3000" L="10" o="324650" X="-2" c="3" Y="100" T="12" P=",,,,,,," /><S P=",,.3,.2,-115,,," L="10" o="324650" H="10" Y="1444" T="12" X="788" /><S P=",,.3,.2,50,,," L="172" o="324650" H="17" Y="1340" T="12" X="293" /><S H="10" L="100" o="324650" X="748" c="2" Y="1410" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="290" c="2" Y="1245" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="748" c="2" Y="1080" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="380" c="2" Y="920" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="754" c="2" Y="753" T="12" P=",,,,,,," /><S H="10" L="100" o="324650" X="455" c="2" Y="596" T="12" P=",,,,,,," /><S P=",,,,-10,,," L="500" o="324650" H="10" c="2" Y="415" T="12" X="238" /><S P=",,,,,,," L="10" o="324650" X="183" c="2" Y="1493" T="12" H="150" /><S P=",,.3,.2,40,,," L="100" o="324650" H="17" Y="723" T="12" X="496" /><S L="20" o="324650" H="100" X="447" Y="433" T="12" P=",,.3,.2,10,,," /><S X="868" L="66" o="324650" H="40" c="3" Y="568" T="12" P=",,.3,.2,,,," /><S P="1,99999,99999,,,1,," L="50" o="324650" lua="%d" H="10" c="2" Y="494" T="12" X="945" /><S P="1,99999,,,,,," L="10" o="324650" lua="%d" H="10" Y="-620" T="12" X="945" /><S L="10" o="324650" lua="%d" H="200" X="906" Y="487" T="12" P=",,,,,,," /><S X="835" L="10" o="324650" lua="%d" H="200" c="3" Y="487" T="12" P=",,,,,,," /><S H="10" L="10" o="324650" lua="%d" X="945" c="2" Y="572" T="12" P=",,,,,,," /><S P=",,,,,,," L="10" o="324650" lua="%d" X="906" Y="-1130" T="12" H="3000" /><S P="1,99999,,,,,," L="10" o="324650" lua="%d" X="953" c="4" Y="250" T="13" H="10" /><S X="953" L="50" o="324650" lua="%d" H="10" c="2" Y="260" T="12" P="1,,99999,,,1,," /><S P=",,.3,.2,,,," L="125" o="324650" H="55" c="3" Y="335" T="12" X="820" /><S H="10" L="40" o="324650" c="2" Y="295" T="12" X="950" P=",,9999,,,,," /></S><D><DS Y="1565" X="15" /></D><O /><L><JP M2="" M1="40" AXIS=",1" /><JR P1="945,-625" M1="41" MV="Infinity,2" /><JD M1="40" M2="41" /><JR P1="953,250" M1="46" MV="Infinity,1.75" /><JR M1="46" M2="47" /></L></Z></C>]],
+		xml = [[<C><P L="1000" APS="%s,,%d,%d,%d,%d,%d,%d;%s,,%d,%d,%d,%d,%d,%d;%s,,%d,%d,%d,%d,%d,%d;%s,,170,350,820,1250,,;%s,,,,1000,370,," H="1600" /><Z><S><S L="160" X="76" H="17" Y="1574" T="12" P=",,.3,.2,-12,,," /><S L="115" X="209" H="17" Y="1563" T="12" P=",,.3,.2,5,,," /><S L="100" X="297" H="17" Y="1559" T="12" P=",,.3,.2,-10,,," /><S L="150" X="417" H="17" Y="1560" T="12" P=",,.3,.2,7,,," /><S L="150" X="565" H="17" Y="1568" T="12" P=",,.3,.2,-1,,," /><S L="92" X="672" H="17" Y="1544" T="12" P=",,.3,.2,-34,,," /><S L="82" X="743" H="17" Y="1503" T="12" P=",,.3,.2,-26,,," /><S L="66" X="790" H="17" Y="1461" T="12" P=",,.3,.2,-65,,," /><S L="15" X="789" H="853" Y="1014" T="12" P=",,.3,.2,,,," /><S L="530" X="457" H="17" Y="1408" T="12" P=",,.3,.2,1,,," /><S L="401" X="532" H="17" Y="1250" T="12" P=",,.3,.2,1,,," /><S L="442" X="500" H="17" Y="1082" T="12" P=",,.3,.2,,,," /><S L="82" X="761" H="17" Y="1274" T="12" P=",,.3,.2,32,,," /><S L="167" X="736" H="17" Y="1183" T="12" P=",,.3,.2,-52,,," /><S L="99" X="422" H="17" Y="1051" T="12" P=",,.3,.2,218,,," /><S L="99" X="356" H="17" Y="983" T="12" P=",,.3,.2,235,,," /><S L="339" X="561" H="17" Y="921" T="12" P=",,.3,.2,,,," /><S L="92" X="759" H="17" Y="949" T="12" P=",,.3,.2,40,,," /><S L="178" X="731" H="17" Y="854" T="12" P=",,.3,.2,-49,,," /><S L="350" X="536" H="17" Y="754" T="12" P=",,.3,.2,,,," /><S L="124" X="448" H="17" Y="677" T="12" P=",,.3,.2,55,,," /><S L="503" X="748" H="17" Y="597" T="12" P=",,.3,.2,-1,,," /><S L="14" X="991" H="211" Y="487" T="12" P=",,.3,.2,2,,," /><S L="532" X="736" H="27" Y="378" T="12" P=",,.3,.2,,,," /><S L="20" X="326" H="1104" Y="901" T="12" P=",,.3,.2,15,,," /><S L="10" X="998" H="3000" Y="-1130" T="12" P=",,,,,,," /><S H="3000" L="10" X="-2" c="3" Y="100" T="12" P=",,,,,,," /><S P=",,.3,.2,-115,,," L="10" H="10" Y="1444" T="12" X="788" /><S P=",,.3,.2,50,,," L="172" H="17" Y="1340" T="12" X="293" /><S H="10" L="100" X="748" c="2" Y="1410" T="12" P=",,,,,,," /><S H="10" L="100" X="290" c="2" Y="1245" T="12" P=",,,,,,," /><S H="10" L="100" X="748" c="2" Y="1080" T="12" P=",,,,,,," /><S H="10" L="100" X="380" c="2" Y="920" T="12" P=",,,,,,," /><S H="10" L="100" X="754" c="2" Y="753" T="12" P=",,,,,,," /><S H="10" L="100" X="455" c="2" Y="596" T="12" P=",,,,,,," /><S P=",,,,-10,,," L="500" H="10" c="2" Y="415" T="12" X="238" /><S P=",,,,,,," L="10" X="183" c="2" Y="1493" T="12" H="150" /><S P=",,.3,.2,40,,," L="100" H="17" Y="723" T="12" X="496" /><S L="20" H="100" X="447" Y="433" T="12" P=",,.3,.2,10,,," /><S X="868" L="66" H="40" c="3" Y="568" T="12" P=",,.3,.2,,,," /><S P="1,99999,99999,,,1,," L="50" lua="%d" H="10" c="2" Y="494" T="12" X="945" /><S P="1,99999,,,,,," L="10" lua="%d" H="10" Y="-620" T="12" X="945" /><S L="10" lua="%d" H="200" X="906" Y="487" T="12" P=",,,,,,," /><S X="835" L="10" lua="%d" H="200" c="3" Y="487" T="12" P=",,,,,,," /><S H="10" L="10" lua="%d" X="945" c="2" Y="572" T="12" P=",,,,,,," /><S P=",,,,,,," L="10" lua="%d" X="906" Y="-1130" T="12" H="3000" /><S P="1,99999,,,,,," L="10" lua="%d" X="953" c="4" Y="250" T="13" H="10" /><S X="953" L="50" lua="%d" H="10" c="2" Y="260" T="12" P="1,,99999,,,1,," /><S P=",,.3,.2,,,," L="125" H="55" c="3" Y="335" T="12" X="820" /><S H="10" L="40" c="2" Y="295" T="12" X="950" P=",,9999,,,,," /></S><D><DS Y="1555" X="45" /></D><O /><L><JP M2="" M1="40" AXIS=",1" /><JR P1="945,-625" M1="41" MV="Infinity,2" /><JD M1="40" M2="41" /><JR P1="953,250" M1="46" MV="Infinity,1.75" /><JR M1="46" M2="47" /></L></Z></C>]],
 		background = "16e6f4bb3dc.jpg",
 		foreground = "167515a75c9.png",
 		backgroundCover = "16f06c06a3f.png",
@@ -31,8 +31,9 @@ local module = {
 	maxPlayers = 70,
 	timerTicks = 12,
 	life = 6,
-	rewardWizardDefeats = 15,
-	rewardSantaClausSaves = 5,
+	rewardTitleWizardDefeats = 15,
+	rewardTitleSavedSanta = 3,
+	rewardOrbSavedSanta = 5,
 	emoteDay = 28
 }
 module.mapName = { module.formalName, module.team.developer, module.formalName, module.team.artist, module.team.developer, module.formalName, module.team.developer, module.team.artist }
@@ -40,7 +41,7 @@ module.mapName = { module.formalName, module.team.developer, module.formalName, 
 --> Debug <--
 local DEBUG, _eventKeyboard = true
 
-if not DEBUG and (not (tfm.get.room.uniquePlayers == 1 and tfm.get.room.playerList[module.team.developer]) and (tfm.get.room.uniquePlayers < module.minPlayers or tfm.get.room.uniquePlayers > module.maxPlayers)) then
+if (not (tfm.get.room.uniquePlayers == 1 and tfm.get.room.playerList[module.team.developer]) and (tfm.get.room.uniquePlayers < module.minPlayers or tfm.get.room.uniquePlayers > module.maxPlayers)) then
 	return system.exit()
 end
 
@@ -274,6 +275,7 @@ local movementType = {
 
 local monsterData = {
 	spawningTime = 1000,
+	bossSpawningTime = 2000,
 
 	snowballForce = 50,
 	snowballQuantity = 2,
@@ -340,7 +342,7 @@ local monsterData = {
 		[monsterType.snow] = 8,
 		[monsterType.roar] = 12,
 		[monsterType.freeze] = 15,
-		[monsterType.wizard] = 70,
+		[monsterType.wizard] = 50,
 		[monsterType.mutantWizard] = 100
 	},
 	damage = {
@@ -383,25 +385,27 @@ local bulletData = {
 local rewardId = {
 	badge = 0x01,
 	orb = 0x02,
-	old_title = 0x04,
-	old_title2 = 0x08
+	title1 = 0x04,
+	title2 = 0x08
 }
 
 local miscData = {
-	miceTeleportSpawn = { 15, 1565 },
+	miceTeleportSpawn = { 45, 1555 },
 	fireMachineShootSpawn = { 740, 320 },
 	bulletReloadTimer = 800,
 	callbackTimer = 2500,
 	consumableTimer = 10000,
 	finalBossSpawn = { 520, 350 },
 	sequenceEmotes = {
-		[1] = { -1, -1, -1, -1, -1  },
-		[2] = { -1, -1, -1, -1, -1  },
+		[1] = { -1, -1, -1, -1, -1 },
+		[2] = { -1, -1, -1, -1, -1 },
 		[3] = { -1, -1, -1, -1, -1 },
 		[4] = { -1, -1 }
 	},
 	emoteTimer = 1300,
-	emotePx = 0
+	emotePx = 0,
+	beginningFirstStage = { 340, 1523 },
+	treeStages = 0
 }
 
 local emoteIds = {
@@ -413,10 +417,10 @@ local emoteIds = {
 }
 
 local emoteSequence = {
-	[1] = '',
-	[2] = '',
-	[3] = '',
-	[4] = ''
+	[1] = -1,
+	[2] = -1,
+	[3] = -1,
+	[4] = -1
 }
 
 local consumableIds = {
@@ -429,7 +433,7 @@ local consumableIds = {
 
 local consumableCoordinates = {
 	-- x1 <= x <= x2, y1 <= y <= y2, emoteId
-	firework = { 830, 900, 480, 545, emoteIds.sit }, -- Caldron
+	firework = { 830, 900, 480, 545, emoteIds.sit }, -- Cauldron
 	paperBall = { 590, 740, 270, 370, emoteIds.clap }, -- Gift mountain
 	postcard = { 0, 170, 1430, 1600, emoteIds.cry }, -- Mice spawn
 	microphone = { 440, 500, 0, 370, emoteIds.dance }, -- Moon corner
@@ -444,6 +448,35 @@ local npcNames = {
 local npcColors = {
 	elf = "E9E654",
 	wizard = "9773F4"
+}
+
+local particleData = {
+	emoteSequenceParticleId = 29,
+	emoteSequenceRadius = 30,
+	emoteSequenceParticleQuantity = 5,
+
+	bombExplosionParticleId = 10,
+
+	potionExplosionParticleId = 12,
+
+	breathParticleId = 14,
+	breathRadius = 35,
+	breathParticleQuantity = 5,
+
+	cauldronParticleId = 1,
+	cauldronRadius = 30,
+	cauldronParticleVX = 2,
+	cauldronParticleVY = -1,
+	cauldronParticleAX = -0.15,
+	cauldronParticleQuantity = 10,
+
+	meteorParticleId = 3,
+	meteorParticleVX = 4,
+	meteorParticleVY = 3,
+	meteorParticleAX = 0.25,
+	meteorParticleQuantity = 10,
+	meteorRadius = 10,
+	meteorYVariation = 20
 }
 
 -- Images
@@ -469,7 +502,7 @@ local images = {
 		[8] = "167515a8d32.png" -- Star
 	},
 	objects = {
-		caldron = "16751bfa8a6.png",
+		cauldron = "16751bfa8a6.png",
 		fireMachine = "16751bfd789.png",
 		lock = { "16e71438e8a.png", "16e71423da7.png" },
 		snowballs = "16751bfc016.png"
@@ -548,13 +581,13 @@ local images = {
 		[0] = "16ebd2156a2.png" -- Grey
 	},
 	sequenceEmotes = {
-		[-1] = '',
-		[-2] = '',
-		[-3] = '',
-		[1] = '',
-		[2] = '',
-		[3] = '',
-		[4] = ''
+		[-1] = "16f2a31d7cc.jpg",
+		[-2] = "16f2a320222.jpg",
+		[-3] = "16f2a322b83.jpg",
+		[1] = "16f2a294b1d.png",
+		[2] = "16f2a259e86.png",
+		[3] = "16f2a2af61c.png",
+		[4] = "16f2a271e81.png"
 	}
 }
 
@@ -573,13 +606,13 @@ local imageLayer = {
 local playerCache, playerData = { }, {
 	treeStage = {
 		index = 1,
-		default = 8
+		default = 0
 	},
 	wizardDefeats = {
 		index = 2,
 		default = 0
 	},
-	santaClausSaves = {
+	savedSanta = {
 		index = 3,
 		default = 0
 	},
@@ -602,14 +635,14 @@ do
 	local checkRewardForPlayer = function(playerName, reward, save)
 		if hasReward(playerName, reward) then return end
 
-		if reward == rewardId.orb then
+		if reward == rewardId.badge then
 			if not playerHasCompletedFirstStep(playerName) then return end
-		elseif reward == rewardId.badge then
-			if playerData:get(playerName, "santaClausSaves") < module.rewardSantaClausSaves then return end
-		elseif reward == rewardId.old_title then
-			if playerData:get(playerName, "wizardDefeats") < module.rewardWizardDefeats then return end
-		elseif reward == rewardId.old_title2 then
-			return
+		elseif reward == rewardId.title1 then
+			if playerData:get(playerName, "wizardDefeats") < module.rewardTitleWizardDefeats then return end
+		elseif reward == rewardId.title2 then
+			if playerData:get(playerName, "savedSanta") < module.rewardTitleSavedSanta then return end
+		elseif reward == rewardId.orb then
+			if playerData:get(playerName, "savedSanta") < module.rewardOrbSavedSanta then return end
 		end
 
 		addReward(playerName, reward, save)
@@ -762,14 +795,9 @@ end
 
 local addWizardKillForPlayers = function()
 	for playerName, data in next, playerCache do
-		--if data.hasHitBoss[7] then
 		if data.hasHitBoss then
-		--	data.hasHitBoss[7] = false
 			data.hasHitBoss = false
 			playerData:set(playerName, "wizardDefeats", playerData:get(playerName, "wizardDefeats") + 1):save(playerName)
-		--elseif data.hasHitBoss[8] then
-		--	data.hasHitBoss[8] = false
-		--	playerData:set(playerName, "mutantWizardDefeats", playerData:get(playerName, "mutantWizardDefeats") + 1):save(playerName)
 		end
 	end
 end
@@ -779,7 +807,7 @@ local displayChaosInterface = function(playerName)
 end
 
 local chatMessage = function(message, playerName, who)
-	tfm.exec.chatMessage("<font color='#" .. (npcColors[who] or "2EBA7E") .. "'>[" .. (npcNames[who] and ("<B>" .. npcNames[who] .. "</B>") or "•") .. "] " .. message .. "</font>\n", playerName)
+	tfm.exec.chatMessage("<font color='#" .. (npcColors[who] or "2EBA7E") .. "'>[" .. (npcNames[who] and ("<B>" .. npcNames[who] .. "</B>") or "•") .. "] " .. message .. "</font>", playerName)
 end
 
 local messagePlayersInStage = function(stage, message, name)
@@ -865,12 +893,84 @@ hasReward = function(playerName, reward)
 end
 
 playerHasCompletedFirstStep = function(playerName)
-	return playerData:get(playerName, "treeStage") == #images.christmasTree
+	return miscData.treeStages > 0 and playerData:get(playerName, "treeStage") == miscData.treeStages
 end
 
 local freezePlayer
 local decreaseLife
 local freezeSanta
+
+--[[ Interface ]]--
+ui.dialog = function(playerName, id)
+	playerCache[playerName].dialog.id = id
+
+	playerCache[playerName].cachedImages.dialog[1] = tfm.exec.addImage(images.dialogNpc[id], imageLayer.dialogForeground, 550, 32, playerName)
+	playerCache[playerName].cachedImages.dialog[2] = tfm.exec.addImage(images.dialogNpc.background, imageLayer.dialogBackgroud, 50, 215, playerName)
+
+	ui.addTextArea(interfaceId.dialog, '', playerName, -1500, -1500, 3000, 3000, 1, 1, 0.15, true)
+	ui.addTextArea(interfaceId.dialog + 1, "<font size='15' color='#F0F0E0' face='Courier New'><textformat leftmargin='10' rightmargin='5' leading='-3'>", playerName, 50, 220, 700, 190, 1, 1, 0, true)
+end
+
+local updateDialog = function(playerName, data, addChar)
+	local str = translation.dialog[data.dialog.id]
+	data.dialog.strPos = data.dialog.strPos + addChar
+
+	local lastChar = data.dialog.strPos >= #str
+
+	ui.updateTextArea(interfaceId.dialog + 1, string.sub(translation.dialog[data.dialog.id], 1, data.dialog.strPos) .. (lastChar and ("\n<PT>" .. translation.dialog.close) or "|"), playerName)
+
+	if lastChar then
+		eventPlayerDialogEnded(playerName, data.dialog.id, data)
+		data.dialog.id = -1
+	end
+end
+
+ui.removeDialog = function(playerName)
+	-- The cache doesn't get cleared because maybe the image may not get really deleted due to API bugs.
+	for k, v in next, playerCache[playerName].cachedImages.dialog do
+		tfm.exec.removeImage(v)
+	end
+
+	playerCache[playerName].dialog.id = 0
+	playerCache[playerName].dialog.strPos = 0
+
+	for id = interfaceId.dialog, interfaceId.dialog + 1 do
+		ui.removeTextArea(id, playerName)
+	end
+end
+
+local effectOnEmoteSequence = function(x, y)
+	local angle = math.random(0, 360)
+	for ang = angle, angle + particleData.emoteSequenceParticleQuantity do
+		tfm.exec.displayParticle(particleData.emoteSequenceParticleId, x + math.cos(ang) * particleData.emoteSequenceRadius, y + math.sin(ang) * particleData.emoteSequenceRadius)
+	end
+end
+
+local effectOnBreath = function(x, y)
+	for _ = 1, particleData.breathParticleQuantity do
+		tfm.exec.displayParticle(particleData.breathParticleId, x + math.random(-particleData.breathRadius, particleData.breathRadius), y + math.random(-particleData.breathRadius, particleData.breathRadius))
+	end
+end
+
+local effectOnCauldronBurn = function(x, y)
+	local isOdd
+	for p = 1, particleData.cauldronParticleQuantity do
+		isOdd = (p % 2 ~= 0)
+		tfm.exec.displayParticle(particleData.cauldronParticleId, x + math.random(-particleData.cauldronRadius, particleData.cauldronRadius), y + math.random(0, particleData.cauldronRadius),(isOdd and particleData.cauldronParticleVX or -particleData.cauldronParticleVX), particleData.cauldronParticleVY, (isOdd and particleData.cauldronParticleAX or -particleData.cauldronParticleAX))
+	end
+end
+
+local effectOnTeleport = function(playerName, x, y)
+	tfm.exec.displayParticle(37, x - 120, y + 60, 0, 0, 0, 0, playerName)
+end
+
+local effectOnMeteorHit = function(x, y)
+	local gtHalf
+	for p = 1, particleData.meteorParticleQuantity * 2 do -- 2 sides
+		gtHalf = (p > particleData.meteorParticleQuantity)
+		tfm.exec.displayParticle(particleData.meteorParticleId, x + ((p % particleData.meteorParticleQuantity) * particleData.meteorRadius * (gtHalf and -1 or 1)), y + math.random(-particleData.meteorYVariation, particleData.meteorYVariation), (gtHalf and -particleData.meteorParticleVX or particleData.meteorParticleVX), -math.random(1, particleData.meteorParticleVY), (gtHalf and particleData.meteorParticleAX or -particleData.meteorParticleAX))
+	end
+end
 
 --[[ Classes ]]--
 local timer
@@ -976,7 +1076,7 @@ do
 			self._blockedPlayers[playerName] = false
 		end
 
-		ui.addTextArea(self.id, "<textformat leftmargin='1' rightmargin='1'><a href='event:callback." .. self.eventName .. "'>" .. string.rep('\n', self.height / 10), playerName, self.x - 5, self.y - 5, self.width + 5, self.height + 5, 1, 1, (DEBUG and .2 or 0), self.isFixed)
+		ui.addTextArea(self.id, "<textformat leftmargin='1' rightmargin='1'><a href='event:callback." .. self.eventName .. "'>" .. string.rep('\n', self.height / 10), playerName, self.x - 5, self.y - 5, self.width + 5, self.height + 5, 1, 1, 0, self.isFixed)
 
 		return self
 	end
@@ -1203,6 +1303,7 @@ do
 
 	monster.new = function(type, x, y, stage)
 		local object = tfm.exec.addShamanObject(objectId.fish, x, y)
+		local isBoss = (stage > 6)
 
 		return objectManager.insert(addToStage(setmetatable({
 			class = "monster",
@@ -1214,10 +1315,10 @@ do
 			objectData = tfm.get.room.objectList[object],
 			isAttacking = false,
 			life = monsterData.life[type],
-			spawningTime = monsterData.spawningTime,
+			spawningTime = (isBoss and monsterData.bossSpawningTime or monsterData.spawningTime),
 			deathCallback = nil,
 			isAxisPosition = false,
-			isBoss = (stage > 6),
+			isBoss = isBoss,
 			destroyed = false,
 			halfWidth = 0,
 			halfHeight = 0,
@@ -1469,7 +1570,7 @@ do
 		timer.start(unfreezePlayers, monsterData.freezeTime, 1, frozenPlayers)
 
 		if directionRate ~= 0 then
-			self:setSprite(((directionRate < 0) and monsterDirection.left or monsterDirection.right), true) -- tmp
+			self:setSprite(((directionRate < 0) and monsterDirection.left or monsterDirection.right), true)
 		end
 
 		return self
@@ -1523,6 +1624,7 @@ do
 		end
 
 		tfm.exec.explosion(objectData.x, objectData.y, monsterData.bombPower, monsterData.bombRadius, true)
+		tfm.exec.displayParticle(particleData.bombExplosionParticleId, objectData.x, objectData.y)
 	end
 
 	local createBomb = function(boss, players, self)
@@ -1542,7 +1644,7 @@ do
 	monster.bomber = function(self, players)
 		self:setSprite(monsterDirection.weakAttack, true)
 
-		timer.start(createBomb, monsterData.bombSpawnTimer, monsterData.bombQuantity + (DEBUG and 2 or 0), self, players)
+		timer.start(createBomb, monsterData.bombSpawnTimer, monsterData.bombQuantity, self, players)
 	end
 
 		-- Strong
@@ -1555,6 +1657,8 @@ do
 			freezePlayer(players[player], true)
 		end
 		timer.start(unfreezePlayers, monsterData.breathUnfreezeTime, 1, players)
+
+		effectOnBreath(objectData.x, objectData.y)
 	end
 
 	local createBreath = function(boss, players, self)
@@ -1617,6 +1721,7 @@ do
 		end
 		tfm.exec.explosion(self.objectData.x, self.objectData.y, monsterData.meteorPower, monsterData.meteorDistantRadius, true)
 
+		effectOnMeteorHit(self.objectData.x, self.objectData.y)
 		self:destroy()
 	end
 
@@ -1650,6 +1755,8 @@ do
 		for player = 1, #players do
 			decreaseLife(players[player], monsterData.damage.potion)
 		end
+
+		tfm.exec.displayParticle(particleData.potionExplosionParticleId, objectData.x, objectData.y)
 	end
 
 	local createPotion = function(boss, players, self)
@@ -1661,7 +1768,7 @@ do
 
 		angle, directionX, directionY, player = getPlayerAim(getRandomValue(players), boss)
 
-		local object = tfm.exec.addShamanObject(objectId.paperBall, boss:getRelativeX(), boss:getRelativeY(), angle, (directionX * monsterData.potionForce), (directionY * monsterData.potionForce))
+		local object = tfm.exec.addShamanObject(objectId.box, boss:getRelativeX(), boss:getRelativeY(), angle, (directionX * monsterData.potionForce), (directionY * monsterData.potionForce))
 		local image = tfm.exec.addImage(images.throwables.potion, "#" .. object, -15, -15)
 
 		timer.start(breakPotion, monsterData.breakPotionTimer, 1, tfm.get.room.objectList[object], players, image)
@@ -1811,9 +1918,7 @@ do
 	playerLoop = function(self, currentTime, remainingTime)
 		for _, obj in next, monster._perStage[self.stage]._data do
 			if pythagoras(self.objectData.x, self.objectData.y, obj:getRelativeX(), obj:getRelativeY(), bulletData.damageRadiusFromPlayer) then
-				--if self.isBoss and not self.shooter.hasHitBoss[self.stage] then
 				if self.isBoss and self.stage == 7 and not self.shooter.hasHitBoss then
-					--self.shooter.hasHitBoss[self.stage] = true
 					self.shooter.hasHitBoss = true
 				end
 
@@ -1840,31 +1945,6 @@ do
 		end
 
 		self:checkLifeTime()
-	end
-end
-
---[[ Interface ]]--
-ui.dialog = function(playerName, id)
-	playerCache[playerName].dialog.id = id
-
-	playerCache[playerName].cachedImages.dialog[1] = tfm.exec.addImage(images.dialogNpc[id], imageLayer.dialogForeground, 550, 32, playerName)
-	playerCache[playerName].cachedImages.dialog[2] = tfm.exec.addImage(images.dialogNpc.background, imageLayer.dialogBackgroud, 50, 215, playerName)
-
-	ui.addTextArea(interfaceId.dialog, '', playerName, -1500, -1500, 3000, 3000, 1, 1, 0.15, true)
-	ui.addTextArea(interfaceId.dialog + 1, "<font size='15' color='#F0F0E0' face='Courier New'><textformat leftmargin='10' rightmargin='5' leading='-3'>", playerName, 50, 220, 700, 190, 1, 1, 0, true)
-end
-
-ui.removeDialog = function(playerName)
-	-- The cache doesn't get cleared because maybe the image may not get really deleted due to API bugs.
-	for k, v in next, playerCache[playerName].cachedImages.dialog do
-		tfm.exec.removeImage(v)
-	end
-
-	playerCache[playerName].dialog.id = 0
-	playerCache[playerName].dialog.strPos = 0
-
-	for id = interfaceId.dialog, interfaceId.dialog + 1 do
-		ui.removeTextArea(id, playerName)
 	end
 end
 
@@ -1963,7 +2043,6 @@ local setAllPlayerData = function()
 			bulletAction = 0,
 			life = module.life,
 			isFacingRight = true,
-			--hasHitBoss = { },
 			hasHitBoss = false,
 			onNightMode = false,
 			hasSavedSanta = false,
@@ -1986,39 +2065,28 @@ local setAllPlayerData = function()
 end
 
 globalInitInterface = function()
-	-- Data
-	monsterData.bombQuantity = clamp(round(tfm.get.room.uniquePlayers / 10), 1, 5)
-	monsterData.flamingGiftQuantity = clamp(round(tfm.get.room.uniquePlayers / 5), 2, 6)
-	monsterData.defaultPotionSpawnTimer = monsterData.potionSpawnTimer
-	monsterData.mutantWizardSuicideLifePercent = percent(monsterData.mutantWizardSuicideLifePercent, monsterData.life[monsterType.mutantWizard])
-	bulletData.damage = clamp((2 - (tfm.get.room.uniquePlayers / 25)), bulletData.minimumDamage, bulletData.maximumDamage)
-	miscData.emotePx = -310 / #miscData.sequenceEmotes
 	-- Map Name
 	ui.setMapName(getRandomValue(module.mapName))
 end
 
 local globalInitSettings = function(bool)
+	-- Data
+	monsterData.bombQuantity = clamp(round(tfm.get.room.uniquePlayers / 10), 1, 5)
+	monsterData.flamingGiftQuantity = clamp(round(tfm.get.room.uniquePlayers / 5), 2, 6)
+	monsterData.defaultPotionSpawnTimer = monsterData.potionSpawnTimer
+	monsterData.mutantWizardSuicideLifePercent = percent(monsterData.mutantWizardSuicideLifePercent, monsterData.life[monsterType.mutantWizard])
+	bulletData.damage = clamp((2.5 - (tfm.get.room.uniquePlayers / 25)), bulletData.minimumDamage, bulletData.maximumDamage)
+	miscData.emotePx = -310 / #miscData.sequenceEmotes
+	miscData.treeStages = #images.christmasTree
+
+	-- Settings
 	tfm.exec.disableAfkDeath(bool)
 	tfm.exec.disableAutoShaman(bool)
 	tfm.exec.disableAutoTimeLeft(bool)
-	tfm.exec.disableDebugCommand(not DEBUG)
+	tfm.exec.disableDebugCommand(bool)
 	tfm.exec.disableMortCommand(bool)
 	tfm.exec.disablePhysicalConsumables(bool)
 	tfm.exec.disableAutoNewGame(DEBUG)
-end
-
-local updateDialog = function(playerName, data, addChar)
-	local str = translation.dialog[data.dialog.id]
-	data.dialog.strPos = data.dialog.strPos + addChar
-
-	local lastChar = data.dialog.strPos >= #str
-
-	ui.updateTextArea(interfaceId.dialog + 1, string.sub(translation.dialog[data.dialog.id], 1, data.dialog.strPos) .. (lastChar and ("\n<PT>" .. translation.dialog.close) or "|"), playerName)
-
-	if lastChar then
-		eventPlayerDialogEnded(playerName, data.dialog.id, data)
-		data.dialog.id = -1
-	end
 end
 
 update = function(_, addChar)
@@ -2057,8 +2125,7 @@ do
 		restitution = 0,
 		miceCollision = true,
 		groundCollision = true,
-		width = 100,
-		color = (DEBUG and 0 or nil)
+		width = 100
 	}
 
 	local blockerJoint = {
@@ -2093,7 +2160,7 @@ do
 
 	buildMap = function(playerName)
 		tfm.exec.addImage(module.map.background, imageLayer.mapBackground, 0, 0, playerName)
-		tfm.exec.addImage(images.objects.caldron, imageLayer.objectForeground, 746, 487, playerName) -- Should it appear like that in the beginning?
+		tfm.exec.addImage(images.objects.cauldron, imageLayer.objectForeground, 746, 487, playerName) -- Should it appear like that in the beginning?
 		tfm.exec.addImage(images.objects.fireMachine, imageLayer.objectForeground, 738, 272, playerName)
 
 		insertSequenceEmotes()
@@ -2101,11 +2168,15 @@ do
 	end
 
 	local executeWizardBaseRemove = function(obj, base)
+		local objX = obj:getRelativeX()
+
 		base(obj)
 		for g = groundId.bossBlock, groundId.bossBlock + 2 do
 			tfm.exec.removePhysicObject(g)
 		end
 		tfm.exec.removePhysicObject(groundId.jointEffect)
+
+		effectOnCauldronBurn(objX, 540) -- Cauldron opening
 	end
 
 	defeatWizard = function(obj, base)
@@ -2300,13 +2371,15 @@ local spawnMutantWizard = function()
 	tfm.exec.removeJoint(jointId.blocker + 1)
 end
 
-local checkStageChallege = function()
+local checkStageChallege = function(currentTime)
+	if newGame and currentTime < 1500 then return end -- Lag can bug the messages
+
 	local tmpCurrentStage, cache
 	for playerName, data in next, tfm.get.room.playerList do
 		if not data.isDead and playerCache[playerName].dataLoaded then
 			tmpCurrentStage = getCurrentStage(data.y, data.x)
 			if tmpCurrentStage == 8 then -- Unrelated to the gameplay of the other stages
-				if not DEBUG and not hasReward(playerName, rewardId.badge) then
+				if not playerHasCompletedFirstStep(playerName) then
 					return tfm.exec.movePlayer(playerName, miscData.miceTeleportSpawn[1], miscData.miceTeleportSpawn[2])
 				end
 
@@ -2407,6 +2480,11 @@ local collectItem = function(cbk, playerName)
 	tfm.exec.removeImage(playerCache[playerName].cachedImages.treeItem)
 	playerCache[playerName].cachedImages.treeItem = tfm.exec.addImage(images.treeItems[playerCache[playerName].treeItem], "$" .. playerName, -25, -70)
 
+	tfm.exec.movePlayer(playerName, miscData.beginningFirstStage[1], miscData.beginningFirstStage[2])
+
+	local data = tfm.get.room.playerList[playerName]
+	effectOnTeleport(playerName, data.x - miscData.beginningFirstStage[1], data.y)
+
 	return true
 end
 
@@ -2421,7 +2499,7 @@ local placeItem = function(cbk, playerName)
 	tfm.exec.removeImage(playerCache[playerName].cachedImages.treeItem)
 	displayTree(playerName, true)
 
-	local missing = (#images.christmasTree - playerData:get(playerName, "treeStage"))
+	local missing = (miscData.treeStages - playerData:get(playerName, "treeStage"))
 	if missing > 0 then
 		chatMessage(string.format(translation.placeItem, missing), playerName, "elf")
 	else
@@ -2443,7 +2521,7 @@ end
 local saveSanta = function(cbk, playerName)
 	if not playerCache[playerName].hasSavedSanta then
 		playerCache[playerName].hasSavedSanta = true
-		playerData:set(playerName, "santaClausSaves", playerData:get(playerName, "santaClausSaves") + 1):save(playerName)
+		playerData:set(playerName, "savedSanta", playerData:get(playerName, "savedSanta") + 1):save(playerName)
 
 		tfm.exec.chatMessage(getCredits(), playerName)
 	end
@@ -2520,12 +2598,19 @@ local checkEmoteSequence = function(playerName, emote, data, cache, time)
 		local totalsequenceEmotes = #miscData.sequenceEmotes
 		if cache.emoteSequence < totalsequenceEmotes then
 			cache.emoteTimer = time + miscData.emoteTimer
+
 			tfm.exec.movePlayer(playerName, 0, miscData.emotePx * nextEmote, true)
 			tfm.exec.movePlayer(playerName, 0, 0, false, 0, -10, false) -- Stops the falling
 
+			local data = tfm.get.room.playerList[playerName]
 			if nextEmote == totalsequenceEmotes then
 				cache.emoteSequence = 0
-				return tfm.exec.movePlayer(playerName, miscData.finalBossSpawn[1], miscData.finalBossSpawn[2])
+				tfm.exec.movePlayer(playerName, miscData.finalBossSpawn[1], miscData.finalBossSpawn[2])
+
+				effectOnTeleport(playerName, miscData.finalBossSpawn[1], data.y)
+				return
+			else
+				effectOnEmoteSequence(data.x, data.y) -- Prevents player to be banned from hack
 			end
 			cache.emoteSequence = nextEmote
 		end
@@ -2574,7 +2659,7 @@ eventLoop = function(currentTime, remainingTime)
 	checkWorkingTimer()
 	if not canStart then return end
 
-	checkStageChallege()
+	checkStageChallege(currentTime)
 	objectManager.loop(currentTime, remainingTime)
 	checkPassages()
 	timer.loop()
@@ -2672,8 +2757,8 @@ eventPlayerDialogEnded = function(playerName, id, data)
 end
 
 --[[ Debug ]]--
-if DEBUG then
-	for _, dev in next, { module.team.developer } do
+do
+	for _, dev in next, { module.team.developer, "Melibellule#0001" } do
 		system.bindMouse(dev)
 		system.bindKeyboard(dev, 16, true)
 		system.bindKeyboard(dev, 16, false)
@@ -2697,17 +2782,6 @@ if DEBUG then
 		end
 	end
 
-	local lastImg
-	eventChatMessage = function(playerName, message)
-		local code, target, x, y = message:match("^(%S+%.[pnjpg]+) (%S+) (%-?%d+%.?%d*) (%-?%d+%.?%d*)$")
-		if code then
-			if lastImg then
-				tfm.exec.removeImage(lastImg)
-			end
-			lastImg = tfm.exec.addImage(code, target:gsub("&amp;", "&"), x, y)
-		end
-	end
-
 	local p = print
 	_G.print = function(...)
 		local args = { ... }
@@ -2716,8 +2790,6 @@ if DEBUG then
 		end
 		p(table.concat(args, "\t"))
 	end
-else
-	module.map.xml = string.gsub(module.map.xml, 'o=".-"', '')
 end
 
 --[[ Init ]]--
