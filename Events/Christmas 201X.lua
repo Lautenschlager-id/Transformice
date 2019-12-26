@@ -19,7 +19,7 @@ local module = {
 		[0x04] = "titre_",
 		[0x08] = "titre_"
 	},
-	time = 3 * 60,
+	time = 3 * 60 + 3,
 	map = {
 		xml = [[<C><P L="1000" APS="%s,,%d,%d,%d,%d,%d,%d;%s,,%d,%d,%d,%d,%d,%d;%s,,%d,%d,%d,%d,%d,%d;%s,,170,350,820,1250,,;%s,,,,1000,370,," H="1600" /><Z><S><S L="160" X="76" H="17" Y="1574" T="12" P=",,.3,.2,-12,,," /><S L="115" X="209" H="17" Y="1563" T="12" P=",,.3,.2,5,,," /><S L="100" X="297" H="17" Y="1559" T="12" P=",,.3,.2,-10,,," /><S L="150" X="417" H="17" Y="1560" T="12" P=",,.3,.2,7,,," /><S L="150" X="565" H="17" Y="1568" T="12" P=",,.3,.2,-1,,," /><S L="92" X="672" H="17" Y="1544" T="12" P=",,.3,.2,-34,,," /><S L="82" X="743" H="17" Y="1503" T="12" P=",,.3,.2,-26,,," /><S L="66" X="790" H="17" Y="1461" T="12" P=",,.3,.2,-65,,," /><S L="15" X="789" H="853" Y="1014" T="12" P=",,.3,.2,,,," /><S L="530" X="457" H="17" Y="1408" T="12" P=",,.3,.2,1,,," /><S L="401" X="532" H="17" Y="1250" T="12" P=",,.3,.2,1,,," /><S L="442" X="500" H="17" Y="1082" T="12" P=",,.3,.2,,,," /><S L="82" X="761" H="17" Y="1274" T="12" P=",,.3,.2,32,,," /><S L="167" X="736" H="17" Y="1183" T="12" P=",,.3,.2,-52,,," /><S L="99" X="422" H="17" Y="1051" T="12" P=",,.3,.2,218,,," /><S L="99" X="356" H="17" Y="983" T="12" P=",,.3,.2,235,,," /><S L="339" X="561" H="17" Y="921" T="12" P=",,.3,.2,,,," /><S L="92" X="759" H="17" Y="949" T="12" P=",,.3,.2,40,,," /><S L="178" X="731" H="17" Y="854" T="12" P=",,.3,.2,-49,,," /><S L="350" X="536" H="17" Y="754" T="12" P=",,.3,.2,,,," /><S L="124" X="448" H="17" Y="677" T="12" P=",,.3,.2,55,,," /><S L="503" X="748" H="17" Y="597" T="12" P=",,.3,.2,-1,,," /><S L="14" X="991" H="211" Y="487" T="12" P=",,.3,.2,2,,," /><S L="532" X="736" H="27" Y="378" T="12" P=",,.3,.2,,,," /><S L="20" X="326" H="1104" Y="901" T="12" P=",,.3,.2,15,,," /><S L="10" X="998" H="3000" Y="-1130" T="12" P=",,,,,,," /><S H="3000" L="10" X="-2" c="3" Y="100" T="12" P=",,,,,,," /><S P=",,.3,.2,-115,,," L="10" H="10" Y="1444" T="12" X="788" /><S P=",,.3,.2,50,,," L="172" H="17" Y="1340" T="12" X="293" /><S H="10" L="100" X="748" c="2" Y="1410" T="12" P=",,,,,,," /><S H="10" L="100" X="290" c="2" Y="1245" T="12" P=",,,,,,," /><S H="10" L="100" X="748" c="2" Y="1080" T="12" P=",,,,,,," /><S H="10" L="100" X="380" c="2" Y="920" T="12" P=",,,,,,," /><S H="10" L="100" X="754" c="2" Y="753" T="12" P=",,,,,,," /><S H="10" L="100" X="455" c="2" Y="596" T="12" P=",,,,,,," /><S P=",,,,-10,,," L="500" H="10" c="2" Y="415" T="12" X="238" /><S P=",,,,,,," L="10" X="183" c="2" Y="1493" T="12" H="150" /><S P=",,.3,.2,40,,," L="100" H="17" Y="723" T="12" X="496" /><S L="20" H="100" X="447" Y="433" T="12" P=",,.3,.2,10,,," /><S X="868" L="66" H="40" c="3" Y="568" T="12" P=",,.3,.2,,,," /><S P="1,99999,99999,,,1,," L="50" lua="%d" H="10" c="2" Y="494" T="12" X="945" /><S P="1,99999,,,,,," L="10" lua="%d" H="10" Y="-620" T="12" X="945" /><S L="10" lua="%d" H="200" X="906" Y="487" T="12" P=",,,,,,," /><S X="835" L="10" lua="%d" H="200" c="3" Y="487" T="12" P=",,,,,,," /><S H="10" L="10" lua="%d" X="945" c="2" Y="572" T="12" P=",,,,,,," /><S P=",,,,,,," L="10" lua="%d" X="906" Y="-1130" T="12" H="3000" /><S P="1,99999,,,,,," L="10" lua="%d" X="953" c="4" Y="250" T="13" H="10" /><S X="953" L="50" lua="%d" H="10" c="2" Y="260" T="12" P="1,,99999,,,1,," /><S P=",,.3,.2,,,," L="125" H="55" c="3" Y="335" T="12" X="820" /><S H="10" L="40" c="2" Y="295" T="12" X="950" P=",,9999,,,,," /></S><D><DS Y="1555" X="45" /></D><O /><L><JP M2="" M1="40" AXIS=",1" /><JR P1="945,-625" M1="41" MV="Infinity,2" /><JD M1="40" M2="41" /><JR P1="953,250" M1="46" MV="Infinity,1.75" /><JR M1="46" M2="47" /></L></Z></C>]],
 		background = "16e6f4bb3dc.jpg",
@@ -252,7 +252,8 @@ local objectId = {
 local interfaceId = {
 	dialog = 100,
 	callback = 200,
-	nightMode = 300
+	nightMode = 300,
+	lifeBar = 400
 }
 
 local dialogId = {
@@ -365,11 +366,16 @@ local monsterData = {
 		[monsterType.freeze] = 60
 	},
 	life = {
-		[monsterType.snow] = 8,
-		[monsterType.roar] = 12,
-		[monsterType.freeze] = 15,
-		[monsterType.wizard] = 50,
-		[monsterType.mutantWizard] = 100
+		[monsterType.snow] = 20,
+		[monsterType.roar] = 35,
+		[monsterType.freeze] = 40,
+		[monsterType.wizard] = 300,
+		[monsterType.mutantWizard] = 600,
+
+		default = {
+			[monsterType.wizard] = 0,
+			[monsterType.mutantWizard] = 0
+		}
 	},
 	damage = {
 		explode = 0.5,
@@ -411,8 +417,8 @@ local bulletData = {
 local rewardId = {
 	badge = 0x01,
 	orb = 0x02,
-	title1 = 0x04,
-	title2 = 0x08
+	title = 0x04,
+	title = 0x08
 }
 
 local miscData = {
@@ -431,7 +437,8 @@ local miscData = {
 	emoteTimer = 1300,
 	emotePx = 0,
 	beginningFirstStage = { 340, 1523 },
-	treeStages = 0
+	treeStages = 0,
+	defaultDamage = 1.5
 }
 
 local emoteIds = {
@@ -473,7 +480,8 @@ local npcNames = {
 
 local npcColors = {
 	elf = "E9E654",
-	wizard = "9773F4"
+	wizard = "9773F4",
+	wizardHex = 0x9773F4
 }
 
 local particleData = {
@@ -607,13 +615,13 @@ local images = {
 		[0] = "16ebd2156a2.png" -- Grey
 	},
 	sequenceEmotes = {
-		[-1] = "16f2a31d7cc.jpg",
-		[-2] = "16f2a320222.jpg",
-		[-3] = "16f2a322b83.jpg",
-		[1] = "16f2a294b1d.png",
-		[2] = "16f2a259e86.png",
-		[3] = "16f2a2af61c.png",
-		[4] = "16f2a271e81.png"
+		[-1] = "",
+		[-2] = "",
+		[-3] = "",
+		[1] = "",
+		[2] = "",
+		[3] = "",
+		[4] = ""
 	}
 }
 
@@ -663,9 +671,9 @@ do
 
 		if reward == rewardId.badge then
 			if not playerHasCompletedFirstStep(playerName) then return end
-		elseif reward == rewardId.title1 then
+		elseif reward == rewardId.title then
 			if playerData:get(playerName, "wizardDefeats") < module.rewardTitleWizardDefeats then return end
-		elseif reward == rewardId.title2 then
+		elseif reward == rewardId.title then
 			if playerData:get(playerName, "savedSanta") < module.rewardTitleSavedSanta then return end
 		elseif reward == rewardId.orb then
 			if playerData:get(playerName, "savedSanta") < module.rewardOrbSavedSanta then return end
@@ -925,9 +933,10 @@ end
 local freezePlayer
 local decreaseLife
 local freezeSanta
+local getBoss
 
 --[[ Interface ]]--
-ui.dialog = function(playerName, id)
+local displayDialog = function(playerName, id)
 	playerCache[playerName].dialog.id = id
 
 	playerCache[playerName].cachedImages.dialog[1] = tfm.exec.addImage(images.dialogNpc[id], imageLayer.dialogForeground, 550, 32, playerName)
@@ -951,7 +960,7 @@ local updateDialog = function(playerName, data, addChar)
 	end
 end
 
-ui.removeDialog = function(playerName)
+local removeDialog = function(playerName)
 	-- The cache doesn't get cleared because maybe the image may not get really deleted due to API bugs.
 	for k, v in next, playerCache[playerName].cachedImages.dialog do
 		tfm.exec.removeImage(v)
@@ -965,6 +974,48 @@ ui.removeDialog = function(playerName)
 	end
 end
 
+local getBossLifeBarIdAndWidth = function(bossStage, bossLife, bossType)
+	local id = interfaceId.lifeBar + bossStage
+	local width = 786 / monsterData.life.default[bossType] * bossLife
+
+	return id, width
+end
+
+local updateBossLifeBarForPlayer = function(playerName, bossStage, bossLife, bossType, _id, _width)
+	if not _id or not _width then
+		_id, _width = getBossLifeBarIdAndWidth(bossStage, bossLife, bossType)
+	end
+
+	ui.addTextArea(_id, '', playerName, 7, 400, _width, 1, npcColors.wizardHex, npcColors.wizardHex, 1, true)
+end
+
+local updateBossLifeBar = function(bossStage, bossLife, bossType)
+	players = getPlayersInStage(bossStage)
+	if not players then return end
+
+	local id, width = getBossLifeBarIdAndWidth(bossStage, bossLife, bossType)
+
+	for player = 1, #players do
+		updateBossLifeBarForPlayer(players[player], nil, nil, nil, id, width)
+	end
+end
+
+local displayBossLifeBar = function(playerName, bossStage)
+	ui.addTextArea(interfaceId.lifeBar + bossStage - 1, '', playerName, 5, 398, 790, 1, 1, 1, 1, true)
+
+	local boss = getBoss(bossStage)
+	if boss then
+		updateBossLifeBarForPlayer(playerName, bossStage, boss.life, boss.type)
+	end
+end
+
+local removeBossLifeBar = function(bossStage)
+	for id = interfaceId.lifeBar + bossStage - 1, interfaceId.lifeBar + bossStage do
+		ui.removeTextArea(id)
+	end
+end
+
+--[[ Particle effects ]]--
 local effectOnEmoteSequence = function(x, y)
 	local angle = math.random(0, 360)
 	for ang = angle, angle + particleData.emoteSequenceParticleQuantity do
@@ -1408,8 +1459,14 @@ do
 	monster.damage = function(self, damage)
 		self.life = self.life - damage
 		if self.life <= 0 then
+			if self.isBoss then
+				removeBossLifeBar(self.stage)
+			end
 			self:destroy()
 			return true
+		end
+		if self.isBoss then
+			updateBossLifeBar(self.stage, self.life, self.type)
 		end
 		return false
 	end
@@ -1875,7 +1932,7 @@ do
 
 		local object, sprite
 
-		local boss = isBoss and monster._perStage[stage]._data[1] -- isBoss and has a boss
+		local boss = isBoss and getBoss(stage) -- isBoss and has a boss
 		if boss then
 			local x, y = (x + 25), (y - 15)
 
@@ -2045,6 +2102,11 @@ freezeSanta = function()
 	santa:remove()
 end
 
+getBoss = function(stage)
+	stage = monster._perStage[stage]
+	return stage and stage._data[1]
+end
+
 local setAllPlayerData = function()
 	for playerName, data in next, tfm.get.room.playerList do
 		playerCache[playerName] = {
@@ -2101,7 +2163,9 @@ local globalInitSettings = function(bool)
 	monsterData.flamingGiftQuantity = clamp(round(tfm.get.room.uniquePlayers / 5), 2, 6)
 	monsterData.defaultPotionSpawnTimer = monsterData.potionSpawnTimer
 	monsterData.mutantWizardSuicideLifePercent = percent(monsterData.mutantWizardSuicideLifePercent, monsterData.life[monsterType.mutantWizard])
-	bulletData.damage = clamp((2.5 - (tfm.get.room.uniquePlayers / 25)), bulletData.minimumDamage, bulletData.maximumDamage)
+	monsterData.life.default[monsterType.wizard] = monsterData.life[monsterType.wizard]
+	monsterData.life.default[monsterType.mutantWizard] = monsterData.life[monsterType.mutantWizard]
+	bulletData.damage = clamp((miscData.defaultDamage - (tfm.get.room.uniquePlayers / 25)), bulletData.minimumDamage, bulletData.maximumDamage)
 	miscData.emotePx = -310 / #miscData.sequenceEmotes
 	miscData.treeStages = #images.christmasTree
 
@@ -2188,6 +2252,8 @@ do
 		tfm.exec.addImage(module.map.background, imageLayer.mapBackground, 0, 0, playerName)
 		tfm.exec.addImage(images.objects.cauldron, imageLayer.objectForeground, 746, 487, playerName) -- Should it appear like that in the beginning?
 		tfm.exec.addImage(images.objects.fireMachine, imageLayer.objectForeground, 738, 272, playerName)
+
+		tfm.exec.setGameTime(module.time)
 
 		insertSequenceEmotes()
 		insertPassageBlocks()
@@ -2434,6 +2500,7 @@ local checkStageChallege = function(currentTime)
 					if isWizardDefeated then
 						chatMessage(translation.collectItem, playerName)
 					else
+						displayBossLifeBar(playerName, tmpCurrentStage)
 						chatMessage(translation.introduceWizard, playerName, "elf")
 						chatMessage(translation.wizardShowUp, playerName, "wizard")
 					end
@@ -2442,6 +2509,7 @@ local checkStageChallege = function(currentTime)
 
 					chatMessage(translation.findSanta, playerName, "elf")
 					if not isMutantWizardDefeated then
+						displayBossLifeBar(playerName, tmpCurrentStage)
 						chatMessage(translation.introduceMutantWizard, playerName, "elf")
 						chatMessage(translation.mutantWizardShowUp, playerName, "wizard")
 					end
@@ -2490,7 +2558,7 @@ end
 
 local dialogAction = function(playerName)
 	if playerCache[playerName].dialog.id == -1 then
-		ui.removeDialog(playerName)
+		removeDialog(playerName)
 	else
 		-- Skips to the last character
 		playerCache[playerName].dialog.strPos = 9999
@@ -2529,16 +2597,16 @@ local placeItem = function(cbk, playerName)
 	if missing > 0 then
 		chatMessage(string.format(translation.placeItem, missing), playerName, "elf")
 	else
-		ui.dialog(playerName, dialogId.findSanta)
+		displayDialog(playerName, dialogId.findSanta)
 	end
 	return true
 end
 
 local elfDialog = function(cbk, playerName)
 	if playerHasCompletedFirstStep(playerName) then -- Has completed first step
-		ui.dialog(playerName, dialogId.findSanta)
+		displayDialog(playerName, dialogId.findSanta)
 	else
-		ui.dialog(playerName, dialogId.intro)
+		displayDialog(playerName, dialogId.intro)
 	end
 
 	return true
@@ -2552,7 +2620,7 @@ local saveSanta = function(cbk, playerName)
 		tfm.exec.chatMessage(getCredits(), playerName)
 	end
 
-	ui.dialog(playerName, dialogId.saveSanta)
+	displayDialog(playerName, dialogId.saveSanta)
 
 	return true
 end
