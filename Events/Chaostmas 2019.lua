@@ -2534,7 +2534,7 @@ local checkStageChallege = function(currentTime)
 				if lastMountainStage == 7 then
 					spawnWizard()
 				else
-					--spawnYetis(lastMountainStage)
+					spawnYetis(lastMountainStage)
 				end
 			end
 
