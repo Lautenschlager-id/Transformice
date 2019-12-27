@@ -2526,7 +2526,7 @@ local checkStageChallege = function(currentTime)
 					enableNightMode(playerName)
 				end
 			elseif tmpCurrentStage > lastMountainStage then
-				if tmpCurrentStage > lastMountainStage + 1 or checkPassage() == false then -- Anti-hack
+				if tmpCurrentStage > lastMountainStage + 1 or (monster._perStage[lastMountainStage] and monster._perStage[lastMountainStage]._count > 0) then -- Anti-hack
 					return tfm.exec.killPlayer(playerName)
 				end
 
@@ -2796,6 +2796,7 @@ eventLoop = function(currentTime, remainingTime)
 
 	checkStageChallege(currentTime)
 	objectManager.loop(currentTime, remainingTime)
+	checkPassage()
 	timer.loop()
 end
 
