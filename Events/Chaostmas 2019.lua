@@ -16,8 +16,8 @@ local module = {
 	reward = {
 		[0x01] = "chaostmas_badge",
 		[0x02] = "chaostmas_macaron",
-		[0x04] = "chaostmas_boule_de_neige",
-		[0x08] = "chaostmas_raclette"
+		[0x04] = "chaostmas_raclette",
+		[0x08] = "chaostmas_boule_de_neige"
 	},
 	time = 3 * 60 + 3,
 	map = {
@@ -440,8 +440,8 @@ local bulletData = {
 local rewardId = {
 	badge = 0x01,
 	orb = 0x02,
-	titleSnowball = 0x04,
-	titleRaclette = 0x08
+	titleRaclette = 0x04,
+	titleSnowball = 0x08
 }
 
 local miscData = {
@@ -694,9 +694,9 @@ do
 
 		if reward == rewardId.badge then
 			if not playerHasCompletedFirstStep(playerName) then return end
-		elseif reward == rewardId.titleSnowball then
-			if playerData:get(playerName, "wizardDefeats") < module.rewardTitleWizardDefeats then return end
 		elseif reward == rewardId.titleRaclette then
+			if playerData:get(playerName, "wizardDefeats") < module.rewardTitleWizardDefeats then return end
+		elseif reward == rewardId.titleSnowball then
 			if playerData:get(playerName, "savedSanta") < module.rewardTitleSavedSanta then return end
 		elseif reward == rewardId.orb then
 			if playerData:get(playerName, "savedSanta") < module.rewardOrbSavedSanta then return end
