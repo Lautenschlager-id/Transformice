@@ -49,11 +49,11 @@ do
 		en = {
 			dialog = {
 				close = "Press spacebar to close the dialog.",
-				[1] = " Oh, h-hey! I'm so glad to have finally found someone.\n\n The elves were working on the Christmas decorations when an evil wizard showed up and began to take control of the yetis on the mountain.\n He did not accept the fact that Halloween had ended and wants to ruin our celebration. Our Christmas tree has been torn apart and its pieces are scattered across the mountain... Santa has gone missing...\n\n I w-was so scared... I ran away before the wizard could take me. Please, help us!", -- Elf init
+				[1] = " Oh, h-hey! I'm so glad to finally find someone.\n\n The elves were working on the Christmas decorations when an evil wizard showed up and took control of the yetis on the mountain.\n He doesn't accept the fact that Halloween has ended and wants to ruin our celebration. Our Christmas tree has been torn apart and its pieces are scattered across the mountain... And Santa has gone missing...\n\n I w-was so scared... I ran away before the wizard could take me. Please, help us!", -- Elf init
 				[2] = " Yaaaaaay!\n\n Thank you, brave little warrior. You have defeated the evil wizard and our Christmas tree is complete once again, we can finally celebrate Christmas!\n\n Ugh... I almost forgot about a more serious problem - which is yet to be taken care of... SANTA IS STILL MISSING!", -- Tree complete
 				[3] = " Yupiiiiiiiiii!\n\n Thanks to you, our Christmas tree is ready-to-go for tonight and I am now free and able to deliver the gifts to all the little mice!\n\n Your gift will be the biggest one! I can not thank you enough.\n\n Let's take this bad wizard to the authorities." -- Save santa
 			},
-			elfTalkMountain = "Oh, look! An elf, and... Heey, he is hurt! Go near him and press <B>[spacebar]</B> to check what happened.",
+			elfTalkMountain = "Oh, look! An elf, and... Hey, he is hurt! Go next to him and press <B>[spacebar]</B> to check what happened.",
 			introduceMountain = "Explore the mountain and find the missing pieces of the magic Christmas tree, or else the event will be ruined forever.",
 			introduceAttack = "Press <B>[spacebar]</B> to use the fire power you have obtained to guide you through this adventure!",
 			introduceWizard = "Oh, look! There is a missing piece of the tree right there! B-but... the wizard, we need to go through him first.",
@@ -64,11 +64,11 @@ do
 			elfTalkSanta = "Oh, no... %s looks terribly worried about something. Go talk to him!",
 			findSanta = "Look! It is Santa right there... He is chained! Let's save him before he freezes!",
 			introduceMutantWizard = "W-what? Is that the evil wizard? We dropped him in the cauldron, how can he still be here?",
-			mutantWizardShowUp = "Silly rat, you still do have a lot to learn about the mystic world. My cauldron had my most powerful mixture and it turned me into a stronger, smarter and faster being. This is your end.",
+			mutantWizardShowUp = "Silly rat, you still have a lot to learn about the mystic world. My cauldron had my most powerful mixture and it turned me into a stronger, smarter and faster being. This is your end.",
 			mutantWizardDefeat = "Aaaaaaaaaaargh, how could you... My powers... My head... My hood! Give it back to me! Let me go! Aaaarrgh!",
-			mutantWizardSuicide = "Muhahahahaha, Santa is frozen! Christmas is over!",
+			mutantWizardSuicide = "Muahahahahaha, Santa is frozen! Christmas is over!",
 			credit = "<PT>This event most certainly would have been stuck in our minds for eternity if it was not for the following awesome people;\n\t<font color='#%s'>Code by %s.</font>\n\t<font color='#%s'>Art by %s.</font>\n\t<font color='#%s'>%s translation by %s.</font>\n\t<font color='#%s' size='11'>Special thanks to %s.</font>",
-			stealMoon = "AAAAH. I, THE LORD OF THE LORDS, THE WIZARD OF THE WIZARDS, DO CURSE YOU ALL. THIS IS THE END, AND YOU'VE GOT TO FEEL MY POWER!",
+			stealMoon = "AAAAH! I, THE LORD OF LORDS, THE WIZARD OF WIZARDS, DO CURSE YOU ALL. THIS IS THE END, PREPARE TO FEEL MY POWER!",
 
 			translator = "Bolodefchoco#0000"
 		},
@@ -998,7 +998,7 @@ local removeDialog = function(playerName)
 end
 
 local getBossLifeBarIdAndWidth = function(bossStage, bossLife, bossType)
-	local id = interfaceId.lifeBar + bossStage
+	local id = interfaceId.lifeBar + (bossStage * 2)
 	local width = 786 / monsterData.life.default[bossType] * bossLife
 
 	return id, width
@@ -1024,7 +1024,7 @@ local updateBossLifeBar = function(bossStage, bossLife, bossType)
 end
 
 local displayBossLifeBar = function(playerName, bossStage)
-	ui.addTextArea(interfaceId.lifeBar + bossStage - 1, '', playerName, 5, 398, 790, 1, 1, 1, 1, true)
+	ui.addTextArea(interfaceId.lifeBar + (bossStage * 2) - 1, '', playerName, 5, 398, 790, 1, 1, 1, 1, true)
 
 	local boss = getBoss(bossStage)
 	if boss then
@@ -1033,7 +1033,8 @@ local displayBossLifeBar = function(playerName, bossStage)
 end
 
 local removeBossLifeBar = function(bossStage)
-	for id = interfaceId.lifeBar + bossStage - 1, interfaceId.lifeBar + bossStage do
+	local stageId = interfaceId.lifeBar + (bossStage * 2)
+	for id = stageId - 1, stageId do
 		ui.removeTextArea(id)
 	end
 end
@@ -1910,7 +1911,7 @@ do
 			for playerName = 1, #onNightMode do
 				playerName = onNightMode[playerName]
 				displayChaosInterface(playerName)
-				if playerCache[playerName].currentStage ~= 8 then
+				if playerCache[playerName].currentStage ~= 8 and math.random(0, 1) == 0 then
 					tfm.exec.movePlayer(playerName, miscData.finalBossSpawn[1], miscData.finalBossSpawn[2])
 				end
 			end
@@ -2489,6 +2490,13 @@ local spawnMutantWizard = function()
 	tfm.exec.removeJoint(jointId.blocker + 1)
 end
 
+local hasAliveYetiInCurrentStage = function()
+	local monsterStage = monster._perStage[lastMountainStage]
+	if not monsterStage then return end
+
+	return monsterStage._count > 0
+end
+
 local unblockPassage = function(stage)
 	tfm.exec.removeImage(passageBlocks[stage])
 	tfm.exec.removePhysicObject(groundId.passage + stage)
@@ -2496,15 +2504,11 @@ local unblockPassage = function(stage)
 end
 
 local checkPassage = function()
-	local monsterStage = monster._perStage[lastMountainStage]
-	if not (passageBlocks[lastMountainStage] and monsterStage) then return end
+	if not passageBlocks[lastMountainStage] then return end
 
-	if monsterStage._count <= 0 then
+	if hasAliveYetiInCurrentStage() == false then
 		unblockPassage(lastMountainStage)
-		return true
 	end
-
-	return false
 end
 
 local checkStageChallege = function(currentTime)
@@ -2526,7 +2530,7 @@ local checkStageChallege = function(currentTime)
 					enableNightMode(playerName)
 				end
 			elseif tmpCurrentStage > lastMountainStage then
-				if tmpCurrentStage > lastMountainStage + 1 or (monster._perStage[lastMountainStage] and monster._perStage[lastMountainStage]._count > 0) then -- Anti-hack
+				if tmpCurrentStage > lastMountainStage + 1 or hasAliveYetiInCurrentStage() then -- Anti-hack
 					return tfm.exec.killPlayer(playerName)
 				end
 
