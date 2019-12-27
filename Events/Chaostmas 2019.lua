@@ -143,7 +143,7 @@ do
 			findSanta = "Regarde ! C'est le Père Noël là... Il est enchaîné ! Allons le sauver avant qu'il ne gèle !",
 			introduceMutantWizard = "Q-Quoi ? Est-ce le sorcier maléfique ? Nous l'avons envoyé dans le chaudron, comment peut-il encore être là ?",
 			mutantWizardShowUp = "Stupide rat, tu as encore énormement de choses à apprendre sur ce monde mystique. Mon chaudron était rempli de la plus puissante mixture et cela m'a rendu encore plus puissant, intelligent et rapide. C'est fini pour toi.",
-			mutantWizardDefeat = "Aaaaaaaaaaah, comment as-tu pu... Mes pouvoirs... Ma tête... Ma capuche ! Rend-là moi ! Laisse-moi partir ! Aaaaaah !",
+			mutantWizardDefeat = "Aaaaaaaaaaah, comment as-tu pu... Mes pouvoirs... Ma tête... Ma capuche ! Rends-la moi ! Laisse-moi partir ! Aaaaaah !",
 			mutantWizardSuicide = "Mouhahahahaha, le Père Noël est congelé ! Noël est terminé !",
 			credit = "<PT>Cet événement n'aurait jamais pu avoir lieu et serait resté à l'état de prototype si il n'y avait pas eu toutes ces incroyables personnes;\n\t<font color='#%s'>Code par %s.</font>\n\t<font color='#%s'>Graphismes par %s.</font>\n\t<font color='#%s'>%s Traduction par %s.</font>\n\t<font color='#%s' size='11'>Merci aussi à %s.</font>",
 			stealMoon = "AAAAH. JE, LE SEIGNEUR DES SEIGNEURS, LE SORCIER DES SORCIERS, TE MAUDIT. C'EST LA FIN, ET TU AS RESSENTI MA PUISSANCE !",
@@ -430,11 +430,16 @@ local bulletData = {
 	xSpeed = 20,
 	ySpeed = -0.5,
 	lifeTime = 1500,
+	xSpeedBoss = 25,
+	ySpeedBoss = 30,
+
+	damage = 0,
 	minimumDamage = 0.6,
 	maximumDamage = 2,
-	damage = 0,
-	xSpeedBoss = 25,
-	ySpeedBoss = 30
+
+	damageWhenMutantWizard = 0,
+	minimumMutantWizardMice = 10,
+	maximumMutantWizardMice = 0
 }
 
 local rewardId = {
@@ -461,7 +466,7 @@ local miscData = {
 	emotePx = 0,
 	beginningFirstStage = { 340, 1523 },
 	treeStages = 0,
-	defaultDamage = 2.5
+	defaultDamage = 2
 }
 
 local emoteIds = {
@@ -951,6 +956,10 @@ end
 
 playerHasCompletedFirstStep = function(playerName)
 	return miscData.treeStages > 0 and playerData:get(playerName, "treeStage") == miscData.treeStages
+end
+
+local getDamageByTotalPlayers = function(totalPlayers)
+	return clamp((miscData.defaultDamage - (totalPlayers / 25)), bulletData.minimumDamage, bulletData.maximumDamage)
 end
 
 local freezePlayer
@@ -1980,7 +1989,8 @@ do
 			lifeTime = bulletData.lifeTime,
 			shooter = playerCache[playerName],
 			isBoss = isBoss,
-			loop = playerLoop
+			loop = playerLoop,
+			damage = (stage < 8 and bulletData.damage or bulletData.damageWhenMutantWizard)
 		}, bullet))
 	end
 
@@ -2029,7 +2039,7 @@ do
 					self.shooter.hasHitBoss = true
 				end
 
-				obj:damage(bulletData.damage)
+				obj:damage(self.damage)
 				self:destroy()
 				return
 			end
@@ -2190,7 +2200,8 @@ local globalInitSettings = function(bool, settingsOnly)
 		monsterData.mutantWizardSuicideLifePercent = percent(monsterData.mutantWizardSuicideLifePercent, monsterData.life[monsterType.mutantWizard])
 		monsterData.life.default[monsterType.wizard] = monsterData.life[monsterType.wizard]
 		monsterData.life.default[monsterType.mutantWizard] = monsterData.life[monsterType.mutantWizard]
-		bulletData.damage = clamp((miscData.defaultDamage - (tfm.get.room.uniquePlayers / 25)), bulletData.minimumDamage, bulletData.maximumDamage)
+		bulletData.damage = getDamageByTotalPlayers(tfm.get.room.uniquePlayers)
+		bulletData.maximumMutantWizardMice = tfm.get.room.uniquePlayers
 		miscData.emotePx = -310 / #miscData.sequenceEmotes
 		miscData.treeStages = #images.christmasTree
 	end
@@ -2488,6 +2499,9 @@ end
 local spawnMutantWizard = function()
 	monster.new(monsterType.mutantWizard, 953, 230, 8):useAxisPosition(50, 73):onDeath(defeatMutantWizard)
 	tfm.exec.removeJoint(jointId.blocker + 1)
+
+	bulletData.damageWhenMutantWizard = clamp(bulletData.damageWhenMutantWizard, bulletData.minimumMutantWizardMice, bulletData.maximumMutantWizardMice)
+	bulletData.damageWhenMutantWizard = getDamageByTotalPlayers(bulletData.damageWhenMutantWizard)
 end
 
 local hasAliveYetiInCurrentStage = function()
@@ -2780,6 +2794,7 @@ eventPlayerDataLoaded = function(playerName, data)
 
 	displayTree(playerName)
 	if playerHasCompletedFirstStep(playerName) then
+		bulletData.damageWhenMutantWizard = bulletData.damageWhenMutantWizard + 1
 		chatMessage(string.format(translation.elfTalkSanta, npcNames.elf), playerName)
 	else
 		chatMessage(translation.elfTalkMountain, playerName)
