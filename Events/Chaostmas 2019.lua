@@ -16,8 +16,8 @@ local module = {
 	reward = {
 		[0x01] = "chaostmas_badge",
 		[0x02] = "chaostmas_macaron",
-		[0x04] = "chaostmas_raclette",
-		[0x08] = "chaostmas_boule_de_neige"
+		[0x04] = "chaostmas_boule_de_neige",
+		[0x08] = "chaostmas_raclette"
 	},
 	time = 3 * 60 + 3,
 	map = {
@@ -372,7 +372,7 @@ local monsterData = {
 	chaosOpacityChangeTimer = 500,
 	chaosFirstChangeTimer = 3000,
 
-	potionSpawnTimerOnChaos = 500,
+	potionSpawnTimerOnChaos = 1000,
 	defaultPotionSpawnTimer = 0,
 
 	mutantWizardSuicideTime = 10000,
@@ -1524,7 +1524,7 @@ do
 				if remainingTime <= monsterData.mutantWizardSuicideTime and self.life >= monsterData.mutantWizardSuicideLifePercent and not self.suicide then
 					self.suicide = true
 					self.life = 999 -- Can't be killed anymore
-					self:destroy()
+					self:damage(self.life)
 
 					-- Freezes Santa
 					freezeSanta()
@@ -2184,7 +2184,7 @@ local globalInitSettings = function(bool, settingsOnly)
 	if not settingsOnly then
 		-- Data
 		monsterData.bombQuantity = clamp(round(tfm.get.room.uniquePlayers / 10), 1, 5)
-		monsterData.flamingGiftQuantity = clamp(round(tfm.get.room.uniquePlayers / 5), 2, 6)
+		monsterData.flamingGiftQuantity = clamp(round(tfm.get.room.uniquePlayers / 6), 2, 6)
 		monsterData.defaultPotionSpawnTimer = monsterData.potionSpawnTimer
 		monsterData.mutantWizardSuicideLifePercent = percent(monsterData.mutantWizardSuicideLifePercent, monsterData.life[monsterType.mutantWizard])
 		monsterData.life.default[monsterType.wizard] = monsterData.life[monsterType.wizard]
