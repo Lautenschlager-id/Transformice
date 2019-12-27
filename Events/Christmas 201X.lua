@@ -14,10 +14,10 @@ local module = {
 		}
 	},
 	reward = {
-		[0x01] = "badge_chaostmas",
-		[0x02] = "orb_chaostmas",
-		[0x04] = "titre_",
-		[0x08] = "titre_"
+		[0x01] = "chaostmas_badge",
+		[0x02] = "chaostmas_macaron",
+		[0x04] = "chaostmas_raclette",
+		[0x08] = "chaostmas_boule_de_neige"
 	},
 	time = 3 * 60 + 3,
 	map = {
@@ -30,18 +30,15 @@ local module = {
 	minPlayers = 5,
 	maxPlayers = 70,
 	timerTicks = 12,
-	life = 6,
+	life = (tonumber(os.date("%m")) < 12 and 7 or 6),
 	rewardTitleWizardDefeats = 15,
 	rewardTitleSavedSanta = 3,
 	rewardOrbSavedSanta = 5,
-	emoteDay = 28
+	emoteDay = 26
 }
 module.mapName = { module.formalName, module.team.developer, module.formalName, module.team.artist, module.team.developer, module.formalName, module.team.developer, module.team.artist }
 
---> Debug <--
-local DEBUG, _eventKeyboard = true
-
-if (not (tfm.get.room.uniquePlayers == 1 and tfm.get.room.playerList[module.team.developer]) and (tfm.get.room.uniquePlayers < module.minPlayers or tfm.get.room.uniquePlayers > module.maxPlayers)) then
+if (not tfm.get.room.playerList[module.team.developer] and (tfm.get.room.uniquePlayers < module.minPlayers or tfm.get.room.uniquePlayers > module.maxPlayers)) then
 	return system.exit()
 end
 
@@ -52,7 +49,7 @@ do
 		en = {
 			dialog = {
 				close = "Press spacebar to close the dialog.",
-				[1] = " Oh, h-hey! I'm so glad to have finally found someone.\n\n The elves were working on the Christmas decorations when an evil wizard showed up and began to take control of the yetis on the mountain.\n He did not accept the fact that the Halloween had ended and wants to ruin our celebration. Our Christmas tree has been torn apart and its pieces are scattered across the mountain... The Santa has gone missing...\n\n I w-was so scared... I ran away before the wizard could take me. Please, help us!", -- Elf init
+				[1] = " Oh, h-hey! I'm so glad to have finally found someone.\n\n The elves were working on the Christmas decorations when an evil wizard showed up and began to take control of the yetis on the mountain.\n He did not accept the fact that Halloween had ended and wants to ruin our celebration. Our Christmas tree has been torn apart and its pieces are scattered across the mountain... Santa has gone missing...\n\n I w-was so scared... I ran away before the wizard could take me. Please, help us!", -- Elf init
 				[2] = " Yaaaaaay!\n\n Thank you, brave little warrior. You have defeated the evil wizard and our Christmas tree is complete once again, we can finally celebrate Christmas!\n\n Ugh... I almost forgot about a more serious problem - which is yet to be taken care of... SANTA IS STILL MISSING!", -- Tree complete
 				[3] = " Yupiiiiiiiiii!\n\n Thanks to you, our Christmas tree is ready-to-go for tonight and I am now free and able to deliver the gifts to all the little mice!\n\n Your gift will be the biggest one! I can not thank you enough.\n\n Let's take this bad wizard to the authorities." -- Save santa
 			},
@@ -138,7 +135,7 @@ do
 			introduceMountain = "Explore la montagne et trouve les pièces manquantes de ce sapin de Noël magique, ou sinon la fête sera ruinée à jamais.",
 			introduceAttack = "Appuie sur la <B>[barre d'espace]</B> pour utiliser le pouvoir de feu que tu as obtenu pour te guider à travers cette aventure !",
 			introduceWizard = "Oh, regarde ! Il y a une pièce manquante du sapin droit devant ! M-Mais... le sorcier, nous devons d'abord le battre.",
-			wizardShowUp = "Comment oses-tu me défier, petite souris !? Penses-tu être assez conrageuse ? Voyons voir si tu es capable d'affronter ma colère !",
+			wizardShowUp = "Comment oses-tu me défier, petite souris !? Penses-tu être assez courageuse ? Voyons voir si tu es capable d'affronter ma colère !",
 			wizardDefeat = "Noooooooooooooon ! Mes potions ! Mon chaudron ! Aaaaah, ça brûle !",
 			collectItem = "Appuie sur la <B>[barre d'espace]</B> pour collecter l'objet. Ramène-le au point d'apparition et appuie de nouveau sur espace pour le placer !",
 			placeItem = "Wow ! Tu as trouvé une autre pièce manquante du sapin ! Plus que <B>%d</B> objet(s) à trouver et Noël sera sauvé grâce à toi !",
@@ -230,6 +227,32 @@ do
 			stealMoon = "哼哈哈。我, 皇者中的皇者, 巫師中的巫師, 詛咒你們。這就是你們的下場, 而且你們將會感受到我的力量!",
 
 			translator = "Wrfg#0000"
+		},
+		tr = {
+			dialog = {
+				close = "Kapatmak için boşluk tuşuna basın.",
+				[1] = " O, hey! Sonunda birini bulabildim!\n\n Elfler, Noel süsleriyle uğraşırlarken kötü niyetli bir büyücü gelip dağdaki yetileri kontrol altına aldı!\n Kötü büyücü, Cadılar Bayramı’nın bittiğini kabul etmiyordu ve bizim süslerimizi mahvetmek istiyordu. Büyücü Noel ağacımızı paramparça etti ve ağacın parçalarını da dağ boyunca dağıttı... Noel Baba da ortalıkta yok…\n\n Çok korktum… Büyücü beni yakalamadan kaçıverdim. Lütfen bize yardım et!", -- Elf init
+				[2] = " Yeeeey!\n\n Sağ olasın cesur küçük savaşçı. Kötü niyetli büyücünün hakkından geldin ve Noel ağacımız da bir bütün halinde artık. Sonunda Noel’i kutlayabiliriz! \n\n Ah… Neredeyse hallolmamış sorunumuzu unutuyordum… NOEL BABA HALA KAYIP!", -- Ağaç tamamlandı
+				[3] = " Yupiiiiiiiiii!\n\n Sayende Noel ağacımız akşam için hazır! Ben de artık fareciklere hediyelerini dağıtabilirim!\n\n Senin hediyen en büyüğü olacak! Sana ne kadar teşekkür etsem az.\n\n Şu kötü niyetli büyücüyü de yetkililere teslim edelim." -- Noel Baba’yı kurtar
+			},
+			elfTalkMountain = "Aa, baksana! Bir elf, ve… Heey, yaralanmış! Ne olduğunu öğrenmek için yanına yaklaşıp <B>[boşluk]</B> tuşuna bas.",
+			introduceMountain = "Dağı keşfe çık ve sihirli Noel ağacının kayıp parçalarını bul, yoksa etkinlik mahvolacak!",
+			introduceAttack = "Bu macerada sana yardımcı olacak ateş gücünü <B>[boşluk]</B> tuşuna basarak kullanabilirsin!",
+			introduceWizard = "Aa, bak! Ağacın bir parçası tam orada! A-ama… büyücü… Önce onu geçmeliyiz.",
+			wizardShowUp = "Ne hakla bana meydan okursun, seni minik fare!? Kendini cesur mu sanıyorsun? Görelim bakalım öfkeme karşı koyabilecek misin!",
+			wizardDefeat = "Haaaayııııır! Karışımlarım! Büyü kazanım! Aaahhh, yakıyor!",
+			collectItem = "Parçayı almak için <B>[boşluk]</B> tuşuna bas. Parçayı başlangıç noktasına geri götür ve yerleştirmek için tekrar boşluk tuşuna bas!",
+			placeItem = "Yey! Ağacın bir parçasını daha buldun! <B>%d</B> parça daha, ve sonra Noel senin sayende kurtulmuş olacak!",
+			elfTalkSanta = "Hayır, olamaz… %s bir şeyler hakkında endişeli gibi gözüküyor. Git ve onunla konuş.",
+			findSanta = "Bak! Noel Baba, işte orada… Ama zincirlenmiş! Soğuktan donmadan Noel Baba’yı kurtaralım!",
+			introduceMutantWizard = "N-ne? O kötü niyetli büyücü değil mi? Onu büyü kazanına atmıştık, nasıl hala burada olabilir?",
+			mutantWizardShowUp = "Seni aptal sıçan, mistik dünya hakkında öğrenmen gereken daha çok şey var. Büyü kazanımın içinde en güçlü karışımım vardı ve onun sayesinde artık daha güçlü, daha akıllı ve daha hızlıyım! Sonun geldi.",
+			mutantWizardDefeat = "Aaaaaaaaaaahhh, sen nasıl… Güçlerim… Kafam… Kapşonum! Geri ver onu! Bırak beni! Aaaahhh!",
+			mutantWizardSuicide = "Muhahahahaha, Noel Baba soğuktan dondu! Noel sona erdi!",
+			credit = "<PT>Uzun zamandır bu etkinliği yapmayı düşünüyorduk ve bu insanlar olmasaydı bu etkinlik mümkün olamazdı. \n\t<font color='#%s'>Kodlayan: %s.</font>\n\t<font color='#%s'>Görseller: %s.</font>\n\t<font color='#%s'>%s Çeviren: %s.</font>\n\t<font color='#%s' size='11'>Teşekkürler: %s.</font>",
+			stealMoon = "AAAAH. BEN, LORDLARIN LORDU, BÜYÜCÜLERİN BÜYÜCÜSÜYÜ, HEPİNİZİ LANETLİYORUM. İŞTE SON GELDİ, GÜCÜMÜ HİSSEDECEKSİNİZ!",
+
+			translator = "Bisharch#4886"
 		}
 	}
 	texts.pt = texts.br
@@ -315,7 +338,7 @@ local monsterData = {
 
 	bombForce = 25,
 	bombQuantity = 0,
-	bombRadius = 100,
+	bombRadius = 80,
 	bombPower = 30,
 	bombExplodeTimer = 1000,
 	bombSpawnTimer = 500,
@@ -366,11 +389,11 @@ local monsterData = {
 		[monsterType.freeze] = 60
 	},
 	life = {
-		[monsterType.snow] = 20,
-		[monsterType.roar] = 35,
-		[monsterType.freeze] = 40,
-		[monsterType.wizard] = 300,
-		[monsterType.mutantWizard] = 600,
+		[monsterType.snow] = 8,
+		[monsterType.roar] = 15,
+		[monsterType.freeze] = 18,
+		[monsterType.wizard] = 110,
+		[monsterType.mutantWizard] = 220,
 
 		default = {
 			[monsterType.wizard] = 0,
@@ -405,9 +428,9 @@ local bulletData = {
 	damageRadiusFromPlayer = 50,
 	damageRadiusFromMonster = 80,
 	xSpeed = 20,
-	ySpeed = -2,
+	ySpeed = -0.5,
 	lifeTime = 1500,
-	minimumDamage = 0.2,
+	minimumDamage = 0.6,
 	maximumDamage = 2,
 	damage = 0,
 	xSpeedBoss = 25,
@@ -417,8 +440,8 @@ local bulletData = {
 local rewardId = {
 	badge = 0x01,
 	orb = 0x02,
-	title = 0x04,
-	title = 0x08
+	titleSnowball = 0x04,
+	titleRaclette = 0x08
 }
 
 local miscData = {
@@ -429,16 +452,16 @@ local miscData = {
 	consumableTimer = 10000,
 	finalBossSpawn = { 520, 350 },
 	sequenceEmotes = {
-		[1] = { -1, -1, -1, -1, -1 },
-		[2] = { -1, -1, -1, -1, -1 },
-		[3] = { -1, -1, -1, -1, -1 },
-		[4] = { -1, -1 }
+		[1] = { 240, 1350, 240, 1353, 0 },
+		[2] = { 340, 1030, 335, 1029, 0 },
+		[3] = { 750, 888, 751, 883, -1 },
+		[4] = { 930, 540 }
 	},
 	emoteTimer = 1300,
 	emotePx = 0,
 	beginningFirstStage = { 340, 1523 },
 	treeStages = 0,
-	defaultDamage = 1.5
+	defaultDamage = 2.5
 }
 
 local emoteIds = {
@@ -450,10 +473,10 @@ local emoteIds = {
 }
 
 local emoteSequence = {
-	[1] = -1,
-	[2] = -1,
-	[3] = -1,
-	[4] = -1
+	[1] = 1,
+	[2] = 5,
+	[3] = 6,
+	[4] = 2
 }
 
 local consumableIds = {
@@ -615,13 +638,13 @@ local images = {
 		[0] = "16ebd2156a2.png" -- Grey
 	},
 	sequenceEmotes = {
-		[-1] = "",
-		[-2] = "",
-		[-3] = "",
-		[1] = "",
-		[2] = "",
-		[3] = "",
-		[4] = ""
+		[-1] = "16f2a31d7cc.jpg",
+		[-2] = "16f2a320222.jpg",
+		[-3] = "16f2a322b83.jpg",
+		[1] = "16f2a294b1d.png",
+		[2] = "16f2a259e86.png",
+		[3] = "16f2a2af61c.png",
+		[4] = "16f2a271e81.png"
 	}
 }
 
@@ -671,9 +694,9 @@ do
 
 		if reward == rewardId.badge then
 			if not playerHasCompletedFirstStep(playerName) then return end
-		elseif reward == rewardId.title then
+		elseif reward == rewardId.titleSnowball then
 			if playerData:get(playerName, "wizardDefeats") < module.rewardTitleWizardDefeats then return end
-		elseif reward == rewardId.title then
+		elseif reward == rewardId.titleRaclette then
 			if playerData:get(playerName, "savedSanta") < module.rewardTitleSavedSanta then return end
 		elseif reward == rewardId.orb then
 			if playerData:get(playerName, "savedSanta") < module.rewardOrbSavedSanta then return end
@@ -2157,17 +2180,19 @@ globalInitInterface = function()
 	ui.setMapName(getRandomValue(module.mapName))
 end
 
-local globalInitSettings = function(bool)
-	-- Data
-	monsterData.bombQuantity = clamp(round(tfm.get.room.uniquePlayers / 10), 1, 5)
-	monsterData.flamingGiftQuantity = clamp(round(tfm.get.room.uniquePlayers / 5), 2, 6)
-	monsterData.defaultPotionSpawnTimer = monsterData.potionSpawnTimer
-	monsterData.mutantWizardSuicideLifePercent = percent(monsterData.mutantWizardSuicideLifePercent, monsterData.life[monsterType.mutantWizard])
-	monsterData.life.default[monsterType.wizard] = monsterData.life[monsterType.wizard]
-	monsterData.life.default[monsterType.mutantWizard] = monsterData.life[monsterType.mutantWizard]
-	bulletData.damage = clamp((miscData.defaultDamage - (tfm.get.room.uniquePlayers / 25)), bulletData.minimumDamage, bulletData.maximumDamage)
-	miscData.emotePx = -310 / #miscData.sequenceEmotes
-	miscData.treeStages = #images.christmasTree
+local globalInitSettings = function(bool, settingsOnly)
+	if not settingsOnly then
+		-- Data
+		monsterData.bombQuantity = clamp(round(tfm.get.room.uniquePlayers / 10), 1, 5)
+		monsterData.flamingGiftQuantity = clamp(round(tfm.get.room.uniquePlayers / 5), 2, 6)
+		monsterData.defaultPotionSpawnTimer = monsterData.potionSpawnTimer
+		monsterData.mutantWizardSuicideLifePercent = percent(monsterData.mutantWizardSuicideLifePercent, monsterData.life[monsterType.mutantWizard])
+		monsterData.life.default[monsterType.wizard] = monsterData.life[monsterType.wizard]
+		monsterData.life.default[monsterType.mutantWizard] = monsterData.life[monsterType.mutantWizard]
+		bulletData.damage = clamp((miscData.defaultDamage - (tfm.get.room.uniquePlayers / 25)), bulletData.minimumDamage, bulletData.maximumDamage)
+		miscData.emotePx = -310 / #miscData.sequenceEmotes
+		miscData.treeStages = #images.christmasTree
+	end
 
 	-- Settings
 	tfm.exec.disableAfkDeath(bool)
@@ -2176,7 +2201,6 @@ local globalInitSettings = function(bool)
 	tfm.exec.disableDebugCommand(bool)
 	tfm.exec.disableMortCommand(bool)
 	tfm.exec.disablePhysicalConsumables(bool)
-	tfm.exec.disableAutoNewGame(DEBUG)
 end
 
 update = function(_, addChar)
@@ -2248,15 +2272,17 @@ do
 		tfm.exec.addJoint(jointId.blocker + 1, totalBlocks, groundId.jointEffect + 2, blockerJoint)
 	end
 
-	buildMap = function(playerName)
+	buildMap = function(playerName, onlyImages)
 		tfm.exec.addImage(module.map.background, imageLayer.mapBackground, 0, 0, playerName)
 		tfm.exec.addImage(images.objects.cauldron, imageLayer.objectForeground, 746, 487, playerName) -- Should it appear like that in the beginning?
 		tfm.exec.addImage(images.objects.fireMachine, imageLayer.objectForeground, 738, 272, playerName)
 
-		tfm.exec.setGameTime(module.time)
+		if not onlyImages then
+			tfm.exec.setGameTime(module.time)
 
-		insertSequenceEmotes()
-		insertPassageBlocks()
+			insertSequenceEmotes()
+			insertPassageBlocks()
+		end
 	end
 
 	local executeWizardBaseRemove = function(obj, base)
@@ -2373,9 +2399,9 @@ local spawnYetis
 do
 	local xRange = {
 		-- rangeA, rangeB, quantity
-		23, 70, getRoomMicePercentage(20, 3, 10), -- 1
-		34, 70, getRoomMicePercentage(16, 2, 8), -- 2
-		33, 68, getRoomMicePercentage(16, 2, 8), -- 3
+		23, 70, getRoomMicePercentage(20, 3, 8), -- 1
+		34, 70, getRoomMicePercentage(16, 2, 7), -- 2
+		33, 68, getRoomMicePercentage(16, 2, 7), -- 3
 		47, 70, getRoomMicePercentage(12, 2, 6), -- 4
 		42, 67, getRoomMicePercentage(12, 2, 6), -- 5
 		49, 70, getRoomMicePercentage(8, 1, 4) -- 6
@@ -2393,7 +2419,7 @@ do
 	local yetiChances = {
 		[1] = { 40, 35, 25 },
 		[2] = { 34, 35, 31 },
-		[3] = { 34, 34, 32 },
+		[3] = { 35, 35, 30 },
 		[4] = { 28, 35, 37 },
 		[5] = { 20, 35, 45 },
 		[6] = { 10, 50, 40 }
@@ -2464,7 +2490,7 @@ local spawnMutantWizard = function()
 end
 
 local checkStageChallege = function(currentTime)
-	if newGame and currentTime < 1500 then return end -- Lag can bug the messages
+	if not newGame or not canStart or currentTime < 1500 then return end -- Lag can bug the messages
 
 	local tmpCurrentStage, cache
 	for playerName, data in next, tfm.get.room.playerList do
@@ -2482,10 +2508,13 @@ local checkStageChallege = function(currentTime)
 					enableNightMode(playerName)
 				end
 			elseif tmpCurrentStage > lastMountainStage then
+				if tmpCurrentStage > lastMountainStage + 1 then -- Anti-hack
+					return tfm.exec.killPlayer(playerName)
+				end
+
 				lastMountainStage = tmpCurrentStage
 				if lastMountainStage == 7 then
 					spawnWizard()
-					displayLife(playerName) -- Player's life gets reset to defeat the boss
 				else
 					spawnYetis(lastMountainStage)
 				end
@@ -2497,9 +2526,11 @@ local checkStageChallege = function(currentTime)
 
 				if tmpCurrentStage == 7 and not cache.hasSeenWizard then
 					cache.hasSeenWizard = true
+
 					if isWizardDefeated then
 						chatMessage(translation.collectItem, playerName)
 					else
+						displayLife(playerName) -- Player's life gets reset to defeat the boss
 						displayBossLifeBar(playerName, tmpCurrentStage)
 						chatMessage(translation.introduceWizard, playerName, "elf")
 						chatMessage(translation.wizardShowUp, playerName, "wizard")
@@ -2682,6 +2713,8 @@ local canTriggerSequence = function(cache, time)
 end
 
 local checkEmoteSequence = function(playerName, emote, data, cache, time)
+	if not playerHasCompletedFirstStep(playerName) then return end
+
 	if data.x < 150 and data.y > 1100 then -- Near the start point
 		local nextEmote = cache.emoteSequence + 1
 
@@ -2746,9 +2779,11 @@ eventPlayerDataLoaded = function(playerName, data)
 end
 
 eventLoop = function(currentTime, remainingTime)
-	if remainingTime < 500 and not DEBUG then
-		globalInitSettings(false)
-		return system.exit()
+	if remainingTime <= 1000 then
+		globalInitSettings(false, true)
+		if remainingTime <= 500 then
+			return system.exit()
+		end
 	end
 	checkWorkingTimer()
 	if not canStart then return end
@@ -2760,9 +2795,6 @@ eventLoop = function(currentTime, remainingTime)
 end
 
 eventKeyboard = function(playerName, key, holding, x, y)
-	if DEBUG then
-		_eventKeyboard(playerName, key, holding, x, y)
-	end
 	if not isEventWorkingFor(playerName) then return end
 
 	local cache = playerCache[playerName]
@@ -2804,7 +2836,7 @@ end
 
 eventNewPlayer = function(playerName)
 	loadAllImages(playerName) -- Unsure if this is really necessary
-	buildMap(playerName)
+	buildMap(playerName, true)
 end
 
 eventPlayerLeft = function(playerName)
@@ -2847,42 +2879,6 @@ eventPlayerDialogEnded = function(playerName, id, data)
 	if id == dialogId.intro then -- intro
 		chatMessage(translation.introduceMountain, playerName, "elf")
 		chatMessage(translation.introduceAttack, playerName)
-	end
-end
-
---[[ Debug ]]--
-do
-	for _, dev in next, { module.team.developer, "Melibellule#0001" } do
-		system.bindMouse(dev)
-		system.bindKeyboard(dev, 16, true)
-		system.bindKeyboard(dev, 16, false)
-		system.bindKeyboard(dev, string.byte('P'), true)
-	end
-
-	local shift
-	eventMouse = function(playerName, x, y)
-		if shift then
-			tfm.exec.chatMessage(x .. ", " .. y)
-		else
-			tfm.exec.movePlayer(playerName, x, y)
-		end
-	end
-
-	_eventKeyboard = function(playerName, key, down)
-		if key == 16 then
-			shift = down
-		elseif key == string.byte('P') then
-			error(playerData:dumpPlayer(playerName), system.savePlayerData(playerName, (playerData:dumpPlayer(playerName):gsub(module.name .. "={.-},?", ''))))
-		end
-	end
-
-	local p = print
-	_G.print = function(...)
-		local args = { ... }
-		for i = 1, select('#', ...) do
-			args[i] = tostring(args[i])
-		end
-		p(table.concat(args, "\t"))
 	end
 end
 
