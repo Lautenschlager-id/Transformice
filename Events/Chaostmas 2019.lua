@@ -2489,6 +2489,24 @@ local spawnMutantWizard = function()
 	tfm.exec.removeJoint(jointId.blocker + 1)
 end
 
+local unblockPassage = function(stage)
+	tfm.exec.removeImage(passageBlocks[stage])
+	tfm.exec.removePhysicObject(groundId.passage + stage)
+	passageBlocks[stage] = nil
+end
+
+local checkPassage = function()
+	local monsterStage = monster._perStage[lastMountainStage]
+	if not (passageBlocks[lastMountainStage] and monsterStage) then return end
+
+	if monsterStage._count <= 0 then
+		unblockPassage(lastMountainStage)
+		return true
+	end
+
+	return false
+end
+
 local checkStageChallege = function(currentTime)
 	if not newGame or not canStart or currentTime < 1500 then return end -- Lag can bug the messages
 
@@ -2508,7 +2526,7 @@ local checkStageChallege = function(currentTime)
 					enableNightMode(playerName)
 				end
 			elseif tmpCurrentStage > lastMountainStage then
-				if tmpCurrentStage > lastMountainStage + 1 then -- Anti-hack
+				if tmpCurrentStage > lastMountainStage + 1 or checkPassage() == false then -- Anti-hack
 					return tfm.exec.killPlayer(playerName)
 				end
 
@@ -2516,7 +2534,7 @@ local checkStageChallege = function(currentTime)
 				if lastMountainStage == 7 then
 					spawnWizard()
 				else
-					spawnYetis(lastMountainStage)
+					--spawnYetis(lastMountainStage)
 				end
 			end
 
@@ -2547,18 +2565,6 @@ local checkStageChallege = function(currentTime)
 				end
 			end
 		end
-	end
-end
-
-local unblockPassage = function(stage)
-	tfm.exec.removeImage(passageBlocks[stage])
-	tfm.exec.removePhysicObject(groundId.passage + stage)
-	passageBlocks[stage] = nil
-end
-
-local checkPassages = function()
-	if passageBlocks[lastMountainStage] and monster._perStage[lastMountainStage]._count <= 0 then
-		unblockPassage(lastMountainStage)
 	end
 end
 
@@ -2790,7 +2796,6 @@ eventLoop = function(currentTime, remainingTime)
 
 	checkStageChallege(currentTime)
 	objectManager.loop(currentTime, remainingTime)
-	checkPassages()
 	timer.loop()
 end
 
