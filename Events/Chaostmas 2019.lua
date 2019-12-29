@@ -64,7 +64,7 @@ do
 			introduceAttack = "Press <B>[spacebar]</B> to use the fire power you have obtained to guide you through this adventure!",
 			introduceWizard = "Oh, look! There is a missing piece of the tree right there! B-but... the wizard, we need to go through him first.",
 			wizardShowUp = "How dare you challenge me, little mouse!? Do you think you are brave? Let's see if you're capable of facing my wrath!",
-			wizardDefeat = "Noooooooooooooo! My mixtures! My cauldron! Arrrgh, it burns!",
+			wizardDefeat = "Noooooooooooooo! My mixtures! My cauldron! Arrrgh, it burns! [%dx]",
 			collectItem = "Press <B>[spacebar]</B> to collect the item. Bring it back to the starting point and press the key again to place it!",
 			placeItem = "Yay! You have found one more missing piece of the tree! <B>%d</B> item(s) to go and Christmas may be saved thanks to you!",
 			elfTalkSanta = "Oh, no... %s looks terribly worried about something. Go talk to him!",
@@ -91,7 +91,7 @@ do
 			introduceAttack = "Pressione a <B>[barra de espaço]</B> para usar o poder de fogo que você obteve para lhe guiar nesta aventura!",
 			introduceWizard = "Veja! Tem uma peça da árvore bem ali! M-mas... o mago, temos que passar por ele.",
 			wizardShowUp = "Como ousa me desafiar, pequeno rato? Se acha corajoso? Vejamos se é capaz de encarar minha ira.",
-			wizardDefeat = "Nããããããooooooo! Minhas poções! Meu caldeirão! Aaaaaaaa, isso queima!",
+			wizardDefeat = "Nããããããooooooo! Minhas poções! Meu caldeirão! Aaaaaaaa, isso queima! [%dx]",
 			collectItem = "Pressione a <B>[barra de espaço]</B> para coletar o item. Leve-o de volta para o ponto de início e pressione a tecla novamente para colocá-lo na árvore",
 			placeItem = "Isso! Você encontrou mais uma peça da árvore! Mais <B>%d</B> item(ns) e o natal poderá ser salvo graças a você!",
 			elfTalkSanta = "Ah, não... %s parece terrivelmente preocupado com algo. Vá falar com ele!",
@@ -118,7 +118,7 @@ do
 			introduceAttack = "¡Presiona <B>[espacio]</B> para usar el poder de fuego que obtuviste para guiarte por esta aventura!",
 			introduceWizard = "Oh, ¡mira! ¡Hay una pieza faltante del árbol justo allí! P-pero... el mago, debemos ir por el primero.",
 			wizardShowUp = "¿¡Cómo te atreves a desafiarme, pequeño ratón!? ¿Te crees valiente? ¡Veamos si eres capaz de enfrentarte a mi furia!",
-			wizardDefeat = "¡Noooooooooooooo! ¡Mis mezclas! ¡Mi caldera! Arrrgh, ¡me quema!",
+			wizardDefeat = "¡Noooooooooooooo! ¡Mis mezclas! ¡Mi caldera! Arrrgh, ¡me quema! [%dx]",
 			collectItem = "Presiona <B>[espacio]</B> para agarrar el item. ¡Llévalo al punto de inicio y presiona la tecla de nuevo para ponerlo!",
 			placeItem = "¡Yey! ¡Encontraste una pieza faltante del árbol! ¡Faltan <B>%d</B> item(s) más y la Navidad podría estar salvada gracias a tí!",
 			elfTalkSanta = "Oh, no... Parece que %s está terriblemente preocupado por algo. ¡Ve a hablarle!",
@@ -145,7 +145,7 @@ do
 			introduceAttack = "Appuie sur la <B>[barre d'espace]</B> pour utiliser le pouvoir de feu que tu as obtenu pour te guider à travers cette aventure !",
 			introduceWizard = "Oh, regarde ! Il y a une pièce manquante du sapin droit devant ! M-Mais... le sorcier, nous devons d'abord le battre.",
 			wizardShowUp = "Comment oses-tu me défier, petite souris !? Penses-tu être assez courageuse ? Voyons voir si tu es capable d'affronter ma colère !",
-			wizardDefeat = "Noooooooooooooon ! Mes potions ! Mon chaudron ! Aaaaah, ça brûle !",
+			wizardDefeat = "Noooooooooooooon ! Mes potions ! Mon chaudron ! Aaaaah, ça brûle ! [%dx]",
 			collectItem = "Appuie sur la <B>[barre d'espace]</B> pour collecter l'objet. Ramène-le au point d'apparition et appuie de nouveau sur espace pour le placer !",
 			placeItem = "Wow ! Tu as trouvé une autre pièce manquante du sapin ! Plus que <B>%d</B> objet(s) à trouver et Noël sera sauvé grâce à toi !",
 			elfTalkSanta = "Oh, non... %s a l'air terriblement inquiet à propros de quelque chose. Va lui parler !",
@@ -172,7 +172,7 @@ do
 			introduceAttack = "Wciśnij <B>[spację]</B>, by użyć mocy ognia, którą nabyłeś/-aś, by przeprowadzić cię przez tę przygodę!",
 			introduceWizard = "O, patrz! Jeden z kawałków choinki jest tutaj! A-ale... czarodziej, najpierw musimy przejść przez niego.",
 			wizardShowUp = "Jak śmiesz stawiać mi wyzwanie, mała myszo!? Myślisz, że jesteś odważny/-a? Zobaczmy, czy jesteś w stanie stanąć twarzą w twarz z moim gniewem!",
-			wizardDefeat = "Nieeeeeeeeee! Moje mikstury! Mój kocioł! Ahhhh, parzy!",
+			wizardDefeat = "Nieeeeeeeeee! Moje mikstury! Mój kocioł! Ahhhh, parzy! [%dx]",
 			collectItem = "Wciśnij <B>[spację]</B>, by podnieść przedmiot. Zanieś go z powrotem do punktu początkowego i wciśnij klawisz ponownie, by go postawić!",
 			placeItem = "Jej! Znalazłeś kolejny kawałek choinki! <B>%d</B> przedmiot(-y/-ów) do zebrania, a święta zostaną uratowane, przez ciebie!",
 			elfTalkSanta = "O nie... %s wygląda na okropnie zmartwionego. Porozmawiaj z nim!",
@@ -199,7 +199,7 @@ do
 			introduceAttack = "Nyomd meg a <B>[szóközt]</B>, hogy használd a tüzes erődet, amit a kalandod alatt szereztél!",
 			introduceWizard = "Oh, nézd! Itt egy hiányzó fadarabka! D-de... a mágus, először őt kell legyőznünk.",
 			wizardShowUp = "Még is mit képzelsz, hogy velem szembeszállsz, kisegér!? Azthiszed olyan bátor vagy? Lássuk hát, hogy igazából mennyire vagy erős!",
-			wizardDefeat = "Neeeeeeeeee! A kotyvalékaim! Az üstöm! Arrrgh, éget!",
+			wizardDefeat = "Neeeeeeeeee! A kotyvalékaim! Az üstöm! Arrrgh, éget! [%dx]",
 			collectItem = "Nyomd meg a <B>[szóközt]</B>, hogy felszedd a tárgyat. Vidd vissza a kezdőponthoz, és ott nyomd le a gombot újra, hogy lerakd.",
 			placeItem = "Yay! Találtál még egy hiányzó fadarabot! Már csak <B>%d</B> darab, és neked köszönhetően a karácsony megmenekült!",
 			elfTalkSanta = "Oh, ne... Mintha valami nagyon zavarná %s-t, menj beszélj vele !",
@@ -226,7 +226,7 @@ do
 			introduceAttack = "按 <B>[空格鍵]</B> 使用剛剛獲得的發射能力來幫助你渡過這次歷險!",
 			introduceWizard = "噢, 你看! 那邊有一片聖誕樹不見了的部分! 但...那巫師, 我們要先比他快。",
 			wizardShowUp = "你竟敢挑戰我, 小老鼠!? 你覺得你很英勇? 就看看你有沒有能力去面對我的法杖!",
-			wizardDefeat = "不要啊啊啊啊啊! 我的混合成品! 我的法術鍋子! 啊啊, 它著火了!",
+			wizardDefeat = "不要啊啊啊啊啊! 我的混合成品! 我的法術鍋子! 啊啊, 它著火了! [%dx]",
 			collectItem = "按 <B>[空格鍵]</B> 來收集物件。然後把它帶回起點再按空格鍵放置好它!",
 			placeItem = "棒! 你又多找到了一片聖誕樹不見了的部分! 再收集 <B>%d</B> 個部分就可以挽回聖誕節了, 這都是全靠你!",
 			elfTalkSanta = "噢, 不好了... %s 看來超擔心某事情。跟他談話吧!",
@@ -253,7 +253,7 @@ do
 			introduceAttack = "Bu macerada sana yardımcı olacak ateş gücünü <B>[boşluk]</B> tuşuna basarak kullanabilirsin!",
 			introduceWizard = "Aa, bak! Ağacın bir parçası tam orada! A-ama… büyücü… Önce onu geçmeliyiz.",
 			wizardShowUp = "Ne hakla bana meydan okursun, seni minik fare!? Kendini cesur mu sanıyorsun? Görelim bakalım öfkeme karşı koyabilecek misin!",
-			wizardDefeat = "Haaaayııııır! Karışımlarım! Büyü kazanım! Aaahhh, yakıyor!",
+			wizardDefeat = "Haaaayııııır! Karışımlarım! Büyü kazanım! Aaahhh, yakıyor! [%dx]",
 			collectItem = "Parçayı almak için <B>[boşluk]</B> tuşuna bas. Parçayı başlangıç noktasına geri götür ve yerleştirmek için tekrar boşluk tuşuna bas!",
 			placeItem = "Yey! Ağacın bir parçasını daha buldun! <B>%d</B> parça daha, ve sonra Noel senin sayende kurtulmuş olacak!",
 			elfTalkSanta = "Hayır, olamaz… %s bir şeyler hakkında endişeli gibi gözüküyor. Git ve onunla konuş.",
@@ -888,11 +888,17 @@ local chatMessage = function(message, playerName, who)
 	tfm.exec.chatMessage("<font color='#" .. (npcColors[who] or "2EBA7E") .. "'>[" .. (npcNames[who] and ("<B>" .. npcNames[who] .. "</B>") or "•") .. "] " .. message .. "</font>", playerName)
 end
 
-local messagePlayersInStage = function(stage, message, name)
+local messagePlayersInStage = function(stage, message, name, format)
 	local players = getPlayersInStage(stage)
 	if not players then return end
 	for player = 1, #players do
-		chatMessage(message, players[player], name)
+		player = players[player]
+
+		if format then
+			chatMessage(string.format(message, playerData:get(player, format)), player, name)
+		else
+			chatMessage(message, player, name)
+		end
 	end
 end
 
@@ -2334,7 +2340,7 @@ do
 
 		isWizardDefeated = true
 
-		messagePlayersInStage(obj.stage, translation.wizardDefeat, "wizard")
+		messagePlayersInStage(obj.stage, translation.wizardDefeat, "wizard", "wizardDefeats")
 		messagePlayersInStage(obj.stage, translation.collectItem)
 	end
 
@@ -2690,6 +2696,7 @@ local saveSanta = function(cbk, playerName)
 
 		tfm.exec.chatMessage(getCredits(), playerName)
 	end
+	chatMessage(playerData:get(playerName, "savedSanta") .. "x", playerName)
 
 	displayDialog(playerName, dialogId.saveSanta)
 
@@ -2707,7 +2714,7 @@ local makeCallbacks = function()
 	callback.new("elf", -18, 1535, 63, 63):setClickable():setAction(elfDialog):setImage(tfm.exec.addImage(images.npc.elf, imageLayer.objectForeground, -18, 1515))
 
 	-- Santa NPC
-	callback.new("santa", 915, 305, 75, 65):setClickable():setAction(saveSanta):setImage(tfm.exec.addImage(images.npc.santa, imageLayer.objectForeground, 915, 285))
+	callback.new("santa", 905, 305, 85, 65):setClickable():setAction(saveSanta):setImage(tfm.exec.addImage(images.npc.santa, imageLayer.objectForeground, 915, 285))
 end
 
 local canTriggerCallbacks = function(playerName)
