@@ -1,3 +1,9 @@
+--[[ Optimization ]]--
+local math_floor, math_random, math_atan2, math_cos, math_sin, math_abs, math_deg, math_ceil, math_randomseed = math.floor, math.random, math.atan2, math.cos, math.sin, math.abs, math.deg, math.ceil, math.randomseed
+local string_upper, string_gsub, string_match, string_gmatch, string_sub, string_rep, string_format, string_find = string.upper, string.gsub, string.match, string.gmatch, string.sub, string.rep, string.format, string.find
+local table_insert, table_concat, table_unpack = table.insert, table.concat, table.unpack
+local os_date, os_time = os.date, os.time
+
 --[[ Module Info ]]--
 local module = {
 	name = "xm19",
@@ -30,7 +36,7 @@ local module = {
 	minPlayers = 5,
 	maxPlayers = 70,
 	timerTicks = 12,
-	life = (tonumber(os.date("%m")) < 12 and 7 or 6),
+	life = (tonumber(os_date("%m")) < 12 and 7 or 6),
 	rewardTitleWizardDefeats = 15,
 	rewardTitleSavedSanta = 3,
 	rewardOrbSavedSanta = 5,
@@ -267,7 +273,7 @@ do
 
 	local commu = (texts[tfm.get.room.community] and tfm.get.room.community or "en")
 	translation = texts[commu]
-	translation.commu = string.upper(commu)
+	translation.commu = string_upper(commu)
 end
 
 -- Enumerations
@@ -731,13 +737,13 @@ do
 	DataHandler.VERSION = '1.4'
 	DataHandler.__index = DataHandler
 	DataHandler.new = function(moduleID, skeleton, otherOptions) local self = setmetatable({}, DataHandler) assert(moduleID, 'Invalid module ID (nil)') assert(moduleID ~= '', 'Invalid module ID (empty text)') assert(skeleton, 'Invalid skeleton (nil)') for k, v in next, skeleton do v.type = v.type or type(v.default) end self.players = {} self.moduleID = moduleID self.moduleSkeleton = skeleton self.moduleIndexes = {} self.otherOptions = otherOptions self.otherData = {} self.originalStuff = {} for k,v in pairs(skeleton) do self.moduleIndexes[v.index] = k end if self.otherOptions then self.otherModuleIndexes = {} for k,v in pairs(self.otherOptions) do self.otherModuleIndexes[k] = {} for k2,v2 in pairs(v) do v2.type = v2.type or type(v2.default) self.otherModuleIndexes[k][v2.index] = k2 end end end return self end
-	DataHandler.newPlayer = function(self, name, dataString) assert(name, 'Invalid player name (nil)') assert(name ~= '', 'Invalid player name (empty text)') self.players[name] = {} self.otherData[name] = {} dataString = dataString or '' local function turnStringToTable(str) local output = {} for data in string.gsub(str, '%b{}', function(b) return b:gsub(',', '\0') end):gmatch('[^,]+') do data = data:gsub('%z', ',') if string.match(data, '^{.-}$') then table.insert(output, turnStringToTable(string.match(data, '^{(.-)}$'))) else table.insert(output, tonumber(data) or data) end end return output end local function getDataIndexName(skeleton, index) for k,v in pairs(skeleton) do if v.index == index then return k end end return 0 end local function getHigherIndex(skeleton) local higher = 0 for k,v in pairs(skeleton) do if v.index > higher then higher = v.index end end return higher end local function handleModuleData(moduleID, skeleton, moduleData, makeTable) local dataIndex = 1 local higherIndex = getHigherIndex(skeleton) moduleID = "__" .. moduleID if makeTable then self.players[name][moduleID] = {} end local setPlayerData = function(data, dataType, dataName, dataDefault) local value if dataType == "number" then value = tonumber(data) or dataDefault elseif dataType == "string" then value = string.match(data or '', "^\"(.-)\"$") or dataDefault elseif dataType == "table" then value = string.match(data or '', "^{(.-)}$") value = value and turnStringToTable(value) or dataDefault elseif dataType == "boolean" then if data then value = data == '1' else value = dataDefault end end if makeTable then self.players[name][moduleID][dataName] = value else self.players[name][dataName] = value end end if #moduleData > 0 then for data in string.gsub(moduleData, '%b{}', function(b) return b:gsub(',', '\0') end):gmatch('[^,]+') do data = data:gsub('%z', ',') local dataName = getDataIndexName(skeleton, dataIndex) local dataType = skeleton[dataName].type local dataDefault = skeleton[dataName].default setPlayerData(data, dataType, dataName, dataDefault) dataIndex = dataIndex + 1 end end if dataIndex <= higherIndex then for i = dataIndex, higherIndex do local dataName = getDataIndexName(skeleton, i) local dataType = skeleton[dataName].type local dataDefault = skeleton[dataName].default setPlayerData(nil, dataType, dataName, dataDefault) end end end local modules, originalStuff = self:getModuleData(dataString) self.originalStuff[name] = originalStuff if not modules[self.moduleID] then modules[self.moduleID] = '{}' end handleModuleData(self.moduleID, self.moduleSkeleton, modules[self.moduleID]:sub(2,-2), false) if self.otherOptions then for moduleID, skeleton in pairs(self.otherOptions) do if not modules[moduleID] then local strBuilder = {} for k,v in pairs(skeleton) do local dataType = v.type or type(v.default) if dataType == 'string' then strBuilder[v.index] = '"'..tostring(v.default)..'"' elseif dataType == 'table' then strBuilder[v.index] = '{}' elseif dataType == 'number' then strBuilder[v.index] = v.default elseif dataType == 'boolean' then strBuilder[v.index] = v.default and '1' or '0' end end modules[moduleID] = '{'..table.concat(strBuilder, ',')..'}' end end end for moduleID, moduleData in pairs(modules) do if moduleID ~= self.moduleID then if self.otherOptions and self.otherOptions[moduleID] then handleModuleData(moduleID, self.otherOptions[moduleID], moduleData:sub(2,-2), true) else self.otherData[name][moduleID] = moduleData end end end checkAllRewardsForPlayer(name, true) end
-	DataHandler.dumpPlayer = function(self, name) local output = {} local function turnTableToString(tbl) local output = {} for k,v in pairs(tbl) do local valueType = type(v) if valueType == 'table' then output[#output+1] = '{' output[#output+1] = turnTableToString(v) if output[#output]:sub(-1) == ',' then output[#output] = output[#output]:sub(1, -2) end output[#output+1] = '}' output[#output+1] = ',' else if valueType == 'string' then output[#output+1] = '"' output[#output+1] = v output[#output+1] = '"' elseif valueType == 'boolean' then output[#output+1] = v and '1' or '0' else output[#output+1] = v end output[#output+1] = ',' end end if output[#output] == ',' then output[#output] = '' end return table.concat(output) end local function getPlayerDataFrom(name, moduleID) local output = {moduleID, '=', '{'} local player = self.players[name] local moduleIndexes = self.moduleIndexes local moduleSkeleton = self.moduleSkeleton if self.moduleID ~= moduleID then moduleIndexes = self.otherModuleIndexes[moduleID] moduleSkeleton = self.otherOptions[moduleID] moduleID = '__'..moduleID player = self.players[name][moduleID] end if not player then return '' end for i = 1, #moduleIndexes do local dataName = moduleIndexes[i] local dataType = moduleSkeleton[dataName].type if dataType == 'string' then output[#output+1] = '"' output[#output+1] = player[dataName] output[#output+1] = '"' elseif dataType == 'number' then output[#output+1] = player[dataName] elseif dataType == 'boolean' then output[#output+1] = player[dataName] and '1' or '0' elseif dataType == 'table' then output[#output+1] = '{' output[#output+1] = turnTableToString(player[dataName]) output[#output+1] = '}' end output[#output+1] = ',' end if output[#output] == ',' then output[#output] = '}' else output[#output+1] = '}' end return table.concat(output) end output[#output+1] = getPlayerDataFrom(name, self.moduleID) if self.otherOptions then for k,v in pairs(self.otherOptions) do local moduleData = getPlayerDataFrom(name, k) if moduleData ~= '' then output[#output+1] = ',' output[#output+1] = moduleData end end end for k,v in pairs(self.otherData[name]) do output[#output+1] = ',' output[#output+1] = k output[#output+1] = '=' output[#output+1] = v end return table.concat(output)..self.originalStuff[name] end
+	DataHandler.newPlayer = function(self, name, dataString) assert(name, 'Invalid player name (nil)') assert(name ~= '', 'Invalid player name (empty text)') self.players[name] = {} self.otherData[name] = {} dataString = dataString or '' local function turnStringToTable(str) local output = {} for data in string_gsub(str, '%b{}', function(b) return b:gsub(',', '\0') end):gmatch('[^,]+') do data = data:gsub('%z', ',') if string_match(data, '^{.-}$') then table_insert(output, turnStringToTable(string_match(data, '^{(.-)}$'))) else table_insert(output, tonumber(data) or data) end end return output end local function getDataIndexName(skeleton, index) for k,v in pairs(skeleton) do if v.index == index then return k end end return 0 end local function getHigherIndex(skeleton) local higher = 0 for k,v in pairs(skeleton) do if v.index > higher then higher = v.index end end return higher end local function handleModuleData(moduleID, skeleton, moduleData, makeTable) local dataIndex = 1 local higherIndex = getHigherIndex(skeleton) moduleID = "__" .. moduleID if makeTable then self.players[name][moduleID] = {} end local setPlayerData = function(data, dataType, dataName, dataDefault) local value if dataType == "number" then value = tonumber(data) or dataDefault elseif dataType == "string" then value = string_match(data or '', "^\"(.-)\"$") or dataDefault elseif dataType == "table" then value = string_match(data or '', "^{(.-)}$") value = value and turnStringToTable(value) or dataDefault elseif dataType == "boolean" then if data then value = data == '1' else value = dataDefault end end if makeTable then self.players[name][moduleID][dataName] = value else self.players[name][dataName] = value end end if #moduleData > 0 then for data in string_gsub(moduleData, '%b{}', function(b) return b:gsub(',', '\0') end):gmatch('[^,]+') do data = data:gsub('%z', ',') local dataName = getDataIndexName(skeleton, dataIndex) local dataType = skeleton[dataName].type local dataDefault = skeleton[dataName].default setPlayerData(data, dataType, dataName, dataDefault) dataIndex = dataIndex + 1 end end if dataIndex <= higherIndex then for i = dataIndex, higherIndex do local dataName = getDataIndexName(skeleton, i) local dataType = skeleton[dataName].type local dataDefault = skeleton[dataName].default setPlayerData(nil, dataType, dataName, dataDefault) end end end local modules, originalStuff = self:getModuleData(dataString) self.originalStuff[name] = originalStuff if not modules[self.moduleID] then modules[self.moduleID] = '{}' end handleModuleData(self.moduleID, self.moduleSkeleton, modules[self.moduleID]:sub(2,-2), false) if self.otherOptions then for moduleID, skeleton in pairs(self.otherOptions) do if not modules[moduleID] then local strBuilder = {} for k,v in pairs(skeleton) do local dataType = v.type or type(v.default) if dataType == 'string' then strBuilder[v.index] = '"'..tostring(v.default)..'"' elseif dataType == 'table' then strBuilder[v.index] = '{}' elseif dataType == 'number' then strBuilder[v.index] = v.default elseif dataType == 'boolean' then strBuilder[v.index] = v.default and '1' or '0' end end modules[moduleID] = '{'..table_concat(strBuilder, ',')..'}' end end end for moduleID, moduleData in pairs(modules) do if moduleID ~= self.moduleID then if self.otherOptions and self.otherOptions[moduleID] then handleModuleData(moduleID, self.otherOptions[moduleID], moduleData:sub(2,-2), true) else self.otherData[name][moduleID] = moduleData end end end checkAllRewardsForPlayer(name, true) end
+	DataHandler.dumpPlayer = function(self, name) local output = {} local function turnTableToString(tbl) local output = {} for k,v in pairs(tbl) do local valueType = type(v) if valueType == 'table' then output[#output+1] = '{' output[#output+1] = turnTableToString(v) if output[#output]:sub(-1) == ',' then output[#output] = output[#output]:sub(1, -2) end output[#output+1] = '}' output[#output+1] = ',' else if valueType == 'string' then output[#output+1] = '"' output[#output+1] = v output[#output+1] = '"' elseif valueType == 'boolean' then output[#output+1] = v and '1' or '0' else output[#output+1] = v end output[#output+1] = ',' end end if output[#output] == ',' then output[#output] = '' end return table_concat(output) end local function getPlayerDataFrom(name, moduleID) local output = {moduleID, '=', '{'} local player = self.players[name] local moduleIndexes = self.moduleIndexes local moduleSkeleton = self.moduleSkeleton if self.moduleID ~= moduleID then moduleIndexes = self.otherModuleIndexes[moduleID] moduleSkeleton = self.otherOptions[moduleID] moduleID = '__'..moduleID player = self.players[name][moduleID] end if not player then return '' end for i = 1, #moduleIndexes do local dataName = moduleIndexes[i] local dataType = moduleSkeleton[dataName].type if dataType == 'string' then output[#output+1] = '"' output[#output+1] = player[dataName] output[#output+1] = '"' elseif dataType == 'number' then output[#output+1] = player[dataName] elseif dataType == 'boolean' then output[#output+1] = player[dataName] and '1' or '0' elseif dataType == 'table' then output[#output+1] = '{' output[#output+1] = turnTableToString(player[dataName]) output[#output+1] = '}' end output[#output+1] = ',' end if output[#output] == ',' then output[#output] = '}' else output[#output+1] = '}' end return table_concat(output) end output[#output+1] = getPlayerDataFrom(name, self.moduleID) if self.otherOptions then for k,v in pairs(self.otherOptions) do local moduleData = getPlayerDataFrom(name, k) if moduleData ~= '' then output[#output+1] = ',' output[#output+1] = moduleData end end end for k,v in pairs(self.otherData[name]) do output[#output+1] = ',' output[#output+1] = k output[#output+1] = '=' output[#output+1] = v end return table_concat(output)..self.originalStuff[name] end
 	DataHandler.get = function(self, name, dataName, moduleName) if not moduleName then return self.players[name][dataName] else assert(self.players[name]['__'..moduleName], 'Module data not available ('..moduleName..')') return self.players[name]['__'..moduleName][dataName] end end
 	DataHandler.set = function(self, name, dataName, value, moduleName) if moduleName then self.players[name]['__'..moduleName][dataName] = value else self.players[name][dataName] = value end return self end
 	DataHandler.save = function(self, name, ignoreSave) if not ignoreSave then checkAllRewardsForPlayer(name) end system.savePlayerData(name, self:dumpPlayer(name)) end
 	DataHandler.removeModuleData = function(self, name, moduleName) assert(moduleName, "Invalid module name (nil)") assert(moduleName ~= '', "Invalid module name (empty text)") assert(moduleName ~= self.moduleID, "Invalid module name (current module data structure)") if self.otherData[name][moduleName] then self.otherData[name][moduleName] = nil return true else if self.otherOptions and self.otherOptions[moduleName] then self.players[name]['__'..moduleName] = nil return true end end return false end
-	DataHandler.getModuleData = function(self, str) local output = {} for moduleID, moduleData in string.gmatch(str, '([0-9A-Za-z_]+)=(%b{})') do output[moduleID] = moduleData end for k,v in pairs(output) do str = str:gsub(k..'='..v:gsub("[%(%)%.%%%+%-%*%?%[%]%^%$]", "%%%0")..',?', '') end return output, str end
+	DataHandler.getModuleData = function(self, str) local output = {} for moduleID, moduleData in string_gmatch(str, '([0-9A-Za-z_]+)=(%b{})') do output[moduleID] = moduleData end for k,v in pairs(output) do str = str:gsub(k..'='..v:gsub("[%(%)%.%%%+%-%*%?%[%]%^%$]", "%%%0")..',?', '') end return output, str end
 
 	playerData = DataHandler.new(module.name, playerData)
 end
@@ -769,7 +775,7 @@ local clamp = function(value, min, max)
 end
 
 local round = function(value)
-	return math.floor(value + 0.5)
+	return math_floor(value + 0.5)
 end
 
 local inSquare = function(x, y, px1, px2, py1, py2)
@@ -781,7 +787,7 @@ local getRoomMicePercentage = function(percentage, min, max)
 end
 
 local getRandomValue = function(tbl)
-	return tbl[math.random(#tbl)]
+	return tbl[math_random(#tbl)]
 end
 
 local pythagoras = function(x1, y1, x2, y2, radius)
@@ -790,16 +796,16 @@ local pythagoras = function(x1, y1, x2, y2, radius)
 end
 
 local getAngle = function(x1, y1, x2, y2)
-	return math.atan2(y2 - y1, x2 - x1)
+	return math_atan2(y2 - y1, x2 - x1)
 end
 
 local getAcceleration = function(angle)
-	return math.cos(angle), math.sin(angle)
+	return math_cos(angle), math_sin(angle)
 end
 
 local getXSpeed = function(distance)
 	-- Returns the needed xSpeed to cover distance over a 0° ground of 0.3 friction.
-	return math.floor(distance ^ 0.5 + 0.5)
+	return math_floor(distance ^ 0.5 + 0.5)
 end
 
 local getPlayersInStage = function(stage)
@@ -892,7 +898,7 @@ end
 
 local getChance
 getChance = function(weights)
-	local result, sum = math.random(0, 9999), 0
+	local result, sum = math_random(0, 9999), 0
 
 	for i = 1, #weights do
 		sum = sum + weights[i]
@@ -994,7 +1000,7 @@ local updateDialog = function(playerName, data, addChar)
 
 	local lastChar = data.dialog.strPos >= #str
 
-	ui.updateTextArea(interfaceId.dialog + 1, string.sub(translation.dialog[data.dialog.id], 1, data.dialog.strPos) .. (lastChar and ("\n<PT>" .. translation.dialog.close) or "|"), playerName)
+	ui.updateTextArea(interfaceId.dialog + 1, string_sub(translation.dialog[data.dialog.id], 1, data.dialog.strPos) .. (lastChar and ("\n<PT>" .. translation.dialog.close) or "|"), playerName)
 
 	if lastChar then
 		eventPlayerDialogEnded(playerName, data.dialog.id, data)
@@ -1060,15 +1066,15 @@ end
 
 --[[ Particle effects ]]--
 local effectOnEmoteSequence = function(x, y)
-	local angle = math.random(0, 360)
+	local angle = math_random(0, 360)
 	for ang = angle, angle + particleData.emoteSequenceParticleQuantity do
-		tfm.exec.displayParticle(particleData.emoteSequenceParticleId, x + math.cos(ang) * particleData.emoteSequenceRadius, y + math.sin(ang) * particleData.emoteSequenceRadius)
+		tfm.exec.displayParticle(particleData.emoteSequenceParticleId, x + math_cos(ang) * particleData.emoteSequenceRadius, y + math_sin(ang) * particleData.emoteSequenceRadius)
 	end
 end
 
 local effectOnBreath = function(x, y)
 	for _ = 1, particleData.breathParticleQuantity do
-		tfm.exec.displayParticle(particleData.breathParticleId, x + math.random(-particleData.breathRadius, particleData.breathRadius), y + math.random(-particleData.breathRadius, particleData.breathRadius))
+		tfm.exec.displayParticle(particleData.breathParticleId, x + math_random(-particleData.breathRadius, particleData.breathRadius), y + math_random(-particleData.breathRadius, particleData.breathRadius))
 	end
 end
 
@@ -1076,7 +1082,7 @@ local effectOnCauldronBurn = function(x, y)
 	local isOdd
 	for p = 1, particleData.cauldronParticleQuantity do
 		isOdd = (p % 2 ~= 0)
-		tfm.exec.displayParticle(particleData.cauldronParticleId, x + math.random(-particleData.cauldronRadius, particleData.cauldronRadius), y + math.random(0, particleData.cauldronRadius),(isOdd and particleData.cauldronParticleVX or -particleData.cauldronParticleVX), particleData.cauldronParticleVY, (isOdd and particleData.cauldronParticleAX or -particleData.cauldronParticleAX))
+		tfm.exec.displayParticle(particleData.cauldronParticleId, x + math_random(-particleData.cauldronRadius, particleData.cauldronRadius), y + math_random(0, particleData.cauldronRadius),(isOdd and particleData.cauldronParticleVX or -particleData.cauldronParticleVX), particleData.cauldronParticleVY, (isOdd and particleData.cauldronParticleAX or -particleData.cauldronParticleAX))
 	end
 end
 
@@ -1088,7 +1094,7 @@ local effectOnMeteorHit = function(x, y)
 	local gtHalf
 	for p = 1, particleData.meteorParticleQuantity * 2 do -- 2 sides
 		gtHalf = (p > particleData.meteorParticleQuantity)
-		tfm.exec.displayParticle(particleData.meteorParticleId, x + ((p % particleData.meteorParticleQuantity) * particleData.meteorRadius * (gtHalf and -1 or 1)), y + math.random(-particleData.meteorYVariation, particleData.meteorYVariation), (gtHalf and -particleData.meteorParticleVX or particleData.meteorParticleVX), -math.random(1, particleData.meteorParticleVY), (gtHalf and particleData.meteorParticleAX or -particleData.meteorParticleAX))
+		tfm.exec.displayParticle(particleData.meteorParticleId, x + ((p % particleData.meteorParticleQuantity) * particleData.meteorRadius * (gtHalf and -1 or 1)), y + math_random(-particleData.meteorYVariation, particleData.meteorYVariation), (gtHalf and -particleData.meteorParticleVX or particleData.meteorParticleVX), -math_random(1, particleData.meteorParticleVY), (gtHalf and particleData.meteorParticleAX or -particleData.meteorParticleAX))
 	end
 end
 
@@ -1132,7 +1138,7 @@ do
 					t.milliseconds = t.defaultMilliseconds
 					t.times = t.times - 1
 
-					t.callback(table.unpack(t.args))
+					t.callback(table_unpack(t.args))
 
 					if t.times == 0 then
 						timer.delete(i)
@@ -1196,7 +1202,7 @@ do
 			self._blockedPlayers[playerName] = false
 		end
 
-		ui.addTextArea(self.id, "<textformat leftmargin='1' rightmargin='1'><a href='event:callback." .. self.eventName .. "'>" .. string.rep('\n', self.height / 10), playerName, self.x - 5, self.y - 5, self.width + 5, self.height + 5, 1, 1, 0, self.isFixed)
+		ui.addTextArea(self.id, "<textformat leftmargin='1' rightmargin='1'><a href='event:callback." .. self.eventName .. "'>" .. string_rep('\n', self.height / 10), playerName, self.x - 5, self.y - 5, self.width + 5, self.height + 5, 1, 1, 0, self.isFixed)
 
 		return self
 	end
@@ -1629,7 +1635,7 @@ do
 
 				for player = 1, #players do
 					data = tfm.get.room.playerList[players[player]]
-					distance = math.abs(data.x - self.objectData.x)
+					distance = math_abs(data.x - self.objectData.x)
 
 					if distance < difference then
 						isFacingLeft = (data.x <= self.objectData.x)
@@ -1684,7 +1690,7 @@ do
 		for player = 1, #players do
 			playerName = players[player]
 
-			if not playerCache[playerName].isFrozen and math.random(1, 3000) < 1500 then -- 1/2
+			if not playerCache[playerName].isFrozen and math_random(1, 3000) < 1500 then -- 1/2
 				directionRate = directionRate + (self.objectData.x - tfm.get.room.playerList[playerName].x)
 
 				freezePlayer(playerName, true)
@@ -1717,7 +1723,7 @@ do
 			distance = (self.objectData.x - tfm.get.room.playerList[playerName].x)
 			directionRate = directionRate + distance
 
-			if math.abs(distance) < halfDistance then -- The ones that are even closer
+			if math_abs(distance) < halfDistance then -- The ones that are even closer
 				decreaseLife(playerName, damage)
 			end
 		end
@@ -1790,7 +1796,7 @@ do
 	local createBreath = function(boss, players, self)
 		if boss.destroyed then return end
 
-		local angleAim = math.deg(getPlayerAim(getRandomValue(players), boss, true, nil))
+		local angleAim = math_deg(getPlayerAim(getRandomValue(players), boss, true, nil))
 		local object = tfm.exec.addShamanObject(objectId.rune, boss:getRelativeX(), boss:getRelativeY(), angleAim, 0, 0, true)
 		local image = tfm.exec.addImage(images.throwables.breath, "#" .. object, -25, -15)
 
@@ -1861,7 +1867,7 @@ do
 	local createMeteor = function(boss, players, self)
 		if boss.destroyed then return end
 
-		bullet.newFromMonster(math.random(50, 83) * 10, -100, boss.stage, meteorData, true)
+		bullet.newFromMonster(math_random(50, 83) * 10, -100, boss.stage, meteorData, true)
 
 		checkBossFinishedAttack(boss, self)
 	end
@@ -1930,7 +1936,7 @@ do
 			for playerName = 1, #onNightMode do
 				playerName = onNightMode[playerName]
 				displayChaosInterface(playerName)
-				if playerCache[playerName].currentStage ~= 8 and math.random(0, 1) == 0 then
+				if playerCache[playerName].currentStage ~= 8 and math_random(0, 1) == 0 then
 					tfm.exec.movePlayer(playerName, miscData.finalBossSpawn[1], miscData.finalBossSpawn[2])
 				end
 			end
@@ -1955,7 +1961,7 @@ do
 	monster.beginChaos = function(self, players)
 		if self:stealTheMoon(self, players) then
 			-- Throws until the chaos is gone
-			if math.random(1, 2) == 1 then
+			if math_random(1, 2) == 1 then
 				monsterData.potionSpawnTimer = monsterData.potionSpawnTimerOnChaos
 				self:throwPotions(false, 0)
 			else
@@ -2101,9 +2107,9 @@ do
 		if cache.life <= 0 then return end
 
 		local lastHeartLevel = 1 - cache.life % 1
-		local lastHeartFloor = math.ceil(cache.life)
+		local lastHeartFloor = math_ceil(cache.life)
 		cache.life = cache.life - level
-		local currentHeart = math.ceil(cache.life)
+		local currentHeart = math_ceil(cache.life)
 
 		if currentHeart ~= lastHeartFloor then
 			updateHeart(playerName, cache, lastHeartFloor, 0)
@@ -2270,7 +2276,7 @@ do
 	}
 
 	local insertSequenceEmotes = function()
-		local currentMonth, currentDay = tonumber(os.date("%m")), tonumber(os.date("%d"))
+		local currentMonth, currentDay = tonumber(os_date("%m")), tonumber(os_date("%d"))
 		for emote = 1, #miscData.sequenceEmotes do
 			if currentMonth < 12 or currentDay >= (module.emoteDay + (emote - 1)) then
 				tfm.exec.addImage(images.sequenceEmotes[emote], imageLayer.emote, miscData.sequenceEmotes[emote][1], miscData.sequenceEmotes[emote][2])
@@ -2452,7 +2458,7 @@ do
 		stage = stage * 3
 
 		for x = 1, xRange[stage] do
-			monster.new(getChance(yetiChances[rawstage]), math.random(xRange[stage - 2], xRange[stage - 1]) * 10, yFixedPosition[rawstage], rawstage)
+			monster.new(getChance(yetiChances[rawstage]), math_random(xRange[stage - 2], xRange[stage - 1]) * 10, yFixedPosition[rawstage], rawstage)
 		end
 	end
 end
@@ -2601,10 +2607,10 @@ do
 	local loweredTag = "%2<G><font size='10'>%1</font></G>"
 	local formatTag = function(str)
 		str = "<B>" .. str .. "</B>"
-		return (string.gsub(str, "(#%d+)(</B>)", loweredTag))
+		return (string_gsub(str, "(#%d+)(</B>)", loweredTag))
 	end
 
-	local credit = string.format(translation.credit,
+	local credit = string_format(translation.credit,
 		module.team.colors.developer,
 		formatTag(module.team.developer), -- Main dev / owner
 		module.team.colors.artist,
@@ -2613,7 +2619,7 @@ do
 		translation.commu, -- Community flag
 		formatTag(translation.translator), -- Community translator
 		module.team.colors.others,
-		formatTag(table.concat(module.team.others, "</B>, <B>")) -- Others (devs, artists, help)
+		formatTag(table_concat(module.team.others, "</B>, <B>")) -- Others (devs, artists, help)
 	)
 
 	getCredits = function()
@@ -2660,7 +2666,7 @@ local placeItem = function(cbk, playerName)
 
 	local missing = (miscData.treeStages - playerData:get(playerName, "treeStage"))
 	if missing > 0 then
-		chatMessage(string.format(translation.placeItem, missing), playerName, "elf")
+		chatMessage(string_format(translation.placeItem, missing), playerName, "elf")
 	else
 		displayDialog(playerName, dialogId.findSanta)
 	end
@@ -2708,7 +2714,7 @@ local canTriggerCallbacks = function(playerName)
 	local cache = playerCache[playerName]
 	if cache.isFrozen or cache.onNightMode then return end
 
-	local time = os.time()
+	local time = os_time()
 	if cache.callbackAction > time then return end
 	cache.callbackAction = time + miscData.callbackTimer
 	return true
@@ -2718,7 +2724,7 @@ local canThrowBullet = function(playerName)
 	local cache = playerCache[playerName]
 	if cache.currentStage == 0 or cache.isFrozen or cache.onNightMode then return end
 
-	local time = os.time()
+	local time = os_time()
 	if cache.bulletAction > time then return end
 	cache.bulletAction = time + miscData.bulletReloadTimer
 	return true
@@ -2726,9 +2732,9 @@ end
 
 local canGetConsumable = function(playerName)
 	local cache = playerCache[playerName]
-	local time = os.time()
+	local time = os_time()
 
-	if math.random(1, 5) > 3 or cache.consumableTimer > time then
+	if math_random(1, 5) > 3 or cache.consumableTimer > time then
 		return false, cache, time
 	end
 
@@ -2779,7 +2785,7 @@ local checkEmoteSequence = function(playerName, emote, data, cache, time)
 end
 
 local checkMoveOnSequence = function(playerName, cache)
-	if canTriggerSequence(cache, os.time()) then
+	if canTriggerSequence(cache, os_time()) then
 		if cache.emoteSequence == 0 then return end
 		tfm.exec.movePlayer(playerName, miscData.miceTeleportSpawn[1], miscData.miceTeleportSpawn[2])
 	end
@@ -2805,7 +2811,7 @@ eventPlayerDataLoaded = function(playerName, data)
 	displayTree(playerName)
 	if playerHasCompletedFirstStep(playerName) then
 		bulletData.damageWhenMutantWizard = bulletData.damageWhenMutantWizard + 1
-		chatMessage(string.format(translation.elfTalkSanta, npcNames.elf), playerName)
+		chatMessage(string_format(translation.elfTalkSanta, npcNames.elf), playerName)
 	else
 		chatMessage(translation.elfTalkMountain, playerName)
 	end
@@ -2863,9 +2869,9 @@ eventTextAreaCallback = function(id, playerName, eventName)
 	if not isEventWorkingFor(playerName) then return end
 	if not canTriggerCallbacks(playerName) then return end
 
-	if string.find(eventName, "callback.", 1, true) then
+	if string_find(eventName, "callback.", 1, true) then
 		local data = tfm.get.room.playerList[playerName]
-		callback.__get(string.sub(eventName, 10)):performAction(playerName, data.x, data.y)
+		callback.__get(string_sub(eventName, 10)):performAction(playerName, data.x, data.y)
 	end
 end
 
@@ -2972,7 +2978,7 @@ do
 		format[i] = xmlData[counter - i]
 	end
 
-	tfm.exec.newGame(string.format(module.map.xml, table.unpack(format)))
+	tfm.exec.newGame(string_format(module.map.xml, table_unpack(format)))
 end
 
-math.randomseed(os.time())
+math_randomseed(os_time())
