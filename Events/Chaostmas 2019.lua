@@ -21,7 +21,7 @@ local module = {
 	},
 	time = 3 * 60 + 3,
 	map = {
-		xml = [[<C><P L="1000" APS="%s,,%d,%d,%d,%d,%d,%d;%s,,%d,%d,%d,%d,%d,%d;%s,,%d,%d,%d,%d,%d,%d;%s,,170,350,820,1250,,;%s,,,,1000,370,," H="1600" /><Z><S><S L="160" X="76" H="17" Y="1574" T="12" P=",,.3,.2,-12,,," /><S L="115" X="209" H="17" Y="1563" T="12" P=",,.3,.2,5,,," /><S L="100" X="297" H="17" Y="1559" T="12" P=",,.3,.2,-10,,," /><S L="150" X="417" H="17" Y="1560" T="12" P=",,.3,.2,7,,," /><S L="150" X="565" H="17" Y="1568" T="12" P=",,.3,.2,-1,,," /><S L="92" X="672" H="17" Y="1544" T="12" P=",,.3,.2,-34,,," /><S L="82" X="743" H="17" Y="1503" T="12" P=",,.3,.2,-26,,," /><S L="66" X="790" H="17" Y="1461" T="12" P=",,.3,.2,-65,,," /><S L="15" X="789" H="853" Y="1014" T="12" P=",,.3,.2,,,," /><S L="530" X="457" H="17" Y="1408" T="12" P=",,.3,.2,1,,," /><S L="401" X="532" H="17" Y="1250" T="12" P=",,.3,.2,1,,," /><S L="442" X="500" H="17" Y="1082" T="12" P=",,.3,.2,,,," /><S L="82" X="761" H="17" Y="1274" T="12" P=",,.3,.2,32,,," /><S L="167" X="736" H="17" Y="1183" T="12" P=",,.3,.2,-52,,," /><S L="99" X="422" H="17" Y="1051" T="12" P=",,.3,.2,218,,," /><S L="99" X="356" H="17" Y="983" T="12" P=",,.3,.2,235,,," /><S L="339" X="561" H="17" Y="921" T="12" P=",,.3,.2,,,," /><S L="92" X="759" H="17" Y="949" T="12" P=",,.3,.2,40,,," /><S L="178" X="731" H="17" Y="854" T="12" P=",,.3,.2,-49,,," /><S L="350" X="536" H="17" Y="754" T="12" P=",,.3,.2,,,," /><S L="124" X="448" H="17" Y="677" T="12" P=",,.3,.2,55,,," /><S L="503" X="748" H="17" Y="597" T="12" P=",,.3,.2,-1,,," /><S L="14" X="991" H="211" Y="487" T="12" P=",,.3,.2,2,,," /><S L="532" X="736" H="27" Y="378" T="12" P=",,.3,.2,,,," /><S L="20" X="326" H="1104" Y="901" T="12" P=",,.3,.2,15,,," /><S L="10" X="998" H="3000" Y="-1130" T="12" P=",,,,,,," /><S H="3000" L="10" X="-2" c="3" Y="100" T="12" P=",,,,,,," /><S P=",,.3,.2,-115,,," L="10" H="10" Y="1444" T="12" X="788" /><S P=",,.3,.2,50,,," L="172" H="17" Y="1340" T="12" X="293" /><S H="10" L="100" X="748" c="2" Y="1410" T="12" P=",,,,,,," /><S H="10" L="100" X="290" c="2" Y="1245" T="12" P=",,,,,,," /><S H="10" L="100" X="748" c="2" Y="1080" T="12" P=",,,,,,," /><S H="10" L="100" X="380" c="2" Y="920" T="12" P=",,,,,,," /><S H="10" L="100" X="754" c="2" Y="753" T="12" P=",,,,,,," /><S H="10" L="100" X="455" c="2" Y="596" T="12" P=",,,,,,," /><S P=",,,,-10,,," L="500" H="10" c="2" Y="415" T="12" X="238" /><S P=",,,,,,," L="10" X="183" c="2" Y="1493" T="12" H="150" /><S P=",,.3,.2,40,,," L="100" H="17" Y="723" T="12" X="496" /><S L="20" H="100" X="447" Y="433" T="12" P=",,.3,.2,10,,," /><S X="868" L="66" H="40" c="3" Y="568" T="12" P=",,.3,.2,,,," /><S P="1,99999,99999,,,1,," L="50" lua="%d" H="10" c="2" Y="494" T="12" X="945" /><S P="1,99999,,,,,," L="10" lua="%d" H="10" Y="-620" T="12" X="945" /><S L="10" lua="%d" H="200" X="906" Y="487" T="12" P=",,,,,,," /><S X="835" L="10" lua="%d" H="200" c="3" Y="487" T="12" P=",,,,,,," /><S H="10" L="10" lua="%d" X="945" c="2" Y="572" T="12" P=",,,,,,," /><S P=",,,,,,," L="10" lua="%d" X="906" Y="-1130" T="12" H="3000" /><S P="1,99999,,,,,," L="10" lua="%d" X="953" c="4" Y="250" T="13" H="10" /><S X="953" L="50" lua="%d" H="10" c="2" Y="260" T="12" P="1,,99999,,,1,," /><S P=",,.3,.2,,,," L="125" H="55" c="3" Y="335" T="12" X="820" /><S H="10" L="40" c="2" Y="295" T="12" X="950" P=",,9999,,,,," /></S><D><DS Y="1555" X="45" /></D><O /><L><JP M2="" M1="40" AXIS=",1" /><JR P1="945,-625" M1="41" MV="Infinity,2" /><JD M1="40" M2="41" /><JR P1="953,250" M1="46" MV="Infinity,1.75" /><JR M1="46" M2="47" /></L></Z></C>]],
+		xml = [[<C><P L="1000" APS="%s,,%d,%d,%d,%d,%d,%d;%s,,%d,%d,%d,%d,%d,%d;%s,,%d,%d,%d,%d,%d,%d;%s,,170,350,820,1250,,;%s,,,,1000,370,," H="1600" /><Z><S><S L="160" X="76" H="17" Y="1574" T="12" P=",,.3,.2,-12,,," /><S L="115" X="209" H="17" Y="1563" T="12" P=",,.3,.2,5,,," /><S L="100" X="297" H="17" Y="1559" T="12" P=",,.3,.2,-10,,," /><S L="150" X="417" H="17" Y="1560" T="12" P=",,.3,.2,7,,," /><S L="150" X="565" H="17" Y="1568" T="12" P=",,.3,.2,-1,,," /><S L="92" X="672" H="17" Y="1544" T="12" P=",,.3,.2,-34,,," /><S L="82" X="743" H="17" Y="1503" T="12" P=",,.3,.2,-26,,," /><S L="66" X="790" H="17" Y="1461" T="12" P=",,.3,.2,-65,,," /><S L="15" X="789" H="853" Y="1014" T="12" P=",,.3,.2,,,," /><S L="530" X="457" H="17" Y="1408" T="12" P=",,.3,.2,1,,," /><S L="401" X="532" H="17" Y="1250" T="12" P=",,.3,.2,1,,," /><S L="442" X="500" H="17" Y="1082" T="12" P=",,.3,.2,,,," /><S L="82" X="761" H="17" Y="1274" T="12" P=",,.3,.2,32,,," /><S L="167" X="736" H="17" Y="1183" T="12" P=",,.3,.2,-52,,," /><S L="99" X="422" H="17" Y="1051" T="12" P=",,.3,.2,218,,," /><S L="99" X="356" H="17" Y="983" T="12" P=",,.3,.2,235,,," /><S L="339" X="561" H="17" Y="921" T="12" P=",,.3,.2,,,," /><S L="92" X="759" H="17" Y="949" T="12" P=",,.3,.2,40,,," /><S L="178" X="731" H="17" Y="854" T="12" P=",,.3,.2,-49,,," /><S L="350" X="536" H="17" Y="754" T="12" P=",,.3,.2,,,," /><S L="124" X="448" H="17" Y="677" T="12" P=",,.3,.2,55,,," /><S L="503" X="748" H="17" Y="597" T="12" P=",,.3,.2,-1,,," /><S L="14" X="991" H="211" Y="487" T="12" P=",,.3,.2,2,,," /><S L="532" X="736" H="27" Y="378" T="12" P=",,.3,.2,,,," /><S L="20" X="326" H="1104" Y="901" T="12" P=",,.3,.2,15,,," /><S L="10" X="998" H="3000" Y="-1130" T="12" P=",,,,,,," /><S H="3000" L="10" X="-2" c="3" Y="100" T="12" P=",,,,,,," /><S P=",,.3,.2,-115,,," L="10" H="10" Y="1444" T="12" X="788" /><S P=",,.3,.2,50,,," L="172" H="17" Y="1340" T="12" X="293" /><S H="10" L="100" X="748" c="2" Y="1410" T="12" P=",,,,,,," /><S H="10" L="100" X="290" c="2" Y="1245" T="12" P=",,,,,,," /><S H="10" L="100" X="748" c="2" Y="1080" T="12" P=",,,,,,," /><S H="10" L="100" X="380" c="2" Y="920" T="12" P=",,,,,,," /><S H="10" L="100" X="754" c="2" Y="753" T="12" P=",,,,,,," /><S H="10" L="100" X="455" c="2" Y="596" T="12" P=",,,,,,," /><S P=",,,,-10,,," L="500" H="10" c="2" Y="415" T="12" X="238" /><S P=",,,,,,," L="10" X="183" c="2" Y="1493" T="12" H="150" /><S P=",,.3,.2,40,,," L="100" H="17" Y="723" T="12" X="496" /><S L="20" H="100" X="447" Y="433" T="12" P=",,.3,.2,10,,," /><S X="868" L="66" H="40" c="3" Y="568" T="12" P=",,.3,.2,,,," /><S P="1,99999,99999,,,1,," L="50" lua="%d" H="10" c="2" Y="494" T="12" X="945" /><S P="1,99999,,,,,," L="10" lua="%d" H="10" Y="-620" T="12" X="945" /><S L="10" lua="%d" H="200" X="906" Y="487" T="12" P=",,,,,,," /><S X="835" L="10" lua="%d" H="200" c="3" Y="487" T="12" P=",,,,,,," /><S H="10" L="10" lua="%d" X="945" c="2" Y="572" T="12" P=",,,,,,," /><S P=",,,,,,," L="30" lua="%d" X="895" Y="-1130" T="12" H="3000" /><S P="1,99999,,,,,," L="10" lua="%d" X="953" c="4" Y="250" T="13" H="10" /><S X="953" L="50" lua="%d" H="10" c="2" Y="260" T="12" P="1,,99999,,,1,," /><S P=",,.3,.2,,,," L="125" H="55" c="3" Y="335" T="12" X="820" /><S H="10" L="40" c="2" Y="295" T="12" X="950" P=",,9999,,,,," /></S><D><DS Y="1555" X="45" /></D><O /><L><JP M2="" M1="40" AXIS=",1" /><JR P1="945,-625" M1="41" MV="Infinity,2" /><JD M1="40" M2="41" /><JR P1="953,250" M1="46" MV="Infinity,1.75" /><JR M1="46" M2="47" /></L></Z></C>]],
 		background = "16e6f4bb3dc.jpg",
 		foreground = "167515a75c9.png",
 		backgroundCover = "16f06c06a3f.png",
@@ -69,6 +69,7 @@ do
 			mutantWizardSuicide = "Muahahahahaha, Santa is frozen! Christmas is over!",
 			credit = "<PT>This event most certainly would have been stuck in our minds for eternity if it was not for the following awesome people;\n\t<font color='#%s'>Code by %s.</font>\n\t<font color='#%s'>Art by %s.</font>\n\t<font color='#%s'>%s translation by %s.</font>\n\t<font color='#%s' size='11'>Special thanks to %s.</font>",
 			stealMoon = "AAAAH! I, THE LORD OF LORDS, THE WIZARD OF WIZARDS, DO CURSE YOU ALL. THIS IS THE END, PREPARE TO FEEL MY POWER!",
+			introducePuzzle = "We have checked every single corner inside the mountain but there's still no sight of Santa. There's only one place that he could possibly be... Fast, let's climb the magic tree! There might be something in the caves to help us reach the top.",
 
 			translator = "Bolodefchoco#0000"
 		},
@@ -95,6 +96,7 @@ do
 			mutantWizardSuicide = "Muhahahahaha, o velhinho congelou! O natal acabou!",
 			credit = "<PT>Este evento certamente ficaria - pela eternidade - apenas em nossas cabeças se não fossem pelas pessoas maravilhosas a seguir;\n\t<font color='#%s'>Código por %s.</font>\n\t<font color='#%s'>Arte por %s.</font>\n\t<font color='#%s'>Tradução %s por %s.</font>\n\t<font color='#%s' size='11'>Agradecimentos especiais para %s.</font>",
 			stealMoon = "AAAAH. EU, O LORDE DOS LORDES, O MAGO DOS MAGOS, AMALDIÇOO TODOS VOCÊS. ESTE É O FIM, E VOCÊS SENTIRÃO MEU PODER!",
+			introducePuzzle = "Nós já olhamos em cada canto dentro da montanha, mas ainda não tivemos nenhuma pista do paradeiro do Papai Noel. Só há um lugar que ele poderia estar... Rápido, vamos subir na árvore mágica! Deve ter alguma coisa dentro da caverna para nos ajudar a chegar no topo.",
 
 			translator = "Bolodefchoco#0000"
 		},
@@ -121,6 +123,7 @@ do
 			mutantWizardSuicide = "Muhajajajaja, ¡Santa está congelado! ¡La navidad está perdida!",
 			credit = "<PT>Este evento habría quedado atascado en nuestras mentes por la eternidad si no hubiera sido por estas maravillosas personas;\n\t<font color='#%s'>Código por %s.</font>\n\t<font color='#%s'>Arte por %s.</font>\n\t<font color='#%s'>Traducción a %s por %s.</font>\n\t<font color='#%s' size='11'>Agradecimientos especiales a %s.</font>",
 			stealMoon = "AAAAH. YO, EL REY DE REYES, EL MAGO DE MAGOS, LOS MALDIGO A TODOS. ESTE ES EL FINAL, ¡Y TODOS SENTIRÁN MI PODER!",
+			introducePuzzle = "Hemos revisado cada esquina dentro de la montaña pero no hay señal de Santa. Hay solo un lugar en el que podria estar... Rapido, ¡escalemos el arbol magico! Podria haber algo en las cuevas para ayudarnos a llegar a la cima.",
 
 			translator = "Tocutoeltuco#0000"
 		},
@@ -147,6 +150,7 @@ do
 			mutantWizardSuicide = "Mouhahahahaha, le Père Noël est congelé ! Noël est terminé !",
 			credit = "<PT>Cet événement n'aurait jamais pu avoir lieu et serait resté à l'état de prototype si il n'y avait pas eu toutes ces incroyables personnes;\n\t<font color='#%s'>Code par %s.</font>\n\t<font color='#%s'>Graphismes par %s.</font>\n\t<font color='#%s'>%s Traduction par %s.</font>\n\t<font color='#%s' size='11'>Merci aussi à %s.</font>",
 			stealMoon = "AAAAH. JE, LE SEIGNEUR DES SEIGNEURS, LE SORCIER DES SORCIERS, TE MAUDIT. C'EST LA FIN, ET TU AS RESSENTI MA PUISSANCE !",
+			introducePuzzle = "We have checked every single corner inside the mountain but there's still no sight of Santa. There's only one place that he could possibly be... Fast, let's climb the magic tree! There might be something in the caves to help us reach the top.",
 
 			translator = "Tortuegreen#0000"
 		},
@@ -173,6 +177,7 @@ do
 			mutantWizardSuicide = "Muhahahahaha, Mikołaj zamarzł! To koniec świąt!",
 			credit = "<PT>Ten event najprawdopodobniej zostałby w naszych głowach na zawsze, gdyby nie ci świetni ludzie;\n\t<font color='#%s'>Kod - %s.</font>\n\t<font color='#%s'>Rysunki - %s.</font>\n\t<font color='#%s'>%s tłumaczenie - %s.</font>\n\t<font color='#%s' size='11'>Specjalne podziękowania dla %s.</font>",
 			stealMoon = "AAAAH. JA, PAN PANÓW, CZARODZIEJ CZARODZIEJÓW, PRZEKLINAM WAS WSZYSTKICH. TO JEST KONIEC, I MUSICIE POCZUĆ MOJĄ MOC!",
+			introducePuzzle = "Sprawdziliśmy każdy zakątek w górze, ale Mikołaja nadal nigdzie nie ma. Zostało tylko jedno miejsce, w którym może być... Szybko, wespnijmy się na magiczną choinkę! W jaskiniach może być coś, co pomoże nam dostać się na szczyt.",
 
 			translator = "Adriantal#0000"
 		},
@@ -199,6 +204,7 @@ do
 			mutantWizardSuicide = "Muhahahahaha, a Mikulás megfagyott! Vége a karácsonynak!",
 			credit = "<PT>Az event valószínűleg sokáig csak ötlet maradt volna, ha ezek a király egerek nem segítettek volna;\n\t<font color='#%s'>A kódot %s készítette.</font>\n\t<font color='#%s'>A rajzot %s készítette.</font>\n\t<font color='#%s'>%s fordítás %s készítette.</font>\n\t<font color='#%s' size='11'>Különleges köszönet: %s.</font>",
 			stealMoon = "AAAAH. ÉN, AZ URAK URA, A MÁGUSOK MÁGUSA, A VARÁZSLÓK VARÁZSLÓJA, ELÁTKOZLAK TITEKET. FUSS EL VÉLE, ITT A MESE VÉGE, ÉS ÉREZNI FOGJÁTOK AZ ÁTKOMAT!",
+			introducePuzzle = "Minden egyes helyet átnéztünk a hegyen, de még mindig nem találtuk meg a Mikulást. Már csak egy hely maradt... Gyorsan, másszuk meg a hegyet! Lehet hogy valami van a barlangban, ami segíthet a tetejére feljutni.",
 
 			translator = "Peanut_butter#0015"
 		},
@@ -225,6 +231,7 @@ do
 			mutantWizardSuicide = "哇哈哈哈哈哈, 聖誕老人被冰凍了! 聖誕完蛋了!",
 			credit = "<PT>要不是有以下人員的協助, 這個活動大概永遠都只會留在回憶中;\n\t<font color='#%s'>編程: %s。</font>\n\t<font color='#%s'>藝術設計: %s。</font>\n\t<font color='#%s'>%s 翻譯: %s。</font>\n\t<font color='#%s' size='11'>特別感謝 %s。</font>",
 			stealMoon = "哼哈哈。我, 皇者中的皇者, 巫師中的巫師, 詛咒你們。這就是你們的下場, 而且你們將會感受到我的力量!",
+			introducePuzzle = "我們找遍了山上的每一個角落但還是沒有聖誕老人的蹤跡。看來只剩下一個地方... 快, 一起爬到神奇聖誕樹上吧! 洞穴裡可能有東西可以幫我們到達那裡。",
 
 			translator = "Wrfg#0000"
 		},
@@ -251,6 +258,7 @@ do
 			mutantWizardSuicide = "Muhahahahaha, Noel Baba soğuktan dondu! Noel sona erdi!",
 			credit = "<PT>Uzun zamandır bu etkinliği yapmayı düşünüyorduk ve bu insanlar olmasaydı bu etkinlik mümkün olamazdı. \n\t<font color='#%s'>Kodlayan: %s.</font>\n\t<font color='#%s'>Görseller: %s.</font>\n\t<font color='#%s'>%s Çeviren: %s.</font>\n\t<font color='#%s' size='11'>Teşekkürler: %s.</font>",
 			stealMoon = "AAAAH. BEN, LORDLARIN LORDU, BÜYÜCÜLERİN BÜYÜCÜSÜYÜ, HEPİNİZİ LANETLİYORUM. İŞTE SON GELDİ, GÜCÜMÜ HİSSEDECEKSİNİZ!",
+			introducePuzzle = "Dağın içini, her köşesini didik didik aradık fakat Noel Baba'dan eser yok. Noel Baba'nın olabileceği tek bir yer kalıyor... Çabuk, sihirli ağaca tırmanalım! Mağaraların içinde tepeye çıkmak için kullanabileceğimiz bir şeyler olmalı!",
 
 			translator = "Bisharch#4886"
 		}
@@ -372,11 +380,13 @@ local monsterData = {
 	chaosOpacityChangeTimer = 500,
 	chaosFirstChangeTimer = 3000,
 
-	potionSpawnTimerOnChaos = 1000,
+	potionSpawnTimerOnChaos = 1500,
 	defaultPotionSpawnTimer = 0,
 
 	mutantWizardSuicideTime = 10000,
 	mutantWizardSuicideLifePercent = 35,
+
+	mutantWizardChaosWhenLife = 15,
 
 	movementType = {
 		[monsterType.snow] = movementType.nearestPlayer,
@@ -1538,7 +1548,7 @@ do
 
 					-- Freezes Santa
 					freezeSanta()
-				elseif self.life < 15 and not self.startedChaos then
+				elseif self.life <= monsterData.mutantWizardChaosWhenLife and not self.startedChaos then
 					self.startedChaos = true
 					self:beginChaos(players)
 				elseif chance ~= 1 then -- Nothing
@@ -2338,7 +2348,7 @@ do
 		end
 
 		if isMoonStolen then
-			obj:endChaos()
+			nightModeAlpha = 0 -- Calls endChaos
 		end
 
 		timer.start(executeMutantWizardBaseRemove, monsterData.mutantWizardFallRemoveTimer, 1, obj, base)
@@ -2904,6 +2914,8 @@ eventPlayerDialogEnded = function(playerName, id, data)
 	if id == dialogId.intro then -- intro
 		chatMessage(translation.introduceMountain, playerName, "elf")
 		chatMessage(translation.introduceAttack, playerName)
+	elseif id == dialogId.findSanta then
+		chatMessage(translation.introducePuzzle, playerName, "elf")
 	end
 end
 
