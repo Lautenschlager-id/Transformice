@@ -267,6 +267,33 @@ do
 			introducePuzzle = "Dağın içini, her köşesini didik didik aradık fakat Noel Baba'dan eser yok. Noel Baba'nın olabileceği tek bir yer kalıyor... Çabuk, sihirli ağaca tırmanalım! Mağaraların içinde tepeye çıkmak için kullanabileceğimiz bir şeyler olmalı!",
 
 			translator = "Bisharch#4886"
+		},
+		ar = {
+			dialog = {
+				close = "إضغط على زر المسافة لإغلاق الحوار",
+				[1] = "اوه, مرحبا! انا سعيد لاني اخيرا وجدت شخصا.\n\n كانت الاقزام تعمل على زينة عيد الميلاد عندما ظهر ساحر شرير وسيطر على اليتي الموجودة في الجبل.\n لم يتقبل حقيقة ان الهالوين انتهى ويريد تخريب احتفالنا. شجرة عيد الميلاد الخاصة بنا تم تمزيقها كليا واجزائها مبعثرة على الجبل...واصبح سانتا مفقودا...\n\n كـ-كنت خائفا جدا ... هربت بعيدا قبل ان يستطيع الساحر امساكي. ارجوك , ساعدنا!", -- Elf init
+				[2] = " ياااااي !\n\n شكرا لك, ايها المحارب الشجاع الصغير. لقد تغلبت على الساحر الشرير وشجرة عيد الميلاد اكتملت مجددا , يمكننا اخيرا الإحتفال بعيد الميلاد\n\n اوه... كدت انسى شيئا مهم - والذي يجب ان نهتم به... سانتا لازال مفقود !", -- Tree complete
+				[3] = " يوبيييي!\n\n الشكر لك, شجرة عيد الميلاد جاهزة للليلة وانا حر وقادر على توصيل كل الهدايا الى الفئران الصغيرة !\n\n جائزتك ستكون اكبر واحدة ! لا يمكنني شكرك بما فيه الكفاية.\n\n هيا نأخذ هذا الساحر السيء الى السلطات" -- Save santa
+			},
+			elfTalkMountain = "اوه, انظر! إنه قزم, وو...هاااي, إنه مصاب! اذهب بجانبه واضغط على [زر المسافة] لتتفقد ما حصل.",
+			introduceMountain = "إسكتشف الجبل واعثر على القطع المفقودة من شجرة عيد الميلاد السحرية, وإلا سيتم تخريب الموسم للأبد!",
+			introduceAttack = "اضغط على [زر المسافة] لإستعمال قوة النار التي حصلت عليها لكي ترشدك خلال هذه المغامرة !",
+			introduceWizard = "اوه,إنظر! القطعة المفقودة من الشجرة هناك! ل-لكن... الساحر ,علينا عبوره اولا.",
+			wizardShowUp = "كيف تجرأ على ان تتحداني, ايها الفأر الصغير!? هل تظن انك شجاع؟ لنرى اذا كنت قادرا على مواجهة غضبي!",
+			wizardDefeat = "لاااااااااااا ! خلطاتي !قدري ! اررههه, انها تحرق ! [%dx]",
+			collectItem = "إضغط على [زر المسافة] لأخد الأداة. اعدها الى نقطة البداية تم اضغط على الزر مجددا لكي تضعها! ",
+			placeItem = "يااي ! لقد وجدت قطعة مفقودة اخرى من الشجرة !%d قطع وربما سيتم انقاذ الكريسمس شكرا لك !",
+			elfTalkSanta = "يبدو قلقا للغاية بشأن ما. اذهب وتحدث معه !%s... اوه,لا",
+			findSanta = "انظر انه سانتا هناك... انه مقيد! هيا ننقذه قبل ان يتجمد!",
+			introduceMutantWizard = "م-ماذا؟ هل هذا الساحر الشرير ؟ لقد اوقعناه في القدر, كيف يمكنه ان يكون هنا؟",
+			mutantWizardShowUp = "فأر غبي, لايزال عليك التعلم عن عالمي العجيب. كان في قدري السحري خلطة سحرية حولتني الى كائن اقوى, اذكى واسرع. هذة نهايتك.",
+			mutantWizardDefeat = "ارررهههههههه, كيف امكنك... قوتي... راسي... قدراتي! اعدها لي! دعني اذهب! ارهههه!",
+			mutantWizardSuicide = "موهوهوهاهاها, سانتا مجمد! إنتهى عيد الميلاد!",
+			credit = "<PT>من المؤكد أن هذا الحدث كان عالقًا في أذهاننا إلى الأبد إن لم يكن للأشخاص الرائعين التاليين;\n\t<font color='#%s'>.%s برمجة بفضل<</font>\n\t<font color='#%s'>.%s رسومات بفضل<</font>\n\t<font color='#%s'>.%s مترجم %s</font>\n\t<font color='#%s'>.%s شكر خاص الى<</font>",
+			stealMoon = "ااهههه! انا, قائد القادة , ساحر السحرة, لعنتي عليكم كلكم. استعدوا لتشعروا بقوتي! ",
+			introducePuzzle = "لقد تفقدنا كل زاوية داخل الكهف لاكن لايوجد اي علامة على وجود سانتا. هناك مكان واحد يمكن ان يكون فيه... بسرعة, لنتسلق الشجرة السحرية! يمكن ان يكون هناك شيء فالكهوف سيساعدنا على البحث في الاعلى",
+
+			translator = "Mouny#6831"
 		}
 	}
 	texts.pt = texts.br
@@ -468,7 +495,7 @@ local rewardId = {
 local miscData = {
 	miceTeleportSpawn = { 45, 1555 },
 	fireMachineShootSpawn = { 740, 320 },
-	bulletReloadTimer = 800,
+	bulletReloadTimer = 680,
 	callbackTimer = 2500,
 	consumableTimer = 10000,
 	finalBossSpawn = { 520, 350 },
@@ -482,7 +509,7 @@ local miscData = {
 	emotePx = 0,
 	beginningFirstStage = { 340, 1523 },
 	treeStages = 0,
-	defaultDamage = 2
+	defaultDamage = 2.3
 }
 
 local emoteIds = {
@@ -2547,7 +2574,7 @@ local checkPassage = function()
 	end
 end
 
-local checkStageChallege = function(currentTime)
+local checkStageChallenge = function(currentTime)
 	if not newGame or not canStart or currentTime < 1500 then return end -- Lag can bug the messages
 
 	local tmpCurrentStage, cache
@@ -2682,7 +2709,7 @@ end
 local elfDialog = function(cbk, playerName)
 	if playerHasCompletedFirstStep(playerName) then -- Has completed first step
 		displayDialog(playerName, dialogId.findSanta)
-	else
+	elseif not placeItem(cbk, playerName) then -- Because people are giving the items to Gerso instead of pressing space near the snow
 		displayDialog(playerName, dialogId.intro)
 	end
 
@@ -2696,7 +2723,7 @@ local saveSanta = function(cbk, playerName)
 
 		tfm.exec.chatMessage(getCredits(), playerName)
 	end
-	chatMessage(playerData:get(playerName, "savedSanta") .. "x", playerName)
+	chatMessage(playerData:get(playerName, "savedSanta") .. "x / " .. module.rewardOrbSavedSanta .. "x", playerName)
 
 	displayDialog(playerName, dialogId.saveSanta)
 
@@ -2705,10 +2732,10 @@ end
 
 local makeCallbacks = function()
 	-- Collect item
-	callback.new("placeItem", 915, 530, 50, 50):setClickable(10):setAction(collectItem)
+	callback.new("collectItem", 915, 530, 50, 50):setClickable(10):setAction(collectItem)
 
 	-- Place collected item in the tree spot
-	callback.new("collectItem", 0, 1430, 160, 170):setClickable():setAction(placeItem)
+	callback.new("placeItem", 0, 1430, 160, 170):setClickable():setAction(placeItem)
 
 	-- Elf NPC
 	callback.new("elf", -18, 1535, 63, 63):setClickable():setAction(elfDialog):setImage(tfm.exec.addImage(images.npc.elf, imageLayer.objectForeground, -18, 1515))
@@ -2836,7 +2863,7 @@ eventLoop = function(currentTime, remainingTime)
 	checkWorkingTimer()
 	if not canStart then return end
 
-	checkStageChallege(currentTime)
+	checkStageChallenge(currentTime)
 	objectManager.loop(currentTime, remainingTime)
 	checkPassage()
 	timer.loop()
