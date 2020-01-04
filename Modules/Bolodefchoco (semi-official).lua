@@ -7,25 +7,19 @@ local _TEAM = {
 	fs = {
 		["Alfiecakes#0000"] = "EN",
 		["Arki#0113"] = "BR",
+		["Ashbolt#0000"] = "EN",
 		["Bapereira#0000"] = "BR",
-		["Bobbyxsoxer#0000"] = "EN",
-		["Coach#1372"] = "EN",
-		["Cuph#5397"] = "FR",
 		["Cursedcorgi#4072"] = "EN",
 		["Etyla#0015"] = "EN",
-		["Eyeground#0000"] = "FR",
+		["Fiend#8212"] = "EN",
 		["Holaaae#4729"] = "EN",
 		["Iuliluca#0000"] = "RO",
-		["Ikke#0095"] = "BR",
-		["Jixnn#0000"] = "BR",
 		["Katburger#0015"] = "EN",
-		["Katow#0020"] = "FR",
-		["Kiddoru#0000"] = "LT",
 		["Kingapysia#0000"] = "PL",
 		["Lanadelrey#1407"] = "EN",
 		["Lou#3859"] = "HE",
-		["Massi#0015"] = "AR",
 		["Mcsplash#0010"] = "EN",
+		["Nectarinel#6133"] = "EN",
 		["Mlledebby#0015"] = "FR",
 		["Papero#9240"] = "EN",
 		["Perlchen#0000"] = "DE",
@@ -33,7 +27,6 @@ local _TEAM = {
 		["Silvyna#0020"] = "EN",
 		["Tini#0015"] = "BR",
 		["Toastyderp#0000"] = "EN",
-		["Venusise#0000"] = "EN"
 	},
 	mt = {
 		["Athesdrake#0000"] = "FR",
@@ -42,12 +35,13 @@ local _TEAM = {
 		["Brenower#0000"] = "BR",
 		["Drgenius#0000"] = "EN",
 		["Esh#0095"] = "BR",
-		["Frozenjord#0656"] = "EN",
 		["Fofinhoppp#0000"] = "BR",
+		["Frozenjord#0656"] = "EN",
 		["Gekkeiju#0000"] = "EN",
 		["Haku#0807"] = "ES",
 		["Heniyengui#0000"] = "AR",
 		["Jordy#0010"] = "NL",
+		["King_seniru#5890"] = "EN",
 		["Laagaadoo#0000"] = "BR",
 		["Makinit#0095"] = "NL",
 		["Massi#0015"] = "AR",
@@ -68,17 +62,23 @@ local _TEAM = {
 		["Tortuegreen#0000"] = "FR",
 		["Turkitutu#0000"] = "AR",
 		["Velspar#0000"] = "EN",
-		["Warfenix#0095"] = "ES"
+		["Warfenix#0095"] = "ES",
+		["Zigwin#0000"] = "RU"
 	},
 	fc = {
 		["Acer#0010"] = "EN",
 		["Adami#0010"] = "BR",
 		["Aeroman#0010"] = "EN",
 		["Alex#8808"] = "RO",
+		["Allis#0010"] = "NL",
 		["Amy#1453"] = "EN",
 		["Apo#0020"] = "EN",
+		["Aquawings#2537"] = "BR",
 		["Arcanacra#0010"] = "PL",
 		["Archaeron#0010"] = "DE",
+		["Arki#0113"] = "BR",
+		["Asmodan#0010"] = "PH",
+		["Bapereira#0000"] = "BR",
 		["Batt_mellamy#0015"] = "EN",
 		["Bembija#0010"] = "LV",
 		["Bemmh#0020"] = "EN",
@@ -86,6 +86,7 @@ local _TEAM = {
 		["Bodykudo#0000"] = "AR",
 		["Bortverde#0015"] = "BR",
 		["Brownie#9752"] = "EN",
+		["Cagataymylov#0000"] = "AR",
 		["Cassette#4972"] = "FR",
 		["Cate#0010"] = "BR",
 		["Censere#0015"] = "EN",
@@ -102,21 +103,22 @@ local _TEAM = {
 		["Distances#0095"] = "NL",
 		["Djealvi#0010"] = "ID",
 		["Doraemons#0010"] = "CN",
-		["Esh#0095"] = "BR",
+		["Eliterecon#0020"] = "EN",
 		["Etoile#0095"] = "EN",
 		["Excasr#0010"] = "BR",
 		["Exsilium#0010"] = "EN",
 		["Eyeground#0000"] = "FR",
 		["Faz_x#0010"] = "PL",
-		["Flare#0010"] = "NL",
+		["Fanieh#0010"] = "BR",
+		["Felidbr#0000"] = "BR",
 		["Frankenshtein#0095"] = "RU",
 		["Goondad#0020"] = "EN",
-		["Grapeup#0020"] = "IL",
-		["Grimmaro#0095"] = "EN",
+		["Haannq#0010"] = "ES",
 		["Harshy#0095"] = "EN",
 		["Hosual#0000"] = "PL",
 		["Icewolfbob#0095"] = "EN",
 		["Ihaya#0095"] = "RU",
+		["Ikke#0020"] = "BR",
 		["Ildubbio#0010"] = "RO",
 		["Irishcow#0095"] = "EN",
 		["Iupi#0010"] = "BR",
@@ -126,25 +128,23 @@ local _TEAM = {
 		["Jefitou#0010"] = "ES",
 		["Jerry#0095"] = "RU",
 		["Jiaxian#0000"] = "MY",
-		["Jiro#0010"] = "EN",
 		["Jordy#0010"] = "NL",
-		["Karbi#0095"] = "ES",
+		["Karbi#0010"] = "ES",
 		["Katburger#0015"] = "EN",
 		["Kathryn#8850"] = "EN",
-		["Katow#0020"] = "FR",
+		["Katow#0095"] = "FR",
 		["Kim#0010"] = "EN",
 		["Kiwrimai#0015"] = "BR",
 		["Kloure#0010"] = "EN",
 		["Kurt#0010"] = "BR",
+		["Lacksas#0000"] = "BR",
 		["Lament#0010"] = "PL",
 		["Lapinprince#0095"] = "EN",
-		["Layora#0015"] = "IT",
 		["Lexa#0010"] = "TR",
 		["Lezzly#0010"] = "ES",
-		["Lightwood#0010"] = "ES",
 		["Link#0010"] = "EN",
-		["Linkaito#0015"] = "FR",
-		["Lostchicken#0010"] = "EN",
+		["Linkaito#0010"] = "FR",
+		["Lostchicken#0095"] = "EN",
 		["Lucas#0010"] = "BR",
 		["Luchreimse#0000"] = "EN",
 		["Lummit#0010"] = "BR",
@@ -152,15 +152,14 @@ local _TEAM = {
 		["Makis#0010"] = "ES",
 		["Massi#0015"] = "AR",
 		["Matekoo#0015"] = "HR",
-		["Mau#0095"] = "BR",
-		["Mcsplash#0010"] = "EN",
+		["Matterhorn#0010"] = "BR",
+		["Mcsplash#0000"] = "EN",
 		["Meekoru#0095"] = "VK",
 		["Meow#0010"] = "PL",
 		["Mervynpeake#0095"] = "EN",
 		["Mesmera#0015"] = "PL",
 		["Miau#0015"] = "BR",
 		["Migotka#0010"] = "PL",
-		["Miku#0010"] = "PL",
 		["Milkycoffee#0015"] = "PL",
 		["Minkee#0095"] = "EN",
 		["Mishska#0010"] = "RU",
@@ -174,14 +173,17 @@ local _TEAM = {
 		["Natiibobr#0000"] = "PL",
 		["Nattorei#0010"] = "EN",
 		["Nicor22#0000"] = "ES",
+		["Noooooooorr#0000"] = "AR",
 		["Notearl#0000"] = "DE",
 		["Null#0010"] = "EN",
 		["Obemice#0095"] = "ES",
+		["Old#0010"] = "BR",
 		["Ork#0015"] = "BR",
 		["Pamots#0010"] = "BR",
 		["Papero#9240"] = "EN",
 		["Peanut_butter#0015"] = "HU",
-		["Philae#0095"] = "FR",
+		["Philae#0010"] = "FR",
+		["Phliperama#0000"] = "BR",
 		["Piratearthur#0010"] = "CN",
 		["Plisette#0010"] = "EN",
 		["Pop#0010"] = "BR",
@@ -202,39 +204,40 @@ local _TEAM = {
 		["Shamousey#0015"] = "EN",
 		["Sharpiepoops#0020"] = "EN",
 		["Shinyday#0095"] = "RO",
-		["Shironinger#0095"] = "ES",
+		["Shironinger#0010"] = "ES",
 		["Sollyun#0015"] = "BR",
-		["Star_ling#0000"] = "EN",
+		["Star#8558"] = "BR",
 		["Staszekowaty#0010"] = "PL",
 		["Sufp#0010"] = "BR",
 		["Tachiyukan#0010"] = "EN",
 		["Tarmac#0010"] = "RO",
 		["Tat#0095"] = "EN",
+		["Ted#0015"] = "TR",
 		["Tini#0015"] = "BR",
 		["Titivillus#0010"] = "TR",
 		["Toasteis#7402"] = "EN",
 		["Tortuegreen#0000"] = "FR",
+		["Turkitutu#0000"] = "AR",
 		["Verdomice#0095"] = "ES",
 		["Visne#0010"] = "TR",
 		["Vulli#0015"] = "EN",
 		["Warfenix#0095"] = "ES",
 		["Wercade#0095"] = "RU",
-		["Wolfyfoxy#7673"] = "BR",
 		["Wrfg#0000"] = "CN",
-		["Xiaojiemei#0015"] = "ID",
+		["Xiaojiemei#0095"] = "ID",
 		["Yosska#0010"] = "NL",
 		["Zoefke#0010"] = "NL"
 	},
 	sent = {
+		["Adami#0010"] = "BR",
 		["Amegake#0015"] = "PL",
 		["Archaeron#0010"] = "DE",
-		["Asmodan#0015"] = "CZ",
+		["Asmodan#0010"] = "PH",
 		["Batt_mellamy#0015"] = "EN",
 		["Bembija#0010"] = "LV",
 		["Bog#0015"] = "ES",
 		["Bortverde#0015"] = "BR",
 		["Calysis#0015"] = "EN",
-		["Cassie#0015"] = "ES",
 		["Censere#0015"] = "EN",
 		["Centr#0015"] = "RU",
 		["Charissa#0010"] = "EN",
@@ -245,6 +248,7 @@ local _TEAM = {
 		["Doraemons#0010"] = "CN",
 		["Dracoleaf#0010"] = "EN",
 		["Eagles0ng#0010"] = "RU",
+		["Elysium#0015"] = "AR",
 		["Etyla#0015"] = "FR",
 		["Excasr#0010"] = "BR",
 		["Gavin#0015"] = "EN",
@@ -256,13 +260,11 @@ local _TEAM = {
 		["Katburger#0015"] = "EN",
 		["Kiwrimai#0015"] = "BR",
 		["Lament#0010"] = "PL",
-		["Lapinprince#0015"] = "EN",
 		["Layora#0015"] = "IT",
 		["Link#0010"] = "EN",
-		["Linkaito#0015"] = "FR",
+		["Linkaito#0010"] = "FR",
 		["Massi#0015"] = "AR",
 		["Matekooo#0015"] = "HR",
-		["Mayhem#0015"] = "AR",
 		["Mesmera#0015"] = "PL",
 		["Miau#0015"] = "BR",
 		["Milkycoffee#0015"] = "PL",
@@ -272,7 +274,6 @@ local _TEAM = {
 		["Null#0010"] = "EN",
 		["Ork#0015"] = "BR",
 		["Peanut_butter#0015"] = "HU",
-		["Philmando#0015"] = "BR",
 		["Plubio#0015"] = "ES",
 		["Ragekitteee#0015"] = "AR",
 		["Sav#0010"] = "EN",
@@ -280,6 +281,7 @@ local _TEAM = {
 		["Sentinonyme#0015"] = "FR",
 		["Sha#0010"] = "TR",
 		["Shamousey#0015"] = "EN",
+		["Shironinger#0010"] = "ES",
 		["Sollyun#0015"] = "BR",
 		["Speedy#0015"] = "ES",
 		["Tarmac#0010"] = "RO",
@@ -296,44 +298,39 @@ local _TEAM = {
 		["Awesomz#2736"] = "RO",
 		["Blank#3495"] = "EN",
 		["Bolodefchoco#0000"] = "BR",
-		["Ginnoca#0000"] = "BR",
 		["Heniyengui#0000"] = "AR",
 		["Lobezito#2632"] = "ES",
+		["Ori#6575"] = "HE",
 		["Tocutoeltuco#0000"] = "ES",
 		["Verdomice#0095"] = "ES"
 	},
 	st = {
 		["Adriantal#0000"] = "PL",
 		["Ae_86#5182"] = "LV",
-		["Ares#5621"] = "IT",
 		["Barberserk#0000"] = "GR",
 		["Bisharch#4886"] = "TR",
 		["Bodykudo#0000"] = "AR",
 		["Bolodefchoco#0000"] = "BR",
+		["Danielthemouse#6206"] = "HE",
 		["Derpfacederp#0000"] = "EE",
 		["Don#3072"] = "HU",
 		["Error_404#0000"] = "AR",
 		["Flindix#0095"] = "BR",
-		["Grapeup#0020"] = "HE",
 		["Heniyengui#0000"] = "AR",
 		["Hmiida#0000"] = "AR",
 		["Lobezito#2632"] = "ES",
+		["Massi#0015"] = "AR",
 		["Miiiclaroo#0000"] = "ES",
 		["Mquk#0095"] = "FR",
-		["Naiyme#0015"] = "BR",
 		["Nicor22#0000"] = "ES",
-		["Niopigaa#0000"] = "ES",
 		["Ori#6575"] = "HE",
 		["Peanut_butter#0015"] = "HU",
 		["Rkubi#0000"] = "PL",
-		["Ryuuzaki#1216"] = "BR",
-		["Sebafrancuz#0000"] = "PL",
 		["Syrius#8114"] = "LV",
 		["Teddeeh#0000"] = "HR",
 		["Tortuegreen#0000"] = "FR",
 		["Tocutoeltuco#0000"] = "ES",
 		["Urook#1131"] = "FR",
-		["Vekanor#1700"] = "PL",
 		["Wassimevicw#0000"] = "AR",
 		["Wrfg#0000"] = "CN",
 		["Zimmer#9770"] = "ES",
@@ -2549,89 +2546,89 @@ modules.sizerace = function()
 	tfm.exec.newGame(maps[math.random(#maps)])
 
 	function eventNewGame()
-	  ui.setMapName("#Sizerace")
-	  tfm.exec.disableAfkDeath()
-	  tfm.exec.setGameTime(90)
+ ui.setMapName("#Sizerace")
+ tfm.exec.disableAfkDeath()
+ tfm.exec.setGameTime(90)
 	end
 
 	function eventPlayerDied(nick)
-	  tfm.exec.changePlayerSize(nick, 1)
-	  tfm.exec.respawnPlayer(nick)
+ tfm.exec.changePlayerSize(nick, 1)
+ tfm.exec.respawnPlayer(nick)
 	end
 
 	function eventPlayerWon(nick)
-	  tfm.exec.changePlayerSize(nick, 1)
-	  if tfm.get.room.playerList[nick].community=="pl" then
+ tfm.exec.changePlayerSize(nick, 1)
+ if tfm.get.room.playerList[nick].community=="pl" then
 		tfm.exec.chatMessage("<font color='#fff000'>Gracz " .. nick .. " właśnie wygrał rundę!")
-	  else
+ else
 		tfm.exec.chatMessage("<font color='#fff000'>Player " .. nick .. " has just won the round!")
-	  end
+ end
 	end
 
 	function eventKeyboard(nick, key)
-	  if key==88 and miceInfo[nick].lastTransform < os.time() - 2000 then
+ if key==88 and miceInfo[nick].lastTransform < os.time() - 2000 then
 		tfm.exec.changePlayerSize(nick, 0.3)
 		miceInfo[nick].lastTransform = os.time()
-	  end
-	  if key==67 and miceInfo[nick].lastTransform < os.time() - 2000 then
+ end
+ if key==67 and miceInfo[nick].lastTransform < os.time() - 2000 then
 		tfm.exec.changePlayerSize(nick, 0.6)
 		miceInfo[nick].lastTransform = os.time()
-	  end
-	  if key==86 and miceInfo[nick].lastTransform < os.time() - 2000 then
+ end
+ if key==86 and miceInfo[nick].lastTransform < os.time() - 2000 then
 		tfm.exec.changePlayerSize(nick, 1)
 		miceInfo[nick].lastTransform = os.time()
-	  end
-	  if key==66 and miceInfo[nick].lastTransform < os.time() - 2000 then
+ end
+ if key==66 and miceInfo[nick].lastTransform < os.time() - 2000 then
 		tfm.exec.changePlayerSize(nick, 2.1)
 		miceInfo[nick].lastTransform = os.time()
-	  end
-	  if key==78 and miceInfo[nick].lastTransform < os.time() - 2000 then
+ end
+ if key==78 and miceInfo[nick].lastTransform < os.time() - 2000 then
 		tfm.exec.changePlayerSize(nick, 3.5)
 		miceInfo[nick].lastTransform = os.time()
-	  end
+ end
 	end
 
 	function eventTextAreaCallback(id, nick, call)
-	  if tfm.get.room.playerList[nick].community=="pl" then
+ if tfm.get.room.playerList[nick].community=="pl" then
 		if call=="help" then
-		  ui.addTextArea(1, "<p align='center'><font size='16'>#sizerace</font><br><br>Witaj w #sizerace! Zmieniaj rozmiar swojej myszki i przechodź najróżniejsze mapy z różnym poziomem trudności. Staraj się nie popełniać błędów! Możesz zmieniać swój rozmiar co 2 sekundy, dlatego każdy błąd poskutkuje stratą cennego czasu. Bądź najszybszy i baw się dobrze!<br><br><b>X</b> - rozmiar 0.3<br><b>C</b> - rozmiar 0.6<br><b>V</b> - rozmiar 1<br><b>B</b> - rozmiar 2.1<br><b>N</b> - rozmiar 3.5<br><br>Autor:<br>Boxofkrain#0000<br><br><a href='event:close'>Zamknij</a>", nick, 5, 50, 300, 265, 0x324650, 0x212F36, nil, true)
+	 ui.addTextArea(1, "<p align='center'><font size='16'>#sizerace</font><br><br>Witaj w #sizerace! Zmieniaj rozmiar swojej myszki i przechodź najróżniejsze mapy z różnym poziomem trudności. Staraj się nie popełniać błędów! Możesz zmieniać swój rozmiar co 2 sekundy, dlatego każdy błąd poskutkuje stratą cennego czasu. Bądź najszybszy i baw się dobrze!<br><br><b>X</b> - rozmiar 0.3<br><b>C</b> - rozmiar 0.6<br><b>V</b> - rozmiar 1<br><b>B</b> - rozmiar 2.1<br><b>N</b> - rozmiar 3.5<br><br>Autor:<br>Boxofkrain#0000<br><br><a href='event:close'>Zamknij</a>", nick, 5, 50, 300, 265, 0x324650, 0x212F36, nil, true)
 		elseif call=="close" then
-		  ui.removeTextArea(1, nick)
+	 ui.removeTextArea(1, nick)
 		end
-	  else
+ else
 		if call=="help" then
-		  ui.addTextArea(1, "<p align='center'><font size='16'>#sizerace</font><br><br>Welcome to #sizerace! Change size of your mouse and win different maps with different difficulty level. Don't make mistakes! You can change your mouse's size every 2 seconds only. Be the fastest and have fun!<br><br><b>X</b> - size 0.3<br><b>C</b> - size 0.6<br><b>V</b> - size 1<br><b>B</b> - size 2.1<br><b>N</b> - size 3.5<br><br>Author:<br>Boxofkrain#0000<br><br><a href='event:close'>Close</a>", nick, 5, 50, 300, 265, 0x324650, 0x212F36, nil, true)
+	 ui.addTextArea(1, "<p align='center'><font size='16'>#sizerace</font><br><br>Welcome to #sizerace! Change size of your mouse and win different maps with different difficulty level. Don't make mistakes! You can change your mouse's size every 2 seconds only. Be the fastest and have fun!<br><br><b>X</b> - size 0.3<br><b>C</b> - size 0.6<br><b>V</b> - size 1<br><b>B</b> - size 2.1<br><b>N</b> - size 3.5<br><br>Author:<br>Boxofkrain#0000<br><br><a href='event:close'>Close</a>", nick, 5, 50, 300, 265, 0x324650, 0x212F36, nil, true)
 		elseif call=="close" then
-		  ui.removeTextArea(1, nick)
+	 ui.removeTextArea(1, nick)
 		end
-	  end
+ end
 	end
 
 	function eventNewPlayer(nick)
-	  for i = 1,#keys do
+ for i = 1,#keys do
 		system.bindKeyboard(nick, keys[i], false, true)
-	  end
-	  miceInfo[nick] = {lastTransform = 0}
-	  if tfm.get.room.playerList[nick].community=="pl" then
+ end
+ miceInfo[nick] = {lastTransform = 0}
+ if tfm.get.room.playerList[nick].community=="pl" then
 		ui.addTextArea(0, "<p align='center'><a href='event:help'>Pomoc</a></p>", nick, 5, 28, 65, nil, 0x324650, 0x212F36, nil, true)
 		tfm.exec.chatMessage("<b><font color='#92CF91'>Hejka! Miło Cię widzieć na #sizerace! Wszystkie potrzebne informacje znajdziesz w zakładce Pomoc.</font></b>")
-	  else
+ else
 		ui.addTextArea(0, "<p align='center'><a href='event:help'>Help</a></p>", nick, 5, 28, 65, nil, 0x324650, 0x212F36, nil, true)
 		tfm.exec.chatMessage("<b><font color='#92CF91'>Hey! Nice to see you in #sizerace! All the information you need are in Help tab.</font></b>")
-	  end 
-	  if (nick=="Boxofkrain#0000") then
+ end 
+ if (nick=="Boxofkrain#0000") then
 		tfm.exec.setNameColor("Boxofkrain#0000", 0xff0000)
-	  end
+ end
 	end
 
 	function eventLoop(currentTime, remainingTime)
-	  if remainingTime <= 500 then
+ if remainingTime <= 500 then
 		tfm.exec.newGame(maps[math.random(#maps)])
-	  end
+ end
 	end
 
 	for nick in next, tfm.get.room.playerList do 
-	  eventNewPlayer(nick)
+ eventNewPlayer(nick)
 	end
 end
 
@@ -2957,7 +2954,7 @@ modules.arrow = function()
 	lang = {
 		br = {
 			WELCOME = "<J>Bem Vindo a Arrow, escolha sua equipe e vá para Luta!</J><ROSE> Aperte Espaço para Atirar Flechas</ROSE><VI>\nPara informações Adicionais e Avaliação de Mapa: https://atelier801.com/topic?f=842389&t=929772&p=1#m1</VI>",
-			   RedTeam = "<a href='event:redTeam'><p align='center'>Entre para a Equipe Vermelha",
+		  RedTeam = "<a href='event:redTeam'><p align='center'>Entre para a Equipe Vermelha",
 			BlueTeam = "<a href='event:blueTeam'><p align='center'>Entre para a Equipe Azul",
 			AWIN = "<D>~ [Juiz] Empate!",
 			RWIN = "<R>~ [Equipe Vermelha] ~ Nós Vencemos!",
@@ -2996,30 +2993,30 @@ modules.arrow = function()
 			BWIN = "<BV>~ [الفريق الأزرق] ~ We !"
 		},
 		cn = {
-		   WELCOME = "<J>欢迎来到 Arrow, 选择想加入的队伍然后参战吧! </ J> <ROSE> 按空格键来发射弓箭</ROSE>",
-		   RedTeam = "<a href='event:redTeam'><p align='center'>加入红队",
-		   BlueTeam = "<a href='event:blueTeam'><p align='center'>加入蓝队",
-		   AWIN = "<D>~ [裁判] 没有人胜出!",
-		   RWIN = "<R>~ [红队] ~ 我们赢了!",
-		   BWIN = "<BV>~ [蓝队] ~ 我们赢了!"
+	  WELCOME = "<J>欢迎来到 Arrow, 选择想加入的队伍然后参战吧! </ J> <ROSE> 按空格键来发射弓箭</ROSE>",
+	  RedTeam = "<a href='event:redTeam'><p align='center'>加入红队",
+	  BlueTeam = "<a href='event:blueTeam'><p align='center'>加入蓝队",
+	  AWIN = "<D>~ [裁判] 没有人胜出!",
+	  RWIN = "<R>~ [红队] ~ 我们赢了!",
+	  BWIN = "<BV>~ [蓝队] ~ 我们赢了!"
 		},
-	   fr = {
-		   WELCOME = "<J>Bienvenue dans Arrow, choisis ton équipe et lance-toi au combat !</ J> <ROSE> Appuie sur espace pour tirer des flèches</ROSE>",
-		   RedTeam = "<a href='event:redTeam'><p align='center'>Rejoins l'équipe rouge",
-		   BlueTeam = "<a href='event:blueTeam'><p align='center'>Rejoins l'équipe bleue",
-		   AWIN = "<D>~ [Juge] Pas de gagnant !",
-		   RWIN = "<R>~ [Équipe rouge] ~ On a gagné !",
-		   BWIN = "<BV>~ [Équipe bleue] ~ On a gagné !"
+  fr = {
+	  WELCOME = "<J>Bienvenue dans Arrow, choisis ton équipe et lance-toi au combat !</ J> <ROSE> Appuie sur espace pour tirer des flèches</ROSE>",
+	  RedTeam = "<a href='event:redTeam'><p align='center'>Rejoins l'équipe rouge",
+	  BlueTeam = "<a href='event:blueTeam'><p align='center'>Rejoins l'équipe bleue",
+	  AWIN = "<D>~ [Juge] Pas de gagnant !",
+	  RWIN = "<R>~ [Équipe rouge] ~ On a gagné !",
+	  BWIN = "<BV>~ [Équipe bleue] ~ On a gagné !"
 		},
-	   nl = {
-		   WELCOME = "<J>Welkom bij Arrow, kies je team en ga vechten! </ J> <ROSE> Druk op de spatiebalk om pijlen te schieten</ROSE>",         
-		   RedTeam = "<a href='event:redTeam'><p align=‘center'>Lid van het rode team worden",
-		   BlueTeam = "<a href='event:blueTeam'><p align=‘center'>Lid van het blauwe team worden",
-		   AWIN = "<D>~ [Jury] Geen winnaars!",
-		   RWIN = "<R>~ [Team rood] ~ We hebben gewonnen!", 
-		   BWIN = "<BV>~ [Team blauw] ~ We hebben gewonnen!"
-	   },
-	   he = {
+  nl = {
+	  WELCOME = "<J>Welkom bij Arrow, kies je team en ga vechten! </ J> <ROSE> Druk op de spatiebalk om pijlen te schieten</ROSE>",         
+	  RedTeam = "<a href='event:redTeam'><p align=‘center'>Lid van het rode team worden",
+	  BlueTeam = "<a href='event:blueTeam'><p align=‘center'>Lid van het blauwe team worden",
+	  AWIN = "<D>~ [Jury] Geen winnaars!",
+	  RWIN = "<R>~ [Team rood] ~ We hebben gewonnen!", 
+	  BWIN = "<BV>~ [Team blauw] ~ We hebben gewonnen!"
+  },
+  he = {
 			WELCOME = "<J>ברוכים הבאים לחץ, בחרו את קבוצתכם והילחמו! </ J> <ROSE> לחצו על מקש הרווח כדי לירות חצים</ROSE>",
 			RedTeam = "<a href='event:redTeam'><p align='center'>הצטרפו לקבוצה האדומה",
 			BlueTeam = "<a href='event:blueTeam'><p align='center'>הצטרפו לקבוצה הכחולה",
@@ -3056,11 +3053,11 @@ modules.arrow = function()
 				tfm.exec.chatMessage(translate(i, "AWIN"), i)
 			end
 			elseif blueTeamAlive == 0 then
-			   for i, v in pairs(tfm.get.room.playerList) do
+		  for i, v in pairs(tfm.get.room.playerList) do
 				tfm.exec.chatMessage(translate(i, "RWIN"), i)
 			end
 			elseif redTeamAlive == 0 then
-			   for i, v in pairs(tfm.get.room.playerList) do
+		  for i, v in pairs(tfm.get.room.playerList) do
 				tfm.exec.chatMessage(translate(i, "BWIN"), i)
 			end
 			end
@@ -3079,7 +3076,7 @@ modules.arrow = function()
 	if timeRemaining == 0 then
 			startNewMap()
 		elseif currentTime >= 20000 and currentTime <= 20500 then
-		  for username, data in next, tfm.get.room.playerList do
+	 for username, data in next, tfm.get.room.playerList do
 				if not data.isDead and not blueTeam[username] and not redTeam[username] then
 					tfm.exec.killPlayer(username)
 				end
@@ -3113,16 +3110,16 @@ modules.arrow = function()
 	eventNewPlayer = function(name)
 		tfm.exec.bindKeyboard(name, 32, true, true)
 		help(name)
-	 for p, v in pairs(tfm.get.room.playerList) do
-	 podeClicar[p] = 0
-	 end
+for p, v in pairs(tfm.get.room.playerList) do
+podeClicar[p] = 0
+end
 	end
 
 	-- Evento (TextArea clicada)
 	eventTextAreaCallback = function(id, name, ref)
 		if ref == "blueTeam" or ref == "redTeam" and _G[ref.."Alive"] <= 10 and not tfm.get.room.playerList.isDead then
-	  if podeClicar[name] > time then return end
-	   podeClicar[name] = time + 500
+ if podeClicar[name] > time then return end
+  podeClicar[name] = time + 500
 			_G[ref.."Alive"] = _G[ref.."Alive"] + 1
 			_G[ref][name] = name
 			tfm.exec.movePlayer(name, mapInfo[ref].x, mapInfo[ref].y)
@@ -3219,7 +3216,7 @@ modules.vivooumorto = function()
 	local timer = 0
 	local timer1 = 0
 	local cdwn
-	 
+
 	-- [[ Traduções ]] ---
 	lang = {
 		br = {
@@ -3255,8 +3252,8 @@ modules.vivooumorto = function()
 	-- [[ Evento Novo Jogador ]] -- 
 	eventNewPlayer = function(nome)
 		jogadores[nome] = {
-		  monstro = false,
-		  fez = false
+	 monstro = false,
+	 fez = false
 		}
 	ajuda(nome)
 	end
@@ -3300,137 +3297,137 @@ modules.vivooumorto = function()
 	end
 	-- [[ Evento Clicar No Evento Da Textarea ]] -- 
 	eventTextAreaCallback = function(id, name, ref)
-	   if ref == "vivo"  then
-	   if timer1 > os.time() then return end
-	   pa = 1
-	   timer1 = os.time() + 3000
-	   timer = os.time() + 1200
-	   vivo = true
-	   morto = false
-	   local id2 = tfm.exec.addImage("168b09842dc.png", "&1", 252, 77, nil)
-	   system.newTimer(function()
-	   if id2 then
-	   tfm.exec.removeImage(id2)
-	   end
-	   end,timeToRemove*1000,false)
-	   elseif ref == "morto" then
-	   if timer1 > os.time() then return end
-	   vivo = false
-	   morto = true
-	   timer = os.time() + 1200
-	   timer1 = os.time() + 3000
-	   podeChecar = true
-	   local id = tfm.exec.addImage("16a1977936f.png", "&2", 186, 22, nil)
-	   local timeToRemove=3
-	   system.newTimer(function()
-	   if id then
-	   tfm.exec.removeImage(id)
-	   end
-	   end,timeToRemove*1000,false)
-	   end
-	   end
+  if ref == "vivo"  then
+  if timer1 > os.time() then return end
+  pa = 1
+  timer1 = os.time() + 3000
+  timer = os.time() + 1200
+  vivo = true
+  morto = false
+  local id2 = tfm.exec.addImage("168b09842dc.png", "&1", 252, 77, nil)
+  system.newTimer(function()
+  if id2 then
+  tfm.exec.removeImage(id2)
+  end
+  end,timeToRemove*1000,false)
+  elseif ref == "morto" then
+  if timer1 > os.time() then return end
+  vivo = false
+  morto = true
+  timer = os.time() + 1200
+  timer1 = os.time() + 3000
+  podeChecar = true
+  local id = tfm.exec.addImage("16a1977936f.png", "&2", 186, 22, nil)
+  local timeToRemove=3
+  system.newTimer(function()
+  if id then
+  tfm.exec.removeImage(id)
+  end
+  end,timeToRemove*1000,false)
+  end
+  end
 	-- [[ Evento que acontece a cada 500 milisegundos ]] -- 
-	  eventLoop = function(tc, tr)
-	  if tr == 0 then 
-	  if vivos <= 1 then
+ eventLoop = function(tc, tr)
+ if tr == 0 then 
+ if vivos <= 1 then
 	tfm.exec.newGame('<C><P /><Z><S><S P="0,0,0.3,0.2,0,0,0,0" L="802" o="324650" X="400" Y="378" T="12" H="42" /><S P="0,0,0.3,0.2,0,0,0,0" L="10" o="324650" X="806" Y="404" T="12" H="10" /><S P="0,0,0,0,0,0,0,0" L="10" o="fffffffff" X="2" Y="198" T="12" H="405" /><S P="0,0,0.3,0.2,0,0,0,0" L="806" o="fffffffff" X="401" Y="1" T="12" H="10" /><S P="0,0,0,0,0,0,0,0" L="10" o="fffffffff" X="806" Y="202" T="12" H="412" /></S><D><DS Y="350" X="401" /></D><O /></Z></C>')
 	else
-	  tfm.exec.newGame(mapas[math.random(#mapas)])
+ tfm.exec.newGame(mapas[math.random(#mapas)])
 	end
-	  elseif vivo then
-	  cdwn = true
-	  pa = 1
-	  if timer > os.time() then return end
-	  for nome, v in pairs(tfm.get.room.playerList) do
-	  if jogadores[nome].fez == false and jogadores[nome].monstro == false and pa == 1 then
-	  killp(nome)
-	  print("oi")
-	  else
-	  jogadores[nome].fez = false
-	  end
-	  end
-	  vivo = false
-	  elseif morto then
-	  if timer > os.time() then return end
-	  cdwn = true
-	  for nome, v in pairs(tfm.get.room.playerList) do
-	  if jogadores[nome].fez == false and jogadores[nome].monstro == false and pa == 1 then
-	  killp(nome)
-	  else
-	  jogadores[nome].fez = false
-	  end
-	  end
-	  morto = false
-	  end
-	  end
+ elseif vivo then
+ cdwn = true
+ pa = 1
+ if timer > os.time() then return end
+ for nome, v in pairs(tfm.get.room.playerList) do
+ if jogadores[nome].fez == false and jogadores[nome].monstro == false and pa == 1 then
+ killp(nome)
+ print("oi")
+ else
+ jogadores[nome].fez = false
+ end
+ end
+ vivo = false
+ elseif morto then
+ if timer > os.time() then return end
+ cdwn = true
+ for nome, v in pairs(tfm.get.room.playerList) do
+ if jogadores[nome].fez == false and jogadores[nome].monstro == false and pa == 1 then
+ killp(nome)
+ else
+ jogadores[nome].fez = false
+ end
+ end
+ morto = false
+ end
+ end
 	-- [[ Evento, Um Jogador fez um emoji ]] -- 
-	  function eventEmotePlayed(nome, eid)
-	  if vivo then
-	  if eid == 0 then
-	  jogadores[nome].fez = true
-	  else
-	  matar(nome)
-	  end
-	  end
-	  if morto then
-	  if eid == 6 then
-	  jogadores[nome].fez = true
-	  else
-	  matar(nome)
-	  end
-	  end
-	  end
+ function eventEmotePlayed(nome, eid)
+ if vivo then
+ if eid == 0 then
+ jogadores[nome].fez = true
+ else
+ matar(nome)
+ end
+ end
+ if morto then
+ if eid == 6 then
+ jogadores[nome].fez = true
+ else
+ matar(nome)
+ end
+ end
+ end
 	-- [[ Função, mata quem não compriu o proposto ]] --
-	  matar = function(...)
-	  if jogadores[...].monstro == true and cdwn == true then
-	  else
-	  killp(...)
-	  checaJogadores()
-	  end
-	  end
+ matar = function(...)
+ if jogadores[...].monstro == true and cdwn == true then
+ else
+ killp(...)
+ checaJogadores()
+ end
+ end
 	-- [[ Função, Checa os Jogadores ]] --
-	  checaJogadores = function()
-	  if vivos <= 1 then
-	  for name, v in pairs(tfm.get.room.playerList) do
-	  if not v.isDead and not v.isShaman then 
-	  tfm.exec.setPlayerScore(name,25)
-	  chatMsg(translate(name, "RWIN"), name)
-	  end
-	  end
-	  tfm.exec.newGame(mapas[math.random(#mapas)])
-	  end
-	  end
+ checaJogadores = function()
+ if vivos <= 1 then
+ for name, v in pairs(tfm.get.room.playerList) do
+ if not v.isDead and not v.isShaman then 
+ tfm.exec.setPlayerScore(name,25)
+ chatMsg(translate(name, "RWIN"), name)
+ end
+ end
+ tfm.exec.newGame(mapas[math.random(#mapas)])
+ end
+ end
 	-- [[ Evento Jogador Morreu ]] -- 
-	  eventPlayerDied = function()
-	  vivos = vivos - 1
-	  checaJogadores()
-	  end
+ eventPlayerDied = function()
+ vivos = vivos - 1
+ checaJogadores()
+ end
 	-- [[ Evento Summonar um Item ]] -- 
-	  function eventSummoningStart(playerName, objectType, xPosition, yPosition, angle)
-	  tfm.exec.newGame(mapas[math.random(#mapas)])
-	  end
+ function eventSummoningStart(playerName, objectType, xPosition, yPosition, angle)
+ tfm.exec.newGame(mapas[math.random(#mapas)])
+ end
 	-- [[ Evento Que acontece ao digitar um comando ]] -- 
-	  eventChatCommand = function(nome, cmd)
-	  local arg = {}
-	  for i in string.gmatch(cmd, "[^" .. (s or "%s") .. "]+") do
-	  arg[#arg + 1] = i
-	  end
-	  if (admins[nome]) and arg[1] == "admin" then
-	  admins[arg[2]] = true
-	  elseif (admins[nome]) and arg[1] == "np" then
-	  tfm.exec.newGame(arg[2])
-	  elseif (admins[nome]) and arg[1] == "score" then
-	  tfm.exec.setPlayerScore(arg[2],25, true)
-	  elseif arg[1] == "help" or arg[1] == "ajuda" then
-	  ajuda(nome)
-	  elseif arg[1] == "skip" then
-	  skip = skip + 1
-	  skipf()
-	  end
-	  end
+ eventChatCommand = function(nome, cmd)
+ local arg = {}
+ for i in string.gmatch(cmd, "[^" .. (s or "%s") .. "]+") do
+ arg[#arg + 1] = i
+ end
+ if (admins[nome]) and arg[1] == "admin" then
+ admins[arg[2]] = true
+ elseif (admins[nome]) and arg[1] == "np" then
+ tfm.exec.newGame(arg[2])
+ elseif (admins[nome]) and arg[1] == "score" then
+ tfm.exec.setPlayerScore(arg[2],25, true)
+ elseif arg[1] == "help" or arg[1] == "ajuda" then
+ ajuda(nome)
+ elseif arg[1] == "skip" then
+ skip = skip + 1
+ skipf()
+ end
+ end
 	skipf = function()
 	if skip >= 3 then
-	  tfm.exec.newGame(mapas[math.random(#mapas)])
+ tfm.exec.newGame(mapas[math.random(#mapas)])
 	end
 	end
 	iniciarounao = function()
@@ -3442,8 +3439,8 @@ modules.vivooumorto = function()
 	end
 	end
 	-- [[ Desabilita/Limita Coisas e Inicia um mapa do Module ]] --
-	  tfm.exec.disablePhysicalConsumables(true)
-	  tfm.exec.setRoomMaxPlayers(20)	
+ tfm.exec.disablePhysicalConsumables(true)
+ tfm.exec.setRoomMaxPlayers(20)	
 	tfm.exec.newGame('<C><P /><Z><S><S P="0,0,0.3,0.2,0,0,0,0" L="802" o="324650" X="400" Y="378" T="12" H="42" /><S P="0,0,0.3,0.2,0,0,0,0" L="10" o="324650" X="806" Y="404" T="12" H="10" /><S P="0,0,0,0,0,0,0,0" L="10" o="fffffffff" X="2" Y="198" T="12" H="405" /><S P="0,0,0.3,0.2,0,0,0,0" L="806" o="fffffffff" X="401" Y="1" T="12" H="10" /><S P="0,0,0,0,0,0,0,0" L="10" o="fffffffff" X="806" Y="202" T="12" H="412" /></S><D><DS Y="350" X="401" /></D><O /></Z></C>')
 end
 
@@ -10001,6 +9998,8 @@ modules.dance = function()
 end
 
 modules.ranking = function()
+	local PAGE_LINES = 20
+
 	ui.menu = function(text, playerName, x, y, w, h)
 		local id = 300 - 8
 
@@ -10034,10 +10033,10 @@ modules.ranking = function()
 	local infoName, totalPages, info = { "Name", "Rounds", "Cheese", "First", "Normal Saves", "Hard Mode", "Divine Mode" }, 0
 
 	local displayData = function(playerName)
-		local page = (((playerName and playerData[playerName] or 1) - 1) * 18) + 1
+		local page = (((playerName and playerData[playerName] or 1) - 1) * PAGE_LINES) + 1
 
 		local numbers, counter, data, color = { }, 0, { }
-		for i = page, page + 17 do
+		for i = page, page + (PAGE_LINES - 1) do
 			if not info[i] then break end
 			color = (i % 2 == 1 and "<N>" or "<N2>")
 
@@ -10131,10 +10130,10 @@ modules.ranking = function()
 		lastUpdate, data = string.match(data, "^(%d+)(.+)")
 		lastUpdate = lastUpdate * 1000
 
-		local ranking = string.split(data, "[^%[]+")
+		local ranking = string.split(data, "[^\002]+")
 		local len = #ranking
 		for i = 1, len do
-			ranking[i] = string.split(ranking[i], "[^%]]+")
+			ranking[i] = string.split(ranking[i], "[^\001]+")
 			for k = 1, #infoName do
 				if k == 1 then
 					ranking[i][k] = string.gsub(ranking[i][k], "#%d+", "<G><font size='10'>%1</font></G>", 1)
@@ -10145,7 +10144,7 @@ modules.ranking = function()
 			ranking[i][2] = dotNumber(ranking[i][2])
 		end
 		info = ranking
-		totalPages = math.ceil(len / 18)
+		totalPages = math.ceil(len / PAGE_LINES)
 
 		for playerName in next, tfm.get.room.playerList do
 			eventNewPlayer(playerName, true)
@@ -10276,7 +10275,7 @@ modules.survup = function()
 			c = c + 1
 			args[c] = v
 		end
-	  
+ 
 		if args[1] == "timer" and admin[n] then
 			args[2] = tonumber(args[2]) or 2
 			tm = args[2]
@@ -10323,13 +10322,13 @@ modules.survup = function()
 				tfm.exec.chatMessage("<N>Available languages: <J>"..table.concat(l, "<N>, <J>"),n)
 			end
 		end
-	  
+ 
 		if not admin[n] then
 			for an in next, admin do
 				tfm.exec.chatMessage("<BL>• ["..n.."] !"..m, an)
 			end
 		end
-	  
+ 
 	end
 		
 	eventNewGame = function()
@@ -10357,7 +10356,7 @@ modules.survup = function()
 		if tfm.get.room.uniquePlayers == 1 then
 			tfm.exec.newGame('#10')
 		end
-	  
+ 
 		for a in next, admin do
 			tfm.exec.chatMessage("<BL>" .. n .. " (" .. tfm.get.room.playerList[n].community .. ")", a)
 		end
@@ -10399,6 +10398,563 @@ modules.survup = function()
 
 	system.disableChatCommandDisplay()
 	tfm.exec.newGame('#10')
+end
+
+modules.triberanking = function()
+	local PAGE_LINES = 20
+
+	ui.menu = function(text, playerName, x, y, w, h)
+		local id = 300 - 8
+
+		x = x + 6
+		y = y + 6
+
+		ui.addTextArea(0, "", playerName, -1500, -1500, 5000, 5000, 1, 1, .2)
+
+		ui.addTextArea(id, "", playerName, x, y, w, h, 0x78462B, 0x78462B, 1)
+
+		ui.addTextArea(id - 1, "", playerName, x, y, 20, 20, 0xBEB17D, 0xBEB17D, 1)
+		ui.addTextArea(id - 2, "", playerName, x + w - 20, y, 20, 20, 0xBEB17D, 0xBEB17D, 1)
+		ui.addTextArea(id - 3, "", playerName, x, y + h - 20, 20, 20, 0xBEB17D, 0xBEB17D, 1)
+		ui.addTextArea(id - 4, "", playerName, x + w - 20, y + h - 20, 20, 20, 0xBEB17D, 0xBEB17D, 1)
+
+		ui.addTextArea(id - 5, "", playerName, x, y + (h + 40) / 4, w, ((h - 40) / 2), 0x9D7043, 0x9D7043, 1)
+		ui.addTextArea(id - 6, "", playerName, x + (w + 40) / 4, y, ((w - 40) / 2), h, 0x9D7043, 0x9D7043, 1)
+
+		ui.addTextArea(id - 7, text, playerName, x + 3, y + 3, w - 6, h - 6, 0x1C3A3E, 0x0E1619, 1)
+	end
+	ui.button = function(id, text, eventName, playerName, x, y, w, h)
+		id = 200 + id * 2
+
+		ui.addTextArea(id, "", playerName, x + 1, y + 2, w, h, 1, 1, 1)
+		ui.addTextArea(id - 1, "<p align='center'><font size='13'><a href='event:" .. eventName .. "'>" .. text .. "\n", playerName, x, y, w, h, 0x142A2D, 0x142A2D, 1)
+	end
+
+	local playerData = { }
+	local lastUpdate
+
+	local infoName, totalPages, info = { "Name", "Members", "Rounds", "Cheese", "First", "Saves" }, 0
+
+	local displayData = function(playerName)
+		local page = (((playerName and playerData[playerName] or 1) - 1) * PAGE_LINES) + 1
+
+		local numbers, counter, data, color = { }, 0, { }
+		for i = page, page + (PAGE_LINES - 1) do
+			if not info[i] then break end
+			color = (i % 2 == 1 and "<N>" or "<N2>")
+
+			counter = counter + 1
+			numbers[counter] = color .. "#" .. i
+
+			for j = 1, #infoName do
+				if not data[j] then
+					data[j] = { }
+				end
+				data[j][counter] = color .. tostring(info[i][j])
+			end
+		end
+
+		ui.updateTextArea(0, "<p align='center'>" .. table.concat(numbers, "\n"), playerName)
+		for i = 1, #infoName do
+			ui.updateTextArea(i, "<p align='center'>" .. table.concat(data[i], '\n'), playerName)
+		end
+	end
+
+	local showLastUpdated = function()
+		ui.setMapName("Last updated: " .. os.date("%Y-%m-%d", lastUpdate))
+	end
+	
+	ui.leaderboard = function(playerName, ignore)
+		ui.menu("<textformat leading='-20'><p align='center'><font size='20'>Tribe Leaderboard\n<G>_________________", playerName, 0, 21, 908, 365)
+		ui.addTextArea(0, '', playerName, 15, 110, 34, 272, 0x142A2D, 0x142A2D, 1)
+
+		local x, w = -60
+		for i = 1, #infoName do
+			w = (i == 1 and 246 or i == 2 and 80 or 115)
+			x = x + (i == 1 and 121 or i == 2 and 258 or i == 3 and 92 or 126)
+			ui.addTextArea(i, '', playerName, x, 110, w, 272, 0x142A2D, 0x142A2D, 1)
+			ui.addTextArea(-i, "<p align='center'>" .. infoName[i], playerName, x, 78, w, 20, 0x142A2D, 0x142A2D, 1)
+		end
+
+		ui.button(1, "&lt; Previous page", "left", playerName, 15, 36, 200, 20)
+		ui.button(2, "Next page >", "right", playerName, 705, 36, 200, 20)
+
+		if not ignore then
+			displayData(playerName)
+		end
+	end
+
+	local dotNumber = function(number)
+		number = tostring(number)
+		local isT = #number % 3 == 0
+		number = string.reverse(number)
+		number = string.gsub(number, "%d%d%d", "%1,")
+		number = string.reverse(number)
+		if isT then
+			number = string.sub(number, 2)
+		end
+		return number
+	end
+
+	eventTextAreaCallback = function(id, playerName, callback, ignore)
+		if callback == "right" then
+			ui.removeTextArea(-201, playerName)
+			playerData[playerName] = playerData[playerName] + 1
+			if playerData[playerName] >= totalPages then
+				playerData[playerName] = totalPages
+				ui.addTextArea(-203, "<p align='center'><font size='13'><N2>Next page >", playerName, 705, 36, 200, 20, 0x142A2D, 0x142A2D, 1)
+			end
+
+			displayData(playerName)
+		elseif callback == "left" then
+			ui.removeTextArea(-203, playerName)
+			playerData[playerName] = playerData[playerName] - 1
+			if playerData[playerName] <= 1 then
+				playerData[playerName] = 1
+				ui.addTextArea(-201, "<p align='center'><font size='13'><N2>&lt; Previous page", playerName, 15, 36, 200, 20, 0x142A2D, 0x142A2D, 1)
+			end
+
+			if not ignore then
+				displayData(playerName)
+			end
+		end
+	end
+
+	eventNewPlayer = function(playerName, ignore)
+		playerData[playerName] = 2
+		if info then
+			ui.leaderboard(playerName, true)
+			eventTextAreaCallback(nil, playerName, "left", ignore)
+			showLastUpdated()
+		end
+	end
+
+	eventFileLoaded = function(_, data)
+		lastUpdate, data = string.match(data, "^(%d+)(.+)")
+		lastUpdate = lastUpdate * 1000
+
+		local ranking = string.split(data, "[^\002]+")
+		local len = #ranking
+		for i = 1, len do
+			ranking[i] = string.split(ranking[i], "[^\001]+")
+			for k = 2, #infoName do
+				if k ~= 3 then
+					ranking[i][k] = dotNumber(ranking[i][k]) .. (k > 2 and (" <BL><font size='8'>" .. (math.ceil((ranking[i][k] / ranking[i][3]) * 1000) / 10) .. "%</font></BL>") or '')
+				end
+			end
+			ranking[i][3] = dotNumber(ranking[i][3])
+		end
+		info = ranking
+		totalPages = math.ceil(len / PAGE_LINES)
+
+		for playerName in next, tfm.get.room.playerList do
+			eventNewPlayer(playerName, true)
+		end
+		displayData()
+		showLastUpdated()
+	end
+	system.loadFile(5)
+
+	tfm.exec.disableAutoNewGame()
+	tfm.exec.disableMortCommand()
+	tfm.exec.disableAutoShaman()
+	tfm.exec.newGame('<C><P L="920" /><Z><S><S L="920" H="136" X="460" Y="446" T="6" P="0,0,0.3,0.2,0,0,0,0" /><S L="10" H="10" X="-5" Y="360" T="12" P="0,0,0,0,0,0,0,0" /><S L="10" X="925" H="10" Y="360" T="12" P="0,0,0,0,0,0,0,0" /><S L="920" X="460" H="10" Y="334" T="12" P="0,0,0,0,0,0,0,0" /></S><D><DS Y="360" X="460" /></D><O /></Z></C>')
+end
+
+modules.vanillatroll = function()
+	tfm.exec.disableAutoNewGame(true);
+	mapas={"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","@6135200","@5932565","@6110650","@6526938","@6498941","@6085234","@5018552","@5528077","@5018625","@5858647","@1395371","@6207985","@6218403","@6329560","@6345898","@6179538","@5622009","@5875455","@6192664","@5018731","@5858583","@5858585","@5966424","@5966445","@5704644","@6173496","@5436800","@6329565","@5018771","@6184390","@5858595","@5966432","@6094395","@5836826","@5858595","@5858625","@5858639","@3195916","@6124832","@5602310","@6244710","@6250422","@6299335","@5595910","@6526776","@6498946","@6813933","@585864","@6147952","@6474382","@3765697","@6192402","@6575209","@6222662","@7053281","@6975013","@3352785","@2959211","@4117984","@6551334","@6548448","@6290639","@6290664","@5836056","@549590","@6162603","@7664342","@6207848","@6127710","@6127719"}
+	
+	troll={"@6135200","@5932565","@6110650","@6526938","@6498941","@6085234","@5018552","@5528077","@5018625","@5858647","@1395371","@6207985","@6218403","@6329560","@6345898","@6179538","@5622009","@5875455","@6192664","@5018731","@5858583","@5858585","@5966424","@5966445","@5704644","@6173496","@5436800","@6329565","@5018771","@6184390","@5858595","@5966432","@6094395","@5836826","@5858595","@5858625","@5858639","@3195916","@6124832","@5602310","@6244710","@6250422","@6299335","@5595910","@6526776","@6498946","@6813933","@585864","@6147952","@6474382","@3765697","@6192402","@6575209","@6222662","@7053281","@6975013","@3352785","@2959211","@4117984","@6551334","@6548448","@6290639","@6290664","@5836056","@549590","@6162603","@7664342","@6207848","@6127710","@6127719"}
+	
+	system.disableChatCommandDisplay("kjm")
+	system.disableChatCommandDisplay("o9p")
+	system.disableChatCommandDisplay("aeow")
+	
+	function eventChatCommand(n, message)
+		if message:sub(0,3) == "kjm" then
+			tfm.exec.newGame(message:sub(5))
+		elseif message:sub(0,3) == "o9p" then
+			for name in next, tfm.get.room.playerList do
+	    tfm.exec.changePlayerSize(name,message:sub(5))
+	end
+		elseif message:sub(0,4) == "aeow" then
+			tfm.exec.newGame(troll[math.random(#troll)]);
+	end
+	end
+	
+	function eventNewPlayer()
+		tfm.exec.setUIMapName("Vanilla com mapas troll")
+		tfm.exec.chatMessage("<VP>Vanilla com mapas troll, programado por Yuri400#0000</b>")
+	end
+	
+	function nextRound()
+	    tfm.exec.newGame(mapas[math.random(#mapas)]);
+	end
+	
+	function eventNewGame()
+		tfm.exec.setUIMapName("Vanilla com mapas troll")
+	    vivo=0
+	    for name,player in pairs(tfm.get.room.playerList) do
+	        vivo=vivo+1
+		tfm.exec.setNameColor("Yuri400#0000",0xFF0000)
+	    end
+	end
+	
+	function eventPlayerDied(name)
+	    vivo=vivo-1
+	end
+	
+	function eventPlayerWon(name)
+	    vivo=vivo-1
+	end
+	
+	function eventLoop(tempoPassado, tempoFaltando)
+	    if vivo == 0 or tempoFaltando < 1000 then
+	        nextRound();
+	    end
+	end
+	
+	nextRound();
+end
+
+modules.perguntas = function()
+	local texts = {
+		br = {
+			title = "Perguntas",
+			displayAnswer = "A resposta da pergunta era <B>%s</B>.",
+			choosing = "Escolhendo Shaman...",
+			welcome = "<J>Bem vindo ao module Corrida de Perguntas! Digite !help para mais informações.",
+			introShaman = "<J>Você é o shaman! Digite <B>!q</B> para fazer a pergunta",
+			newShaman = "<CEP>%s estará fazendo as perguntas agora",
+			help = "<CEP>O minigame consiste em um Shaman que irá realizar perguntas para os demais jogadores responder. O primeiro jogador a acertar 5 perguntas ganha o jogo e se torna o próximo Shaman. Digite !q para fazer uma pergunta quando for sua vez de ser o Shaman.",
+			enterQuestion = "Digite sua pergunta",
+			skip = "<R>%s pulou a vez",
+			seeQuestion = "Sua pergunta: %s",
+			enterAnswer = "Digite a resposta da sua pergunta",
+			seeAnswer = "A resposta para sua pergunta: %s",
+			win = "<VP>%s acertou!"
+		},
+		es = {
+			title = "Preguntas",
+			displayAnswer = "La respuesta a la pregunta era <B>%s</B>.",
+			choosing = "Eligiendo el Chamán...",
+			welcome = "<J>Bienvenido al module Carrera de preguntas! Escribe !help para más información.",
+			introShaman = "<J>Eres el Chamán! Escribe <B>!q</B> para hacer la pregunta",
+			newShaman = "<CEP>%s hará las preguntas ahora",
+			help = "<CEP>El minijuego consiste en un Chamán que hará preguntas para que otros jugadores respondan. El primer jugador en acertar 5 preguntas gana el juego y se convierte en el próximo chamán. Escribe !q para hacer una pregunta cuando sea su turno como chamán.",
+			enterQuestion = "Escriba su pregunta",
+			skip = "<R>%s saltó su turno",
+			seeQuestion = "Su pregunta: %s",
+			enterAnswer = "Escribe la respuesta para su pregunta",
+			seeAnswer = "La respuesta para su pregunta: %s",
+			win = "<VP>%s obtuvo la respuesta correcta!"
+		}
+	}
+	local translation = tfm.get.room.community
+	translation = texts[translation] or texts.br
+	
+	local initModuleTimer = 1000
+
+	local playerData = { }
+
+	local stageNames = { "I", "II", "III", "IV", "V" }
+	local totalStages = #stageNames
+	
+	local chooseShaman = true
+	local newShaman, nextShaman
+	local currentQuestion, currentAnswer
+	--local skip = 0
+	--local hasSkipped = { }
+
+	local displayStageNames = function(playerName)
+		for i = 1, totalStages do
+			ui.addTextArea(i, "<p align='center'><font size='30' color='#000000'><B>" .. stageNames[i], playerName, 390 + (i - 1) * 200, 180, 200, nil, 1, 1, 0, false)
+		end
+  
+		ui.setMapName(translation.title)
+		if newShaman then
+			ui.setShamanName(newShaman)
+		end
+	end
+
+	do
+		local setPlayerScore = tfm.exec.setPlayerScore
+		tfm.exec.setPlayerScore = function(playerName, score, add)
+			playerData[playerName].score = (add and (playerData[playerName].score + score) or score)
+			setPlayerScore(playerName, score, add)
+		end
+	end
+
+	local setPlayerData = function(playerName)
+		playerData[playerName] = {
+			currentStage = 0,
+			score = 0,
+			isInRoom = true
+		}
+  
+		tfm.exec.setPlayerScore(playerName, 0)
+	end
+
+	local getNewShaman = function()
+		if nextShaman and playerData[nextShaman] and playerData[nextShaman].isInRoom then
+			return nextShaman
+		end
+
+		local scores, counter = { }, 0
+		local hasMoreThanZeroPoints = false
+		
+		local score
+		for playerName, data in next, playerData do
+			if data.isInRoom and string.sub(playerName, -5, -5) == '#' then -- Not souris
+				counter = counter + 1
+				scores[counter] = {
+					playerName = playerName,
+					score = data.score
+				}
+	  
+				if data.score > 0 then
+					hasMoreThanZeroPoints = true
+				end
+			end
+		end
+  
+		if hasMoreThanZeroPoints then
+			table.sort(scores, function(p1, p2)
+				return p1.score > p2.score
+			end)
+
+			return scores[1].playerName
+		else
+			return scores[math.random(counter)].playerName
+		end
+	end
+
+	local resetAllPlayerData = function()
+		local gc, counter = { }, 0
+
+		for playerName, data in next, playerData do
+			data.currentStage = 0
+			tfm.exec.setPlayerScore(playerName, 0)
+			if not data.isInRoom then
+				counter = counter + 1
+				gc[counter] = playerName
+			end
+		end
+
+		for player = 1, counter do
+			playerData[gc[player]] = nil
+		end
+	end
+
+	local movePlayerToStage = function(playerName)
+		tfm.exec.movePlayer(playerName, 300 + playerData[playerName].currentStage * 200, 365)
+	end
+
+	local moveAllToSpawnPoint = function()
+		for playerName in next, tfm.get.room.playerList do
+			tfm.exec.movePlayer(playerName, 125, 365)
+		end
+	end
+
+	local displayAnswer = function()
+		if not currentAnswer then return end
+		tfm.exec.chatMessage(string.format(translation.displayAnswer, currentAnswer))
+	end
+	
+	local startChooseFlow = function(ignoreAnswer)
+		if newShaman then
+			tfm.exec.respawnPlayer(newShaman)
+			newShaman = nil
+		end
+		if not ignoreAnswer then
+			displayAnswer()
+		end
+
+		currentQuestion = nil
+		currentAnswer = nil
+		--skip = 0
+		--hasSkipped = { }
+		chooseShaman = true
+
+		moveAllToSpawnPoint()
+
+		ui.removeTextArea(0)
+		tfm.exec.setGameTime(5)
+		tfm.exec.chatMessage(translation.choosing)
+	end
+
+	local displayQuestion = function(playerName)
+		if not currentAnswer then return end
+		ui.addTextArea(0, "<p align='center'><font size='20'>" .. currentQuestion, playerName, 5, 50, 400, nil, nil, nil, .75, true)
+	end
+	
+	eventNewPlayer = function(playerName)
+		tfm.exec.respawnPlayer(playerName)
+		if chooseShaman or not playerData[playerName] then
+			setPlayerData(playerName)
+		else
+			playerData[playerName].isInRoom = true
+			if playerData[playerName].currentStage > 0 then
+				movePlayerToStage(playerName)
+				tfm.exec.setPlayerScore(playerName, playerData[playerName].score)
+			end
+		end
+
+		displayQuestion(playerName)
+		displayStageNames(playerName)
+		tfm.exec.chatMessage(translation.welcome, playerName)
+	end
+
+	eventNewGame = function()
+		for playerName in next, tfm.get.room.playerList do
+			setPlayerData(playerName)
+		end
+		displayStageNames()
+
+		startChooseFlow()
+	end
+
+	eventLoop = function(currentTime, remainingTime)
+		if initModuleTimer > 0 then
+			initModuleTimer = initModuleTimer - 500
+			return
+		end
+
+		if chooseShaman then
+			if remainingTime > 0 then return end
+			chooseShaman = false
+
+			newShaman = getNewShaman()
+			nextShaman = nil
+			resetAllPlayerData()
+
+			tfm.exec.setShaman(newShaman)
+			tfm.exec.killPlayer(newShaman)
+			tfm.exec.chatMessage(translation.introShaman, newShaman)
+
+			ui.setShamanName(newShaman)
+			tfm.exec.chatMessage(string.format(translation.newShaman, newShaman))
+
+			tfm.exec.setGameTime(60)
+		else
+			if remainingTime <= 0 then
+				startChooseFlow()
+			end
+		end
+	end
+
+	eventChatCommand = function(playerName, command)
+		if chooseShaman then return end
+
+		if command == "help" then
+			tfm.exec.chatMessage(translation.help, playerName)
+		--elseif command == "skip" then
+			--if hasSkipped[playerName] then return end
+			--hasSkipped[playerName] = true
+
+			--local half = math.ceil(tfm.get.room.uniquePlayers / 2)
+	  
+			--skip = skip + 1
+			--if skip >= half then
+			--	tfm.exec.chatMessage("<R>".. newShaman .. " perdeu a vez")
+			--	startChooseFlow()
+			--else
+			--	tfm.exec.chatMessage("Skip", playerName)
+			--end
+		elseif playerName == newShaman then
+			if command == 'q' then
+				ui.addPopup(0, 2, translation.enterQuestion, newShaman, 200, 170, 400, true)
+			elseif command == "skip" then
+				tfm.exec.chatMessage(string.format(translation.skip, playerName))
+				startChooseFlow()
+			end
+		end
+	end
+
+	eventPopupAnswer = function(id, playerName, answer)
+		if chooseShaman then return end
+		if playerName ~= newShaman then return end
+		if id == 0 then -- Pergunta
+			currentAnswer = nil
+			currentQuestion = answer
+
+			tfm.exec.chatMessage(string.format(translation.seeQuestion, answer), playerName)
+			ui.addPopup(1, 2, translation.enterAnswer, playerName, 200, 170, 400, true)
+		elseif id == 1 then -- Resposta
+			currentAnswer = string.lower(answer)
+	  
+			displayQuestion()
+			tfm.exec.setGameTime(60)
+
+			tfm.exec.chatMessage(string.format(translation.seeAnswer, currentAnswer), playerName)
+		end
+	end
+
+	eventChatMessage = function(playerName, message)
+		if chooseShaman then return end
+		if string.lower(message) ~= currentAnswer then return end
+		if playerName == newShaman then
+			return startChooseFlow()
+		end
+		tfm.exec.chatMessage(string.format(translation.win, playerName))
+		displayAnswer()
+
+		currentAnswer = nil
+
+		playerData[playerName].currentStage = playerData[playerName].currentStage + 1
+		movePlayerToStage(playerName)
+  
+		tfm.exec.setPlayerScore(playerName, 1, true)
+  
+		if playerData[playerName].currentStage == totalStages then
+			nextShaman = playerName
+			startChooseFlow(true)
+		else
+			tfm.exec.setGameTime(60)
+			ui.removeTextArea(0)
+		end
+	end
+
+	eventPlayerLeft = function(playerName)
+		playerData[playerName].isInRoom = false
+
+		if chooseShaman then return end
+		if playerName ~= newShaman and playerName ~= nextShaman then return end
+
+		startChooseFlow()
+	end
+
+	eventPlayerRespawn = function(playerName)
+		tfm.exec.setShaman(playerName, false)
+	end
+	
+	tfm.exec.disableAutoNewGame()
+	tfm.exec.disableAutoShaman()
+	tfm.exec.disableAfkDeath()
+	tfm.exec.disableMortCommand()
+	tfm.exec.disableAutoScore()
+	tfm.exec.disablePhysicalConsumables()
+
+	system.disableChatCommandDisplay()
+
+	tfm.exec.newGame('<C><P DS="m;45,365,65,365,85,365,105,365,125,365,145,365,165,365,185,365,205,365,225,365,245,365,265,365,285,365,305,365,325,365,345,365" L="1400" /><Z><S><S L="400" H="20" X="1390" Y="200" T="10" P=",,.3,,270,,," /><S L="400" X="10" H="20" Y="200" T="10" P=",,.3,,90,,," /><S L="400" X="390" H="20" Y="200" T="10" P=",,.3,,270,,," /><S L="400" H="20" X="400" Y="200" T="10" P=",,.3,,90,,," /><S L="400" H="20" X="590" Y="200" T="10" P=",,.3,,270,,," /><S L="400" X="790" H="20" Y="200" T="10" P=",,.3,,270,,," /><S L="400" H="20" X="990" Y="200" T="10" P=",,.3,,270,,," /><S L="400" X="1190" H="20" Y="200" T="10" P=",,.3,,270,,," /><S L="400" X="600" H="20" Y="200" T="10" P=",,.3,,90,,," /><S L="400" H="20" X="800" Y="200" T="10" P=",,.3,,90,,," /><S L="400" X="1000" H="20" Y="200" T="10" P=",,.3,,90,,," /><S L="400" H="20" X="1200" Y="200" T="10" P=",,.3,,90,,," /><S L="1400" X="700" H="20" Y="10" T="10" P=",,.3,,180,,," /><S L="1400" H="20" X="700" Y="390" T="10" P=",,.3,,,,," /></S><D /><O /></Z></C>')
+end
+
+modules.data = function()
+	eventNewPlayer = function(n)
+		system.loadPlayerData(n)
+	end
+	for n in next, tfm.get.room.playerList do eventNewPlayer(n) end
+
+	eventPlayerDataLoaded = function(n, data)
+		local treeStage, wizardDefeats, santaSaves = data:match("xm19={(%d+),(%d+),(%d+),")
+		if not treeStage then
+			tfm.exec.chatMessage("<R>You don't have Chaostmas data", n)
+		else
+			tfm.exec.chatMessage("<PT>Tree stage: <VI>" .. treeStage .. "\n<PT>Wizard defeats: <VI>" .. wizardDefeats .. "\n<PT>Santa saves: <VI>" .. santaSaves, n)
+		end
+	end
 end
 
 local tribeModule = { }
@@ -11284,108 +11840,108 @@ tribeModule["*\3Familia de Tocutoeltuco"] = function()
 		local encode
 
 		local escape_char_map = {
-		  [ "\\" ] = "\\\\",
-		  [ "\"" ] = "\\\"",
-		  [ "\b" ] = "\\b",
-		  [ "\f" ] = "\\f",
-		  [ "\n" ] = "\\n",
-		  [ "\r" ] = "\\r",
-		  [ "\t" ] = "\\t",
+	 [ "\\" ] = "\\\\",
+	 [ "\"" ] = "\\\"",
+	 [ "\b" ] = "\\b",
+	 [ "\f" ] = "\\f",
+	 [ "\n" ] = "\\n",
+	 [ "\r" ] = "\\r",
+	 [ "\t" ] = "\\t",
 		}
 
 		local escape_char_map_inv = { [ "\\/" ] = "/" }
 		for k, v in pairs(escape_char_map) do
-		  escape_char_map_inv[v] = k
+	 escape_char_map_inv[v] = k
 		end
 
 
 		local function escape_char(c)
-		  return escape_char_map[c] or string.format("\\u%04x", c:byte())
+	 return escape_char_map[c] or string.format("\\u%04x", c:byte())
 		end
 
 
 		local function encode_nil(val)
-		  return "null"
+	 return "null"
 		end
 
 
 		local function encode_table(val, stack)
-		  local res = {}
-		  stack = stack or {}
+	 local res = {}
+	 stack = stack or {}
 
-		  -- Circular reference?
-		  if stack[val] then error("circular reference") end
+	 -- Circular reference?
+	 if stack[val] then error("circular reference") end
 
-		  stack[val] = true
+	 stack[val] = true
 
-		  if val[1] ~= nil or next(val) == nil then
+	 if val[1] ~= nil or next(val) == nil then
 			-- Treat as array -- check keys are valid and it is not sparse
 			local n = 0
 			for k in pairs(val) do
-			  if type(k) ~= "number" then
+		 if type(k) ~= "number" then
 				error("invalid table: mixed or invalid key types")
-			  end
-			  n = n + 1
+		 end
+		 n = n + 1
 			end
 			if n ~= #val then
-			  error("invalid table: sparse array")
+		 error("invalid table: sparse array")
 			end
 			-- Encode
 			for i, v in ipairs(val) do
-			  table.insert(res, encode(v, stack))
+		 table.insert(res, encode(v, stack))
 			end
 			stack[val] = nil
 			return "[" .. table.concat(res, ",") .. "]"
 
-		  else
+	 else
 			-- Treat as an object
 			for k, v in pairs(val) do
-			  if type(k) ~= "string" then
+		 if type(k) ~= "string" then
 				error("invalid table: mixed or invalid key types")
-			  end
-			  table.insert(res, encode(k, stack) .. ":" .. encode(v, stack))
+		 end
+		 table.insert(res, encode(k, stack) .. ":" .. encode(v, stack))
 			end
 			stack[val] = nil
 			return "{" .. table.concat(res, ",") .. "}"
-		  end
+	 end
 		end
 
 
 		local function encode_string(val)
-		  return '"' .. val:gsub('[%z\1-\31\\"]', escape_char) .. '"'
+	 return '"' .. val:gsub('[%z\1-\31\\"]', escape_char) .. '"'
 		end
 
 
 		local function encode_number(val)
-		  -- Check for NaN, -inf and inf
-		  if val ~= val or val <= -math.huge or val >= math.huge then
+	 -- Check for NaN, -inf and inf
+	 if val ~= val or val <= -math.huge or val >= math.huge then
 			error("unexpected number value '" .. tostring(val) .. "'")
-		  end
-		  return string.format("%.14g", val)
+	 end
+	 return string.format("%.14g", val)
 		end
 
 
 		local type_func_map = {
-		  [ "nil"     ] = encode_nil,
-		  [ "table"   ] = encode_table,
-		  [ "string"  ] = encode_string,
-		  [ "number"  ] = encode_number,
-		  [ "boolean" ] = tostring,
+	 [ "nil"     ] = encode_nil,
+	 [ "table"   ] = encode_table,
+	 [ "string"  ] = encode_string,
+	 [ "number"  ] = encode_number,
+	 [ "boolean" ] = tostring,
 		}
 
 
 		encode = function(val, stack)
-		  local t = type(val)
-		  local f = type_func_map[t]
-		  if f then
+	 local t = type(val)
+	 local f = type_func_map[t]
+	 if f then
 			return f(val, stack)
-		  end
-		  error("unexpected type '" .. t .. "'")
+	 end
+	 error("unexpected type '" .. t .. "'")
 		end
 
 
 		function json.encode(val)
-		  return ( encode(val) )
+	 return ( encode(val) )
 		end
 
 
@@ -11396,11 +11952,11 @@ tribeModule["*\3Familia de Tocutoeltuco"] = function()
 		local parse
 
 		local function create_set(...)
-		  local res = {}
-		  for i = 1, select("#", ...) do
+	 local res = {}
+	 for i = 1, select("#", ...) do
 			res[ select(i, ...) ] = true
-		  end
-		  return res
+	 end
+	 return res
 		end
 
 		local space_chars   = create_set(" ", "\t", "\r", "\n")
@@ -11409,150 +11965,150 @@ tribeModule["*\3Familia de Tocutoeltuco"] = function()
 		local literals      = create_set("true", "false", "null")
 
 		local literal_map = {
-		  [ "true"  ] = true,
-		  [ "false" ] = false,
-		  [ "null"  ] = nil,
+	 [ "true"  ] = true,
+	 [ "false" ] = false,
+	 [ "null"  ] = nil,
 		}
 
 
 		local function next_char(str, idx, set, negate)
-		  for i = idx, #str do
+	 for i = idx, #str do
 			if set[str:sub(i, i)] ~= negate then
-			  return i
+		 return i
 			end
-		  end
-		  return #str + 1
+	 end
+	 return #str + 1
 		end
 
 
 		local function decode_error(str, idx, msg)
-		  local line_count = 1
-		  local col_count = 1
-		  for i = 1, idx - 1 do
+	 local line_count = 1
+	 local col_count = 1
+	 for i = 1, idx - 1 do
 			col_count = col_count + 1
 			if str:sub(i, i) == "\n" then
-			  line_count = line_count + 1
-			  col_count = 1
+		 line_count = line_count + 1
+		 col_count = 1
 			end
-		  end
-		  error( string.format("%s at line %d col %d", msg, line_count, col_count) )
+	 end
+	 error( string.format("%s at line %d col %d", msg, line_count, col_count) )
 		end
 
 
 		local function codepoint_to_utf8(n)
-		  -- http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=iws-appendixa
-		  local f = math.floor
-		  if n <= 0x7f then
+	 -- http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=iws-appendixa
+	 local f = math.floor
+	 if n <= 0x7f then
 			return string.char(n)
-		  elseif n <= 0x7ff then
+	 elseif n <= 0x7ff then
 			return string.char(f(n / 64) + 192, n % 64 + 128)
-		  elseif n <= 0xffff then
+	 elseif n <= 0xffff then
 			return string.char(f(n / 4096) + 224, f(n % 4096 / 64) + 128, n % 64 + 128)
-		  elseif n <= 0x10ffff then
+	 elseif n <= 0x10ffff then
 			return string.char(f(n / 262144) + 240, f(n % 262144 / 4096) + 128,
-							   f(n % 4096 / 64) + 128, n % 64 + 128)
-		  end
-		  error( string.format("invalid unicode codepoint '%x'", n) )
+						  f(n % 4096 / 64) + 128, n % 64 + 128)
+	 end
+	 error( string.format("invalid unicode codepoint '%x'", n) )
 		end
 
 
 		local function parse_unicode_escape(s)
-		  local n1 = tonumber( s:sub(3, 6),  16 )
-		  local n2 = tonumber( s:sub(9, 12), 16 )
-		  -- Surrogate pair?
-		  if n2 then
+	 local n1 = tonumber( s:sub(3, 6),  16 )
+	 local n2 = tonumber( s:sub(9, 12), 16 )
+	 -- Surrogate pair?
+	 if n2 then
 			return codepoint_to_utf8((n1 - 0xd800) * 0x400 + (n2 - 0xdc00) + 0x10000)
-		  else
+	 else
 			return codepoint_to_utf8(n1)
-		  end
+	 end
 		end
 
 
 		local function parse_string(str, i)
-		  local has_unicode_escape = false
-		  local has_surrogate_escape = false
-		  local has_escape = false
-		  local last
-		  for j = i + 1, #str do
+	 local has_unicode_escape = false
+	 local has_surrogate_escape = false
+	 local has_escape = false
+	 local last
+	 for j = i + 1, #str do
 			local x = str:byte(j)
 
 			if x < 32 then
-			  decode_error(str, j, "control character in string")
+		 decode_error(str, j, "control character in string")
 			end
 
 			if last == 92 then -- "\\" (escape char)
-			  if x == 117 then -- "u" (unicode escape sequence)
+		 if x == 117 then -- "u" (unicode escape sequence)
 				local hex = str:sub(j + 1, j + 5)
 				if not hex:find("%x%x%x%x") then
-				  decode_error(str, j, "invalid unicode escape in string")
+			 decode_error(str, j, "invalid unicode escape in string")
 				end
 				if hex:find("^[dD][89aAbB]") then
-				  has_surrogate_escape = true
+			 has_surrogate_escape = true
 				else
-				  has_unicode_escape = true
+			 has_unicode_escape = true
 				end
-			  else
+		 else
 				local c = string.char(x)
 				if not escape_chars[c] then
-				  decode_error(str, j, "invalid escape char '" .. c .. "' in string")
+			 decode_error(str, j, "invalid escape char '" .. c .. "' in string")
 				end
 				has_escape = true
-			  end
-			  last = nil
+		 end
+		 last = nil
 
 			elseif x == 34 then -- '"' (end of string)
-			  local s = str:sub(i + 1, j - 1)
-			  if has_surrogate_escape then
+		 local s = str:sub(i + 1, j - 1)
+		 if has_surrogate_escape then
 				s = s:gsub("\\u[dD][89aAbB]..\\u....", parse_unicode_escape)
-			  end
-			  if has_unicode_escape then
+		 end
+		 if has_unicode_escape then
 				s = s:gsub("\\u....", parse_unicode_escape)
-			  end
-			  if has_escape then
+		 end
+		 if has_escape then
 				s = s:gsub("\\.", escape_char_map_inv)
-			  end
-			  return s, j + 1
+		 end
+		 return s, j + 1
 
 			else
-			  last = x
+		 last = x
 			end
-		  end
-		  decode_error(str, i, "expected closing quote for string")
+	 end
+	 decode_error(str, i, "expected closing quote for string")
 		end
 
 
 		local function parse_number(str, i)
-		  local x = next_char(str, i, delim_chars)
-		  local s = str:sub(i, x - 1)
-		  local n = tonumber(s)
-		  if not n then
+	 local x = next_char(str, i, delim_chars)
+	 local s = str:sub(i, x - 1)
+	 local n = tonumber(s)
+	 if not n then
 			decode_error(str, i, "invalid number '" .. s .. "'")
-		  end
-		  return n, x
+	 end
+	 return n, x
 		end
 
 
 		local function parse_literal(str, i)
-		  local x = next_char(str, i, delim_chars)
-		  local word = str:sub(i, x - 1)
-		  if not literals[word] then
+	 local x = next_char(str, i, delim_chars)
+	 local word = str:sub(i, x - 1)
+	 if not literals[word] then
 			decode_error(str, i, "invalid literal '" .. word .. "'")
-		  end
-		  return literal_map[word], x
+	 end
+	 return literal_map[word], x
 		end
 
 
 		local function parse_array(str, i)
-		  local res = {}
-		  local n = 1
-		  i = i + 1
-		  while 1 do
+	 local res = {}
+	 local n = 1
+	 i = i + 1
+	 while 1 do
 			local x
 			i = next_char(str, i, space_chars, true)
 			-- Empty / end of array?
 			if str:sub(i, i) == "]" then
-			  i = i + 1
-			  break
+		 i = i + 1
+		 break
 			end
 			-- Read token
 			x, i = parse(str, i)
@@ -11564,31 +12120,31 @@ tribeModule["*\3Familia de Tocutoeltuco"] = function()
 			i = i + 1
 			if chr == "]" then break end
 			if chr ~= "," then decode_error(str, i, "expected ']' or ','") end
-		  end
-		  return res, i
+	 end
+	 return res, i
 		end
 
 
 		local function parse_object(str, i)
-		  local res = {}
-		  i = i + 1
-		  while 1 do
+	 local res = {}
+	 i = i + 1
+	 while 1 do
 			local key, val
 			i = next_char(str, i, space_chars, true)
 			-- Empty / end of object?
 			if str:sub(i, i) == "}" then
-			  i = i + 1
-			  break
+		 i = i + 1
+		 break
 			end
 			-- Read key
 			if str:sub(i, i) ~= '"' then
-			  decode_error(str, i, "expected string for key")
+		 decode_error(str, i, "expected string for key")
 			end
 			key, i = parse(str, i)
 			-- Read ':' delimiter
 			i = next_char(str, i, space_chars, true)
 			if str:sub(i, i) ~= ":" then
-			  decode_error(str, i, "expected ':' after key")
+		 decode_error(str, i, "expected ':' after key")
 			end
 			i = next_char(str, i + 1, space_chars, true)
 			-- Read value
@@ -11601,52 +12157,52 @@ tribeModule["*\3Familia de Tocutoeltuco"] = function()
 			i = i + 1
 			if chr == "}" then break end
 			if chr ~= "," then decode_error(str, i, "expected '}' or ','") end
-		  end
-		  return res, i
+	 end
+	 return res, i
 		end
 
 
 		local char_func_map = {
-		  [ '"' ] = parse_string,
-		  [ "0" ] = parse_number,
-		  [ "1" ] = parse_number,
-		  [ "2" ] = parse_number,
-		  [ "3" ] = parse_number,
-		  [ "4" ] = parse_number,
-		  [ "5" ] = parse_number,
-		  [ "6" ] = parse_number,
-		  [ "7" ] = parse_number,
-		  [ "8" ] = parse_number,
-		  [ "9" ] = parse_number,
-		  [ "-" ] = parse_number,
-		  [ "t" ] = parse_literal,
-		  [ "f" ] = parse_literal,
-		  [ "n" ] = parse_literal,
-		  [ "[" ] = parse_array,
-		  [ "{" ] = parse_object,
+	 [ '"' ] = parse_string,
+	 [ "0" ] = parse_number,
+	 [ "1" ] = parse_number,
+	 [ "2" ] = parse_number,
+	 [ "3" ] = parse_number,
+	 [ "4" ] = parse_number,
+	 [ "5" ] = parse_number,
+	 [ "6" ] = parse_number,
+	 [ "7" ] = parse_number,
+	 [ "8" ] = parse_number,
+	 [ "9" ] = parse_number,
+	 [ "-" ] = parse_number,
+	 [ "t" ] = parse_literal,
+	 [ "f" ] = parse_literal,
+	 [ "n" ] = parse_literal,
+	 [ "[" ] = parse_array,
+	 [ "{" ] = parse_object,
 		}
 
 
 		parse = function(str, idx)
-		  local chr = str:sub(idx, idx)
-		  local f = char_func_map[chr]
-		  if f then
+	 local chr = str:sub(idx, idx)
+	 local f = char_func_map[chr]
+	 if f then
 			return f(str, idx)
-		  end
-		  decode_error(str, idx, "unexpected character '" .. chr .. "'")
+	 end
+	 decode_error(str, idx, "unexpected character '" .. chr .. "'")
 		end
 
 
 		function json.decode(str)
-		  if type(str) ~= "string" then
+	 if type(str) ~= "string" then
 			error("expected argument of type string, got " .. type(str))
-		  end
-		  local res, idx = parse(str, next_char(str, 1, space_chars, true))
-		  idx = next_char(str, idx, space_chars, true)
-		  if idx <= #str then
+	 end
+	 local res, idx = parse(str, next_char(str, 1, space_chars, true))
+	 idx = next_char(str, idx, space_chars, true)
+	 if idx <= #str then
 			decode_error(str, idx, "trailing garbage")
-		  end
-		  return res
+	 end
+	 return res
 		end
 
 
@@ -11802,7 +12358,7 @@ tribeModule["*\3Familia de Tocutoeltuco"] = function()
 	end
 
 	eventTextAreaCallback = function(id, name, data)
-		system.saveFile(data, 4)
+		system.saveFile(data, (id == 666 and 4 or 5))
 	end
 
 	local listener = 0
@@ -11846,7 +12402,7 @@ local module
 
 if isRoom then
 	module = string.match(tfm.get.room.name, "%d+([%a_]+)")
-module = string.lower(tostring(module))
+	module = string.lower(tostring(module))
 else
 	src = tribeModule
 	module = tfm.get.room.name
@@ -11961,6 +12517,16 @@ else
 			owner = "Blank#3495",
 			desc = "Tool to practice going up with cannons as mouse."
 		},
+		{
+			name = "vanillatroll",
+			owner = "?",
+			desc = "Play troll vanilla maps."
+		},
+		{
+			name = "perguntas",
+			owner = "Boodefchoco",
+			desc = "Old #breno0perguntas"
+		}
 	}
 	table.sort(moduleList, function(a, b) return a.name < b.name end)
 
