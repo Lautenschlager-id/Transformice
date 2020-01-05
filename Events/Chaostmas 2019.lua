@@ -2,7 +2,7 @@
 local math_floor, math_random, math_atan2, math_cos, math_sin, math_abs, math_deg, math_ceil, math_randomseed = math.floor, math.random, math.atan2, math.cos, math.sin, math.abs, math.deg, math.ceil, math.randomseed
 local string_upper, string_gsub, string_match, string_gmatch, string_sub, string_rep, string_format, string_find = string.upper, string.gsub, string.match, string.gmatch, string.sub, string.rep, string.format, string.find
 local table_insert, table_concat, table_unpack = table.insert, table.concat, table.unpack
-local os_date, os_time = os.date, os.time
+local os_time = os.time
 
 --[[ Module Info ]]--
 local module = {
@@ -36,11 +36,11 @@ local module = {
 	minPlayers = 5,
 	maxPlayers = 70,
 	timerTicks = 12,
-	life = (tonumber(os_date("%m")) < 12 and 7 or 6),
+	life = 6,
 	rewardTitleWizardDefeats = 15,
 	rewardTitleSavedSanta = 3,
 	rewardOrbSavedSanta = 5,
-	emoteDay = 26
+	--emoteDay = 26
 }
 module.mapName = { module.formalName, module.team.developer, module.formalName, module.team.artist, module.team.developer, module.formalName, module.team.developer, module.team.artist }
 
@@ -482,7 +482,9 @@ local bulletData = {
 
 	damageWhenMutantWizard = 0,
 	minimumMutantWizardMice = 10,
-	maximumMutantWizardMice = 0
+	maximumMutantWizardMice = 0,
+
+	transparent = false
 }
 
 local rewardId = {
@@ -509,7 +511,8 @@ local miscData = {
 	emotePx = 0,
 	beginningFirstStage = { 340, 1523 },
 	treeStages = 0,
-	defaultDamage = 2.3
+	defaultDamage = 2.3,
+	minimumMiceForTransparentBullet = 30
 }
 
 local emoteIds = {
@@ -2023,7 +2026,7 @@ do
 			object = tfm.exec.addShamanObject(objectId.paperBall, x, y, angle, (-directionX * bulletData.xSpeedBoss), (-directionY * bulletData.ySpeedBoss)) -- Using negative because 'boss' was passed first, for the getRelativeN function.
 			sprite = images.throwables.snowball
 		else
-			object = tfm.exec.addShamanObject(objectId.paperBall, x + (25 * direction), y - 15, 0, bulletData.xSpeed * direction, bulletData.ySpeed)
+			object = tfm.exec.addShamanObject(objectId.paperBall, x + (25 * direction), y - 15, 0, bulletData.xSpeed * direction, bulletData.ySpeed, bulletData.transparent)
 			sprite = images.throwables.fireball
 		end
 
@@ -2251,6 +2254,7 @@ local globalInitSettings = function(bool, settingsOnly)
 		monsterData.life.default[monsterType.mutantWizard] = monsterData.life[monsterType.mutantWizard]
 		bulletData.damage = getDamageByTotalPlayers(tfm.get.room.uniquePlayers)
 		bulletData.maximumMutantWizardMice = tfm.get.room.uniquePlayers
+		bulletData.transparent = (tfm.get.room.uniquePlayers >= miscData.minimumMiceForTransparentBullet)
 		miscData.emotePx = -310 / #miscData.sequenceEmotes
 		miscData.treeStages = #images.christmasTree
 	end
@@ -2309,11 +2313,11 @@ do
 	}
 
 	local insertSequenceEmotes = function()
-		local currentMonth, currentDay = tonumber(os_date("%m")), tonumber(os_date("%d"))
+		--local currentMonth, currentDay = tonumber(os_date("%m")), tonumber(os_date("%d"))
 		for emote = 1, #miscData.sequenceEmotes do
-			if currentMonth < 12 or currentDay >= (module.emoteDay + (emote - 1)) then
+			--if currentMonth < 12 or currentDay >= (module.emoteDay + (emote - 1)) then
 				tfm.exec.addImage(images.sequenceEmotes[emote], imageLayer.emote, miscData.sequenceEmotes[emote][1], miscData.sequenceEmotes[emote][2])
-			end
+			--end
 		end
 	end
 
@@ -2956,6 +2960,18 @@ eventPlayerDialogEnded = function(playerName, id, data)
 		chatMessage(translation.introduceAttack, playerName)
 	elseif id == dialogId.findSanta then
 		chatMessage(translation.introducePuzzle, playerName, "elf")
+	end
+end
+
+-- Debug
+system.disableChatCommandDisplay()
+eventChatCommand = function(playerName, command)
+	if playerName ~= module.team.developer then return end
+	if command == "exit" then
+		system.exit()
+	elseif command == "timer" then
+		tfm.exec.chatMessage(workingTimer, playerName)
+		tfm.exec.chatMessage(tostring(canStart), playerName)
 	end
 end
 
