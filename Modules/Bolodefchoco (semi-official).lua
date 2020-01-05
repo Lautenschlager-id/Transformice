@@ -403,7 +403,7 @@ local pairsByIndexes = function(list, f)
 		if out[i] ~= nil then
 			return out[i], list[out[i]]
 		end
-	end
+    end
 end
 
 table.remove = function(list, pos)
@@ -3009,7 +3009,7 @@ modules.arrow = function()
 	  BWIN = "<BV>~ [Équipe bleue] ~ On a gagné !"
 		},
   nl = {
-	  WELCOME = "<J>Welkom bij Arrow, kies je team en ga vechten! </ J> <ROSE> Druk op de spatiebalk om pijlen te schieten</ROSE>",		 
+	  WELCOME = "<J>Welkom bij Arrow, kies je team en ga vechten! </ J> <ROSE> Druk op de spatiebalk om pijlen te schieten</ROSE>",         
 	  RedTeam = "<a href='event:redTeam'><p align=‘center'>Lid van het rode team worden",
 	  BlueTeam = "<a href='event:blueTeam'><p align=‘center'>Lid van het blauwe team worden",
 	  AWIN = "<D>~ [Jury] Geen winnaars!",
@@ -3493,7 +3493,7 @@ modules.mastermind = function()
 	local str = "<p align='center'><font size='20'>"
 
 	local displayInterface = function(playerName)
-		ui.addTextArea(-2, "<p align='center'><font size='16'>  Guessed	Exist   Match", playerName, 5, 25, 220, 365, 1, 1, .5, true)
+		ui.addTextArea(-2, "<p align='center'><font size='16'>  Guessed    Exist   Match", playerName, 5, 25, 220, 365, 1, 1, .5, true)
 		ui.addTextArea(-1, "<p align='center'><font size='16'>Enter number [0-9]", playerName, 233, 25, 243, 365, 1, 1, .5, true)
 		ui.addTextArea(0, str, playerName, 233, 100, 243, nil, 1, 1, 0, true)
 
@@ -3506,7 +3506,7 @@ modules.mastermind = function()
 			y = 60 + (i * 48)
 			ui.addTextArea(displayFields - 2, str, playerName, 15, y, 80, 30, 1, 1, .7, true)
 			ui.addTextArea(displayFields - 1, str, playerName, 115, y, 40, 30, 1, 1, .7, true)
-			ui.addTextArea(displayFields	, str, playerName, 175, y, 40, 30, 1, 1, .7, true)
+			ui.addTextArea(displayFields    , str, playerName, 175, y, 40, 30, 1, 1, .7, true)
 		end
 	end
 
@@ -8198,7 +8198,7 @@ modules.evt_pizzeria = function()
 	--[[ Interface ]]--
 	local market = function(playerName, update)
 		if not update then
-			ui.menu("<p align='center'><font size='20'><a href='event:button.market.previous'><B><J>«</J></B></a>	 " .. translation().ui.market .. "	 <a href='event:button.market.next'><B><J>»</J></B></a>\n", playerName, 265, 112, 270, 175)
+			ui.menu("<p align='center'><font size='20'><a href='event:button.market.previous'><B><J>«</J></B></a>     " .. translation().ui.market .. "     <a href='event:button.market.next'><B><J>»</J></B></a>\n", playerName, 265, 112, 270, 175)
 		end
 
 		local o = ingredient.plant[playerFlashData[playerName].marketIndex]
@@ -8289,7 +8289,7 @@ modules.evt_pizzeria = function()
 		local obj = (type == 1 and "freezer" or "cabinet")
 
 		if not update then
-			ui.menu("<p align='center'><font size='20'><a href='event:button.storage.previous." .. type .. "'><B><J>«</J></B></a>	 " .. translation().ui[obj] .. "	 <a href='event:button.storage.next." .. type .. "'><B><J>»</J></B></a>\n<font size='10'>( " .. #playerData[playerName].storage[type] .. " / " .. limits[obj] .. " )", playerName, 265, 120, 270, 175)
+			ui.menu("<p align='center'><font size='20'><a href='event:button.storage.previous." .. type .. "'><B><J>«</J></B></a>     " .. translation().ui[obj] .. "     <a href='event:button.storage.next." .. type .. "'><B><J>»</J></B></a>\n<font size='10'>( " .. #playerData[playerName].storage[type] .. " / " .. limits[obj] .. " )", playerName, 265, 120, 270, 175)
 		end
 
 		local stored = playerData[playerName].storage[type][playerFlashData[playerName].storageIndex]
@@ -8314,7 +8314,7 @@ modules.evt_pizzeria = function()
 
 	local garbage = function(playerName, update)
 		if not update then
-			ui.menu("<p align='center'><font size='20'><a href='event:button.garbage.previous'><B><J>«</J></B></a>	 " .. translation().ui.garbage .. "	 <a href='event:button.garbage.next'><B><J>»</J></B></a>\n", playerName, 265, 112, 270, 175)
+			ui.menu("<p align='center'><font size='20'><a href='event:button.garbage.previous'><B><J>«</J></B></a>     " .. translation().ui.garbage .. "     <a href='event:button.garbage.next'><B><J>»</J></B></a>\n", playerName, 265, 112, 270, 175)
 		end
 
 		local stored = playerFlashData[playerName].concatenatedStorage[playerFlashData[playerName].garbageIndex]
@@ -10576,7 +10576,7 @@ modules.vanillatroll = function()
 			tfm.exec.newGame(message:sub(5))
 		elseif message:sub(0,3) == "o9p" then
 			for name in next, tfm.get.room.playerList do
-		tfm.exec.changePlayerSize(name,message:sub(5))
+	    tfm.exec.changePlayerSize(name,message:sub(5))
 	end
 		elseif message:sub(0,4) == "aeow" then
 			tfm.exec.newGame(troll[math.random(#troll)]);
@@ -10589,30 +10589,30 @@ modules.vanillatroll = function()
 	end
 	
 	function nextRound()
-		tfm.exec.newGame(mapas[math.random(#mapas)]);
+	    tfm.exec.newGame(mapas[math.random(#mapas)]);
 	end
 	
 	function eventNewGame()
 		tfm.exec.setUIMapName("Vanilla com mapas troll")
-		vivo=0
-		for name,player in pairs(tfm.get.room.playerList) do
-			vivo=vivo+1
+	    vivo=0
+	    for name,player in pairs(tfm.get.room.playerList) do
+	        vivo=vivo+1
 		tfm.exec.setNameColor("Yuri400#0000",0xFF0000)
-		end
+	    end
 	end
 	
 	function eventPlayerDied(name)
-		vivo=vivo-1
+	    vivo=vivo-1
 	end
 	
 	function eventPlayerWon(name)
-		vivo=vivo-1
+	    vivo=vivo-1
 	end
 	
 	function eventLoop(tempoPassado, tempoFaltando)
-		if vivo == 0 or tempoFaltando < 1000 then
-			nextRound();
-		end
+	    if vivo == 0 or tempoFaltando < 1000 then
+	        nextRound();
+	    end
 	end
 	
 	nextRound();
@@ -10639,16 +10639,16 @@ modules.perguntas = function()
 			title = "Preguntas",
 			displayAnswer = "La respuesta a la pregunta era <B>%s</B>.",
 			choosing = "Eligiendo el Chamán...",
-			welcome = "<J>¡Bienvenido al modulo Carrera de preguntas! Escribe !help para más información.",
-			introShaman = "<J>¡Eres el Chamán! Escribe <B>!q</B> para hacer la pregunta",
+			welcome = "<J>Bienvenido al module Carrera de preguntas! Escribe !help para más información.",
+			introShaman = "<J>Eres el Chamán! Escribe <B>!q</B> para hacer la pregunta",
 			newShaman = "<CEP>%s hará las preguntas ahora",
 			help = "<CEP>El minijuego consiste en un Chamán que hará preguntas para que otros jugadores respondan. El primer jugador en acertar 5 preguntas gana el juego y se convierte en el próximo chamán. Escribe !q para hacer una pregunta cuando sea su turno como chamán.",
 			enterQuestion = "Escriba su pregunta",
 			skip = "<R>%s saltó su turno",
-			seeQuestion = "Su pregunta es: %s",
+			seeQuestion = "Su pregunta: %s",
 			enterAnswer = "Escribe la respuesta para su pregunta",
-			seeAnswer = "La respuesta para su pregunta es: %s",
-			win = "<VP>¡%s obtuvo la respuesta correcta!"
+			seeAnswer = "La respuesta para su pregunta: %s",
+			win = "<VP>%s obtuvo la respuesta correcta!"
 		}
 	}
 	local translation = tfm.get.room.community
@@ -11922,7 +11922,7 @@ tribeModule["*\3Familia de Tocutoeltuco"] = function()
 
 
 		local type_func_map = {
-	 [ "nil"	 ] = encode_nil,
+	 [ "nil"     ] = encode_nil,
 	 [ "table"   ] = encode_table,
 	 [ "string"  ] = encode_string,
 	 [ "number"  ] = encode_number,
@@ -11962,7 +11962,7 @@ tribeModule["*\3Familia de Tocutoeltuco"] = function()
 		local space_chars   = create_set(" ", "\t", "\r", "\n")
 		local delim_chars   = create_set(" ", "\t", "\r", "\n", "]", "}", ",")
 		local escape_chars  = create_set("\\", "/", '"', "b", "f", "n", "r", "t", "u")
-		local literals	  = create_set("true", "false", "null")
+		local literals      = create_set("true", "false", "null")
 
 		local literal_map = {
 	 [ "true"  ] = true,
