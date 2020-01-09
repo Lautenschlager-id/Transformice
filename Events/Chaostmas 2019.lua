@@ -511,7 +511,7 @@ local miscData = {
 	emotePx = 0,
 	beginningFirstStage = { 340, 1523 },
 	treeStages = 0,
-	defaultDamage = 2.3,
+	defaultDamage = 2.5,
 	minimumMiceForTransparentBullet = 30
 }
 
@@ -671,8 +671,9 @@ local images = {
 		[3] = "16f02f12dbc.png" -- santa
 	},
 	npc = {
-		elf = "16ef81709b5.png",
-		santa = "16ef81cda35.png"
+		elf = "16f88671190.png",
+		santa = "16f8864844d.png",
+		tigrounette = "16f885d67d3.png"
 	},
 	throwables = {
 		fireball = "16eba44a988.png",
@@ -2376,6 +2377,8 @@ do
 	end
 
 	local executeMutantWizardBaseRemove = function(obj, base)
+		tfm.exec.addImage(images.npc.tigrounette, imageLayer.objectForeground, obj:getRelativeX() - 38, obj:getRelativeY() - 50)
+
 		base(obj, true)
 
 		if not obj.suicide then
