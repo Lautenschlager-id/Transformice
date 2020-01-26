@@ -2966,18 +2966,6 @@ eventPlayerDialogEnded = function(playerName, id, data)
 	end
 end
 
--- Debug
-system.disableChatCommandDisplay()
-eventChatCommand = function(playerName, command)
-	if playerName ~= module.team.developer then return end
-	if command == "exit" then
-		system.exit()
-	elseif command == "timer" then
-		tfm.exec.chatMessage(workingTimer, playerName)
-		tfm.exec.chatMessage(tostring(canStart), playerName)
-	end
-end
-
 --[[ Init ]]--
 system.newTimer(function()
 	workingTimer = workingTimerState.setVerified
