@@ -23,10 +23,7 @@ end
 local remove = function(where, playerName)
 	if where[playerName] then
 		where._count = where._count - 1
-		table.remove(where, where[playerName])
-		for i = where[playerName], where._count do
-			where[where[i]] = where[where[i]] - 1
-		end
+		where[where[playerName]] = nil
 		where[playerName] = nil
 	end
 end
