@@ -1,6 +1,6 @@
 local callback
 do
-	local id = 0
+	local id = 99
 
 	callback = {
 		_instance = {
@@ -30,6 +30,7 @@ do
 			borderRange = 0,
 			action = nil,
 			isActive = false,
+			image = nil,
 			_blockedPlayers = { }
 		}, callback)
 
@@ -50,7 +51,7 @@ do
 			self._blockedPlayers[playerName] = false
 		end
 
-		ui.addTextArea(self.id, "<textformat leftmargin='1' rightmargin='1'><a href='event:callback." .. self.eventName .. "'>" .. string.rep('\n', self.height / 10), playerName, self.x - 5, self.y - 5, self.width + 5, self.height + 5, 1, 1, 0, self.isFixed)
+		ui.addTextArea(self.id, "<textformat leftmargin='1' rightmargin='1'><a href='event:callback." .. self.eventName .. "'>" .. string_rep('\n', self.height / 10), playerName, self.x - 5, self.y - 5, self.width + 5, self.height + 5, 1, 1, 0, self.isFixed)
 
 		return self
 	end
@@ -60,7 +61,7 @@ do
 			-- Nil, Nickname, ...
 			self:textarea(f)
 		else
-			for playerName, data in next, playerCache do
+			for playerName, data in next, tfm.get.room.playerList do
 				if f(playerName, data) then
 					self:textarea(playerName)
 				end
@@ -116,9 +117,17 @@ do
 		return self:action(playerName, x, y, ...) -- self, playerName, x, y, ...
 	end
 
+	callback.setImage = function(self, imageId)
+		self.image = imageId
+		return self
+	end
+
 	callback.remove = function(self, playerName)
 		if not playerName then
 			self.isActive = false
+			if self.image then
+				tfm.exec.removeImage(self.image)
+			end
 		else
 			self._blockedPlayers[playerName] = true
 		end
