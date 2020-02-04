@@ -154,7 +154,7 @@ end
 local npc
 do
 	local id = 199
-	local nameHTML = "<p align='center'><font color='#%06x' face='Verdana'><B>%s"
+	local nameHTML = "<p align='center'><font color='#%s' face='Verdana'><B>%s"
 	local defaultNameColor = "FFF426"
 
 	npc = {
@@ -240,6 +240,7 @@ do
 	end
 
 	npc.setAction = function(self, action)
+		self:resetAction()
 		self.action = action
 
 		return self
