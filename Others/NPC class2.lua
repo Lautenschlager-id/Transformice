@@ -314,11 +314,11 @@ do
 		return self
 	end
 
-	npc.display = function(self)
+	npc.display = function(self, spriteIndex)
 		if self.sprite then
 			tfm.exec.removeImage(self.sprite)
 		end
-		self.sprite = tfm.exec.addImage(self.currentState[spriteIndex], self.layer, self.x, self.y)
+		self.sprite = tfm.exec.addImage(self.currentState[(spriteIndex or 1)], self.layer, self.x, self.y)
 
 		if self.rawname then
 			self:displayName()
@@ -349,7 +349,7 @@ do
 
 		self.currentSpriteId = self.currentSpriteId + 1
 
-		self:display()
+		self:display(spriteIndex)
 	end
 
 	loop(function()
