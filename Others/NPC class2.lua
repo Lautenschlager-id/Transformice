@@ -129,7 +129,7 @@ do
 		if not self.action then return end
 		if not self:inClickableRange(playerName, x, y) then return end
 
-		return self:action(playerName, x, y, ...) -- self, playerName, x, y, ...
+		return true, self:action(playerName, x, y, ...) -- self, playerName, x, y, ...
 	end
 
 	callback.setImage = function(self, imageId)
@@ -153,8 +153,7 @@ do
 	callback.eventTextAreaCallback = function(id, playerName, eventName)
 		if string.find(eventName, "callback.", 1, true) then
 			local data = tfm.get.room.playerList[playerName]
-			callback.__get(string.sub(eventName, 10)):performAction(playerName, data.x, data.y)
-			return true
+			return callback.__get(string.sub(eventName, 10)):performAction(playerName, data.x, data.y)
 		end
 	end
 end
