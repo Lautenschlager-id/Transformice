@@ -351,7 +351,7 @@ do
 			ui.removeTextArea(self.id)
 		end
 
-		if not keepCallback then
+		if not keepCallback and self._callback then
 			self._callback:remove()
 		end
 	end
