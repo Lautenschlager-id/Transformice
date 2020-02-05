@@ -150,13 +150,11 @@ do
 		ui.removeTextArea(self.id, playerName)
 	end
 
-	local eventTxtCbk = eventTextAreaCallback
-	eventTextAreaCallback = function(id, playerName, eventName)
+	callback.eventTextAreaCallback = function(id, playerName, eventName)
 		if string.find(eventName, "callback.", 1, true) then
 			local data = tfm.get.room.playerList[playerName]
 			callback.__get(string.sub(eventName, 10)):performAction(playerName, data.x, data.y)
-		elseif eventTxtCbk then
-			return eventTxtCbk(id, playerName, eventName)
+			return true
 		end
 	end
 end
@@ -294,15 +292,11 @@ do
 		return self
 	end
 
-	npc.setState = function(self, state, keepAction)
+	npc.setState = function(self, state)
 		if not self.collection then return self, false end
 
 		state = self.collection[state]
-		if not state or state == self.currentState then return self, false end
-
-		if not keepAction then
-			--self:resetAction()
-		end
+		if not state then return self, false end
 
 		self.currentState = state
 		self._currentStateLen = #state
@@ -379,4 +373,10 @@ do
 			obj:_loop()
 		end
 	end, npc.TICKS)
+end
+
+eventTextAreaCallback = function(id, playerName, eventName)
+	if callback.eventTextAreaCallback(id, playerName, eventName) then return end
+	
+	-- TODO: eventTextAreaCallback
 end
