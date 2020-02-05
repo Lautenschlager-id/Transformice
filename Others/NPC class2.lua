@@ -66,7 +66,7 @@ do
 			self._blockedPlayers[playerName] = false
 		end
 
-		ui.addTextArea(self.id, "<textformat leftmargin='1' rightmargin='1'><a href='event:callback." .. self.eventName .. "'>" .. string_rep('\n', self.height / 10), playerName, self.x - 5, self.y - 5, self.width + 5, self.height + 5, 1, 1, 0, self.isFixed)
+		ui.addTextArea(self.id, "<textformat leftmargin='1' rightmargin='1'><a href='event:callback." .. self.eventName .. "'>" .. string.rep('\n', self.height / 10), playerName, self.x - 5, self.y - 5, self.width + 5, self.height + 5, 1, 1, 0.8, self.isFixed)
 
 		return self
 	end
@@ -149,6 +149,16 @@ do
 
 		ui.removeTextArea(self.id, playerName)
 	end
+
+	local eventTxtCbk = eventTextAreaCallback
+	eventTextAreaCallback = function(id, playerName, eventName)
+		if string.find(eventName, "callback.", 1, true) then
+			local data = tfm.get.room.playerList[playerName]
+			callback.__get(string.sub(eventName, 10)):performAction(playerName, data.x, data.y)
+		elseif eventTxtCbk then
+			return eventTxtCbk(id, playerName, eventName)
+		end
+	end
 end
 
 local npc
@@ -178,7 +188,9 @@ do
 			id = id,
 
 			x = 0,
+			nameX = nil,
 			y = 0,
+			nameY = nil,
 			w = 1,
 			h = 1,
 
@@ -187,6 +199,8 @@ do
 			layer = layer,
 
 			collection = collection,
+			currentState = nil,
+			_currentStateLen = 0,
 
 			isStatic = false,
 		}, npc)
@@ -205,10 +219,10 @@ do
 	end
 
 	npc.resetAction = function(self)
+		self:destroy(true)
+
 		self.action = nil
 
-		self.currentState = nil
-		self._currentStateLen = 0
 		self.currentSpriteId = 0
 		self.sprite = nil
 	end
@@ -216,6 +230,13 @@ do
 	npc.setPosition = function(self, x, y)
 		self.x = x
 		self.y = y
+
+		return self
+	end
+
+	npc.setNamePosition = function(self, x, y)
+		self.nameX = x
+		self.nameY = y
 
 		return self
 	end
@@ -246,10 +267,10 @@ do
 		return self
 	end
 
-	npc.setCallback = function(self, callbackName, callbackAction)
+	npc.setCallback = function(self, callbackName, callbackAction, borderRange)
 		if self._callback then return self, false end
 
-		self._callback = callback.new(callbackName, self.x, self.y, self.w, self.h)
+		self._callback = callback.new(callbackName, self.x, self.y, self.w, self.h):setClickable(borderRange)
 		if callbackAction then
 			self._callback:setAction(callbackAction)
 		end
@@ -280,7 +301,7 @@ do
 		if not state or state == self.currentState then return self, false end
 
 		if not keepAction then
-			self:resetAction()
+			--self:resetAction()
 		end
 
 		self.currentState = state
@@ -310,7 +331,7 @@ do
 	end
 
 	npc.displayName = function(self)
-		ui.addTextArea(self.id, self._nameHTML, nil, self.x - (self.isStatic and 20 or 0), self.y - 20, 100, 20, 1, 1, 0, false)
+		ui.addTextArea(self.id, self._nameHTML, nil, (self.nameX or self.x), (self.nameY or (self.y - 20)), 100, 20, 1, 1, 0, false)
 
 		return self
 	end
