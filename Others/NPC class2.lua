@@ -200,6 +200,7 @@ do
 			_currentStateLen = 0,
 
 			isStatic = false,
+			looping = false
 		}, npc)
 		self:resetAction()
 
@@ -260,6 +261,7 @@ do
 	npc.setAction = function(self, action)
 		self:resetAction()
 		self.action = action
+		self.looping = true
 
 		return self
 	end
@@ -356,8 +358,13 @@ do
 		end
 	end
 
+	npc.loop = function(self)
+		self.looping = true
+		return sekf
+	end
+
 	npc._loop = function(self)
-		if not self.action then return end
+		if not self.looping then return end
 
 		local spriteIndex = (self.currentSpriteId % self._currentStateLen) + 1
 		spriteIndex = self.action(self, spriteIndex) or spriteIndex
