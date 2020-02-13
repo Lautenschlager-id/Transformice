@@ -367,7 +367,7 @@ do
 		if not self.looping then return end
 
 		local spriteIndex = (self.currentSpriteId % self._currentStateLen) + 1
-		spriteIndex = self.action(self, spriteIndex) or spriteIndex
+		spriteIndex = (self.action and self.action(self, spriteIndex)) or spriteIndex
 
 		self.currentSpriteId = self.currentSpriteId + 1
 
