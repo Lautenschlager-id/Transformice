@@ -360,7 +360,7 @@ do
 
 	npc.loop = function(self)
 		self.looping = true
-		return sekf
+		return self
 	end
 
 	npc._loop = function(self)
