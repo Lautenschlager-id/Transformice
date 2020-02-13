@@ -345,6 +345,8 @@ do
 	end
 
 	npc.destroy = function(self, keepCallback)
+		self.looping = false
+
 		if self.sprite then
 			tfm.exec.removeImage(self.sprite)
 		end
