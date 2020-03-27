@@ -15,4 +15,4 @@ _• Unofficial;<br>
 My most popular scripts.
 
 
-Everything is now updated at https://github.com/a801-luadev/a801-luadev
+Everything is now updated at https://github.com/a801-luadev/
