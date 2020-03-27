@@ -13,3 +13,6 @@ _• Unofficial;<br>
 
 ### Others
 My most popular scripts.
+
+
+Everything is now updated at https://github.com/a801-luadev/a801-luadev
